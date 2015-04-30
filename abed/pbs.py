@@ -32,9 +32,9 @@ def generate_pbs_text():
     txt.append('mkdir -p ${TMPDIR}/results')
 
     # start email
-    txt.append('summary=$(abed summary)')
-    txt.append('echo -e "Job $PBS_JOBID started at `date`\n\n${summary}"'
-            ' | mail $USER -s "Job $PBS_JOBID started')
+    txt.append('summary=$(abed status)')
+    txt.append('echo -e "Job $PBS_JOBID started at `date`\\n\\n${summary}"'
+            ' | mail $USER -s "Job $PBS_JOBID started"')
 
     # load modules
     for module in settings.PBS_MODULES:
@@ -42,7 +42,7 @@ def generate_pbs_text():
 
     # copy files to nodes
     cp_line = 'mpicopy ' + ' '.join(['${CURRENT}/' + x for x in 
-        settings.MPICOPY])
+        settings.PBS_MPICOPY])
     txt.append(cp_line)
 
     # reduce time to run
@@ -50,7 +50,7 @@ def generate_pbs_text():
             settings.PBS_TIME_REDUCE)
 
     # run line
-    txt.append('timeout ${timetorun} mpiexec ABED run')
+    txt.append('timeout ${timetorun} mpiexec abed run')
 
     # zip tasks
     txt.append('mkdir -p ${CURRENT}/bzips')

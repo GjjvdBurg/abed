@@ -22,7 +22,7 @@ def git_init():
         error("Error executing 'git add abed_conf.py'")
         raise
     try:
-        check_output(['git', 'commit' ,'-am', '"initialized ABED skeleton"'])
+        check_output(['git', 'commit' ,'-am', '"initialized abed skeleton"'])
     except CalledProcessError:
         error("Error executing initial commit")
         raise

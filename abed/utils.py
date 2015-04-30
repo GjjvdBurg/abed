@@ -1,5 +1,5 @@
 """
-Various utility functions used throughout ABED
+Various utility functions used throughout abed
 
 """
 

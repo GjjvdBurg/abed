@@ -22,6 +22,7 @@ class Abed(object):
             'update_tasks',
             'skeleton',
             'setup',
+            'status',
             ]
 
     def __init__(self):
@@ -92,3 +93,6 @@ class Abed(object):
     def skeleton(self):
         init_config()
         git_init()
+
+    def status(self):
+        print("abed number of tasks to be done: %i" % len(self.task_dict))
