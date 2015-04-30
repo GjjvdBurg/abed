@@ -92,9 +92,10 @@ def deploy(myfab, push_data=False):
 
     # symlinks
     with (cd(myfab.project_path)):
-        with fab_settings(warn_only=True):
-            myfab.run('rm releases/previous; '
-                    'mv releases/current releases/previous')
+        if not push_data:
+            with fab_settings(warn_only=True):
+                myfab.run('rm -f releases/previous; '
+                        'mv releases/current releases/previous')
         myfab.run('ln -s {} releases/current'.format(release_path))
 
 def get_results(myfab):
@@ -114,8 +115,8 @@ def write_and_queue(myfab):
 
 def fab_push():
     myfab = MyFabric()
-    move_data(myfab)
     deploy(myfab, False)
+    move_data(myfab)
     write_and_queue(myfab)
 
 def fab_pull():
