@@ -67,10 +67,16 @@ COMMANDS = {
         'method_2': "./execs/method_2 {dataset} {param_1}"
         }
 
-METRICS = [
-        metric_function_1,
-        metric_function_2
-]
+METRICS = {
+        'NAME_1': {
+            'metric': metric_function_1,
+            'higher_better': True
+            },
+        'NAME_2': {
+            'metric': metric_function_2,
+            'higher_better': False
+            }
+        }
 """
     configfile = './abed_conf.py'
     with open(configfile, 'w') as fid:
