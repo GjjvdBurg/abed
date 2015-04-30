@@ -3,6 +3,12 @@ import os
 class Settings(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
+    def __getattr__(self, key):
+        try:
+            self.get(key)
+        except KeyError as e:
+            print("ERROR: Settings does not have attribute %s" % key)
+            raise AttributeError(e)
 
 def init_config():
     cur = os.getcwd()
