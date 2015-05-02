@@ -4,11 +4,11 @@ import os
 from abed import settings
 from abed.auto import submitted, get_jobid_from_logs
 from abed.fab import fab_push, fab_pull, fab_setup
-from abed.git import git_add_tbd, git_commit_tbd, git_init
+from abed.git import git_add_tbd, git_commit_tbd, git_init, git_ok
 from abed.run import mpi_start
 from abed.skeleton import init_config
 from abed.tasks import init_tasks, read_tasks, update_tasks
-from abed.utils import info
+from abed.utils import info, error
 from abed.zips import unpack_zips
 
 class Abed(object):
@@ -59,6 +59,9 @@ class Abed(object):
         fab_setup()
 
     def push(self):
+        if not git_ok():
+            error("Git repository has uncommitted changes, not pushing.")
+            raise SystemExit
         info("Starting push")
         fab_push()
 

@@ -43,3 +43,13 @@ def git_commit_tbd():
         error("Error performing autocommit for TBD file")
         raise
     info("Automatic TBD file commit")
+
+def git_ok():
+    try:
+        check_output(['git', 'diff', '--exit-code'])
+    except CalledProcessError as err:
+        if err.returncode == 1:
+            return False
+        error("Error performing 'git diff --exit-code'")
+        raise
+    return True

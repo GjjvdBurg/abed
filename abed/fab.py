@@ -39,15 +39,16 @@ class MyFabric(object):
 
 def init_data(myfab):
     """ Push the data to the remote server """
-    local('tar czf datasets.tar.gz datasets/*')
+    local('tar czf datasets.tar.gz {}/*'.format(settings.DATADIR))
     release_time = time.strftime('%s')
-    myfab.run('mkdir -p {}/datasets/{}'.format(myfab.project_path, 
+    myfab.run('mkdir -p {}/{}/{}'.format(myfab.project_path, settings.DATADIR, 
         release_time))
-    release_path = '{}/datasets/{}'.format(myfab.project_path, release_time)
+    release_path = '{}/{}/{}'.format(myfab.project_path, settings.DATADIR, 
+            release_time)
     myfab.put('./datasets.tar.gz', release_path)
     myfab.run('cd {} && tar xvf datasets.tar.gz'.format(release_path))
-    myfab.run('cd {} && mv datasets/* . && '.format(release_path) +
-            'rm datasets.tar.gz && rm -r datasets')
+    myfab.run('cd {} && mv {}/* . && '.format(release_path, settings.DATADIR) +
+            'rm datasets.tar.gz && rm -r {}'.format(settings.DATADIR))
     local('rm datasets.tar.gz')
     print('Datasets placed in: {}'.format(release_path))
     myfab.data_path = release_path
@@ -56,8 +57,9 @@ def move_data(myfab):
     """ Move the data from previous release """
     curr_path = '{}/releases/current/'.format(myfab.project_path)
     prev_path = '{}/releases/previous/'.format(myfab.project_path)
-    myfab.run('mkdir -p {}datasets/'.format(curr_path))
-    myfab.run('mv {}datasets/* {}datasets/'.format(prev_path, curr_path))
+    myfab.run('mkdir -p {}{}/'.format(curr_path, settings.DATADIR))
+    myfab.run('mv {}{}/* {}{}/'.format(prev_path, settings.DATADIR, curr_path, 
+        settings.DATADIR))
 
 def setup(myfab):
     myfab.run('mkdir -p {}'.format(myfab.project_path))
@@ -87,8 +89,9 @@ def deploy(myfab, push_data=False):
 
     # copy data if pushed
     if push_data:
-        myfab.run('mkdir -p {}/datasets/'.format(release_path))
-        myfab.run('cp {}/* {}/datasets/'.format(myfab.data_path, release_path))
+        myfab.run('mkdir -p {}/{}/'.format(release_path, settings.DATADIR))
+        myfab.run('cp {}/* {}/{}/'.format(myfab.data_path, release_path, 
+            settings.DATADIR))
 
     # symlinks
     with (cd(myfab.project_path)):
@@ -109,7 +112,8 @@ def write_and_queue(myfab):
         pbs.write(generate_pbs_text())
     myfab.put('/tmp/abed.pbs', 
             '{}/releases/current/'.format(myfab.project_path))
-    with (cd(myfab.project_path)):
+    curr_path = '{}/releases/current/'.format(myfab.project_path)
+    with (cd(curr_path)):
         myfab.run('qsub -d . -e logs -o logs abed.pbs')
     local('rm /tmp/abed.pbs')
 

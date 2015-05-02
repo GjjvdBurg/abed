@@ -3,7 +3,7 @@ Functions for creating a skeleton config file
 
 """
 
-from abed.utils import info
+from abed.utils import info, mkdir
 
 def init_config():
     txt = """
@@ -14,19 +14,6 @@ PROJECT_NAME = ''
 TASK_FILE = './abed_tasks.txt'
 RESULT_DIR = '/path/to/local/results/'
 MAX_FILES_DIR = 1000
-
-###############################################################################
-#                                PBS Settings                                 #
-###############################################################################
-PBS_NODES = 1
-PBS_WALLTIME = 360
-PBS_CPUTYPE = None
-PBS_CORETYPE = None
-PBS_PPN = None
-PBS_MODULES = []
-PBS_EXPORTS = []
-PBS_MPICOPY = ['datasets', 'execs']
-PBS_TIME_REDUCE = 600
 
 ###############################################################################
 #                          Server parameters and settings                     #
@@ -49,6 +36,8 @@ MW_COPY_SLEEP = 120
 #                      Experiment parameters and settings                     #
 ###############################################################################
 TYPE = 'ASSESS'
+DATADIR = 'datasets'
+EXECDIR = 'execs'
 DATASETS = ['dataset_1', 'dataset_2']
 METHODS = ['method_1', 'method_2']
 PARAMS = {
@@ -63,8 +52,9 @@ PARAMS = {
         }
 
 COMMANDS = {
-        'method_1': "./execs/method_1 {dataset} {param_1} {param_2} {param_3}",
-        'method_2': "./execs/method_2 {dataset} {param_1}"
+        'method_1': ("{execdir}/method_1 {datadir}/{dataset} {param_1} "
+            "{param_2} {param_3}"),
+        'method_2': "{execdir}/method_2 {datadir}/{dataset} {param_1}"
         }
 
 METRICS = {
@@ -77,8 +67,25 @@ METRICS = {
             'higher_better': False
             }
         }
+
+###############################################################################
+#                                PBS Settings                                 #
+###############################################################################
+PBS_NODES = 1
+PBS_WALLTIME = 360
+PBS_CPUTYPE = None
+PBS_CORETYPE = None
+PBS_PPN = None
+PBS_MODULES = []
+PBS_EXPORTS = []
+PBS_MPICOPY = [DATADIR, EXECDIR, TASK_FILE]
+PBS_TIME_REDUCE = 600
+
 """
     configfile = './abed_conf.py'
     with open(configfile, 'w') as fid:
         fid.write(txt)
     info("Wrote initial config to %s." % configfile)
+    mkdir('datasets')
+    mkdir('execs')
+    info("Created 'datasets' and 'execs' directories")

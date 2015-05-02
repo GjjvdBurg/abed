@@ -38,11 +38,14 @@ def get_work_chunk(all_work):
 
 def do_work(hsh, task):
     command = settings.COMMANDS[task['method']]
+    task['datadir'] = '%s/%s' % (get_scratchdir(), settings.DATADIR)
+    task['execdir'] = '%s/%s' % (get_scratchdir(), settings.EXECDIR)
     cmd = command.format(**task)
     try:
+        print("Executing: '%s'" % cmd)
         output = check_output(cmd, shell=True)
     except CalledProcessError:
-        error("There was an error executing the following task: %s" % cmd)
+        error("There was an error executing: '%s'" % cmd)
     write_output(output, hsh)
     info("Finished with %s" % hsh)
 
