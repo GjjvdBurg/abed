@@ -20,7 +20,7 @@ class Work(object):
         self.work_items = []
 
     def get_next_item(self):
-        if self.isemtpy():
+        if self.isempty():
             return None
         return self.work_items.pop()
 
@@ -54,7 +54,7 @@ def copy_worker():
     scratchdir = get_scratchdir()
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir
-    copy_task = ["rsync", "-avm", "--include='*.txt'", "-f", "'hide,! */i'", 
+    copy_task = ["rsync", "-avm", "--include='*.txt'", "-f", "'hide,!", " */i'", 
             scratch_results, local_results]
     while True:
         time.sleep(settings.MW_COPY_SLEEP)
