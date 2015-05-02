@@ -27,14 +27,14 @@ class Work(object):
     def isempty(self):
         return (len(self.work_items) == 0)
 
-def get_work_chunk(all_work):
-    next_work = []
-    for n in range(settings.MW_SENDATONCE):
-        next_work.append(all_work.get_next_item())
-    next_work = [x for x in next_work if not x is None]
-    if not next_work:
-        next_work = None
-    return next_work
+    def get_chunk(self):
+        next_work = []
+        for n in range(settings.MW_SENDATONCE):
+            next_work.append(self.get_next_item())
+        next_work = [x for x in next_work if not x is None]
+        if not next_work:
+            next_work = None
+        return next_work
 
 def do_work(hsh, task):
     command = settings.COMMANDS[task['method']]
@@ -54,12 +54,12 @@ def copy_worker():
     scratchdir = get_scratchdir()
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir
-    copy_task = ["rsync", "-avm", "--include='*.txt'", "-f", "'hide,!", " */i'", 
-            scratch_results, local_results]
+    copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
+            (scratch_results, local_results))
     while True:
         time.sleep(settings.MW_COPY_SLEEP)
         try:
-            check_output(copy_task)
+            check_output(copy_task, shell=True)
         except CalledProcessError:
             error("There was an error in the copy task")
 
@@ -81,7 +81,9 @@ def master(all_work):
 
     # send initial tasks to the workers
     for rank in range(2, size):
-        next_work = get_work_chunk(all_work)
+        next_work = all_work.get_chunk()
+        if next_work is None:
+            continue
         comm.send(obj=next_work, dest=rank, tag=WORKTAG)
 
     # keep sending out tasks when requested
@@ -94,7 +96,9 @@ def master(all_work):
             break
 
         # otherwise, create a new work chunk for the worker
-        next_work = get_work_chunk(all_work)
+        next_work = all_work.get_chunk()
+        if next_work is None:
+            continue
         comm.send(obj=next_work, dest=status.Get_source(), tag=WORKTAG)
 
     # collect all remaining results from workers that are still busy

@@ -30,10 +30,9 @@ def get_output_dir(result_dir):
 
 def write_output(output, hsh):
     scratchdir = get_scratchdir()
-    scratch_results = '%s/results/' % scratchdir
+    scratch_results = '%s/results' % scratchdir
     mkdir(scratch_results)
-    subdir = get_output_dir(scratch_results)
-    outdir = '%s/%s' % (scratch_results, subdir)
+    outdir = get_output_dir(scratch_results)
     fname = '%s/%s.txt' % (outdir, hsh)
     with open(fname, 'w') as fid:
         fid.write(output)

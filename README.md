@@ -96,3 +96,8 @@ directory, this is done in parallel through `pbzip2`
 	c. Copy the compressed files to the current release directory
 	d. Sent an email to the user that the task is completed.
 
+Notes
+-----
+
+Installation of ABED and its dependencies must be done under the same Python 
+version. It is recommended to use Python version 2.7.9.
