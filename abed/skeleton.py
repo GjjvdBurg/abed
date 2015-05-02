@@ -21,7 +21,7 @@ MAX_FILES_DIR = 1000
 REMOTE_NEEDS_INIT = True
 REMOTE_USER = 'username'
 REMOTE_HOST = 'address.of.host'
-REMOTE_PATH = '/home/username/projects/project_name'
+REMOTE_PATH = '/home/%s/projects/project_name' % REMOTE_USER
 REMOTE_PORT = 22
 REMOTE_SCRATCH = None
 REMOTE_SCRATCH_ENV = 'TMPDIR'
@@ -76,8 +76,8 @@ PBS_WALLTIME = 360
 PBS_CPUTYPE = None
 PBS_CORETYPE = None
 PBS_PPN = None
-PBS_MODULES = []
-PBS_EXPORTS = []
+PBS_MODULES = ['mpicopy', 'python/2.7.9']
+PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
 PBS_MPICOPY = [DATADIR, EXECDIR, TASK_FILE]
 PBS_TIME_REDUCE = 600
 

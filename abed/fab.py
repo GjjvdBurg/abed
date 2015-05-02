@@ -113,6 +113,7 @@ def write_and_queue(myfab):
     myfab.put('/tmp/abed.pbs', 
             '{}/releases/current/'.format(myfab.project_path))
     curr_path = '{}/releases/current/'.format(myfab.project_path)
+    myfab.run('mkdir -p {}/logs'.format(curr_path))
     with (cd(curr_path)):
         myfab.run('qsub -d . -e logs -o logs abed.pbs')
     local('rm /tmp/abed.pbs')
