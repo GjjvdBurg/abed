@@ -91,6 +91,9 @@ class Abed(object):
 
     def run(self):
         # this takes over master/worker
+        if self.task_dict is None:
+            error("No tasks defined before attempted run. Exiting")
+            raise SystemExit
         mpi_start(self.task_dict)
 
     def skeleton(self):
