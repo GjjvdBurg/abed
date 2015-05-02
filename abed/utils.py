@@ -6,13 +6,11 @@ Various utility functions used throughout abed
 import errno
 import os
 
-from termcolor import cprint
-
 def info(txt):
-    cprint(txt, 'yellow')
+    print('[ABED INFO]: ' + txt)
 
 def error(txt):
-    cprint(txt, 'red')
+    print('[ABED ERROR]: ' + txt)
 
 def mkdir(path):
     try:

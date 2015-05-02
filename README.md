@@ -35,7 +35,6 @@ Dependencies
 ABED depends on the following non-default Python libraries:
 	- fabric
 	- mpi4py
-	- termcolor
 
 ABED works only on Python 2 due to the dependency on Fabric.
 	
