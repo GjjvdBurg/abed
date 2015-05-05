@@ -4,22 +4,29 @@ Functions for dealing with result files
 We generate several result files for each chosen metric, and some summary files 
 with each metric.
 
-TODO:
-    time can be measured by OPTIONALLY supplying a line with '% time: <timeval>' 
-    in the output file. This must be separated with a ---- line before it.
-
 """
 
+import datetime
 import os
+import numpy as np
+
+from tabulate import tabulate
 
 from abed import settings
+from abed.exceptions import AbedNonstandardMetricDirection
 from abed.tasks import init_tasks
+from abed.utils import info
 
-def iterate_results():
+basename = os.path.basename
+splitext = os.path.splitext
+
+def iterate_result_files():
     for subdirs in os.listdir(settings.RESULT_DIR):
         for subdir in subdirs:
-            for f in os.listdir(subdir):
-                yield f
+            spath = '%s/%s' % (settings.RESULT_DIR, subdir)
+            for f in os.listdir(spath):
+                fname = '%s/%s/%s' % (settings.RESULT_DIR, subdir, f)
+                yield fname
 
 def hashes_with_method(task_dict, method):
     for hsh in task_dict:
@@ -31,10 +38,23 @@ def hashes_with_dataset(task_dict, dataset):
         if task_dict[hsh]['dataset'] == dataset:
             yield hsh
 
-def files_with_method(task_dict, method):
-    for res_f in iterate_results():
-        hsh = int(os.path.splitext(res_f)[0])
+def files_w_method(task_dict, method):
+    for res_f in iterate_result_files():
+        hsh = int(splitext(basename(res_f))[0])
         if task_dict[hsh]['method'] == method:
+            yield res_f
+
+def files_w_dataset(task_dict, dataset):
+    for res_f in iterate_result_files():
+        hsh = int(splitext(basename(res_f))[0])
+        if task_dict[hsh]['dataset'] == dataset:
+            yield res_f
+
+def files_w_dset_and_method(task_dict, dataset, method):
+    for res_f in iterate_result_files():
+        hsh = int(splitext(basename(res_f))[0])
+        if (task_dict[hsh]['dataset'] == dataset and
+                task_dict[hsh]['method'] == method):
             yield res_f
 
 def mean_over_datasets(metric):
@@ -61,11 +81,116 @@ def generate_per_method():
             best_over_datasets(metric, method)
             best_over_params(metric, method)
 
-def best_performance_summary(metric):
+def find_label(line):
+    if line.startswith('% time'):
+        return 'time'
+    else:
+        return line.split(' ')[1].split('_')[0]
+
+def parse_result_file(f, metric):
+    data = {}
+    fid = open(f, 'r')
+    label = None
+    for line in fid:
+        l = line.strip()
+        if l.startswith('%'):
+            label = find_label(l)
+            if label == 'time':
+                data[label] = None
+            else:
+                data[label] = {'true': [], 'pred': []}
+            continue
+        if label == 'time':
+            data[label] = float(l)
+        else:
+            true, pred = l.split('\t')
+            data[label]['true'].append(float(true))
+            data[label]['pred'].append(float(pred))
+
+    out = {}
+    for label in data.iterkeys():
+        if label == 'time':
+            out[label] = data[label]
+        else:
+            out[label] = metric(data[label]['true'], data[label]['pred'])
+    return out
+
+def best_performance_summary(metric, metricname):
     # create a table with on the rows the datasets and on the columns the 
     # methods. Each element in the table contains the best performance on the 
     # metric, with the highest value per row containing an asterisk. On the 
     # bottom of the table there is a tally with per column the total number of 
     # 'wins'.
-    pass
+    all_tasks = init_tasks()
+    tables = {}
+
+    num_datasets = len(settings.DATASETS)
+    num_methods = len(settings.METHODS)
+
+    m_func = metric['metric']
+    b_func = metric['best']
+
+    for i, dset in enumerate(sorted(settings.DATASETS)):
+        for j, method in enumerate(sorted(settings.METHODS)):
+            values = []
+            for res_file in files_w_dset_and_method(all_tasks, dset, method):
+                values.append(parse_result_file(res_file, m_func))
+
+            keys = values[0].keys()
+            if not tables:
+                for key in keys:
+                    tables[key] = np.zeros((num_datasets, num_methods))
+
+            for key in keys:
+                if key == 'time':
+                    tables[key][i, j] = min([x[key] for x in values])
+                else:
+                    tables[key][i, j] = b_func([x[key] for x in values])
+
+    for key in keys:
+        table = []
+        wincount = [0]*len(settings.METHODS)
+        dsetlength = -1
+        if key == 'time':
+            bestidxs = tables[key].argmin(1)
+        else:
+            if b_func == min:
+                bestidxs = tables[key].argmin(1)
+            elif b_func == max:
+                bestidxs = tables[key].argmax(1)
+            else:
+                raise AbedNonstandardMetricDirection
+
+        for i, dset in enumerate(sorted(settings.DATASETS)):
+            dsetlength = max(dsetlength, len(dset))
+            row = [splitext(basename(dset))[0]]
+            for j, method in enumerate(sorted(settings.METHODS)):
+                if j == bestidxs[i]:
+                    row.append('%4.4f*' % tables[key][i, j])
+                    wincount[j] += 1
+                else:
+                    row.append('%4.4f' % tables[key][i, j])
+            table.append(row)
+        dashrow = ['-'*dsetlength] + ['-'*len(x) for x in settings.METHODS]
+        table.append(dashrow)
+        table.append(['Total best'] + [str(x) for x in wincount])
+
+        opath = '{respath}/ABED_{metric}_{key}.txt'.format(
+                respath=settings.OUTPUT_DIR, metric=metricname, key=key)
+        now = datetime.datetime.now()
+        headers = [''] + sorted(settings.METHODS)
+        with open(opath, 'w') as oid:
+            oid.write("%% Result file generated by ABED at %s\n" % 
+                    now.strftime('%c'))
+            oid.write("%% Table for key: %s\n" % key)
+            oid.write("%% Metric: %s\n\n" % metricname)
+            oid.write(tabulate(table, headers=headers))
+        info("Created output file: %s" % opath)
+
+
+def make_results():
+    for metric in settings.METRICS.iterkeys():
+        best_performance_summary(settings.METRICS[metric], metric)
+
+
 

@@ -62,11 +62,11 @@ COMMANDS = {
 METRICS = {
         'NAME_1': {
             'metric': metric_function_1,
-            'higher_better': True
+            'best': max
             },
         'NAME_2': {
             'metric': metric_function_2,
-            'higher_better': False
+            'best': min
             }
         }
 

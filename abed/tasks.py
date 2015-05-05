@@ -56,9 +56,10 @@ def read_tasks():
 
 def update_tasks(tasks):
     delcnt = 0
-    resdirs = os.listdir(settings.RESULT_DIR)
-    for resdir in resdirs:
-        files = os.listdir(resdir)
+    subdirs = os.listdir(settings.RESULT_DIR)
+    for subdir in subdirs:
+        subpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, subdir)
+        files = os.listdir(subpath)
         for f in files:
             fname = os.path.basename(f)
             hsh = os.path.splitext(fname)[0]

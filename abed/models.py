@@ -5,6 +5,7 @@ from abed import settings
 from abed.auto import submitted, get_jobid_from_logs
 from abed.fab import fab_push, fab_pull, fab_setup
 from abed.git import git_add_tbd, git_commit_tbd, git_init, git_ok
+from abed.results import make_results
 from abed.run import mpi_start
 from abed.skeleton import init_config
 from abed.tasks import init_tasks, read_tasks, update_tasks
@@ -91,7 +92,7 @@ class Abed(object):
 
     def parse_results(self):
         # this takes over parse_results.py
-        pass
+        make_results()
 
     def run(self):
         # this takes over master/worker

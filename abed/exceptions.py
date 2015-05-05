@@ -7,3 +7,6 @@ class AbedPBSMultipleException(Exception):
 
 class AbedHashCollissionException(Exception):
     pass
+
+class AbedNonstandardMetricDirection(Exception):
+    pass

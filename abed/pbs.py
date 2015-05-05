@@ -84,4 +84,5 @@ def generate_pbs_text():
     # end email
     txt.append('echo "Job $PBS_JOBID finished at `date`" | mail $USER -s '
             '"Job $PBS_JOBID finished"')
+    txt.append('')
     return '\n'.join(txt)
