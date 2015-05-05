@@ -2,6 +2,7 @@
 Functions for using fabric
 """
 
+import os
 import time
 
 from fabric.api import env
@@ -27,11 +28,11 @@ class MyFabric(object):
 
     def run(self, command=''):
         env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
-        run(command)
+        return run(command)
 
-    def get(self, source):
+    def get(self, source, dest):
         env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
-        get(source)
+        get(source, dest)
 
     def put(self, source, dest):
         env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
@@ -102,17 +103,32 @@ def deploy(myfab, push_data=False):
         myfab.run('ln -s {} releases/current'.format(release_path))
 
 def get_results(myfab):
-    myfab.get('{}/releases/current/bzips/*.tar.bz2'.format(myfab.project_path), 
-            settings.ZIP_DIR)
-    myfab.get('{}/releases/current/logs/*'.format(myfab.project_path), 
-            settings.LOG_DIR)
+    empty = str(myfab.run('echo'))
+    zip_glob = '{}/releases/current/bzips/*.tar.bz2'.format(myfab.project_path)
+    output = str(myfab.run('ls -1 %s' % zip_glob))
+    lstxt = output[len(empty)+1:].replace('\r', '').strip()
+    files = lstxt.split('\n')
+    for f in files:
+        fname = os.path.basename(f)
+        lpath = '%s%s%s' % (settings.ZIP_DIR, os.sep, fname)
+        if not os.path.exists(lpath):
+            myfab.get(f, settings.ZIP_DIR)
+    log_glob = '{}/releases/current/logs/*'.format(myfab.project_path)
+    output = str(myfab.run('ls -1 %s' % log_glob))
+    lstxt = output[len(empty)+1:].replace('\r', '').strip()
+    files = lstxt.split('\n')
+    for f in files:
+        fname = os.path.basename(f)
+        lpath = '%s%s%s' % (settings.LOG_DIR, os.sep, fname)
+        if not os.path.exists(lpath):
+            myfab.get(f, settings.LOG_DIR)
 
 def write_and_queue(myfab):
     with open('/tmp/abed.pbs', 'w') as pbs:
         pbs.write(generate_pbs_text())
     myfab.put('/tmp/abed.pbs', 
             '{}/releases/current/'.format(myfab.project_path))
-    curr_path = '{}/releases/current/'.format(myfab.project_path)
+    curr_path = '{}/releases/current'.format(myfab.project_path)
     myfab.run('mkdir -p {}/logs'.format(curr_path))
     with (cd(curr_path)):
         myfab.run('qsub -d . -e logs -o logs abed.pbs')
