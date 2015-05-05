@@ -3,12 +3,13 @@ import os
 class Settings(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
-    def __getattr__(self, key):
-        try:
-            self.get(key)
-        except KeyError as e:
-            print("ERROR: Settings does not have attribute %s" % key)
-            raise AttributeError(e)
+    def __getattr__(self, attr):
+        if self.__dict__.has_key(attr):
+            return getattr(self, attr)
+        else:
+            print("ERROR: You probably Britta'd the settings file, "
+                    "I'm missing parameter %s" % attr)
+            raise SystemExit
 
 def init_config():
     cur = os.getcwd()
