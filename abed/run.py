@@ -57,6 +57,11 @@ def copy_worker():
     copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
             (scratch_results, local_results))
     while True:
+        comm = MPI.COMM_WORLD()
+        status = MPI.Status()
+        comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
+        if status.Get_tag() == KILLTAG:
+            break
         time.sleep(settings.MW_COPY_SLEEP)
         try:
             check_output(copy_task, shell=True)
@@ -106,7 +111,7 @@ def master(all_work):
         comm.recv(obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG)
 
     # kill all worker processes
-    for rank in range(2, size):
+    for rank in range(1, size):
         comm.send(obj=None, dest=rank, tag=KILLTAG)
 
 def mpi_start(task_dict):
