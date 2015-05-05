@@ -23,6 +23,7 @@ class Abed(object):
             'skeleton',
             'setup',
             'status',
+            'process_zips',
             ]
 
     def __init__(self):
@@ -68,8 +69,11 @@ class Abed(object):
     def pull(self):
         info("Starting pull")
         fab_pull()
+        info("Starting unpacking of zips")
         unpack_zips()
+        info("Updating tasks")
         self.update_tasks()
+        info("Auto committing TBD file to git")
         git_commit_tbd()
 
     def auto(self):
@@ -95,6 +99,7 @@ class Abed(object):
             error("No tasks defined before attempted run. Exiting")
             raise SystemExit
         mpi_start(self.task_dict)
+        info("Finished with run command.")
 
     def skeleton(self):
         init_config()
@@ -102,3 +107,6 @@ class Abed(object):
 
     def status(self):
         print("abed number of tasks to be done: %i" % len(self.task_dict))
+
+    def process_zips(self):
+        unpack_zips()

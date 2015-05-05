@@ -74,7 +74,7 @@ def generate_pbs_text():
     txt.append('')
     txt.append('for dset in `ls`')
     txt.append('do')
-    txt.append('\tpacktime=$(date +%Y_%m_%d_H_%M_%S)')
+    txt.append('\tpacktime=$(date +%Y_%m_%d_%H_%M_%S)')
     txt.append('\ttar -c ${dset} | '
             'pbzip2 -vc -p14 -m1000 > ${packtime}_results_${dset}.tar.bz2')
     txt.append('\tcp ${packtime}_results_${dset}.tar.bz2 ${CURRENT}/bzips/')

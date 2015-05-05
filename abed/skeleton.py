@@ -14,6 +14,8 @@ PROJECT_NAME = ''
 TASK_FILE = './abed_tasks.txt'
 RESULT_DIR = '/path/to/local/results/'
 MAX_FILES_DIR = 1000
+ZIP_DIR = './zips'
+LOG_DIR = './logs'
 
 ###############################################################################
 #                          Server parameters and settings                     #

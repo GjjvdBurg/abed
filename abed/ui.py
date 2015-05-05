@@ -14,7 +14,8 @@ COMMANDS_HELP = {
         'update_tasks': 'Update the task list (part of pull)',
         'skeleton': '\tCreate a skeleton for abed',
         'setup': '\tSetup the remote directory structure for abed',
-        'status': '\tStatus of abed task list'
+        'status': '\tStatus of abed task list',
+        'process_zips': 'Process result zip files'
 }
 
 class SmartFormatter(argparse.HelpFormatter):
