@@ -83,8 +83,6 @@ class Abed(object):
         git_commit_auto()
         info("Updating tasks")
         self.update_tasks()
-        info("Auto committing TBD file to git")
-        git_commit_tbd()
 
     def auto(self):
         info("Starting auto loop")
@@ -93,16 +91,12 @@ class Abed(object):
                 break
             if submitted() is None:
                 info("No submitted task found, assuming done.")
-                time.sleep(5)
                 jobid = get_jobid_from_logs()
                 info("Found jobid from logs: %s" % jobid)
-                time.sleep(5)
                 if not is_job_marked(jobid):
                     info("Job %s not pulled yet, pulling it" % jobid)
-                    time.sleep(5)
                     self.pull(jobid=jobid)
-                info("Starting push" % jobid)
-                time.sleep(5)
+                info("Starting push")
                 self.push()
             info("Task submitted, sleeping for a while ...")
             time.sleep(settings.AUTO_SLEEP)
