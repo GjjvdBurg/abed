@@ -18,6 +18,7 @@ MAX_FILES_DIR = 1000
 ZIP_DIR = './zips'
 LOG_DIR = './logs'
 OUTPUT_DIR = './output'
+AUTO_SLEEP = 120
 
 ###############################################################################
 #                          Server parameters and settings                     #

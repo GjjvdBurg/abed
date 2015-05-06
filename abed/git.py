@@ -50,6 +50,16 @@ def git_commit_tbd():
         raise SystemExit
     info("Automatic TBD file commit")
 
+def git_commit_auto():
+    try:
+        check_output(['git', 'commit', '-m',
+            'automatic commit of auto log file', settings.AUTO_FILE])
+    except CalledProcessError as err:
+        error("Error performing autocommit for auto log file. Error message:")
+        print(err.output)
+        raise SystemExit
+    info("Automatic auto log file commit")
+
 def git_ok():
     try:
         check_output(['git', 'diff', '--exit-code'])

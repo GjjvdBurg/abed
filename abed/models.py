@@ -5,7 +5,8 @@ import time
 from abed import settings
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from abed.fab import fab_push, fab_pull, fab_setup
-from abed.git import git_add_tbd, git_commit_tbd, git_init, git_ok
+from abed.git import (git_add_tbd, git_commit_auto, git_commit_tbd, git_init, 
+        git_ok)
 from abed.results import make_results
 from abed.run import mpi_start
 from abed.skeleton import init_config
@@ -79,6 +80,7 @@ class Abed(object):
             jobid = get_jobid_from_logs()
         info("Marking job as pulled: %s" % jobid)
         mark_job(jobid)
+        git_commit_auto()
         info("Updating tasks")
         self.update_tasks()
         info("Auto committing TBD file to git")
@@ -91,15 +93,19 @@ class Abed(object):
                 break
             if submitted() is None:
                 info("No submitted task found, assuming done.")
+                time.sleep(5)
                 jobid = get_jobid_from_logs()
                 info("Found jobid from logs: %s" % jobid)
+                time.sleep(5)
                 if not is_job_marked(jobid):
                     info("Job %s not pulled yet, pulling it" % jobid)
+                    time.sleep(5)
                     self.pull(jobid=jobid)
                 info("Starting push" % jobid)
+                time.sleep(5)
                 self.push()
             info("Task submitted, sleeping for a while ...")
-            time.sleep(120)
+            time.sleep(settings.AUTO_SLEEP)
         info("No more tasks left to be done")
 
     def parse_results(self):
@@ -119,7 +125,7 @@ class Abed(object):
         git_init()
 
     def status(self):
-        print("abed number of tasks to be done: %i" % len(self.task_dict))
+        info("Number of tasks to be done: %i" % len(self.task_dict))
 
     def process_zips(self):
         unpack_zips()

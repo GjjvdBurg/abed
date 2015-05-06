@@ -6,6 +6,7 @@ Functions for automatic job management
 import os
 
 from dateutil.parser import parse
+from datetime import timedelta
 
 from abed import settings
 from abed.exceptions import AbedPBSMultipleException
@@ -21,16 +22,16 @@ def submitted():
         return None
     state = get_state(jobid)
     if state == QUEUED:
-        sttime = get_starttime()
+        sttime = get_starttime(jobid)
         if sttime:
             info("Job %s queued. Start time: %s" % (jobid, 
                 sttime.strftime("c")))
         else:
             info("Job %s queued.")
     elif state == RUNNING:
-        rmtime = get_remaining()
-        info("Jobf %s running. Time remaining: %s" % (jobid, 
-            rmtime.strftime("%H:%M:%S")))
+        rmtime = get_remaining(jobid)
+        info("Job %s running. Time remaining: %s" % (jobid, rmtime))
+    return True
 
 def get_jobid_from_pbs():
     myfab = MyFabric()
@@ -78,8 +79,9 @@ def get_remaining(jobid):
     empty = str(myfab.run("echo"))
     output = str(myfab.run("qstat -f %s | grep Remaining | cut -d'=' -f2" % 
         jobid))
-    text = output[len(empty):].replace('\r', '').lstrip('\n').strip()
-    return parse(text)
+    text = output[len(empty)+1:].replace('\r', '').lstrip('\n').strip()
+    td = timedelta(0, int(text))
+    return str(td)
 
 def is_job_marked(jobid):
     if not os.path.exists(settings.AUTO_FILE):
