@@ -25,7 +25,7 @@ except ImportError:
         """
 
         TIME_SENSITIVE = True
-        NUM_SAMPLES = 500
+        NUM_SAMPLES = 10
 
         def _update_samples(self, currval, elapsed):
             sample = (currval, elapsed)
@@ -85,8 +85,8 @@ def iter_with_progress(iterable, pbar=NullProgress()):
         pbar.increment()
         yield element
 
-def iterate(iterable):
+def iterate(iterable, label=''):
     if PROGRESS:
-        yield iter_with_progress(iterable, pbar=AbedProgress())
+        return iter_with_progress(iterable, pbar=AbedProgress(label))
     else:
-        yield iter_with_progress(iterable)
+        return iter_with_progress(iterable)
