@@ -11,19 +11,21 @@ def get_scratchdir():
         scratchdir = os.getenv(settings.REMOTE_SCRATCH_ENV, '.')
     return scratchdir
 
-def get_output_dir(result_dir):
+def get_output_dir(result_dir, quiet=False):
     subdirs = os.listdir(result_dir)
     if not subdirs:
         outdir = '%s/0' % (result_dir)
         mkdir(outdir)
-        info("Created result output dir %s" % outdir)
+        if not quiet:
+            info("Created result output dir %s" % outdir)
         return outdir
     latest = sorted(map(int, subdirs))[-1]
     files = os.listdir(result_dir + '/' + str(latest))
     if len(files) >= settings.MAX_FILES_DIR:
         outdir = '%s/%i' % (result_dir, latest + 1)
         mkdir(outdir)
-        info("Created result output dir %s" % outdir)
+        if not quiet:
+            info("Created result output dir %s" % outdir)
     else:
         outdir = '%s/%i' % (result_dir, latest)
     return outdir

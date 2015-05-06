@@ -30,11 +30,10 @@ def _unpack_zip(zipfile):
     tar.extractall(settings.STAGE_DIR)
     tar.close()
     move_results()
-    clean_empty_dir(settings.STAGE_DIR)
 
 def unpack_zips():
-    bzips = (x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2'))
-    for fname in iterate(bzips):
+    bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2')]
+    for fname in iterate(bzips, 'Unpacking zips: '):
         _unpack_zip(fname)
 
 def move_results():
@@ -45,9 +44,10 @@ def move_results():
         files = os.listdir(subpath)
         for fname in files:
             fpath = '%s%s%s' % (subpath, os.sep, fname)
-            newsubdir = get_output_dir(settings.RESULT_DIR)
+            newsubdir = get_output_dir(settings.RESULT_DIR, quiet=True)
             dpath = '%s%s%s' % (newsubdir, os.sep, fname)
             shutil.move(fpath, dpath)
+        clean_empty_dir(subpath)
 
 def clean_empty_dir(folder):
     try:
