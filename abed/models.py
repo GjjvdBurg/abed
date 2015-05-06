@@ -49,6 +49,8 @@ class Abed(object):
                 (cnt, len(self.task_dict)))
         self.write_tasks()
         git_commit_tbd()
+        if len(self.task_dict) == 0:
+            info("All tasks completed. Cool cool cool.")
 
     def write_tasks(self):
         with open(settings.TASK_FILE, 'w') as fid:

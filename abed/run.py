@@ -56,17 +56,17 @@ def copy_worker():
     scratch_results = '%s/results/' % scratchdir
     copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
             (scratch_results, local_results))
+    comm = MPI.COMM_WORLD()
+    status = MPI.Status()
     while True:
-        comm = MPI.COMM_WORLD()
-        status = MPI.Status()
         comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
         if status.Get_tag() == KILLTAG:
             break
-        time.sleep(settings.MW_COPY_SLEEP)
         try:
             check_output(copy_task, shell=True)
         except CalledProcessError:
             error("There was an error in the copy task")
+        time.sleep(settings.MW_COPY_SLEEP)
 
 def worker(task_dict):
     comm = MPI.COMM_WORLD

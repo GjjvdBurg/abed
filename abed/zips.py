@@ -15,24 +15,27 @@ import shutil
 import tarfile
 
 from abed import settings
+from abed.progress import iterate
 from abed.run_utils import get_output_dir
-from abed.utils import error, info, mkdir
+from abed.utils import error, mkdir
+
+def _unpack_zip(zipfile):
+    fpath = '%s%s%s' % (settings.ZIP_DIR, os.sep, zipfile)
+    try:
+        b = bz2file.BZ2File(fpath)
+        tar = tarfile.open(fileobj=b)
+    except tarfile.ReadError:
+        error("Could not read tarfile: %s" % fpath)
+        continue
+    tar.extractall(settings.STAGE_DIR)
+    tar.close()
+    move_results()
+    clean_empty_dir(settings.STAGE_DIR)
 
 def unpack_zips():
     bzips = (x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2'))
-    for fname in bzips:
-        info("Unpacking zip file: %s" % fname)
-        fpath = '%s%s%s' % (settings.ZIP_DIR, os.sep, fname)
-        try:
-            b = bz2file.BZ2File(fpath)
-            tar = tarfile.open(fileobj=b)
-        except tarfile.ReadError:
-            error("Could not read tarfile: %s" % fpath)
-            continue
-        tar.extractall(settings.STAGE_DIR)
-        tar.close()
-        move_results()
-        clean_empty_dir(settings.STAGE_DIR)
+    for fname in iterate(bzips):
+        _unpack_zip(fname)
 
 def move_results():
     mkdir(settings.RESULT_DIR)
@@ -44,7 +47,6 @@ def move_results():
             fpath = '%s%s%s' % (subpath, os.sep, fname)
             newsubdir = get_output_dir(settings.RESULT_DIR)
             dpath = '%s%s%s' % (newsubdir, os.sep, fname)
-            info("Moving %s" % (fname))
             shutil.move(fpath, dpath)
 
 def clean_empty_dir(folder):
