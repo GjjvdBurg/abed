@@ -1,8 +1,9 @@
 
 import os
+import time
 
 from abed import settings
-from abed.auto import submitted, get_jobid_from_logs
+from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from abed.fab import fab_push, fab_pull, fab_setup
 from abed.git import git_add_tbd, git_commit_tbd, git_init, git_ok
 from abed.results import make_results
@@ -69,27 +70,36 @@ class Abed(object):
         info("Starting push")
         fab_push()
 
-    def pull(self):
+    def pull(self, jobid=None):
         info("Starting pull")
         fab_pull()
         info("Starting unpacking of zips")
         unpack_zips()
+        if jobid is None:
+            jobid = get_jobid_from_logs()
+        info("Marking job as pulled: %s" % jobid)
+        mark_job(jobid)
         info("Updating tasks")
         self.update_tasks()
         info("Auto committing TBD file to git")
         git_commit_tbd()
 
     def auto(self):
-        # this takes over auto push pull
+        info("Starting auto loop")
         while True:
-            if not self.has_tasks():
+            if len(self.task_dict) == 0:
                 break
             if submitted() is None:
+                info("No submitted task found, assuming done.")
                 jobid = get_jobid_from_logs()
-                if not self.isprocessed(jobid):
-                    self.pull()
-                    self.push()
-                    self.log_jobid(jobid)
+                info("Found jobid from logs: %s" % jobid)
+                if not is_job_marked(jobid):
+                    info("Job %s not pulled yet, pulling it" % jobid)
+                    self.pull(jobid=jobid)
+                info("Starting push" % jobid)
+                self.push()
+            info("Task submitted, sleeping for a while ...")
+            time.sleep(120)
         info("No more tasks left to be done")
 
     def parse_results(self):

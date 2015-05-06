@@ -12,10 +12,12 @@ def init_config():
 ###############################################################################
 PROJECT_NAME = ''
 TASK_FILE = './abed_tasks.txt'
+AUTO_FILE = './abed_auto.txt'
 RESULT_DIR = '/path/to/local/results/'
 MAX_FILES_DIR = 1000
 ZIP_DIR = './zips'
 LOG_DIR = './logs'
+OUTPUT_DIR = './output'
 
 ###############################################################################
 #                          Server parameters and settings                     #

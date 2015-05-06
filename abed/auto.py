@@ -3,6 +3,8 @@ Functions for automatic job management
 
 """
 
+import os
+
 from dateutil.parser import parse
 
 from abed import settings
@@ -36,6 +38,8 @@ def get_jobid_from_pbs():
     output = str(myfab.run("qstat -u %s | grep batch | tail -n +2 | "
         "cut -d'.' -f1" % settings.REMOTE_USER))
     text = output[len(empty)+1:].replace('\r', '').strip()
+    if not text:
+        return None
     ids = text.split('\n')
     if len(ids) > 1:
         raise AbedPBSMultipleException
@@ -45,9 +49,9 @@ def get_jobid_from_logs():
     logpath = '%s/releases/current/logs/' % settings.REMOTE_PATH
     myfab = MyFabric()
     empty = str(myfab.run("echo"))
-    output = str(myfab.run("ls %s" % logpath))
+    output = str(myfab.run("ls -1 %s" % logpath))
     text = output[len(empty)+1:].replace('\r', '').strip()
-    if text:
+    if not text:
         return None
     jobid = text.split('\n')[0].split('.')[-1][1:]
     return jobid
@@ -76,3 +80,17 @@ def get_remaining(jobid):
         jobid))
     text = output[len(empty):].replace('\r', '').lstrip('\n').strip()
     return parse(text)
+
+def is_job_marked(jobid):
+    if not os.path.exists(settings.AUTO_FILE):
+        return False
+    with open(settings.AUTO_FILE, 'r') as fid:
+        lines = fid.readlines()
+    ids = [x.strip() for x in lines]
+    if jobid in ids:
+        return True
+    return False
+
+def mark_job(jobid):
+    with open(settings.AUTO_FILE, 'a') as fid:
+        fid.write(jobid + '\n')
