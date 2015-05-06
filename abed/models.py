@@ -88,6 +88,7 @@ class Abed(object):
         info("Starting auto loop")
         while True:
             if len(self.task_dict) == 0:
+                info("Stopping auto loop")
                 break
             if submitted() is None:
                 info("No submitted task found, assuming done.")
@@ -100,7 +101,8 @@ class Abed(object):
                 self.push()
             info("Task submitted, sleeping for a while ...")
             time.sleep(settings.AUTO_SLEEP)
-        info("No more tasks left to be done")
+        info("Starting parse_results")
+        self.parse_results()
 
     def parse_results(self):
         # this takes over parse_results.py

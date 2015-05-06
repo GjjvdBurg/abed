@@ -1,4 +1,4 @@
-abed: Automated BEnchmark Distribution
+ABED: Automated BEnchmark Distribution
 ======================================
 
 Usage:
