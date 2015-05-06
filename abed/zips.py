@@ -26,7 +26,7 @@ def _unpack_zip(zipfile):
         tar = tarfile.open(fileobj=b)
     except tarfile.ReadError:
         error("Could not read tarfile: %s" % fpath)
-        continue
+        return
     tar.extractall(settings.STAGE_DIR)
     tar.close()
     move_results()
