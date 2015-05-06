@@ -10,7 +10,10 @@ except ImportError:
     PROGRESS = False
 
 try:
+    assert PROGRESS
     from progressbar import AdaptiveETA
+except AssertionError:
+    pass
 except ImportError:
     class AdaptiveETA(Timer):
         """Widget which attempts to estimate the time of arrival.
