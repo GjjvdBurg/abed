@@ -30,9 +30,20 @@ def _unpack_zip(zipfile):
     tar.extractall(settings.STAGE_DIR)
     tar.close()
     move_results()
+    ziplog = settings.ZIP_DIR + os.sep + 'abed_unzipped.txt'
+    with open(ziplog, 'a') as fid:
+        fid.write(zipfile + '\n')
 
 def unpack_zips():
-    bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2')]
+    ziplog = settings.ZIP_DIR + os.sep + 'abed_unzipped.txt'
+    if os.path.exists(ziplog):
+        with open(ziplog, 'r') as fid:
+            unzipped = [x.strip() for x in fid.readlines()]
+    else:
+        unzipped = []
+
+    bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2') and 
+            not x in unzipped]
     for fname in iterate(bzips, 'Unpacking zips: '):
         _unpack_zip(fname)
 
