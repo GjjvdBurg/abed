@@ -56,12 +56,7 @@ def copy_worker():
     scratch_results = '%s/results/' % scratchdir
     copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
             (scratch_results, local_results))
-    comm = MPI.COMM_WORLD()
-    status = MPI.Status()
     while True:
-        comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
-        if status.Get_tag() == KILLTAG:
-            break
         try:
             check_output(copy_task, shell=True)
         except CalledProcessError:
@@ -111,8 +106,13 @@ def master(all_work):
         comm.recv(obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG)
 
     # kill all worker processes
-    for rank in range(1, size):
+    for rank in range(2, size):
         comm.send(obj=None, dest=rank, tag=KILLTAG)
+
+    # if we're here, there are no more tasks and all workers are killed, except 
+    # the copy worker. We'll give him a chance to complete and then quit.
+    time.sleep(settings.MW_COPY_SLEEP)
+    raise SystemExit
 
 def mpi_start(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
