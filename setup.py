@@ -13,5 +13,12 @@ setup(
         license = "GPL v2",
         packages = ['abed'],
         long_description = read('README.md'),
-        scripts = ['bin/abed']
+        scripts = ['bin/abed'],
+        install_requires = [
+            'fabric',
+            'mpi4py',
+            'tabulate',
+            'bz2file',
+            'progressbar'
+            ]
 )
