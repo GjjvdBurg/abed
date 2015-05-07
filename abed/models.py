@@ -4,7 +4,7 @@ import time
 
 from abed import settings
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
-from abed.fab import fab_push, fab_pull, fab_setup
+from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
 from abed.git import (git_add_tbd, git_commit_auto, git_commit_tbd, git_init, 
         git_ok)
 from abed.results import make_results
@@ -17,16 +17,17 @@ from abed.zips import unpack_zips
 class Abed(object):
 
     commands = [
-            'run',
-            'push',
-            'pull',
             'auto',
             'parse_results',
-            'update_tasks',
+            'process_zips',
+            'pull',
+            'push',
+            'repull',
+            'run',
             'skeleton',
             'setup',
             'status',
-            'process_zips',
+            'update_tasks',
             ]
 
     def __init__(self):
@@ -97,15 +98,18 @@ class Abed(object):
                 if not is_job_marked(jobid):
                     info("Job %s not pulled yet, pulling it" % jobid)
                     self.pull(jobid=jobid)
+                if len(self.task_dict) == 0:
+                    break
                 info("Starting push")
                 self.push()
-            info("Task submitted, sleeping for a while ...")
+            info("Task busy, sleeping for a while ...")
             time.sleep(settings.AUTO_SLEEP)
         info("Starting parse_results")
         self.parse_results()
 
     def parse_results(self):
         # this takes over parse_results.py
+        info("Starting make_results()")
         make_results()
 
     def run(self):
@@ -125,3 +129,11 @@ class Abed(object):
 
     def process_zips(self):
         unpack_zips()
+
+    def repull(self):
+        # use abed_auto.log to repull all zips from previous runs
+        info("Starting repull based on {}".format(settings.AUTO_FILE))
+        fab_repull()
+        info("Unpacking zips")
+        unpack_zips()
+        info("Done repulling.")

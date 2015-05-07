@@ -10,7 +10,7 @@ from datetime import timedelta
 
 from abed import settings
 from abed.exceptions import AbedPBSMultipleException
-from abed.fab import MyFabric
+from abed.fab_util import myfab
 from abed.utils import info
 
 RUNNING = 'R'
@@ -34,11 +34,8 @@ def submitted():
     return True
 
 def get_jobid_from_pbs():
-    myfab = MyFabric()
-    empty = str(myfab.run("echo"))
-    output = str(myfab.run("qstat -u %s | grep batch | tail -n +2 | "
-        "cut -d'.' -f1" % settings.REMOTE_USER))
-    text = output[len(empty)+1:].replace('\r', '').strip()
+    text = myfab.run("qstat -u %s | grep batch | tail -n +2 | "
+        "cut -d'.' -f1" % settings.REMOTE_USER)
     if not text:
         return None
     ids = text.split('\n')
@@ -46,40 +43,26 @@ def get_jobid_from_pbs():
         raise AbedPBSMultipleException
     return ids[0]
 
-def get_jobid_from_logs():
-    logpath = '%s/releases/current/logs/' % settings.REMOTE_PATH
-    myfab = MyFabric()
-    empty = str(myfab.run("echo"))
-    output = str(myfab.run("ls -1 %s" % logpath))
-    text = output[len(empty)+1:].replace('\r', '').strip()
+def get_jobid_from_logs(logpath=None):
+    if logpath is None:
+        logpath = '%s/releases/current/logs/' % settings.REMOTE_PATH
+    text = myfab.run("ls -1 %s" % logpath)
     if not text:
         return None
     jobid = text.split('\n')[0].split('.')[-1][1:]
     return jobid
 
 def get_state(jobid):
-    myfab = MyFabric()
-    empty = str(myfab.run("echo"))
-    output = str(myfab.run("qstat -f %s | grep job_state | cut -d'=' -f2" % 
-        jobid))
-    text = output[len(empty)+1:].replace('\r', '').strip()
+    text = myfab.run("qstat -f %s | grep job_state | cut -d'=' -f2" % jobid)
     return text
 
 def get_starttime(jobid):
-    myfab = MyFabric()
-    empty = str(myfab.run("echo"))
-    output = str(
-            myfab.run("showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % 
-                jobid))
-    text = output[len(empty)+1:].replace('\r', '').strip()
+    text = myfab.run("showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % 
+            jobid)
     return parse(text)
 
 def get_remaining(jobid):
-    myfab = MyFabric()
-    empty = str(myfab.run("echo"))
-    output = str(myfab.run("qstat -f %s | grep Remaining | cut -d'=' -f2" % 
-        jobid))
-    text = output[len(empty)+1:].replace('\r', '').lstrip('\n').strip()
+    text = myfab.run("qstat -f %s | grep Remaining | cut -d'=' -f2" % jobid)
     td = timedelta(0, int(text))
     return str(td)
 

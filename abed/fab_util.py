@@ -1,0 +1,47 @@
+
+
+from fabric.api import env
+from fabric.context_managers import cd as fab_cd
+from fabric.context_managers import settings as fab_settings
+from fabric.operations import run, put, get
+
+from abed import settings
+
+class MyFabric(object):
+    """
+    Class to manage env etc.
+    """
+    def __init__(self):
+        self.host = settings.REMOTE_HOST
+        self.user = settings.REMOTE_USER
+        self.name = settings.PROJECT_NAME
+        self.environment = 'staging'
+        self.project_path = settings.REMOTE_PATH
+        self.port = settings.REMOTE_PORT
+        self.data_path = None
+        self.empty = None
+
+    def run(self, command='', warn_only=False, cd=None):
+        env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
+        if self.empty is None:
+            self.empty = str(run('echo'))
+        if cd is None:
+            cd = '/home/{}'.format(self.user)
+        with (fab_cd(cd)):
+            with fab_settings(warn_only=warn_only):
+                output = str(run(command))
+        text = output[len(self.empty)+1:].replace('\r', '').strip()
+        return text
+
+    def get(self, source, dest):
+        env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
+        get(source, dest)
+
+    def put(self, source, dest):
+        env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
+        put(source, dest)
+
+if settings is None:
+    myfab = None
+else:
+    myfab = MyFabric()

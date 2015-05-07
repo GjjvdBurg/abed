@@ -6,16 +6,18 @@ from abed.utils import info
 DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 
 COMMANDS_HELP = {
-        'run': '\tRun the master/worker MPI program of abed on the cluster',
-        'push': '\tPush all necessary data to the cluster using fabric',
-        'pull': '\tPull all results from the cluster and process them',
         'auto': '\tAutomate push and pull to facilitate continuous operation',
         'parse_results': 'Parse the results into summary files',
-        'update_tasks': 'Update the task list (part of pull)',
+        'process_zips': 'Process result zip files',
+        'pull': '\tPull all results from the cluster and process them',
+        'push': '\tPush all necessary data to the cluster using fabric',
+        'repull': ('\tRepull the zips from the cluster for all jobids in the '
+            'auto log file'),
+        'run': '\tRun the master/worker MPI program of abed on the cluster',
         'skeleton': '\tCreate a skeleton for abed',
         'setup': '\tSetup the remote directory structure for abed',
         'status': '\tStatus of abed task list',
-        'process_zips': 'Process result zip files'
+        'update_tasks': 'Update the task list (part of pull)',
 }
 
 class SmartFormatter(argparse.HelpFormatter):
