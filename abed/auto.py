@@ -45,7 +45,7 @@ def get_jobid_from_pbs():
 
 def get_jobid_from_logs(logpath=None):
     if logpath is None:
-        logpath = '%s/releases/current/logs/' % settings.REMOTE_PATH
+        logpath = '%s/releases/current/logs/' % settings.REMOTE_DIR
     text = myfab.run("ls -1 %s" % logpath)
     if not text:
         return None

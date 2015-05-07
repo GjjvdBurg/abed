@@ -15,12 +15,12 @@ from abed.utils import info
 
 def init_data():
     """ Push the data to the remote server """
-    local('tar czf datasets.tar.gz {}/*'.format(settings.DATADIR))
+    local('tar czf datasets.tar.gz {}{}*'.format(settings.DATADIR, os.sep))
     release_time = time.strftime('%s')
-    myfab.run('mkdir -p {}/{}/{}'.format(myfab.project_path, settings.DATADIR, 
-        release_time))
-    release_path = '{}/{}/{}'.format(myfab.project_path, settings.DATADIR, 
-            release_time)
+    release_path = '{ppath}/{datapath}/{relpath}'.format(
+            ppath=myfab.project_path, datapath=settings.DATADIR, 
+            relpath=release_time)
+    myfab.run('mkdir -p {releasepath}'.format(releasepath=release_path))
     myfab.put('./datasets.tar.gz', release_path)
     myfab.run('cd {} && tar xvf datasets.tar.gz'.format(release_path))
     myfab.run('cd {} && mv {}/* . && '.format(release_path, settings.DATADIR) +
@@ -31,10 +31,10 @@ def init_data():
 
 def move_data():
     """ Move the data from previous release """
-    curr_path = '{}/releases/current/'.format(myfab.project_path)
-    prev_path = '{}/releases/previous/'.format(myfab.project_path)
-    myfab.run('mkdir -p {}{}/'.format(curr_path, settings.DATADIR))
-    myfab.run('mv {}{}/* {}{}/'.format(prev_path, settings.DATADIR, curr_path, 
+    curr_path = '{}/releases/current'.format(myfab.project_path)
+    prev_path = '{}/releases/previous'.format(myfab.project_path)
+    myfab.run('mkdir -p {}/{}/'.format(curr_path, settings.DATADIR))
+    myfab.run('mv {}/{}/* {}/{}/'.format(prev_path, settings.DATADIR, curr_path, 
         settings.DATADIR))
 
 def setup():
@@ -86,20 +86,19 @@ def get_files_from_glob(glob, dest_dir):
 
 def get_results(basepath=None):
     if basepath is None:
-        basepath = '{}/releases/current/'.format(myfab.project_path)
+        basepath = '{}/releases/current'.format(myfab.project_path)
 
     zip_glob = '{}/bzips/*.tar.bz2'.format(basepath)
     get_files_from_glob(zip_glob, settings.ZIP_DIR)
 
-    log_glob = '{}/releases/current/logs/*'.format(myfab.project_path)
+    log_glob = '{}/logs/*'.format(basepath)
     get_files_from_glob(log_glob, settings.LOG_DIR)
 
 def write_and_queue():
     with open('/tmp/abed.pbs', 'w') as pbs:
         pbs.write(generate_pbs_text())
-    myfab.put('/tmp/abed.pbs', 
-            '{}/releases/current/'.format(myfab.project_path))
     curr_path = '{}/releases/current'.format(myfab.project_path)
+    myfab.put('/tmp/abed.pbs', '{}/'.format(curr_path))
     myfab.run('mkdir -p {}/logs'.format(curr_path))
     myfab.run('qsub -d . -e logs -o logs abed.pbs', cd=curr_path)
     local('rm /tmp/abed.pbs')

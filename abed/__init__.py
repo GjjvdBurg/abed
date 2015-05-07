@@ -11,6 +11,10 @@ class Settings(object):
                     "I'm missing parameter %s" % attr)
             raise SystemExit
 
+def parse_dirs(config, key):
+    if key.endswith('_DIR'):
+        config[key].rstrip(os.sep)
+
 def init_config():
     cur = os.getcwd()
     files = os.listdir(cur)
@@ -24,6 +28,7 @@ def init_config():
     for key in keys:
         if not key.upper() == key:
             del config[key]
+        parse_dirs(config, key)
     settings = Settings(**config)
     return settings
 

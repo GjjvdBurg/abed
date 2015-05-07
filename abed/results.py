@@ -230,8 +230,9 @@ def best_performance_summary(metric, metricname):
         table.append(dashrow)
         table.append(['Total best'] + [str(x) for x in wincount])
 
-        opath = '{respath}/ABED_{metric}_{key}.txt'.format(
-                respath=settings.OUTPUT_DIR, metric=metricname, key=key)
+        opath = '{respath}{sep}ABED_{metric}_{key}.txt'.format(
+                respath=settings.OUTPUT_DIR, sep=os.sep, metric=metricname,
+                key=key)
         now = datetime.datetime.now()
         headers = [''] + sorted(settings.METHODS)
         with open(opath, 'w') as oid:

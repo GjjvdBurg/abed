@@ -16,7 +16,7 @@ class MyFabric(object):
         self.user = settings.REMOTE_USER
         self.name = settings.PROJECT_NAME
         self.environment = 'staging'
-        self.project_path = settings.REMOTE_PATH
+        self.project_path = settings.REMOTE_DIR
         self.port = settings.REMOTE_PORT
         self.data_path = None
         self.empty = None

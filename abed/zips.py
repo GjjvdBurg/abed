@@ -30,6 +30,7 @@ def _unpack_zip(zipfile, all_tasks):
     except tarfile.ReadError:
         error("Could not read tarfile: %s" % fpath)
         return
+    mkdir(settings.STAGE_DIR)
     tar.extractall(settings.STAGE_DIR)
     tar.close()
     move_results(all_tasks)

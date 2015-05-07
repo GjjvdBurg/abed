@@ -50,7 +50,7 @@ def do_work(hsh, task):
     info("Finished with %s" % hsh)
 
 def copy_worker():
-    curdir = '%s/releases/current' % settings.REMOTE_PATH
+    curdir = '%s/releases/current' % settings.REMOTE_DIR
     scratchdir = get_scratchdir()
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir

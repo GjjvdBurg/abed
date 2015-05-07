@@ -21,7 +21,7 @@ def get_output_dir(result_dir, quiet=False):
         return outdir
     latest = sorted(map(int, subdirs))[-1]
     files = os.listdir(result_dir + '/' + str(latest))
-    if len(files) >= settings.MAX_FILES_DIR:
+    if len(files) >= settings.MAX_FILES:
         outdir = '%s/%i' % (result_dir, latest + 1)
         mkdir(outdir)
         if not quiet:

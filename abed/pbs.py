@@ -41,7 +41,7 @@ def generate_pbs_text():
     txt.append('')
 
     # current directory variable
-    txt.append('CURRENT=%s/releases/current' % settings.REMOTE_PATH)
+    txt.append('CURRENT=%s/releases/current' % settings.REMOTE_DIR)
     txt.append('')
 
     # result dir
