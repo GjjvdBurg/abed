@@ -85,11 +85,25 @@ class NullProgress(object):
 def iter_with_progress(iterable, pbar=NullProgress()):
     pbar.set_maximum(len(iterable))
     for element in iterable:
-        pbar.increment()
         yield element
+        pbar.increment()
 
-def iterate(iterable, label=''):
+def iter_progress(iterable, label=''):
     if PROGRESS:
         return iter_with_progress(iterable, pbar=AbedProgress(label))
     else:
         return iter_with_progress(iterable)
+
+def enum_with_progress(iterable, pbar=NullProgress()):
+    pbar.set_maximum(len(iterable))
+    count = 0
+    for element in iterable:
+        yield (count, element)
+        pbar.increment()
+        count += 1
+
+def enum_progress(iterable, label=''):
+    if PROGRESS:
+        return enum_with_progress(iterable, pbar=AbedProgress(label))
+    else:
+        return enum_with_progress(iterable)

@@ -56,16 +56,18 @@ def read_tasks():
 
 def update_tasks(tasks):
     delcnt = 0
-    subdirs = os.listdir(settings.RESULT_DIR)
-    for subdir in subdirs:
-        subpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, subdir)
-        files = os.listdir(subpath)
-        for f in files:
-            fname = os.path.basename(f)
-            hsh = os.path.splitext(fname)[0]
-            try:
-                del tasks[int(hsh)]
-                delcnt += 1
-            except KeyError:
-                pass
+    dsetdirs = os.listdir(settings.RESULT_DIR)
+    for dsetdir in dsetdirs:
+        dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dsetdir)
+        for meth in os.listdir(dpath):
+            mpath = '%s%s%s' % (dpath, os.sep, meth)
+            files = os.listdir(mpath)
+            for f in files:
+                fname = os.path.basename(f)
+                hsh = os.path.splitext(fname)[0]
+                try:
+                    del tasks[int(hsh)]
+                    delcnt += 1
+                except KeyError:
+                    pass
     return delcnt

@@ -4,29 +4,28 @@ Functions for dealing with result files
 We generate several result files for each chosen metric, and some summary files 
 with each metric.
 
+The following directory structure is assumed:
+
+    settings.RESULT_DIR / {dataset} / {method} / [files]
+
 """
 
 import datetime
 import os
 import numpy as np
 
+from matplotlib import mlab, pyplot
 from tabulate import tabulate
 
 from abed import settings
-from abed.exceptions import AbedNonstandardMetricDirection
+from abed.exceptions import (AbedNonstandardMetricDirection, 
+        AbedDatasetdirNotFoundException, AbedMethoddirNotFoundException)
+from abed.progress import enum_progress
 from abed.tasks import init_tasks
 from abed.utils import info
 
 basename = os.path.basename
 splitext = os.path.splitext
-
-def iterate_result_files():
-    for subdirs in os.listdir(settings.RESULT_DIR):
-        for subdir in subdirs:
-            spath = '%s/%s' % (settings.RESULT_DIR, subdir)
-            for f in os.listdir(spath):
-                fname = '%s/%s/%s' % (settings.RESULT_DIR, subdir, f)
-                yield fname
 
 def hashes_with_method(task_dict, method):
     for hsh in task_dict:
@@ -39,23 +38,39 @@ def hashes_with_dataset(task_dict, dataset):
             yield hsh
 
 def files_w_method(task_dict, method):
-    for res_f in iterate_result_files():
-        hsh = int(splitext(basename(res_f))[0])
-        if task_dict[hsh]['method'] == method:
-            yield res_f
+    for dset in os.listdir(settings.RESULT_DIR):
+        dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
+        methdirs = os.listdir(dpath)
+        if not method in methdirs:
+            raise AbedMethoddirNotFoundException
+        mpath = '%s%s%s' % (dpath, os.sep, method)
+        for f in os.listdir(mpath):
+            fname = '%s%s%s' % (mpath, os.sep, f)
+            yield fname
 
 def files_w_dataset(task_dict, dataset):
-    for res_f in iterate_result_files():
-        hsh = int(splitext(basename(res_f))[0])
-        if task_dict[hsh]['dataset'] == dataset:
-            yield res_f
+    dset = splitext(basename(dataset))[0]
+    if dset not in os.listdir(settings.RESULT_DIR):
+        raise AbedDatasetdirNotFoundException
+    dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
+    for method in os.listdir(dpath):
+        mpath = '%s%s%s' % (dpath, os.sep, method)
+        for f in os.listdir(mpath):
+            fname = '%s%s%s' % (mpath, os.sep, f)
+            yield fname
 
 def files_w_dset_and_method(task_dict, dataset, method):
-    for res_f in iterate_result_files():
-        hsh = int(splitext(basename(res_f))[0])
-        if (task_dict[hsh]['dataset'] == dataset and
-                task_dict[hsh]['method'] == method):
-            yield res_f
+    dset = splitext(basename(dataset))[0]
+    if dset not in os.listdir(settings.RESULT_DIR):
+        raise AbedDatasetdirNotFoundException(dset)
+    dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
+    methdirs = os.listdir(dpath)
+    if not method in methdirs:
+         raise AbedMethoddirNotFoundException(method)
+    mpath = '%s%s%s' % (dpath, os.sep, method)
+    for f in os.listdir(mpath):
+        fname = '%s%s%s' % (mpath, os.sep, f)
+        yield fname
 
 def mean_over_datasets(metric):
     # per parameter configuration average metric value on all dataset
@@ -115,6 +130,41 @@ def parse_result_file(f, metric):
             out[label] = metric(data[label]['true'], data[label]['pred'])
     return out
 
+def performance_density(metric, metricname):
+    # create density plots of the performance of each method on the metric
+
+    # TODO:
+    # - write out to file
+    # - make a lot nicer
+    # - smooth density plots
+
+    all_tasks = init_tasks()
+
+    num_datasets = len(settings.DATASETS)
+    num_methods = len(settings.METHODS)
+
+    m_func = metric['metric']
+    b_func = metric['best']
+
+    meth_perf = {key:{} for key in settings.METHODS}
+
+    for i, dset in enum_progress(sorted(settings.DATASETS), label='Datasets: '):
+        for j, method in enumerate(sorted(settings.METHODS)):
+            for res_file in files_w_dset_and_method(all_tasks, dset, method):
+                out_dict = parse_result_file(res_file, m_func)
+                for key in out_dict:
+                    if not key in meth_perf[method]:
+                        meth_perf[method][key] = []
+                    meth_perf[method][key].append(out_dict[key])
+
+    num_bins = 25
+    for method in sorted(settings.METHODS):
+        for key in meth_perf[method]:
+            n, bins, patches = pyplot.hist(meth_perf[method][key], num_bins, 
+                    normed=1)
+            pyplot.show()
+
+
 def best_performance_summary(metric, metricname):
     # create a table with on the rows the datasets and on the columns the 
     # methods. Each element in the table contains the best performance on the 
@@ -130,13 +180,17 @@ def best_performance_summary(metric, metricname):
     m_func = metric['metric']
     b_func = metric['best']
 
-    for i, dset in enumerate(sorted(settings.DATASETS)):
+    for i, dset in enum_progress(sorted(settings.DATASETS), label='Datasets: '):
         for j, method in enumerate(sorted(settings.METHODS)):
             values = []
             for res_file in files_w_dset_and_method(all_tasks, dset, method):
                 values.append(parse_result_file(res_file, m_func))
 
-            keys = values[0].keys()
+            try:
+                keys = values[0].keys()
+            except IndexError:
+                import code
+                code.interact(local=dict(globals(), **locals()))
             if not tables:
                 for key in keys:
                     tables[key] = np.zeros((num_datasets, num_methods))
@@ -171,7 +225,8 @@ def best_performance_summary(metric, metricname):
                 else:
                     row.append('%4.4f' % tables[key][i, j])
             table.append(row)
-        dashrow = ['-'*dsetlength] + ['-'*len(x) for x in settings.METHODS]
+        dashrow = ['-'*dsetlength] + ['-'*len(x) for x in 
+                sorted(settings.METHODS)]
         table.append(dashrow)
         table.append(['Total best'] + [str(x) for x in wincount])
 
@@ -190,7 +245,8 @@ def best_performance_summary(metric, metricname):
 
 def make_results():
     for metric in settings.METRICS.iterkeys():
+        info("Getting performance density plots for metric %s" % metric)
+        performance_density(settings.METRICS[metric], metric)
+        info("Getting performance summary with metric %s" % metric)
         best_performance_summary(settings.METRICS[metric], metric)
-
-
 

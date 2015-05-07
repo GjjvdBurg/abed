@@ -15,11 +15,14 @@ import shutil
 import tarfile
 
 from abed import settings
-from abed.progress import iterate
-from abed.run_utils import get_output_dir
+from abed.progress import iter_progress
+from abed.tasks import init_tasks
 from abed.utils import error, mkdir
 
-def _unpack_zip(zipfile):
+splitext = os.path.splitext
+basename = os.path.basename
+
+def _unpack_zip(zipfile, all_tasks):
     fpath = '%s%s%s' % (settings.ZIP_DIR, os.sep, zipfile)
     try:
         b = bz2file.BZ2File(fpath)
@@ -29,7 +32,7 @@ def _unpack_zip(zipfile):
         return
     tar.extractall(settings.STAGE_DIR)
     tar.close()
-    move_results()
+    move_results(all_tasks)
     ziplog = settings.ZIP_DIR + os.sep + 'abed_unzipped.txt'
     with open(ziplog, 'a') as fid:
         fid.write(zipfile + '\n')
@@ -41,13 +44,13 @@ def unpack_zips():
             unzipped = [x.strip() for x in fid.readlines()]
     else:
         unzipped = []
-
+    all_tasks = init_tasks()
     bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2') and 
             not x in unzipped]
-    for fname in iterate(bzips, 'Unpacking zips: '):
-        _unpack_zip(fname)
+    for fname in iter_progress(bzips, 'Unpacking zips: '):
+        _unpack_zip(fname, all_tasks)
 
-def move_results():
+def move_results(task_dict):
     mkdir(settings.RESULT_DIR)
     subdirs = os.listdir(settings.STAGE_DIR)
     for subdir in subdirs:
@@ -55,8 +58,13 @@ def move_results():
         files = os.listdir(subpath)
         for fname in files:
             fpath = '%s%s%s' % (subpath, os.sep, fname)
-            newsubdir = get_output_dir(settings.RESULT_DIR, quiet=True)
-            dpath = '%s%s%s' % (newsubdir, os.sep, fname)
+            hsh = int(splitext(basename(fpath))[0])
+            dset = splitext(basename(task_dict[hsh]['dataset']))[0]
+            method = task_dict[hsh]['method']
+            outdir = '%s%s%s%s%s' % (settings.RESULT_DIR, os.sep, dset, os.sep, 
+                    method)
+            mkdir(outdir)
+            dpath = '%s%s%s' % (outdir, os.sep, fname)
             shutil.move(fpath, dpath)
         clean_empty_dir(subpath)
 

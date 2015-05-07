@@ -10,3 +10,9 @@ class AbedHashCollissionException(Exception):
 
 class AbedNonstandardMetricDirection(Exception):
     pass
+
+class AbedDatasetdirNotFoundException(Exception):
+    pass
+
+class AbedMethoddirNotFoundException(Exception):
+    pass
