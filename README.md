@@ -25,6 +25,9 @@ Usage:
 
 	abed auto
 
+   This however requires SSH keys to be exchanged with the remote host. See 
+for instance, [this](http://www.rebol.com/docs/ssh-auto-login.html) guide.
+
 7. Create summary files using the specified metrics using
 
 	abed parse_results
@@ -32,12 +35,28 @@ Usage:
 Dependencies
 ------------
 
-ABED depends on the following non-default Python libraries:
-	- fabric
-	- mpi4py
-	- bz2file
+ABED works only on Python 2 due to the dependency on Fabric. For the list of 
+dependencies see `setup.py`.
 
-ABED works only on Python 2 due to the dependency on Fabric.
+Installation
+------------
+
+To install `abed` only for the current user, run:
+
+    python2 setup.py install --user
+
+Note, if you're on LISA, you need to specify the Python version you wish to 
+use by first running:
+
+    module load python/2.7.9
+
+After installation, the executable will be placed in `~/.local/bin`, which you 
+should add to your `PATH` variable for convenience, by placing the following 
+line in your `~/.bashrc`
+
+    export PATH=$PATH:~/.local/bin/
+
+After this, either open a new terminal or run `source ~/.bashrc`.
 	
 
 Requirements
@@ -51,9 +70,9 @@ available in other environments:
 - Scratch directories: tasks executed through the PBS server are executed on 
   nodes which have a temporary local storage directory, called the "scratch" 
 directory. The location of this storage is provided through the TMPDIR 
-environment variable, which is used by ABED to locate place the result files.  
-This reduces communication overhead to the users home directory, which is 
-located outside the compute node. 
+environment variable, which is used by ABED to place the result files. This 
+reduces communication overhead to the users home directory, which is located 
+outside the compute node. 
 
 - mpicopy is a command which copies data from the home directory of the user 
   to the scratch directory on the node. The ABED setting 'PBS_MPICOPY' can be 
@@ -61,23 +80,24 @@ used to define folders or files which need to be copied to the nodes. In the
 skeleton configuration file the dataset, executable, abed task file are added 
 to this list. 
 
-- timeout
 - pbzip2
-- mail system
+- mail system, see 
+  [here](https://surfsara.nl/systems/lisa/usage/batch-usage#heading18).
 
 Workings
 --------
 
-1. Use 'abed setup' to setup the remote directory structure.
-2. Use 'abed push' or 'abed auto' to push the data to the remote server, write 
+1. Start a new project by running `abed skeleton`
+2. Use `abed setup` to setup the remote directory structure.
+3. Use `abed push` or `abed auto` to push the data to the remote server, write 
    out the PBS file, and queue it.
-3. Use 'abed pull' or 'abed auto' to pull the results from the remote server, 
+4. Use `abed pull` or `abed auto` to pull the results from the remote server, 
    unpack the zip files, update the task list and git commit the updated list.
 
 Running the tasks on the cluster is done as follows:
 
 1. In the PBS the following preprocessing steps are taken:
-	a. A 'results' directory is created on the scratch filesystem (see 
+	a. A `results` directory is created on the scratch filesystem (see 
 above)
 	b. An email is sent to the current user with a brief summary of the 
 number of tasks to be performed. This is sent to the users email, an may 
@@ -91,7 +111,7 @@ scratch filesystem
 time reduced by a configurable number of seconds. This should allow enough 
 time for the post-processing steps
 3. The postprocessing steps are:
-	a. Create a 'bzips' directory in the current release directory
+	a. Create a `bzips` directory in the current release directory
 	b. Create a compressed archive for each dataset in the result 
 directory, this is done in parallel through `pbzip2`
 	c. Copy the compressed files to the current release directory
