@@ -43,7 +43,7 @@ def git_add_tbd():
 def git_commit_tbd():
     try:
         check_output(['git', 'commit', '-m',
-            "'automatic commit of TBD task file'", settings.TASK_FILE])
+            'automatic commit of TBD task file', settings.TASK_FILE])
     except CalledProcessError as err:
         error("Error performing autocommit for TBD file. Error message:")
         print(err.output)
