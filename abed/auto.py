@@ -25,7 +25,7 @@ def submitted():
         sttime = get_starttime(jobid)
         if sttime:
             info("Job %s queued. Start time: %s" % (jobid, 
-                sttime.strftime("c")))
+                sttime.strftime("%c")))
         else:
             info("Job %s queued.")
     elif state == RUNNING:
