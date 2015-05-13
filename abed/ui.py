@@ -42,4 +42,8 @@ def main():
     args = parse_arguments()
     abed = Abed()
     info("Running abed command: %s" % args.cmd)
-    getattr(abed, args.cmd)()
+    try:
+        getattr(abed, args.cmd)()
+    except KeyboardInterrupt:
+        info("Exiting.")
+        pass
