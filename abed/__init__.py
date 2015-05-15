@@ -13,7 +13,7 @@ class Settings(object):
 
 def parse_dirs(config, key):
     if key.endswith('_DIR'):
-        config[key].rstrip(os.sep)
+        config[key] = config[key].rstrip(os.sep)
 
 def init_config():
     cur = os.getcwd()
