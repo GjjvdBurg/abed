@@ -6,6 +6,9 @@ Various utility functions used throughout abed
 import errno
 import os
 
+basename = os.path.basename
+splitext = os.path.splitext
+
 def info(txt):
     print('[ABED INFO]: ' + txt)
 
@@ -20,3 +23,10 @@ def mkdir(path):
             pass
         else:
             raise
+
+def hash_from_filename(filename):
+    bname = basename(filename)
+    exts = splitext(bname)
+    start = exts[0]
+    hsh = int(start)
+    return hsh
