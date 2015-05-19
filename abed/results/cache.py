@@ -5,10 +5,8 @@ The result cache is basically a dictionary between the hashes and the metrics
 that we want to know for each hash.
 """
 
-import marshal
-import os
-
 from abed import settings
+from abed.results.models import AbedCache, AbedResult
 from abed.results.walk import walk_results
 from abed.utils import info, hash_from_filename
 
@@ -18,7 +16,7 @@ def find_label(line):
             return scalar
     return line.split(' ')[1].split('_')[0]
 
-def parse_result_file(filepath):
+def parse_result_file(filepath, dataset, method):
     data = {}
     fid = open(filepath, 'r')
     label = None
@@ -39,33 +37,53 @@ def parse_result_file(filepath):
             data[label]['pred'].append(float(pred))
     fid.close()
 
-    output = {'SCALARS': {}, 'METRICS': {}}
+    hsh = hash_from_filename(filepath)
+    ar = AbedResult(hsh, dataset=dataset, method=method)
+
     for label in data.iterkeys():
         if label in settings.SCALARS:
-            output['SCALARS'][label] = data[label]
+            ar.add_result_scalar(label, data[label])
         else:
             for metric in settings.METRICS:
                 metric_func = settings.METRICS[metric]['metric']
-                output['METRICS'][metric] = metric_func(data[label]['true'], 
-                        data[label]['pred'])
-    return output
+                ar.add_result_metric(label, metric, 
+                        metric_func(data[label]['true'], data[label]['pred']))
+    return ar
 
-def create_result_cache(task_dict):
-    cache = {}
+def init_result_cache(task_dict):
+    ac = AbedCache(methods=settings.METHODS, datasets=settings.DATASETS, 
+            metrics=settings.METRICS, scalars=settings.SCALARS)
     info("Starting cache generation")
     for dataset, method, files in walk_results():
-        info("Dataset: %s\tmethod = %s" % (dataset, method))
+        for f in files:
+            result = parse_result_file(f, dataset, method)
+            ac.add_result(result)
+    ac.dump()
+    return ac
+
+def update_result_cache(task_dict):
+    ac = AbedCache()
+    try:
+        ac.load()
+    except IOError:
+        info("Result cache non-existent, generating it.")
+        ac = init_result_cache(task_dict)
+        return ac
+    # updating the result cache is done in two steps:
+    # 1. Check if new metrics or scalars are added, if so regenerate everything
+    # 2. Check if new result files are added, if that's the case only generate 
+    # those
+    conf_metrics = set(settings.METRICS.keys())
+    cache_metrics = ac.metrics
+    diff = conf_metrics - cache_metrics
+    if len(diff) > 0:
+        ac = init_result_cache(task_dict)
+        return ac
+    for dataset, method, files in walk_results():
         for f in files:
             hsh = hash_from_filename(f)
-            cache[hsh] = parse_result_file(f)
-    cachefile = settings.OUTPUT_DIR + os.sep + 'abed_cache.msh'
-    with open(cachefile, 'wb') as cid:
-        info("Starting dump to %s" % cachefile)
-        marshal.dump(cache, cid)
-        info("Dump finished.")
-
-
-
-def update_result_cache():
-    pass
-
+            if not ac.has_result(hsh):
+                result = parse_result_file(f, dataset, method)
+                ac.add_result(result)
+    ac.dump()
+    return ac

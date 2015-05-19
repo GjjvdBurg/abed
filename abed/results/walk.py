@@ -8,6 +8,7 @@ import os
 from abed import settings
 from abed.exceptions import (AbedDatasetdirNotFoundException, 
         AbedMethoddirNotFoundException)
+from abed.progress import iter_progress
 
 basename = os.path.basename
 splitext = os.path.splitext
@@ -48,7 +49,7 @@ def files_w_dset_and_method(dataset, method):
         yield fname
 
 def walk_results():
-    for dataset in settings.DATASETS:
+    for dataset in iter_progress(settings.DATASETS):
         dset = splitext(basename(dataset))[0]
         if dset not in os.listdir(settings.RESULT_DIR):
             continue
@@ -58,4 +59,4 @@ def walk_results():
                 continue
             mpath = '%s%s%s' % (dpath, os.sep, method)
             files = ['%s%s%s' % (mpath, os.sep, f) for f in os.listdir(mpath)]
-            yield dset, method, files
+            yield dataset, method, files
