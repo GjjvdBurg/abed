@@ -251,9 +251,9 @@ def best_performance_summary(metric, metricname):
 
 
 def make_results():
-    from abed.results.cache import create_result_cache
+    from abed.results.cache import init_result_cache
     task_dict = init_tasks()
-    create_result_cache(task_dict)
+    init_result_cache(task_dict)
 #    for metric in settings.METRICS.iterkeys():
 #        #info("Getting performance density plots for metric %s" % metric)
 #        #performance_density(settings.METRICS[metric], metric)

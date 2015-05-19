@@ -48,6 +48,8 @@ def unpack_zips():
     all_tasks = init_tasks()
     bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2') and 
             not x in unzipped]
+    if len(bzips) == 0:
+        return
     for fname in iter_progress(bzips, 'Unpacking zips: '):
         _unpack_zip(fname, all_tasks)
 
