@@ -3,7 +3,7 @@
 from fabric.api import env
 from fabric.context_managers import cd as fab_cd
 from fabric.context_managers import settings as fab_settings
-from fabric.operations import run, put, get
+from fabric.operations import hide, run, put, get
 
 from abed import settings
 
@@ -24,12 +24,14 @@ class MyFabric(object):
     def run(self, command='', warn_only=False, cd=None):
         env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
         if self.empty is None:
-            self.empty = str(run('echo'))
+            with hide('output'):
+                self.empty = str(run('echo'))
         if cd is None:
             cd = '/home/{}'.format(self.user)
         with (fab_cd(cd)):
             with fab_settings(warn_only=warn_only):
-                output = str(run(command))
+                with hide('output'):
+                    output = str(run(command))
         text = output[len(self.empty)+1:].replace('\r', '').strip()
         return text
 
