@@ -16,11 +16,8 @@ from abed.results.ranks import make_rank_table, write_ranktable
 def make_tables(abed_cache):
     for target in abed_cache.metric_targets:
         for metric in abed_cache.metrics:
-            info("Creating table for target %s with metric %s" % (target, 
-                metric))
             make_tables_metric(abed_cache, metric, target)
     for scalar in abed_cache.scalars:
-        info("Creating table for scalar %s" % scalar)
         make_tables_scalar(abed_cache, scalar)
 
 def make_tables_metric(abed_cache, metric, target):
@@ -33,7 +30,7 @@ def make_tables_metric(abed_cache, metric, target):
     write_table(tabletxt, target, metricname=metric)
     # Now create the rank table from the generated table
     ranktable = make_rank_table(table, higher_better)
-    summary = summarize_table(ranktable, higher_better)
+    summary = summarize_table(ranktable, False) # for ranks lower is better
     tabletxt = create_table(ranktable, sorted(abed_cache.methods), 
             summary_rows=summary)
     write_ranktable(tabletxt, target, metricname=metric)
@@ -48,7 +45,7 @@ def make_tables_scalar(abed_cache, scalar):
     write_table(tabletxt, scalar)
     # Now create the rank table from the generated table
     ranktable = make_rank_table(table, higher_better)
-    summary = summarize_table(ranktable, higher_better)
+    summary = summarize_table(ranktable, False) # for ranks lower is better
     tabletxt = create_table(ranktable, sorted(abed_cache.methods), 
             summary_rows=summary)
     write_ranktable(tabletxt, scalar)
@@ -56,7 +53,7 @@ def make_tables_scalar(abed_cache, scalar):
 def build_tables_metric(abed_cache, metricname, metric_label):
     table = []
     for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [settings.DATA_DESCRIPTION.get(dset, dset)]
+        row = [dset]
         for j, method in enumerate(sorted(abed_cache.methods)):
             values = list(abed_cache.get_metric_values_dm(dset, method, 
                 metric_label, metricname))
@@ -69,7 +66,7 @@ def build_tables_metric(abed_cache, metricname, metric_label):
 def build_tables_scalar(abed_cache, scalarname):
     table = []
     for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [settings.DATASET_DESCRIPTION.get(dset, dset)]
+        row = [dset]
         for j, method in enumerate(sorted(abed_cache.methods)):
             values = abed_cache.get_scalar_values_dm(dset, method, scalarname)
             best_value = settings.SCALARS[scalarname]['best'](values)
@@ -80,7 +77,8 @@ def build_tables_scalar(abed_cache, scalarname):
 
 def create_table(table, headers, summary_rows=None):
     if summary_rows is None:
-        return tabulate(table, headers=headers)
+        return tabulate(table, headers=headers,
+                floatfmt=".0%if" % settings.RESULT_PRECISION)
     table.extend(summary_rows)
     tabstr = tabulate(table, headers=headers)
     tabtxt = tabstr.split('\n')
