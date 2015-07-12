@@ -5,11 +5,13 @@ Functions for managing tasks
 
 import os
 import sys
+import random
 
 from itertools import izip, product
 
 from abed import settings
-from abed.exceptions import AbedHashCollissionException
+from abed.exceptions import (AbedHashCollissionException, 
+        AbedExperimentTypeException)
 from abed.utils import error
 
 def cartesian(params):
@@ -30,6 +32,13 @@ def task_hash(task):
     return hsh
 
 def init_tasks():
+    if settings.TYPE == 'ASSESS':
+        return init_tasks_assess()
+    elif settings.TYPE == 'CV_TT':
+        return init_tasks_cv_tt()
+    raise AbedExperimentTypeException
+
+def init_tasks_assess():
     out = {}
     for dset in settings.DATASETS:
         for method in settings.METHODS:
@@ -37,6 +46,24 @@ def init_tasks():
                 task = {key: value for key, value in prmset.iteritems()}
                 task['dataset'] = dset
                 task['method'] = method
+                hsh = task_hash(task)
+                if hsh in out:
+                    raise AbedHashCollissionException
+                out[hsh] = task
+    return out
+
+def init_tasks_cv_tt():
+    out = {}
+    rng = random.Random(x=settings.CV_BASESEED)
+    for train, test in settings.DATASETS:
+        seed = rng.randint(0, 1e10)
+        for method in settings.METHODS:
+            for prmset in cartesian(settings.PARAMS[method]):
+                task = {key: value for key, value in prmset.iteritems()}
+                task['data_train'] = train
+                task['data_test'] = test
+                task['method'] = method
+                task['cv_seed'] = seed
                 hsh = task_hash(task)
                 if hsh in out:
                     raise AbedHashCollissionException

@@ -90,3 +90,17 @@ class AbedResult(object):
         else:
             return self.results[label][metric]
 
+class AbedTable(object):
+
+    def __init__(self):
+        self.headers = []
+        self.rows = []
+        self.footer = None
+
+    def table_text(self):
+        pass
+
+    def table_html(self):
+        pass
+
+

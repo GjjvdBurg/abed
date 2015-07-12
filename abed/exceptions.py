@@ -16,3 +16,6 @@ class AbedDatasetdirNotFoundException(Exception):
 
 class AbedMethoddirNotFoundException(Exception):
     pass
+
+class AbedExperimentTypeException(Exception):
+    pass

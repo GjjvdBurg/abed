@@ -58,7 +58,7 @@ except ImportError:
                             elapsed - elapsed1)
                     weight = (pbar.currval / float(pbar.maxval)) ** 0.5
                     eta = (1 - weight) * eta + weight * etasamp
-                return 'ETA:  %s' % self.format_time(eta)
+                return 'ETA: %s' % self.format_time(eta)
 
 class AbedProgress(object):
     def __init__(self, label):

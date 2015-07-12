@@ -14,6 +14,7 @@ PROJECT_NAME = ''
 TASK_FILE = './abed_tasks.txt'
 AUTO_FILE = './abed_auto.txt'
 RESULT_DIR = '/path/to/local/results'
+STAGE_DIR = '/path/to/local/stagedir'
 MAX_FILES = 1000
 ZIP_DIR = './zips'
 LOG_DIR = './logs'
@@ -38,9 +39,19 @@ MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
 MW_COPY_SLEEP = 120
 
 ###############################################################################
+#                               Experiment type                               #
+###############################################################################
+# Uncomment the desired type
+# Model assessment #
+#TYPE = 'ASSESS'
+
+# Cross validation with train and test dataset #
+#TYPE = 'CV_TT'
+#CV_BASESEED = 123456
+
+###############################################################################
 #                      Experiment parameters and settings                     #
 ###############################################################################
-TYPE = 'ASSESS'
 DATADIR = 'datasets'
 EXECDIR = 'execs'
 DATASETS = ['dataset_1', 'dataset_2']
