@@ -5,8 +5,8 @@ import time
 from abed import settings
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
-from abed.git import (git_add_tbd, git_commit_auto, git_commit_tbd, git_init, 
-        git_ok)
+from abed.git import (git_add_auto, git_add_tbd, git_commit_auto, 
+        git_commit_tbd, git_init, git_ok)
 from abed.results.main import make_results
 from abed.run import mpi_start
 from abed.skeleton import init_config
@@ -42,7 +42,9 @@ class Abed(object):
         else:
             self.task_dict = init_tasks()
             self.write_tasks()
+            git_add_auto()
             git_add_tbd()
+            git_commit_auto()
             git_commit_tbd()
 
     def update_tasks(self):

@@ -30,6 +30,15 @@ def git_init():
         print(err.output)
         raise SystemExit
 
+def git_add_auto():
+    try:
+        check_output(['git', 'add', settings.AUTO_FILE])
+    except CalledProcessError as err:
+        error("Error executing 'git add %s'. Error message:" % 
+                settings.AUTO_FILE)
+        print(err.output)
+        raise SystemExit
+
 def git_add_tbd():
     # add tbd
     try:
