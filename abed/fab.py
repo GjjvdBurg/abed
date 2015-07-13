@@ -138,4 +138,5 @@ def fab_repull():
 
     for path in to_pull:
         zip_glob = '{}/bzips/*.tar.bz2'.format(path)
+        mkdir(settings.ZIP_DIR)
         get_files_from_glob(zip_glob, settings.ZIP_DIR)
