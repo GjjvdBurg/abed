@@ -56,7 +56,7 @@ def init_tasks_cv_tt():
     out = {}
     rng = random.Random(x=settings.CV_BASESEED)
     for train, test in settings.DATASETS:
-        seed = rng.randint(0, 1e10)
+        seed = rng.randint(0, 2**32-1)
         for method in settings.METHODS:
             for prmset in cartesian(settings.PARAMS[method]):
                 task = {key: value for key, value in prmset.iteritems()}
