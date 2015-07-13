@@ -11,7 +11,7 @@ from abed import settings
 from abed.auto import get_jobid_from_logs
 from abed.fab_util import myfab
 from abed.pbs import generate_pbs_text
-from abed.utils import info
+from abed.utils import info, mkdir
 
 def init_data():
     """ Push the data to the remote server """
@@ -89,9 +89,11 @@ def get_results(basepath=None):
         basepath = '{}/releases/current'.format(myfab.project_path)
 
     zip_glob = '{}/bzips/*.tar.bz2'.format(basepath)
+    mkdir(settings.ZIP_DIR)
     get_files_from_glob(zip_glob, settings.ZIP_DIR)
 
     log_glob = '{}/logs/*'.format(basepath)
+    mkdir(settings.LOG_DIR)
     get_files_from_glob(log_glob, settings.LOG_DIR)
 
 def write_and_queue():
