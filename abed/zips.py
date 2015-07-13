@@ -62,7 +62,12 @@ def move_results(task_dict):
         for fname in files:
             fpath = '%s%s%s' % (subpath, os.sep, fname)
             hsh = int(splitext(basename(fpath))[0])
-            dset = splitext(basename(task_dict[hsh]['dataset']))[0]
+            if settings.TYPE == 'ASSESS':
+                dset = splitext(basename(task_dict[hsh]['dataset']))[0]
+            elif settings.TYPE == 'CV_TT':
+                dset = (splitext(basename(task_dict[hsh]['train_dataset']))[0] + 
+                        '_' + 
+                        splitext(basename(task_dict[hsh]['test_dataset']))[0])
             method = task_dict[hsh]['method']
             outdir = '%s%s%s%s%s' % (settings.RESULT_DIR, os.sep, dset, os.sep, 
                     method)
