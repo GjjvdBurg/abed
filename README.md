@@ -120,5 +120,12 @@ directory, this is done in parallel through `pbzip2`
 Notes
 -----
 
-Installation of ABED and its dependencies must be done under the same Python 
-version. It is recommended to use Python version 2.7.9.
+1. Installation of ABED and its dependencies must be done under the same 
+   Python version. It is recommended to use Python version 2.7.9.
+
+2. ABED currently allows two modes of operation: 'ASSESS' for model 
+   assessment, and 'CV_TT' for cross validation with a test dataset. In the 
+latter case the datasets need to be specified with '{train_dataset}' and 
+'{test_dataset}' in the ABED configuration file.
+
+

@@ -60,8 +60,8 @@ def init_tasks_cv_tt():
         for method in settings.METHODS:
             for prmset in cartesian(settings.PARAMS[method]):
                 task = {key: value for key, value in prmset.iteritems()}
-                task['data_train'] = train
-                task['data_test'] = test
+                task['train_dataset'] = train
+                task['test_dataset'] = test
                 task['method'] = method
                 task['cv_seed'] = seed
                 hsh = task_hash(task)
