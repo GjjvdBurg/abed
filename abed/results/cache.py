@@ -14,7 +14,7 @@ def find_label(line):
     for scalar in settings.SCALARS:
         if scalar in line:
             return scalar
-    return line.split(' ')[1].split('_')[0]
+    return '_'.join(line.split(' ')[1].split('_')[:-1])
 
 def parse_result_file(filepath, dataset, method):
     data = {}

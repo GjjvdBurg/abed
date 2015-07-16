@@ -9,6 +9,7 @@ import os
 
 from abed import settings
 from abed.exceptions import AbedHashCollissionException
+from abed.utils import dataset_name
 
 class AbedCache(object):
     """
@@ -50,6 +51,11 @@ class AbedCache(object):
     def has_result(self, hsh):
         return (hsh in self.cache)
 
+    def iter_results_dm(self, dataset, method):
+        for result in self.cache.itervalues():
+            if result.dataset == dataset and result.method == method:
+                yield result
+
     def get_metric_values_dm(self, dataset, method, label, metricname):
         for result in self.cache.itervalues():
             if result.dataset == dataset and result.method == method:
@@ -70,7 +76,7 @@ class AbedResult(object):
         self.metric_targets = set()
         self.results = {}
         self.hsh = hsh
-        self.dataset = dataset
+        self.dataset = dataset_name(dataset)
         self.method = method
 
     def add_result_scalar(self, label, value):

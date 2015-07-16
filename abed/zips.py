@@ -17,7 +17,7 @@ import tarfile
 from abed import settings
 from abed.progress import iter_progress
 from abed.tasks import init_tasks
-from abed.utils import error, mkdir
+from abed.utils import error, mkdir, dataset_name
 
 splitext = os.path.splitext
 basename = os.path.basename
@@ -63,11 +63,10 @@ def move_results(task_dict):
             fpath = '%s%s%s' % (subpath, os.sep, fname)
             hsh = int(splitext(basename(fpath))[0])
             if settings.TYPE == 'ASSESS':
-                dset = splitext(basename(task_dict[hsh]['dataset']))[0]
+                dset = dataset_name(task_dict[hsh]['dataset'])
             elif settings.TYPE == 'CV_TT':
-                dset = (splitext(basename(task_dict[hsh]['train_dataset']))[0] + 
-                        '_' + 
-                        splitext(basename(task_dict[hsh]['test_dataset']))[0])
+                dset = dataset_name((task_dict[hsh]['train_dataset'], 
+                    task_dict[hsh]['test_dataset']))
             method = task_dict[hsh]['method']
             outdir = '%s%s%s%s%s' % (settings.RESULT_DIR, os.sep, dset, os.sep, 
                     method)
