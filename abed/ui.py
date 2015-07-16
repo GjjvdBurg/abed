@@ -11,6 +11,7 @@ COMMANDS_HELP = {
         'process_zips': 'Process result zip files',
         'pull': '\tPull all results from the cluster and process them',
         'push': '\tPush all necessary data to the cluster using fabric',
+        'reload_tasks': 'Reload the task file based on config and results',
         'repull': ('\tRepull the zips from the cluster for all jobids in the '
             'auto log file'),
         'run': '\tRun the master/worker MPI program of abed on the cluster',

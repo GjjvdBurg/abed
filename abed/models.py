@@ -28,6 +28,7 @@ class Abed(object):
             'setup',
             'status',
             'update_tasks',
+            'reload_tasks'
             ]
 
     def __init__(self):
@@ -56,6 +57,10 @@ class Abed(object):
         git_commit_tbd()
         if len(self.task_dict) == 0:
             info("All tasks completed. Cool cool cool.")
+
+    def reload_tasks(self):
+        self.task_dict = init_tasks()
+        self.update_tasks()
 
     def write_tasks(self):
         with open(settings.TASK_FILE, 'w') as fid:

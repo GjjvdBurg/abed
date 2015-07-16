@@ -83,6 +83,8 @@ def read_tasks():
 
 def update_tasks(tasks):
     delcnt = 0
+    if not os.path.exists(settings.RESULT_DIR):
+        return 0
     dsetdirs = os.listdir(settings.RESULT_DIR)
     for dsetdir in dsetdirs:
         dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dsetdir)
