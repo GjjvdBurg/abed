@@ -1,5 +1,5 @@
-ABED: Automated BEnchmark Distribution
-======================================
+ABED: Automated BEnchmark Distribution in Python
+================================================
 *Note: ABED is very much a work in process and functionality can break at any 
 moment. For a similar and more mature project see: 
 [BatchExperiments](https://github.com/tudo-r/BatchExperiments).*
@@ -10,6 +10,12 @@ on multiple datasets using multiple parameters. It includes automated
 processing of result files into result tables. `abed` was designed for use 
 with the Dutch LISA supercomputer, but can hopefully be used on any Torque 
 compute cluster.
+
+`abed` was created as a way to automate all the tedious work necessary to set 
+up proper benchmarking experiments. It also removes much of the hassle by 
+using a single configuration file for the experimental setup. A core feature 
+of `abed` is that it doesn't care about which language the tested methods are 
+written in.
 
 Usage:
 ------
