@@ -1,36 +1,47 @@
 ABED: Automated BEnchmark Distribution
 ======================================
+*Note*: ABED is very much a work in process and functionality can break at any 
+moment. For a similar and more mature project see: 
+[BatchExperiments](https://github.com/tudo-r/BatchExperiments)
+
+`abed` is an automated system for benchmarking machine learning algorithms. It 
+is created for running experiments where it is desired to run multiple methods 
+on multiple datasets using multiple parameters. It includes automated 
+processing of result files into result tables. `abed` was designed for use 
+with the Dutch LISA supercomputer, but can hopefully be used on any Torque 
+compute cluster.
 
 Usage:
+------
 
 1. Create a skeleton for your project
 
-	abed skeleton
+    abed skeleton
 
 2. Edit configuration, add datasets and executables, and git commit these
 3. Create remote directory structure (this will also create task file from 
    config)
 
-	abed setup
+    abed setup
 
 4. Push to server
 
-	abed push
+    abed push
 
 5. When tasks are done, collect results
 
-	abed pull
+    abed pull
 
 6. Alternatively, automate push/pull using
 
-	abed auto
+    abed auto
 
    This however requires SSH keys to be exchanged with the remote host. See 
 for instance, [this](http://www.rebol.com/docs/ssh-auto-login.html) guide.
 
 7. Create summary files using the specified metrics using
 
-	abed parse_results
+    abed parse_results
 
 Dependencies
 ------------
