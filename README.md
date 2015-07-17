@@ -1,8 +1,8 @@
 ABED: Automated BEnchmark Distribution
 ======================================
-*Note*: ABED is very much a work in process and functionality can break at any 
+*Note: ABED is very much a work in process and functionality can break at any 
 moment. For a similar and more mature project see: 
-[BatchExperiments](https://github.com/tudo-r/BatchExperiments)
+[BatchExperiments](https://github.com/tudo-r/BatchExperiments).*
 
 `abed` is an automated system for benchmarking machine learning algorithms. It 
 is created for running experiments where it is desired to run multiple methods 
