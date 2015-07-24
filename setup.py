@@ -1,15 +1,17 @@
 import os
-from setuptools import setup
+import glob
+
+from setuptools import setup, find_packages
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 def get_data_files():
-    folder = './data'
+    datadir = os.path.join('share', 'data')
     datafiles = []
-    for root, dirs, files in os.walk(folder):
+    for root, dirs, files in os.walk(datadir):
         if not dirs:
-            newfiles = [root + os.sep + f for f in files]
+            newfiles = [os.path.join(root, f) for f in files]
             datafiles.append((root, newfiles))
     return datafiles
 
@@ -20,7 +22,8 @@ setup(
         author_email = "gertjanvandenburg@gmail.com",
         description = ("A utility for Automated BEnchmark Distribution"),
         license = "GPL v2",
-        packages = ['abed', 'abed.results'],
+        package_dir = {'': 'src'},
+        packages = find_packages('src'),
         long_description = read('README.md'),
         scripts = ['bin/abed'],
         install_requires = [
