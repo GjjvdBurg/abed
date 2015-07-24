@@ -38,8 +38,8 @@ class Work(object):
 
 def do_work(hsh, task):
     command = settings.COMMANDS[task['method']]
-    task['datadir'] = '%s/%s' % (get_scratchdir(), settings.DATADIR)
-    task['execdir'] = '%s/%s' % (get_scratchdir(), settings.EXECDIR)
+    task['datadir'] = '%s/%s' % (get_scratchdir(), 'datasets')
+    task['execdir'] = '%s/%s' % (get_scratchdir(), 'execs')
     cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd)

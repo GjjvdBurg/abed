@@ -18,13 +18,13 @@ def init_data():
     local('tar czf datasets.tar.gz {}{}*'.format(settings.DATADIR, os.sep))
     release_time = time.strftime('%s')
     release_path = '{ppath}/{datapath}/{relpath}'.format(
-            ppath=myfab.project_path, datapath=settings.DATADIR, 
+            ppath=myfab.project_path, datapath='datasets',
             relpath=release_time)
     myfab.run('mkdir -p {releasepath}'.format(releasepath=release_path))
     myfab.put('./datasets.tar.gz', release_path)
     myfab.run('cd {} && tar xvf datasets.tar.gz'.format(release_path))
-    myfab.run('cd {} && mv {}/* . && '.format(release_path, settings.DATADIR) +
-            'rm datasets.tar.gz && rm -r {}'.format(settings.DATADIR))
+    myfab.run('cd {} && mv {}/* . && '.format(release_path, 'datasets') +
+            'rm datasets.tar.gz && rm -r {}'.format('datasets'))
     local('rm datasets.tar.gz')
     info('Remote datasets placed in: {}'.format(release_path))
     myfab.data_path = release_path
@@ -33,9 +33,9 @@ def move_data():
     """ Move the data from previous release """
     curr_path = '{}/releases/current'.format(myfab.project_path)
     prev_path = '{}/releases/previous'.format(myfab.project_path)
-    myfab.run('mkdir -p {}/{}/'.format(curr_path, settings.DATADIR))
-    myfab.run('mv {}/{}/* {}/{}/'.format(prev_path, settings.DATADIR, curr_path, 
-        settings.DATADIR))
+    myfab.run('mkdir -p {}/{}/'.format(curr_path, 'datasets'))
+    myfab.run('mv {}/{}/* {}/{}/'.format(prev_path, 'datasets', curr_path, 
+        'datasets'))
 
 def setup():
     myfab.run('mkdir -p {}'.format(myfab.project_path))
@@ -64,9 +64,9 @@ def deploy(push_data=False):
 
     # copy data if pushed
     if push_data:
-        myfab.run('mkdir -p {}/{}/'.format(release_path, settings.DATADIR))
+        myfab.run('mkdir -p {}/{}/'.format(release_path, 'datasets'))
         myfab.run('cp {}/* {}/{}/'.format(myfab.data_path, release_path, 
-            settings.DATADIR))
+            'datasets'))
 
     # symlinks
     if not push_data:
