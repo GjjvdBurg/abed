@@ -1,5 +1,4 @@
 import os
-import glob
 
 from setuptools import setup, find_packages
 
@@ -31,7 +30,8 @@ setup(
             'mpi4py',
             'tabulate',
             'bz2file',
-            'progressbar'
+            'progressbar',
+            'dominate'
             ],
         data_files = get_data_files()
 )

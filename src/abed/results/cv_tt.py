@@ -54,14 +54,16 @@ def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
             test_metric)
     table.name = '%s_%s' % (train_metric, test_metric)
     table.target = target
+    table.is_metric = True
     write_table(table, output_formats=settings.OUTPUT_FORMATS)
     ranktable = make_rank_table(table)
     write_table(ranktable, output_formats=settings.OUTPUT_FORMATS)
 
 def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
     table = AbedTable()
+    table.headers = ['ID'] + sorted(abed_cache.methods)
     for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [dset]
+        row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
             results = list(abed_cache.iter_results_dm(dset, method))
             values = [r.get_result(YTRAIN_LABEL, metric=train_metric) for r in 
@@ -72,6 +74,8 @@ def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
             target_values = [r.get_result(target, metric=test_metric) for r in 
                     best_results]
             target_best = settings.METRICS[test_metric]['best'](target_values)
-            row.append(round(target_best, settings.RESULT_PRECISION))
-        table.add_row(row)
+            rounded = round(target_best, settings.RESULT_PRECISION)
+            fmt = '%%.%df' % settings.RESULT_PRECISION
+            row.append(fmt % rounded)
+        table.add_row(dset, row)
     return table

@@ -29,7 +29,7 @@ def get_ranks(x):
 
 def make_rank_table(table):
     ranktable = AbedTable()
-    ranktable.header = table.header[:]
+    ranktable.headers = table.headers[:]
     ranktable.higher_better = False
     ranktable.type = AbedTableTypes.RANKS
     ranktable.desc = table.desc

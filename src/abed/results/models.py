@@ -110,12 +110,13 @@ class AbedTable(object):
     def __init__(self):
         self.num_columns = 0
         self.num_rows = 0
-        self.header = []
+        self.headers = None
         self.rows = None
         self.higher_better = None
         self.type = None
         self.desc = ''
         self.name = ''
+        self.is_metric = True
 
     def add_row(self, _id, row):
         if self.rows is None:
@@ -133,7 +134,12 @@ class AbedTable(object):
             for i, x in enumerate(self.rows[_id]):
                 averages[i] += float(x)
         averages = [x/float(self.num_rows) for x in averages]
-        return averages
+        fmtavg = []
+        for num in averages:
+            rounded = round(num, settings.RESULT_PRECISION)
+            fmt = '%%.%df' % settings.RESULT_PRECISION
+            fmtavg.append(fmt % rounded)
+        return fmtavg
 
     def table_wins(self):
         hb = self.higher_better
@@ -144,16 +150,16 @@ class AbedTable(object):
             best_idx = None
             for i, x in enumerate(self.rows[_id]):
                 val = float(x)
-                if ((hb and (val > best)) or (not hb and (val < best))):
-                    best = x
+                if ((hb and (val > best)) or ((not hb) and (val < best))):
+                    best = val
                     best_idx = i
-            if len([x for x in self.rows[_id] if x == best]) == 1:
+            if len([x for x in self.rows[_id] if float(x) == best]) == 1:
                 wins[best_idx] += 1
         return wins
 
     def summary_table(self):
         at = AbedTable()
-        at.header = self.header[:]
+        at.headers = self.headers[:]
         at.add_row('Average', self.table_averages())
         at.add_row('Wins', self.table_wins())
         return at

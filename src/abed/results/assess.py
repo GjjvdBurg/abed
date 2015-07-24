@@ -25,6 +25,7 @@ def assess_make_tables_metric(abed_cache, metric, target):
     table.desc = 'Metric: %s' % metric
     table.name = metric
     table.target = target
+    table.is_metric = True
     write_table(table, output_formats=settings.OUTPUT_FORMATS)
     # Now create the rank table from the generated table
     ranktable = make_rank_table(table)
@@ -32,12 +33,15 @@ def assess_make_tables_metric(abed_cache, metric, target):
 
 def assess_build_tables_metric(abed_cache, metricname, metric_label):
     table = AbedTable()
+    table.headers = ['ID'] + sorted(abed_cache.methods)
     for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [dset]
+        row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
             values = list(abed_cache.get_metric_values_dm(dset, method, 
                 metric_label, metricname))
             best_value = settings.METRICS[metricname]['best'](values)
-            row.append(round(best_value, settings.RESULT_PRECISION))
-        table.add_row(row)
+            rounded = round(best_value, settings.RESULT_PRECISION)
+            fmt = '%%.%df' % settings.RESULT_PRECISION
+            row.append(fmt % rounded)
+        table.add_row(dset, row)
     return table
