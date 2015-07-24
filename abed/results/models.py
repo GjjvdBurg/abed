@@ -7,6 +7,8 @@ Models for holding a result cache
 import cPickle
 import os
 
+from collections import OrderedDict
+
 from abed import settings
 from abed.exceptions import AbedHashCollissionException
 from abed.utils import dataset_name
@@ -96,17 +98,66 @@ class AbedResult(object):
         else:
             return self.results[label][metric]
 
+class AbedTableTypes:
+    VALUES = 'values'
+    RANKS = 'ranks'
+
 class AbedTable(object):
+    """
+
+    """
 
     def __init__(self):
-        self.headers = []
-        self.rows = []
-        self.footer = None
+        self.num_columns = 0
+        self.num_rows = 0
+        self.header = []
+        self.rows = None
+        self.higher_better = None
+        self.type = None
+        self.desc = ''
+        self.name = ''
 
-    def table_text(self):
-        pass
+    def add_row(self, _id, row):
+        if self.rows is None:
+            self.rows = OrderedDict()
+        if self.rows.has_key(_id):
+            raise KeyError('Existing id in table')
+        self.rows[_id] = row
+        self.num_rows += 1
+        if self.num_columns == 0 and len(row) > 0:
+            self.num_columns = len(row)
 
-    def table_html(self):
-        pass
+    def table_averages(self):
+        averages = [0.0]*self.num_columns
+        for _id in self.rows.iterkeys():
+            for i, x in enumerate(self.rows[_id]):
+                averages[i] += float(x)
+        averages = [x/float(self.num_rows) for x in averages]
+        return averages
 
+    def table_wins(self):
+        hb = self.higher_better
+        wins = [0]*self.num_columns
+        for _id in self.rows.iterkeys():
+            best = float('inf')
+            best *= -1 if hb else 1
+            best_idx = None
+            for i, x in enumerate(self.rows[_id]):
+                val = float(x)
+                if ((hb and (val > best)) or (not hb and (val < best))):
+                    best = x
+                    best_idx = i
+            if len([x for x in self.rows[_id] if x == best]) == 1:
+                wins[best_idx] += 1
+        return wins
 
+    def summary_table(self):
+        at = AbedTable()
+        at.header = self.header[:]
+        at.add_row('Average', self.table_averages())
+        at.add_row('Wins', self.table_wins())
+        return at
+
+    def __iter__(self):
+        for _id in self.rows:
+            yield (_id, self.rows[_id])

@@ -25,9 +25,9 @@ on the first metric is optimal. This is done for all metric targets other than
 from itertools import product
 
 from abed import settings
-from abed.results.ranks import (make_rank_table, write_ranktable)
-from abed.results.tables import (make_tables_scalar, summarize_table, 
-        create_table, write_table)
+from abed.results.models import AbedTable, AbedTableTypes
+from abed.results.ranks import make_rank_table
+from abed.results.tables import (make_tables_scalar, write_table)
 
 YTRAIN_LABEL = 'y_train'
 
@@ -47,21 +47,19 @@ def cvtt_tables(abed_cache):
 def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
     table = cvtt_build_tables_metric(abed_cache, train_metric, test_metric, 
             target)
-    higher_better = (True if settings.METRICS[test_metric]['best'] == max else 
-            False)
-    summary = summarize_table(table, higher_better)
-    tabletxt = create_table(table, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    mname = '%s_%s' % (train_metric, test_metric)
-    write_table(tabletxt, target, metricname=mname)
-    ranktable = make_rank_table(table, higher_better)
-    summary = summarize_table(ranktable, False)
-    tabletxt = create_table(ranktable, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    write_ranktable(tabletxt, target, metricname=mname)
+    table.higher_better = (True if settings.METRICS[test_metric]['best'] == max 
+            else False)
+    table.type = AbedTableTypes.VALUES
+    table.desc = 'Training metric: %s, testing metric: %s' % (train_metric, 
+            test_metric)
+    table.name = '%s_%s' % (train_metric, test_metric)
+    table.target = target
+    write_table(table, output_formats=settings.OUTPUT_FORMATS)
+    ranktable = make_rank_table(table)
+    write_table(ranktable, output_formats=settings.OUTPUT_FORMATS)
 
 def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
-    table = []
+    table = AbedTable()
     for i, dset in enumerate(sorted(abed_cache.datasets)):
         row = [dset]
         for j, method in enumerate(sorted(abed_cache.methods)):
@@ -75,8 +73,5 @@ def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
                     best_results]
             target_best = settings.METRICS[test_metric]['best'](target_values)
             row.append(round(target_best, settings.RESULT_PRECISION))
-        table.append(row)
-    stable = sorted(table)
-    return stable
-
-
+        table.add_row(row)
+    return table

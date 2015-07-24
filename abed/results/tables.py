@@ -10,127 +10,91 @@ import os
 from tabulate import tabulate
 
 from abed import settings
-from abed.utils import info
-from abed.results.ranks import make_rank_table, write_ranktable
-
-def make_tables(abed_cache):
-    for target in abed_cache.metric_targets:
-        for metric in abed_cache.metrics:
-            make_tables_metric(abed_cache, metric, target)
-    for scalar in abed_cache.scalars:
-        make_tables_scalar(abed_cache, scalar)
-
-def make_tables_metric(abed_cache, metric, target):
-    # First create the normal table
-    table = build_tables_metric(abed_cache, metric, target)
-    higher_better = True if settings.METRICS[metric]['best'] == max else False
-    summary = summarize_table(table, higher_better)
-    tabletxt = create_table(table, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    write_table(tabletxt, target, metricname=metric)
-    # Now create the rank table from the generated table
-    ranktable = make_rank_table(table, higher_better)
-    summary = summarize_table(ranktable, False) # for ranks lower is better
-    tabletxt = create_table(ranktable, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    write_ranktable(tabletxt, target, metricname=metric)
+from abed.results.html import generate_html
+from abed.results.models import AbedTable, AbedTableTypes
+from abed.results.ranks import make_rank_table
+from abed.utils import info, mkdir
 
 def make_tables_scalar(abed_cache, scalar):
     # First create the normal table
     table = build_tables_scalar(abed_cache, scalar)
-    higher_better = True if settings.SCALARS[scalar]['best'] == max else False
-    summary = summarize_table(table, higher_better)
-    tabletxt = create_table(table, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    write_table(tabletxt, scalar)
+    table.higher_better = (True if settings.SCALARS[scalar]['best'] == max else 
+            False)
+    table.type = AbedTableTypes.VALUES
+    table.desc = 'Scalar: %s' % scalar
+    table.name = scalar
+    table.target = scalar
+    write_table(table, output_formats=settings.OUTPUT_FORMATS)
     # Now create the rank table from the generated table
-    ranktable = make_rank_table(table, higher_better)
-    summary = summarize_table(ranktable, False) # for ranks lower is better
-    tabletxt = create_table(ranktable, sorted(abed_cache.methods), 
-            summary_rows=summary)
-    write_ranktable(tabletxt, scalar)
-
-def build_tables_metric(abed_cache, metricname, metric_label):
-    table = []
-    for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [dset]
-        for j, method in enumerate(sorted(abed_cache.methods)):
-            values = list(abed_cache.get_metric_values_dm(dset, method, 
-                metric_label, metricname))
-            best_value = settings.METRICS[metricname]['best'](values)
-            row.append(round(best_value, settings.RESULT_PRECISION))
-        table.append(row)
-    stable = sorted(table)
-    return stable
+    ranktable = make_rank_table(table)
+    write_table(ranktable, output_formats=settings.OUTPUT_FORMATS)
 
 def build_tables_scalar(abed_cache, scalarname):
-    table = []
+    table = AbedTable()
+    table.headers = sorted(abed_cache.methods)
     for i, dset in enumerate(sorted(abed_cache.datasets)):
-        row = [dset]
+        row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
             values = abed_cache.get_scalar_values_dm(dset, method, scalarname)
             best_value = settings.SCALARS[scalarname]['best'](values)
             row.append(round(best_value, settings.RESULT_PRECISION))
-        table.append(row)
-    stable = sorted(table)
-    return stable
+        table.add_row(dset, row)
+    return table
 
-def create_table(table, headers, summary_rows=None):
-    if summary_rows is None:
-        return tabulate(table, headers=headers,
-                floatfmt=".0%if" % settings.RESULT_PRECISION)
-    table.extend(summary_rows)
-    tabstr = tabulate(table, headers=headers)
-    tabtxt = tabstr.split('\n')
-    summary_txt = tabtxt[-len(summary_rows):]
-    tabtxt = tabtxt[:-len(summary_rows)]
-    tabtxt.append(tabtxt[1])
-    tabtxt.extend(summary_txt)
-    return '\n'.join(tabtxt)
-
-def write_table(tabletxt, label, metricname=None):
-    if metricname is None:
-        fname = '%s%sABED_%s.txt' % (settings.OUTPUT_DIR, os.sep, label)
+def get_table_fname(table, fmt):
+    outdir = '%s%s%s' % (settings.OUTPUT_DIR, os.sep, fmt)
+    mkdir(outdir)
+    if table.is_metric:
+        fname = '%s%sABED_%s_%s_%s.%s' % (outdir, os.sep, table.target,
+                table.name, table.type, fmt)
     else:
-        fname = '%s%sABED_%s_%s.txt' % (settings.OUTPUT_DIR, os.sep, label, 
-                metricname)
+        fname = '%s%sABED_%s_%s.%s' % (outdir, os.sep, table.target,
+                table.type, fmt)
+    return fname
+
+def write_table(table, output_formats=None):
+    if output_formats is None:
+        output_formats = ['txt']
+    for fmt in output_formats:
+        if fmt == 'txt':
+            write_table_txt(table)
+        elif fmt == 'csv':
+            write_table_csv(table)
+        elif fmt == 'xls':
+            write_table_xls(table)
+        elif fmt == 'html':
+            write_table_html(table)
+        else:
+            raise ValueError
+
+def write_table_txt(table):
+    fname = get_table_fname(table, 'txt')
     now = datetime.datetime.now()
     with open(fname, 'w') as fid:
         fid.write("%% Result file generated by ABED at %s\n" % 
                 now.strftime('%c'))
-        fid.write("%% Table for label: %s\n" % label)
-        fid.write("% Showing: values\n")
-        if not metricname is None:
-            fid.write("%% Metric: %s\n\n" % metricname)
-        fid.write(tabletxt)
+        fid.write("%% Table for label: %s\n" % table.target)
+        fid.write("% Showing: %s\n" % table.type)
+        if table.is_metric:
+            fid.write('%% Metric: %s\n\n' % table.name)
+        txttable = [r for i, r in table]
+        tabtxt = tabulate(txttable, headers=table.header)
+        fid.write(tabtxt)
+        fid.write('')
+        sumtable = [r for i, r in table.summary_table()]
+        tabtxt = tabulate(sumtable, headers=table.header)
+        fid.write(tabtxt)
     info("Created output file: %s" % fname)
 
-def summarize_table(table, higher_better):
-    summary_rows = []
-    summary_rows.append(['Average'] + table_averages(table))
-    summary_rows.append(['Wins'] + table_wins(table, higher_better))
-    return summary_rows
+def write_table_xls(table):
+    pass
 
-def table_averages(table):
-    averages = [0.0]*(len(table[0])-1)
-    for row in table:
-        for i, x in enumerate(row[1:]):
-            averages[i] += float(x)
-    averages = [x/len(table) for x in averages]
-    return averages
+def write_table_csv(table):
+    pass
 
-def table_wins(table, higher_better):
-    wins = [0]*(len(table[0])-1)
-    for row in table:
-        best = float('inf')
-        best *= -1 if higher_better else 1
-        best_idx = None
-        for i, x in enumerate(row[1:]):
-            val = float(x)
-            if ((higher_better and (val > best)) or
-                    (not higher_better and (val < best))):
-                best = x
-                best_idx = i
-        if len([x for x in row[1:] if x == best]) == 1:
-            wins[best_idx] += 1
-    return wins
+def write_table_html(table):
+    fname = get_table_fname(table, 'html')
+    html = generate_html(table)
+    with open(fname, 'w') as fid:
+        fid.write(html)
+    info("Created output file: %s" % fname)
