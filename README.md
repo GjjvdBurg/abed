@@ -17,6 +17,10 @@ using a single configuration file for the experimental setup. A core feature
 of `abed` is that it doesn't care about which language the tested methods are 
 written in.
 
+`abed` can create output tables as either simple txt files, or as html pages 
+using the excellent [DataTables](https://datatables.net/) plugin. To support 
+offline operation the necessary DataTables files are packaged with `abed`.
+
 Usage:
 ------
 
