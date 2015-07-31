@@ -15,7 +15,7 @@ from abed.utils import info, mkdir
 
 def init_data():
     """ Push the data to the remote server """
-    local('tar czf datasets.tar.gz {}{}*'.format(settings.DATADIR, os.sep))
+    local('tar czf datasets.tar.gz -C {} .'.format(settings.DATADIR, os.sep))
     release_time = time.strftime('%s')
     release_path = '{ppath}/{datapath}/{relpath}'.format(
             ppath=myfab.project_path, datapath='datasets',
@@ -23,8 +23,8 @@ def init_data():
     myfab.run('mkdir -p {releasepath}'.format(releasepath=release_path))
     myfab.put('./datasets.tar.gz', release_path)
     myfab.run('cd {} && tar xvf datasets.tar.gz'.format(release_path))
-    myfab.run('cd {} && mv {}/* . && '.format(release_path, 'datasets') +
-            'rm datasets.tar.gz && rm -r {}'.format('datasets'))
+    myfab.run('cd {} && '.format(release_path, 'datasets') +
+            'rm datasets.tar.gz')
     local('rm datasets.tar.gz')
     info('Remote datasets placed in: {}'.format(release_path))
     myfab.data_path = release_path
