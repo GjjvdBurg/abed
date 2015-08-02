@@ -9,14 +9,14 @@ function ShowTables(selectors) {
 	var divs = document.getElementsByClassName("AbedTable");
 	var showdiv = 'div_' + showid;
 	var summdiv = 'div_' + summaryid;
-	for (var div in divs) {
-		if (div != showdiv && div != summdiv) {
-			$('#' + div).hide()
+	for (i=0; i<divs.length; i++) {
+		if (divs[i].id != showdiv && divs[i] != summdiv) {
+			$(divs[i]).hide();
 		}
 	}
 	$('#' + showdiv).show();
 	var t1 = $('#tbl_' + showid).dataTable( {
-		"info": false,
+		"dom": "lrtp",
 		"retrieve": true,
 		"searching": true,
 		"scrollY": "50vh",

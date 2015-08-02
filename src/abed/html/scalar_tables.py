@@ -49,7 +49,7 @@ def generate_tables_html(tables):
             'DataTables-1.10.7/media/js/jquery.dataTables.js'))
 
         # ABED CSS & JS
-        tags.link(rel='stylesheet', href=copy_data_file('abed/css/index.css'))
+        tags.link(rel='stylesheet', href=copy_data_file('abed/css/abed.css'))
         tags.script(type="text/javascript", 
                 src=copy_data_file('abed/js/abed_showtables.js'))
         tags.script(type="text/javascript", 
@@ -62,21 +62,21 @@ def generate_tables_html(tables):
                     cellspacing='0', width='100%'):
                 with tags.thead():
                     tr = tags.tr()
-                    tr += tags.td('Target')
-                    tr += tags.td('Output Type')
+                    tr += tags.th('Target')
+                    tr += tags.th('Output Type')
                 with tags.tbody():
                     tr = tags.tr()
                     tr += tags.td(bootstrap_radio_group(generate_buttons(
                         tables, 'target')))
                     tr += tags.td(bootstrap_radio_group(generate_buttons(
                         tables, 'type')))
-        tags.comment('/.container')
-        with tags.div(_class='container'):
             for table in tables:
-                with tags.div(id='div_'+get_table_id(table),
-                        _class='AbedTable'):
-                    with tags.table(id='tbl_'+get_table_id(table), 
-                            _class='display', cellspacing='0', width='100%'):
+                tabid = get_table_id(table)
+                with tags.div(id='div_'+tabid, _class='AbedTable'):
+                    if 'summary' in tabid:
+                        tags.p("Summary Table:")
+                    with tags.table(id='tbl_'+tabid, _class='display', 
+                            cellspacing='0', width='100%'):
                         with tags.thead():
                             tr = tags.tr()
                             for hdr in table.headers:
