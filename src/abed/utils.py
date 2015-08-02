@@ -51,3 +51,5 @@ def dataset_name(dset):
         txt = start
     return txt
 
+def clean_str(string):
+    return '_'.join(string.split(' ')).lower()

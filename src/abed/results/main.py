@@ -4,14 +4,21 @@ Main functions for generating ABED results
 """
 
 from abed import settings
-from abed.results.cache import update_result_cache
-from abed.results.assess import assess_tables
-from abed.results.cv_tt import cvtt_tables
+
+from abed.html.main import generate_html
+
+from .cache import update_result_cache
+from .cv_tt import cvtt_tables
+from .assess import assess_tables
+from .export import export_tables
 
 def make_results(task_dict):
     """ This is the main function for result generation. """
     abed_cache = update_result_cache(task_dict)
     if settings.TYPE == 'ASSESS':
-        assess_tables(abed_cache)
+        tables = assess_tables(abed_cache)
     elif settings.TYPE == 'CV_TT':
-        cvtt_tables(abed_cache)
+        tables = cvtt_tables(abed_cache)
+    summary_tables = export_tables(tables)
+    tables.extend(summary_tables)
+    generate_html(task_dict, tables)

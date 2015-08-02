@@ -3,6 +3,7 @@ Functions for generating fractional ranks
 
 """
 
+from abed import settings
 from abed.results.models import AbedTable, AbedTableTypes
 
 def get_ranks(x):
@@ -35,6 +36,12 @@ def make_rank_table(table):
     ranktable.desc = table.desc
     ranktable.name = table.name
     ranktable.target = table.target
+    ranktable.is_metric = table.is_metric
+    if settings.TYPE == 'ASSESS':
+        ranktable.metricname = table.metricname
+    elif settings.TYPE == 'CV_TT':
+        ranktable.trainmetricname = table.trainmetricname
+        ranktable.testmetricname = table.testmetricname
 
     for _id, row in table:
         ranks = get_ranks(row)

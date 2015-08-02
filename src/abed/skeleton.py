@@ -20,7 +20,6 @@ ZIP_DIR = './zips'
 LOG_DIR = './logs'
 OUTPUT_DIR = './output'
 AUTO_SLEEP = 120
-OUTPUT_FORMATS = ['txt', 'html']
 
 ###############################################################################
 #                          Server parameters and settings                     #

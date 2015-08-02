@@ -116,7 +116,14 @@ class AbedTable(object):
         self.type = None
         self.desc = ''
         self.name = ''
+        self.target = None
         self.is_metric = True
+        self.is_summary = False
+        if settings.TYPE == 'ASSESS':
+            self.metricname = None
+        elif settings.TYPE == 'CV_TT':
+            self.trainmetricname = None
+            self.testmetricname = None
 
     def add_row(self, _id, row):
         if self.rows is None:
@@ -160,10 +167,43 @@ class AbedTable(object):
     def summary_table(self):
         at = AbedTable()
         at.headers = self.headers[:]
+        at.type = self.type
+        at.desc = self.desc
+        at.name = self.name
+        at.target = self.target
+        at.is_metric = self.is_metric
+        if settings.TYPE == 'ASSESS':
+            at.metricname = self.metricname
+        elif settings.TYPE == 'CV_TT':
+            at.trainmetricname = self.trainmetricname
+            at.testmetricname = self.testmetricname
         at.add_row('Average', self.table_averages())
         at.add_row('Wins', self.table_wins())
+        at.is_summary = True
         return at
+
+    def left_insert(self, other):
+        summary = self.summary_table()
+        self.num_columns += other.num_columns
+        self.headers = other.headers + self.headers[1:]
+        for _id, otherrow in other:
+            myrow = self.rows.get(_id, None)
+            if myrow is None:
+                continue
+            self.rows[_id] = otherrow + myrow
+        return summary
 
     def __iter__(self):
         for _id in self.rows:
             yield (_id, self.rows[_id])
+
+    def from_csv(self, csvfile):
+        with open(csvfile, 'r') as fid:
+            lines = fid.readlines()
+        lines = [x.strip() for x in lines]
+        self.headers = lines[0].split(',')
+        for line in lines[1:]:
+            parts = line.split(',')
+            _id = parts[0]
+            row = parts[1:]
+            self.add_row(_id, row)

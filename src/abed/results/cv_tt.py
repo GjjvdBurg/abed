@@ -27,7 +27,7 @@ from itertools import product
 from abed import settings
 from abed.results.models import AbedTable, AbedTableTypes
 from abed.results.ranks import make_rank_table
-from abed.results.tables import (make_tables_scalar, write_table)
+from abed.results.tables import make_tables_scalar
 
 YTRAIN_LABEL = 'y_train'
 
@@ -38,11 +38,13 @@ def filter_targets(targets):
         yield target
 
 def cvtt_tables(abed_cache):
+    tables = []
     for target in filter_targets(abed_cache.metric_targets):
         for m1, m2 in product(abed_cache.metrics, abed_cache.metrics):
-            cvtt_make_tables_metric(abed_cache, m1, m2, target)
+            tables.extend(cvtt_make_tables_metric(abed_cache, m1, m2, target))
     for scalar in abed_cache.scalars:
-        make_tables_scalar(abed_cache, scalar)
+        tables.extend(make_tables_scalar(abed_cache, scalar))
+    return tables
 
 def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
     table = cvtt_build_tables_metric(abed_cache, train_metric, test_metric, 
@@ -55,9 +57,10 @@ def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
     table.name = '%s_%s' % (train_metric, test_metric)
     table.target = target
     table.is_metric = True
-    write_table(table, output_formats=settings.OUTPUT_FORMATS)
+    table.trainmetricname = train_metric
+    table.testmetricname = test_metric
     ranktable = make_rank_table(table)
-    write_table(ranktable, output_formats=settings.OUTPUT_FORMATS)
+    return [table, ranktable]
 
 def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
     table = AbedTable()

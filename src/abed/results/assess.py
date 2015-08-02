@@ -7,14 +7,16 @@ Functions for generating result tables for type 'assess'
 from abed import settings
 from abed.results.models import AbedTable, AbedTableTypes
 from abed.results.ranks import make_rank_table
-from abed.results.tables import (make_tables_scalar, write_table)
+from abed.results.tables import make_tables_scalar
 
 def assess_tables(abed_cache):
+    tables = []
     for target in abed_cache.metric_targets:
         for metric in abed_cache.metrics:
-            assess_make_tables_metric(abed_cache, metric, target)
+            tables.extend(assess_make_tables_metric(abed_cache, metric, target))
     for scalar in abed_cache.scalars:
-        make_tables_scalar(abed_cache, scalar)
+        tables.extend(make_tables_scalar(abed_cache, scalar))
+    return tables
 
 def assess_make_tables_metric(abed_cache, metric, target):
     # First create the normal table
@@ -26,10 +28,10 @@ def assess_make_tables_metric(abed_cache, metric, target):
     table.name = metric
     table.target = target
     table.is_metric = True
-    write_table(table, output_formats=settings.OUTPUT_FORMATS)
+    table.metricname = metric
     # Now create the rank table from the generated table
     ranktable = make_rank_table(table)
-    write_table(ranktable, output_formats=settings.OUTPUT_FORMATS)
+    return [table, ranktable]
 
 def assess_build_tables_metric(abed_cache, metricname, metric_label):
     table = AbedTable()
