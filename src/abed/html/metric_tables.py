@@ -99,10 +99,11 @@ def generate_tables_html(tables):
                             tr = tags.tr()
                             for hdr in table.headers:
                                 tr += tags.th(hdr)
-                        with tags.tfoot():
-                            tr = tags.tr()
-                            for hdr in table.headers:
-                                tr += tags.th(hdr)
+                        if not 'summary' in tabid:
+                            with tags.tfoot():
+                                tr = tags.tr()
+                                for hdr in table.headers:
+                                    tr += tags.th(hdr)
         tags.comment('/.container')
     return str(doc)
 

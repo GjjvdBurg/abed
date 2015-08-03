@@ -164,6 +164,32 @@ class AbedTable(object):
                 wins[best_idx] += 1
         return wins
 
+    def table_losses(self):
+        hb = self.higher_better
+        losses = [0]*self.num_columns
+        for _id in self.rows.iterkeys():
+            worst = float("inf")
+            worst *= 1 if hb else -1
+            worst_idx = None
+            for i, x in enumerate(self.rows[_id]):
+                val = float(x)
+                if ((hb and (val < worst)) or ((not hb) and (val > worst))):
+                    worst = val
+                    worst_idx = i
+            if len([x for x in self.rows[_id] if float(x) == worst]) == 1:
+                losses[worst_idx] += 1
+        return losses
+
+    def table_ties(self):
+        num_ties = 0
+        for _id in self.rows.iterkeys():
+            values = [float(x) for x in self.rows[_id]]
+            num_uniq = len(set(values))
+            if num_uniq == 1:
+                num_ties += 1
+        ties = [num_ties]*self.num_columns
+        return ties
+
     def summary_table(self):
         at = AbedTable()
         at.headers = self.headers[:]
@@ -179,6 +205,8 @@ class AbedTable(object):
             at.testmetricname = self.testmetricname
         at.add_row('Average', self.table_averages())
         at.add_row('Wins', self.table_wins())
+        at.add_row('Losses', self.table_losses())
+        at.add_row('Ties', self.table_ties())
         at.is_summary = True
         return at
 

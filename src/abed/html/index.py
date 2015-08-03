@@ -50,7 +50,7 @@ def generate_index_html(task_dict):
             'bootstrap-3.3.5-dist/css/bootstrap.min.css'))
 
         # ABED CSS
-        tags.link(rel='stylesheet', href=copy_data_file('abed/css/index.css'))
+        tags.link(rel='stylesheet', href=copy_data_file('abed/css/abed.css'))
 
     with doc:
         navbar(AbedHTMLTypes.INDEX)

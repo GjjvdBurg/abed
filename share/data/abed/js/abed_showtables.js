@@ -19,7 +19,7 @@ function ShowTables(selectors) {
 		"dom": "lrtp",
 		"retrieve": true,
 		"searching": true,
-		"scrollY": "50vh",
+		"scrollY": "45vh",
 		"scrollX": "100%",
 		"scrollCollapse": true,
 		"paging": false,
