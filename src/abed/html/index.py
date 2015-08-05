@@ -56,7 +56,7 @@ def generate_index_html(task_dict):
         navbar(AbedHTMLTypes.INDEX)
         with tags.div(_class='container'):
             with tags.div(_class='abed-title'):
-                tags.h1('Abed results for project %s' % settings.PROJECT_NAME)
+                tags.h1('ABED Results Overview' % settings.PROJECT_NAME)
             tags.p('Percentage of tasks completed:')
             with tags.div(_class='progress'):
                 perc = str(get_status_perc(task_dict))
