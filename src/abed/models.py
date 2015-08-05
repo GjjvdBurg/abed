@@ -7,6 +7,7 @@ from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
 from abed.git import (git_add_auto, git_add_tbd, git_commit_auto, 
         git_commit_tbd, git_init, git_ok)
+from abed.html.view import view_html
 from abed.results.main import make_results
 from abed.run import mpi_start
 from abed.skeleton import init_config
@@ -22,13 +23,14 @@ class Abed(object):
             'process_zips',
             'pull',
             'push',
+            'reload_tasks',
             'repull',
             'run',
             'skeleton',
             'setup',
             'status',
             'update_tasks',
-            'reload_tasks'
+            'view_results'
             ]
 
     def __init__(self):
@@ -144,3 +146,7 @@ class Abed(object):
         info("Unpacking zips")
         unpack_zips()
         info("Done repulling.")
+
+    def view_results(self):
+        view_html()
+

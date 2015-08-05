@@ -20,6 +20,7 @@ ZIP_DIR = './zips'
 LOG_DIR = './logs'
 OUTPUT_DIR = './output'
 AUTO_SLEEP = 120
+HTML_PORT = 8000
 
 ###############################################################################
 #                          Server parameters and settings                     #

@@ -19,6 +19,7 @@ COMMANDS_HELP = {
         'setup': '\tSetup the remote directory structure for abed',
         'status': '\tStatus of abed task list',
         'update_tasks': 'Update the task list (part of pull)',
+        'view_results': 'Open the HTML results in the default browser'
 }
 
 class SmartFormatter(argparse.HelpFormatter):
