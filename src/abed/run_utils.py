@@ -4,7 +4,9 @@ import os
 from abed import settings
 from abed.utils import info, mkdir
 
-def get_scratchdir():
+def get_scratchdir(local=False):
+    if local:
+        return '/tmp/abed'
     if settings.REMOTE_SCRATCH:
         scratchdir = settings.REMOTE_SCRATCH
     else:

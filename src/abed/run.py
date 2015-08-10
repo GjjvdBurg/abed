@@ -36,10 +36,10 @@ class Work(object):
             next_work = None
         return next_work
 
-def do_work(hsh, task):
+def do_work(hsh, task, local=False):
     command = settings.COMMANDS[task['method']]
-    task['datadir'] = '%s/%s' % (get_scratchdir(), 'datasets')
-    task['execdir'] = '%s/%s' % (get_scratchdir(), 'execs')
+    task['datadir'] = '%s/%s' % (get_scratchdir(local), 'datasets')
+    task['execdir'] = '%s/%s' % (get_scratchdir(local), 'execs')
     cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd)
@@ -49,11 +49,11 @@ def do_work(hsh, task):
     write_output(output, hsh)
     info("Finished with %s" % hsh)
 
-def copy_worker():
+def copy_worker(local):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
+    scratchdir = get_scratchdir(local)
     curdir = '%s/releases/current' % settings.REMOTE_DIR
-    scratchdir = get_scratchdir()
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir
     copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
@@ -69,7 +69,7 @@ def copy_worker():
             error("There was an error in the copy task")
         time.sleep(settings.MW_COPY_SLEEP)
 
-def worker(task_dict):
+def worker(task_dict, local=False):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
     while True:
@@ -77,7 +77,7 @@ def worker(task_dict):
         if status.Get_tag() == KILLTAG:
             break
         for hsh in hashes:
-            do_work(hsh, task_dict[hsh])
+            do_work(hsh, task_dict[hsh], local=local)
         comm.send(obj=None, dest=0)
 
 def master(all_work):
@@ -122,7 +122,13 @@ def master(all_work):
     time.sleep(settings.MW_COPY_SLEEP)
     comm.send(obj=None, dest=1, tag=KILLTAG)
 
-def mpi_start(task_dict):
+def mpi_start(task_dict, local=False):
+    if local:
+        mpi_start_local(task_dict)
+    else:
+        mpi_start_remote(task_dict)
+
+def mpi_start_remote(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
 
     # 0 = master, 1 = copy, rest = worker
@@ -131,6 +137,17 @@ def mpi_start(task_dict):
         work.work_items = task_dict.keys()
         master(work)
     elif rank == 1:
-        copy_worker()
+        copy_worker(local=False)
     else:
-        worker(task_dict)
+        worker(task_dict, local=False)
+
+def mpi_start_local(task_dict):
+    rank = MPI.COMM_WORLD.Get_rank()
+
+    # 0 = master, 1 = copy, rest = worker
+    if rank == 0:
+        work = Work()
+        work.work_items = task_dict.keys()
+        master(work)
+    else:
+        worker(task_dict, local=True)

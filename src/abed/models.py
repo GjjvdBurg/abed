@@ -8,6 +8,7 @@ from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
 from abed.git import (git_add_auto, git_add_tbd, git_commit_auto, 
         git_commit_tbd, git_init, git_ok)
 from abed.html.view import view_html
+from abed.local import copy_local_files
 from abed.results.main import make_results
 from abed.run import mpi_start
 from abed.skeleton import init_config
@@ -19,6 +20,7 @@ class Abed(object):
 
     commands = [
             'auto',
+            'local',
             'parse_results',
             'process_zips',
             'pull',
@@ -150,3 +152,10 @@ class Abed(object):
     def view_results(self):
         view_html()
 
+    def local(self):
+        if self.task_dict is None:
+            error("No tasks defined before attempted run. Exiting")
+            raise SystemExit
+        copy_local_files()
+        mpi_start(self.task_dict, local=True)
+        info("Finished with run command.")
