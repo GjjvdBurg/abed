@@ -15,9 +15,10 @@ import shutil
 import tarfile
 
 from abed import settings
+from abed.datasets import dataset_name
 from abed.progress import iter_progress
 from abed.tasks import init_tasks
-from abed.utils import error, mkdir, dataset_name
+from abed.utils import error, mkdir
 
 splitext = os.path.splitext
 basename = os.path.basename

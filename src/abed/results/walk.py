@@ -6,10 +6,10 @@ Generators for iterating over all result files
 import os
 
 from abed import settings
+from abed.datasets import dataset_name
 from abed.exceptions import (AbedDatasetdirNotFoundException, 
         AbedMethoddirNotFoundException)
 from abed.progress import iter_progress
-from abed.utils import dataset_name
 
 basename = os.path.basename
 splitext = os.path.splitext

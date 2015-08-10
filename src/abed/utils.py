@@ -3,19 +3,79 @@ Various utility functions used throughout abed
 
 """
 
+from __future__ import print_function
+
 import errno
 import os
-
-from abed import settings
+import sys
 
 basename = os.path.basename
 splitext = os.path.splitext
 
+def colorprint(s, color=None, sep='', end='\n', file=sys.stdout):
+    """
+        Function for printing output to stdout in colour. Simply an extension of 
+        the Python 3 print function which supports colour by adding a shell 
+        colour code. Available colors are: purple, blue, gree, yellow, and red.
+
+    """
+    purple = '\033[95m'
+    blue = '\033[94m'
+    green = '\033[92m'
+    yellow = '\033[93m'
+    red = '\033[91m'
+    endc = '\033[0m'
+    if color is None:
+        print(s, sep=sep, end=end, file=file)
+    else:
+        color = color.lower()
+        if color == 'blue':
+            print(blue + s + endc, sep=sep, end=end, file=file)
+        elif color == 'red':
+            print(red + s + endc, sep=sep, end=end, file=file)
+        elif color == 'green':
+            print(green + s+ endc, sep=sep, end=end, file=file)
+        elif color == 'yellow':
+            print(yellow + s + endc, sep=sep, end=end, file=file)
+        elif color == 'purple':
+            print(purple + s + endc, sep=sep, end=end, file=file)
+        else:
+            print(s, sep=sep, end=end, file=file)
+
+def wrap_text(text, max_length=70):
+    """
+    Wraps the words into lines of a fixed length for prettier printing.
+    """
+
+    words = []
+    for part in text.split('\n'):
+        words.extend(part.split(' '))
+        words.append('\n')
+    sentences = []
+    current_length = 0
+    sentence = ''
+    for word in words:
+        if word == '\n':
+            sentences.append(sentence)
+            sentence = ''
+            current_length = 0
+            continue
+        if (current_length + len(word) + 1 <= max_length):
+            current_length += len(word) + 1
+            sentence += word + ' '
+        else:
+            current_length = len(word) + 1
+            sentences.append(sentence)
+            sentence = word + ' '
+    return '\n'.join(sentences)
+
 def info(txt):
-    print('[ABED INFO]: ' + txt)
+    text = wrap_text('[ABED INFO]: ' + txt)
+    colorprint(text, 'green')
 
 def error(txt):
-    print('[ABED ERROR]: ' + txt)
+    text = wrap_text('[ABED ERROR]: ' + txt)
+    colorprint(text, 'red')
 
 def mkdir(path):
     try:
@@ -32,24 +92,6 @@ def hash_from_filename(filename):
     start = exts[0]
     hsh = int(start)
     return hsh
-
-def dataset_name(dset):
-    if hasattr(settings, 'DATASET_NAMES'):
-        return str(settings.DATASET_NAMES[dset])
-    if isinstance(dset, tuple):
-        txt = ''
-        for name in dset:
-            bname = basename(name)
-            exts = splitext(bname)
-            start = exts[0]
-            txt += start + '_'
-        txt = txt.rstrip('_')
-    else:
-        bname = basename(dset)
-        exts = splitext(bname)
-        start = exts[0]
-        txt = start
-    return txt
 
 def clean_str(string):
     return '_'.join(string.split(' ')).lower()
