@@ -1,5 +1,7 @@
 import os
 
+from abed.utils import error
+
 class Settings(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
@@ -7,7 +9,7 @@ class Settings(object):
         if self.__dict__.has_key(attr):
             return getattr(self, attr)
         else:
-            print("ERROR: You probably Britta'd the settings file, "
+            error("You probably Britta'd the settings file, "
                     "I'm missing parameter %s" % attr)
             raise SystemExit
 
@@ -20,7 +22,9 @@ def init_config():
     files = os.listdir(cur)
     conf_file = next((x for x in files if x.startswith('abed_conf')), None)
     if conf_file is None:
-        return None
+        error("No ABED configuration file found in this directory. "
+                "Run 'abed skeleton' to initialize one. Exiting.")
+        raise SystemExit
     configfile = os.path.realpath(conf_file)
     config = {}
     exec(open(configfile).read(), config)
