@@ -7,9 +7,9 @@ from abed.utils import info, mkdir
 
 def init_config():
     txt = """
-###############################################################################
-#                                General Settings                             #
-###############################################################################
+##############################################################################
+#                                General Settings                            #
+##############################################################################
 PROJECT_NAME = ''
 TASK_FILE = './abed_tasks.txt'
 AUTO_FILE = './abed_auto.txt'
@@ -22,9 +22,9 @@ OUTPUT_DIR = './output'
 AUTO_SLEEP = 120
 HTML_PORT = 8000
 
-###############################################################################
-#                          Server parameters and settings                     #
-###############################################################################
+##############################################################################
+#                          Server parameters and settings                    #
+##############################################################################
 REMOTE_NEEDS_INIT = True
 REMOTE_USER = 'username'
 REMOTE_HOST = 'address.of.host'
@@ -33,15 +33,15 @@ REMOTE_PORT = 22
 REMOTE_SCRATCH = None
 REMOTE_SCRATCH_ENV = 'TMPDIR'
 
-###############################################################################
-#                      Settings for Master/Worker program                     #
-###############################################################################
+##############################################################################
+#                      Settings for Master/Worker program                    #
+##############################################################################
 MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
 MW_COPY_SLEEP = 120
 
-###############################################################################
-#                               Experiment type                               #
-###############################################################################
+##############################################################################
+#                               Experiment type                              #
+##############################################################################
 # Uncomment the desired type
 # Model assessment #
 #TYPE = 'ASSESS'
@@ -50,9 +50,16 @@ MW_COPY_SLEEP = 120
 #TYPE = 'CV_TT'
 #CV_BASESEED = 123456
 
-###############################################################################
-#                      Experiment parameters and settings                     #
-###############################################################################
+##############################################################################
+#                                Build settings                              #
+##############################################################################
+NEEDS_BUILD = False    # If remote compilation is required
+BUILD_DIR = 'build'    # Relative directory where build takes place
+BUILD_CMD = 'make all' # Build command
+
+##############################################################################
+#                      Experiment parameters and settings                    #
+##############################################################################
 DATADIR = 'datasets'
 EXECDIR = 'execs'
 DATASETS = ['dataset_1', 'dataset_2']
@@ -99,14 +106,14 @@ DATA_DESCRIPTION = {}
 #                                PBS Settings                                 #
 ###############################################################################
 PBS_NODES = 1
-PBS_WALLTIME = 360
+PBS_WALLTIME = 360   # Walltime in minutes
 PBS_CPUTYPE = None
 PBS_CORETYPE = None
 PBS_PPN = None
 PBS_MODULES = ['mpicopy', 'python/2.7.9']
 PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
 PBS_MPICOPY = ['datasets', 'execs', TASK_FILE]
-PBS_TIME_REDUCE = 600
+PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
 
 """
     configfile = './abed_conf.py'

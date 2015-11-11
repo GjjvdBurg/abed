@@ -105,9 +105,20 @@ def write_and_queue():
     myfab.run('qsub -d . -e logs -o logs abed.pbs', cd=curr_path)
     local('rm /tmp/abed.pbs')
 
+def build_remote():
+    """
+        Runs the build command remotely if the program requires compilation
+    """
+    if not settings.NEEDS_BUILD:
+        return
+    build_path = '{}/releases/current/{}'.format(myfab.project_path, 
+            settings.BUILD_DIR)
+    myfab.run(settings.BUILD_CMD, cd=build_path)
+
 def fab_push():
     deploy(push_data=False)
     move_data()
+    build_remote()
     write_and_queue()
 
 def fab_pull():
