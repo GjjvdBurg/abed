@@ -75,9 +75,10 @@ def deploy(push_data=False):
     myfab.run('ln -s {} releases/current'.format(release_path), 
             cd=myfab.project_path)
 
-def get_files_from_glob(glob, dest_dir):
-    lstxt = myfab.run('ls -1 %s' % glob)
-    files = lstxt.split('\n')
+def get_files_from_glob(glob_path, glob, dest_dir):
+    lstxt = myfab.run('shopt -s nullglob && ls -1 %s && shopt -u nullglob' % 
+            glob, cd=glob_path)
+    files = [os.path.join(glob_path, f) for f in lstxt.split('\n')]
     for f in files:
         fname = os.path.basename(f)
         lpath = '%s%s%s' % (dest_dir, os.sep, fname)
@@ -88,13 +89,15 @@ def get_results(basepath=None):
     if basepath is None:
         basepath = '{}/releases/current'.format(myfab.project_path)
 
-    zip_glob = '{}/bzips/*.tar.bz2'.format(basepath)
+    zip_path = '{}/bzips'.format(basepath)
+    zip_glob = '*.tar.bz'
     mkdir(settings.ZIP_DIR)
-    get_files_from_glob(zip_glob, settings.ZIP_DIR)
+    get_files_from_glob(zip_path, zip_glob, settings.ZIP_DIR)
 
-    log_glob = '{}/logs/*'.format(basepath)
+    log_path = '{}/logs'.format(basepath)
+    log_glob = '*'
     mkdir(settings.LOG_DIR)
-    get_files_from_glob(log_glob, settings.LOG_DIR)
+    get_files_from_glob(log_path, log_glob, settings.LOG_DIR)
 
 def write_and_queue():
     with open('/tmp/abed.pbs', 'w') as pbs:
