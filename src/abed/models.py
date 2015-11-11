@@ -20,6 +20,7 @@ class Abed(object):
 
     commands = [
             'auto',
+            'explain_tasks',
             'local',
             'parse_results',
             'process_zips',
@@ -51,6 +52,10 @@ class Abed(object):
             git_add_tbd()
             git_commit_auto()
             git_commit_tbd()
+
+    def explain_tasks(self):
+        for task in sorted(self.task_dict.keys()):
+            print('%s : %s' % (task, self.task_dict[task]))
 
     def update_tasks(self):
         # this takes over update_tasks

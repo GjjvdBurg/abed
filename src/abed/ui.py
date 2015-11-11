@@ -7,6 +7,7 @@ DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 
 COMMANDS_HELP = {
         'auto': '\tAutomate push and pull to facilitate continuous operation',
+        'explain_tasks': 'Print the task ID and corresponding command',
         'local': '\tRun the computations locally.',
         'parse_results': 'Parse the results into summary files',
         'process_zips': 'Process result zip files',
