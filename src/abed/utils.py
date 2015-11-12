@@ -5,6 +5,7 @@ Various utility functions used throughout abed
 
 from __future__ import print_function
 
+import datetime
 import errno
 import os
 import sys
@@ -42,7 +43,7 @@ def colorprint(s, color=None, sep='', end='\n', file=sys.stdout):
         else:
             print(s, sep=sep, end=end, file=file)
 
-def wrap_text(text, max_length=70):
+def wrap_text(text, max_length=120):
     """
     Wraps the words into lines of a fixed length for prettier printing.
     """
@@ -70,12 +71,16 @@ def wrap_text(text, max_length=70):
     return '\n'.join(sentences)
 
 def info(txt):
-    text = wrap_text('[ABED INFO]: ' + txt)
-    colorprint(text, 'green')
+    dt = datetime.datetime.now()
+    message = '[ABED INFO || %s]: %s' % (dt.strftime('%c'), txt)
+    wrapped = wrap_text(message)
+    colorprint(wrapped, 'green')
 
 def error(txt):
-    text = wrap_text('[ABED ERROR]: ' + txt)
-    colorprint(text, 'red')
+    dt = datetime.datetime.now()
+    message = '[ABED ERROR || %s]: %s' % (dt.strftime('%c'), txt)
+    wrapped = wrap_text(message)
+    colorprint(wrapped, 'red')
 
 def mkdir(path):
     try:
