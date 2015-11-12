@@ -59,6 +59,8 @@ def get_state(jobid):
 def get_starttime(jobid):
     text = myfab.run("showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % 
             jobid)
+    if not text.strip():
+        return None
     return parse(text)
 
 def get_remaining(jobid):
