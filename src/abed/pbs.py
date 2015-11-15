@@ -11,6 +11,12 @@ import time
 
 from abed import settings
 
+def sec2str(seconds):
+    hours = seconds // 3600
+    minutes = (seconds - 3600*hours) // 60
+    secs = (seconds % 60) // 1
+    return '%02i:%02i:%02i' % (hours, minutes, secs)
+
 def generate_pbs_text():
     txt = []
 
@@ -25,8 +31,7 @@ def generate_pbs_text():
             pbs_line += ':ppn=%i' % settings.PBS_PPN
         else:
             pbs_line += ':%s' % settings.PPN
-    pbs_line += ' -lwalltime=%s' % time.strftime('%H:%M:%S', 
-            time.gmtime(settings.PBS_WALLTIME * 60.0))
+    pbs_line += ' -lwalltime=%s' % sec2str(settings.PBS_WALLTIME * 60)
     txt.append(pbs_line)
     txt.append('')
 
