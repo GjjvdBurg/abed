@@ -82,6 +82,12 @@ def error(txt):
     wrapped = wrap_text(message)
     colorprint(wrapped, 'red')
 
+def warning(txt):
+    dt = datetime.datetime.now()
+    message = '[ABED WARNING || %s]: %s' % (dt.strftime('%c'), txt)
+    wrapped = wrap_text(message)
+    colorprint(wrapped, 'yellow')
+
 def mkdir(path):
     try:
         os.makedirs(path)

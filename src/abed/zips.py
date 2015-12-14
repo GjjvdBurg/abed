@@ -18,7 +18,7 @@ from abed import settings
 from abed.datasets import dataset_name
 from abed.progress import iter_progress
 from abed.tasks import init_tasks
-from abed.utils import error, mkdir
+from abed.utils import error, mkdir, warning
 
 splitext = os.path.splitext
 basename = os.path.basename
@@ -62,7 +62,12 @@ def move_results(task_dict):
         files = os.listdir(subpath)
         for fname in files:
             fpath = '%s%s%s' % (subpath, os.sep, fname)
-            hsh = int(splitext(basename(fpath))[0])
+            try:
+                hsh = int(splitext(basename(fpath))[0])
+            except ValueError:
+                warning("Couldn't obtain hash from file: %s. Skipping." %
+                        basename(fpath))
+                continue
             if settings.TYPE == 'ASSESS':
                 dset = dataset_name(task_dict[hsh]['dataset'])
             elif settings.TYPE == 'CV_TT':
