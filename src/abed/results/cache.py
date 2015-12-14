@@ -5,7 +5,7 @@ The result cache is basically a dictionary between the hashes and the metrics
 that we want to know for each hash.
 """
 
-from abed import settings
+from abed.conf import settings
 from abed.results.models import AbedCache, AbedResult
 from abed.results.walk import walk_results
 from abed.utils import info, hash_from_filename

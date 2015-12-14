@@ -24,7 +24,7 @@ on the first metric is optimal. This is done for all metric targets other than
 
 from itertools import product
 
-from abed import settings
+from abed.conf import settings
 from abed.results.models import AbedTable, AbedTableTypes
 from abed.results.ranks import make_rank_table
 from abed.results.tables import make_tables_scalar

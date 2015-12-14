@@ -7,8 +7,8 @@ import time
 
 from fabric.operations import local
 
-from abed import settings
 from abed.auto import get_jobid_from_logs
+from abed.conf import settings
 from abed.fab_util import myfab
 from abed.pbs import generate_pbs_text
 from abed.utils import info, mkdir

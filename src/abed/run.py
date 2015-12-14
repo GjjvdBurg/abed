@@ -8,7 +8,7 @@ import time
 from mpi4py import MPI
 from subprocess import check_output, CalledProcessError
 
-from abed import settings
+from abed.conf import settings
 from abed.utils import info, error
 from abed.run_utils import get_scratchdir, write_output
 

@@ -3,8 +3,7 @@ Main functions for generating ABED results
 
 """
 
-from abed import settings
-
+from abed.conf import settings
 from abed.html.main import generate_html
 
 from .cache import update_result_cache

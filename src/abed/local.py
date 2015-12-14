@@ -3,7 +3,7 @@ import shutil
 
 from mpi4py import MPI
 
-from abed import settings
+from abed.conf import settings
 from abed.run_utils import get_scratchdir
 from abed.utils import info, mkdir
 

@@ -5,7 +5,7 @@ Functions for dealing with git
 
 from subprocess import check_output, CalledProcessError
 
-from abed import settings
+from abed.conf import settings
 from abed.utils import error, info
 
 def git_init():

@@ -8,7 +8,7 @@ import shutil
 
 import abed
 
-from abed import settings
+from abed.conf import settings
 from abed.utils import mkdir
 
 class AbedHTMLTypes:

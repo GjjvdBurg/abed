@@ -1,7 +1,7 @@
 import dominate
 import os
 
-from abed import settings
+from abed.conf import settings
 from abed.utils import info, clean_str
 
 from .common import navbar, bootstrap_radio_group, generate_buttons

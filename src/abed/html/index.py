@@ -7,7 +7,7 @@ This file generates the index.html file, using Bootstrap
 import dominate
 import os
 
-from abed import settings
+from abed.conf import settings
 from abed.tasks import init_tasks
 from abed.utils import info
 

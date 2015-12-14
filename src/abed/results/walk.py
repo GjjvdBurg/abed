@@ -5,7 +5,7 @@ Generators for iterating over all result files
 
 import os
 
-from abed import settings
+from abed.conf import settings
 from abed.datasets import dataset_name
 from abed.exceptions import (AbedDatasetdirNotFoundException, 
         AbedMethoddirNotFoundException)

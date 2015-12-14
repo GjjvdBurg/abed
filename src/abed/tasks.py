@@ -9,7 +9,7 @@ import random
 
 from itertools import izip, product
 
-from abed import settings
+from abed.conf import settings
 from abed.exceptions import (AbedHashCollissionException, 
         AbedExperimentTypeException)
 from abed.utils import error

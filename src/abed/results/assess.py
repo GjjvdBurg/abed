@@ -4,7 +4,7 @@ Functions for generating result tables for type 'assess'
 
 """
 
-from abed import settings
+from abed.conf import settings
 from abed.results.models import AbedTable, AbedTableTypes
 from abed.results.ranks import make_rank_table
 from abed.results.tables import make_tables_scalar

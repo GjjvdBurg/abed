@@ -8,7 +8,7 @@ import SimpleHTTPServer
 import SocketServer
 import webbrowser
 
-from abed import settings
+from abed.conf import settings
 
 def view_html():
     port = settings.HTML_PORT

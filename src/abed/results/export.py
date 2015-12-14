@@ -4,7 +4,7 @@ import os
 
 from tabulate import tabulate
 
-from abed import settings
+from abed.conf import settings
 from abed.results.models import AbedTable
 from abed.utils import info, mkdir, clean_str
 

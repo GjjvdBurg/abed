@@ -1,7 +1,8 @@
 import argparse
 
+from abed.conf import settings
 from abed.models import Abed
-from abed.utils import info
+from abed.utils import info, error
 
 DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 
@@ -44,6 +45,11 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
+    if settings is None and not args.cmd == 'skeleton':
+        error("No ABED configuration file found in this directory. "
+                "Run 'abed skeleton' to initialize one. Exiting.")
+        raise SystemExit
+
     abed = Abed()
     info("Running abed command: %s" % args.cmd)
     try:

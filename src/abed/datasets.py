@@ -1,7 +1,7 @@
 
 import os
 
-from abed import settings
+from abed.conf import settings
 
 basename = os.path.basename
 splitext = os.path.splitext

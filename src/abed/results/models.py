@@ -9,7 +9,7 @@ import os
 
 from collections import OrderedDict
 
-from abed import settings
+from abed.conf import settings
 from abed.datasets import dataset_name
 from abed.exceptions import AbedHashCollissionException
 

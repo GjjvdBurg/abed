@@ -2,8 +2,8 @@
 import os
 import time
 
-from abed import settings
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
+from abed.conf import settings
 from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
 from abed.git import (git_add_auto, git_add_tbd, git_commit_auto, 
         git_commit_tbd, git_init, git_ok)

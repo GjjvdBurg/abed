@@ -14,7 +14,7 @@ import os
 import shutil
 import tarfile
 
-from abed import settings
+from abed.conf import settings
 from abed.datasets import dataset_name
 from abed.progress import iter_progress
 from abed.tasks import init_tasks

@@ -8,7 +8,7 @@ import os
 from dateutil.parser import parse
 from datetime import timedelta
 
-from abed import settings
+from abed.conf import settings
 from abed.exceptions import AbedPBSMultipleException
 from abed.fab_util import myfab
 from abed.utils import info
