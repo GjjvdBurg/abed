@@ -34,8 +34,9 @@ def move_data():
     curr_path = '{}/releases/current'.format(myfab.project_path)
     prev_path = '{}/releases/previous'.format(myfab.project_path)
     myfab.run('mkdir -p {}/{}/'.format(curr_path, 'datasets'))
-    myfab.run('mv {}/{}/* {}/{}/'.format(prev_path, 'datasets', curr_path, 
-        'datasets'))
+    myfab.run(
+            'rsync -av --remove-source-files {}/{}/* {}/{}/'.format(prev_path,
+                'datasets', curr_path, 'datasets'))
 
 def setup():
     myfab.run('mkdir -p {}'.format(myfab.project_path))
