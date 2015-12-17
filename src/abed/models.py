@@ -55,7 +55,12 @@ class Abed(object):
 
     def explain_tasks(self):
         for task in sorted(self.task_dict.keys()):
-            print('%s : %s' % (task, self.task_dict[task]))
+            d = {k:v for k, v in self.task_dict[task].iteritems()}
+            command = settings.COMMANDS[d['method']]
+            d['datadir'] = '[datadir]'
+            d['execdir'] = '[execdir]'
+            cmd = command.format(**d)
+            print('%s : %s' % (task, cmd))
 
     def update_tasks(self):
         # this takes over update_tasks
