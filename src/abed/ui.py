@@ -45,12 +45,18 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    if settings is None and not args.cmd == 'skeleton':
-        error("No ABED configuration file found in this directory. "
-                "Run 'abed skeleton' to initialize one. Exiting.")
-        raise SystemExit
 
-    abed = Abed()
+    skip_init = False
+    if args.cmd == 'reload_tasks':
+        skip_init = True
+    if settings is None:
+        if not args.cmd == 'skeleton':
+            error("No ABED configuration file found in this directory. "
+                    "Run 'abed skeleton' to initialize one. Exiting.")
+            raise SystemExit
+        skip_init = True
+    abed = Abed(skip_init=skip_init)
+
     info("Running abed command: %s" % args.cmd)
     try:
         getattr(abed, args.cmd)()

@@ -36,9 +36,9 @@ class Abed(object):
             'view_results'
             ]
 
-    def __init__(self):
+    def __init__(self, skip_init=False):
         self.task_dict = None
-        if not settings is None:
+        if not skip_init:
             self.init_tasks()
 
     def init_tasks(self):
