@@ -6,7 +6,7 @@ Functions for master/worker task execution
 import time
 
 from mpi4py import MPI
-from subprocess import check_output, CalledProcessError
+from subprocess import check_output, CalledProcessError, STDOUT
 
 from abed.conf import settings
 from abed.utils import info, error
@@ -43,7 +43,7 @@ def do_work(hsh, task, local=False):
     cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd)
-        output = check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+        output = check_output(cmd, stderr=STDOUT, shell=True)
     except CalledProcessError:
         error("There was an error executing: '%s'" % cmd)
     write_output(output, hsh)
