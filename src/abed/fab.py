@@ -91,7 +91,7 @@ def get_results(basepath=None):
         basepath = '{}/releases/current'.format(myfab.project_path)
 
     zip_path = '{}/bzips'.format(basepath)
-    zip_glob = '*.tar.bz'
+    zip_glob = '*.tar.bz2'
     mkdir(settings.ZIP_DIR)
     get_files_from_glob(zip_path, zip_glob, settings.ZIP_DIR)
 
@@ -152,6 +152,7 @@ def fab_repull():
             to_pull.append(fullpath)
 
     for path in to_pull:
-        zip_glob = '{}/bzips/*.tar.bz2'.format(path)
+        zip_path = '{}/bzips/'.format(path)
+        zip_glob = '*.tar.bz2'
         mkdir(settings.ZIP_DIR)
-        get_files_from_glob(zip_glob, settings.ZIP_DIR)
+        get_files_from_glob(zip_path, zip_glob, settings.ZIP_DIR)
