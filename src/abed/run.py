@@ -43,7 +43,7 @@ def do_work(hsh, task, local=False):
     cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd)
-        output = check_output(cmd, shell=True)
+        output = check_output(cmd, stderr=subprocess.STDOUT, shell=True)
     except CalledProcessError:
         error("There was an error executing: '%s'" % cmd)
     write_output(output, hsh)
