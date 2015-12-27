@@ -42,12 +42,12 @@ def do_work(hsh, task, local=False):
     task['execdir'] = '%s/%s' % (get_scratchdir(local), 'execs')
     cmd = command.format(**task)
     try:
-        info("Executing: '%s'" % cmd)
+        info("Executing: '%s'" % cmd, color_wrap=False)
         output = check_output(cmd, stderr=STDOUT, shell=True)
     except CalledProcessError:
-        error("There was an error executing: '%s'" % cmd)
+        error("There was an error executing: '%s'" % cmd, color_wrap=False)
     write_output(output, hsh)
-    info("Finished with %s" % hsh)
+    info("Finished with %s" % hsh, color_wrap=False)
 
 def copy_worker(local):
     comm = MPI.COMM_WORLD
@@ -66,7 +66,7 @@ def copy_worker(local):
         try:
             check_output(copy_task, shell=True)
         except CalledProcessError:
-            error("There was an error in the copy task")
+            error("There was an error in the copy task", color_wrap=False)
         time.sleep(settings.MW_COPY_SLEEP)
 
 def worker(task_dict, local=False):

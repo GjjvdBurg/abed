@@ -70,23 +70,32 @@ def wrap_text(text, max_length=120):
             sentence = word + ' '
     return '\n'.join(sentences)
 
-def info(txt):
+def info(txt, color_wrap=True):
     dt = datetime.datetime.now()
     message = '[ABED INFO || %s]: %s' % (dt.strftime('%c'), txt)
-    wrapped = wrap_text(message)
-    colorprint(wrapped, 'green')
+    if color_wrap:
+        wrapped = wrap_text(message)
+        colorprint(wrapped, 'green')
+    else:
+        print(message)
 
-def error(txt):
+def error(txt, color_wrap=True):
     dt = datetime.datetime.now()
     message = '[ABED ERROR || %s]: %s' % (dt.strftime('%c'), txt)
-    wrapped = wrap_text(message)
-    colorprint(wrapped, 'red')
+    if color_wrap:
+        wrapped = wrap_text(message)
+        colorprint(wrapped, 'red')
+    else:
+        print(message)
 
-def warning(txt):
+def warning(txt, color_wrap=True):
     dt = datetime.datetime.now()
     message = '[ABED WARNING || %s]: %s' % (dt.strftime('%c'), txt)
-    wrapped = wrap_text(message)
-    colorprint(wrapped, 'yellow')
+    if color_wrap:
+        wrapped = wrap_text(message)
+        colorprint(wrapped, 'yellow')
+    else:
+        print(message)
 
 def mkdir(path):
     try:
