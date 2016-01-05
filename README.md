@@ -27,7 +27,7 @@ Usage:
 1. Create a skeleton for your project
 
 
-        abed skeleton
+	abed init
 
 
 2. Edit configuration, add datasets and executables, and git commit these
@@ -110,7 +110,7 @@ to this list.
 Workings
 --------
 
-1. Start a new project by running `abed skeleton`
+1. Start a new project by running `abed init`
 2. Use `abed setup` to setup the remote directory structure.
 3. Use `abed push` or `abed auto` to push the data to the remote server, write 
    out the PBS file, and queue it.

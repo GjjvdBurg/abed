@@ -9,6 +9,7 @@ DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 COMMANDS_HELP = {
         'auto': '\tAutomate push and pull to facilitate continuous operation',
         'explain_tasks': 'Print the task ID and corresponding command',
+        'init': '\tInitialize a skeleton for abed',
         'local': '\tRun the computations locally.',
         'parse_results': 'Parse the results into summary files',
         'process_zips': 'Process result zip files',
@@ -18,7 +19,6 @@ COMMANDS_HELP = {
         'repull': ('\tRepull the zips from the cluster for all jobids in the '
             'auto log file'),
         'run': '\tRun the master/worker MPI program of abed on the cluster',
-        'skeleton': '\tCreate a skeleton for abed',
         'setup': '\tSetup the remote directory structure for abed',
         'status': '\tStatus of abed task list',
         'update_tasks': 'Update the task list (part of pull)',
@@ -50,9 +50,9 @@ def main():
     if args.cmd == 'reload_tasks':
         skip_init = True
     if settings is None:
-        if not args.cmd == 'skeleton':
+        if not args.cmd == 'init':
             error("No ABED configuration file found in this directory. "
-                    "Run 'abed skeleton' to initialize one. Exiting.")
+                    "Run 'abed init' to initialize one. Exiting.")
             raise SystemExit
         skip_init = True
     abed = Abed(skip_init=skip_init)

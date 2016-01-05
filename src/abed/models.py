@@ -11,7 +11,7 @@ from abed.html.view import view_html
 from abed.local import copy_local_files
 from abed.results.main import make_results
 from abed.run import mpi_start
-from abed.skeleton import init_config
+from abed.init import init_config
 from abed.tasks import init_tasks, read_tasks, update_tasks
 from abed.utils import info, error
 from abed.zips import unpack_zips
@@ -29,7 +29,7 @@ class Abed(object):
             'reload_tasks',
             'repull',
             'run',
-            'skeleton',
+            'init',
             'setup',
             'status',
             'update_tasks',
@@ -141,7 +141,7 @@ class Abed(object):
         mpi_start(self.task_dict)
         info("Finished with run command.")
 
-    def skeleton(self):
+    def init(self):
         init_config()
         git_init()
 
