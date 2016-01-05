@@ -31,7 +31,8 @@ setup(
             'tabulate',
             'bz2file',
             'progressbar',
-            'dominate'
+            'dominate',
+            'tqdm'
             ],
         data_files = get_data_files()
 )
