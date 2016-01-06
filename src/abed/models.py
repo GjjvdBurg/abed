@@ -147,6 +147,7 @@ class Abed(object):
 
     def status(self):
         info("Number of tasks to be done: %i" % len(self.task_dict))
+        info("Total number of tasks defined: %i" % (len(init_tasks())))
 
     def process_zips(self):
         unpack_zips()
