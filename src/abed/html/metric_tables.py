@@ -27,7 +27,7 @@ def get_table_id(table):
     return '_'.join(values)
 
 def generate_tables_html(tables):
-    doc = dominate.document(title='ABED Main page')
+    doc = dominate.document(title='ABED Metric Tables')
 
     with doc.head:
         # meta tags
