@@ -1,5 +1,5 @@
 body {
-	padding-top: 50px;
+	padding-top: 60px;
 }
 
 .abed-title {
@@ -26,4 +26,8 @@ body {
 
 p {
 	padding-top: 10px;
+}
+
+.panel-body {
+	text-align: center;
 }
