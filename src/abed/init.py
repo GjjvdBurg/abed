@@ -100,7 +100,7 @@ SCALARS = {
 
 RESULT_PRECISION = 4
 
-DATA_DESCRIPTION = {}
+DATA_DESCRIPTION_CSV = None
 
 ###############################################################################
 #                                PBS Settings                                 #

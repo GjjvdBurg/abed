@@ -19,7 +19,8 @@ def export_tables(tables):
     return summary_tables
 
 def merge_description_table(table):
-    if os.path.exists(settings.DATA_DESCRIPTION_CSV):
+    if ((not settings.DATA_DESCRIPTION_CSV is None) and
+            os.path.exists(settings.DATA_DESCRIPTION_CSV)):
         at = AbedTable()
         at.from_csv(settings.DATA_DESCRIPTION_CSV)
         summary_table = table.left_insert(at)
