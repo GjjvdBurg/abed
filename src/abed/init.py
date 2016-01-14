@@ -50,6 +50,10 @@ MW_COPY_SLEEP = 120
 #TYPE = 'CV_TT'
 #CV_BASESEED = 123456
 
+# Explicitly defined commands in a text file #
+#TYPE = 'EXPLICIT'
+#EXPLICIT_CMD_FILE = '/path/to/file.txt'
+
 ##############################################################################
 #                                Build settings                              #
 ##############################################################################
@@ -112,7 +116,7 @@ PBS_CORETYPE = None
 PBS_PPN = None
 PBS_MODULES = ['mpicopy', 'python/2.7.9']
 PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
-PBS_MPICOPY = ['datasets', 'execs', TASK_FILE]
+PBS_MPICOPY = ['datasets', EXECDIR, TASK_FILE]
 PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
 
 """

@@ -36,6 +36,8 @@ def init_tasks():
         return init_tasks_assess()
     elif settings.TYPE == 'CV_TT':
         return init_tasks_cv_tt()
+    elif settings.TYPE == 'EXPLICIT':
+        return init_tasks_explicit()
     raise AbedExperimentTypeException
 
 def init_tasks_assess():
@@ -68,6 +70,17 @@ def init_tasks_cv_tt():
                 if hsh in out:
                     raise AbedHashCollissionException
                 out[hsh] = task
+    return out
+
+def init_tasks_explicit():
+    out = {}
+    with open(settings.EXPLICIT_CMD_FILE, 'r') as fid:
+        tasks = [x.strip() for x in fid.readlines()]
+    for txttask in tasks:
+        hsh = hash(txttask)
+        if hsh in out:
+            raise AbedHashCollissionException
+        out[hsh] = txttask
     return out
 
 def read_tasks():

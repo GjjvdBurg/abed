@@ -37,10 +37,15 @@ class Work(object):
         return next_work
 
 def do_work(hsh, task, local=False):
-    command = settings.COMMANDS[task['method']]
-    task['datadir'] = '%s/%s' % (get_scratchdir(local), 'datasets')
-    task['execdir'] = '%s/%s' % (get_scratchdir(local), 'execs')
-    cmd = command.format(**task)
+    datadir = os.path.join(get_scratchdir(local), 'datasets')
+    execdir = os.path.join(get_scratchdir(local), 'execs')
+    if settings.TYPE == 'EXPLICIT':
+        cmd = task.format({'datadir': datadir, 'execdir': execdir})
+    else:
+        command = settings.COMMANDS[task['method']]
+        task['datadir'] = datadir
+        task['execdir'] = execdir
+        cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd, color_wrap=False)
         output = check_output(cmd, stderr=STDOUT, shell=True)
