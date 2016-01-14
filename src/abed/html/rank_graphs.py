@@ -98,7 +98,7 @@ def generate_graphs_html(tables):
                                 with tags.div(id=tabid, _class='AbedRanks'):
                                     pass
                                 tags.hr()
-                    write_table_json(table, tabid)
+                                write_table_json(table, tabid)
             tags.comment('./container')
         with tags.div(id='footer'):
             pass
