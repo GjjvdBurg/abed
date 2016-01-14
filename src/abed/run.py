@@ -3,6 +3,7 @@ Functions for master/worker task execution
 
 """
 
+import os
 import time
 
 from mpi4py import MPI
