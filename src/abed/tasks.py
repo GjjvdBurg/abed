@@ -78,6 +78,7 @@ def init_tasks_explicit():
         tasks = [x.strip() for x in fid.readlines()]
     for txttask in tasks:
         hsh = hash(txttask)
+        hsh %= ((sys.maxsize + 1) * 2)
         if hsh in out:
             raise AbedHashCollissionException
         out[hsh] = txttask
