@@ -27,7 +27,7 @@ setup(
         scripts = ['bin/abed'],
         install_requires = [
             'fabric',
-            'mpi4py',
+            'mpi4py==1.3.1',
             'tabulate',
             'bz2file',
             'progressbar',
