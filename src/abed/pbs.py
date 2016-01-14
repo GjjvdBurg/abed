@@ -55,7 +55,7 @@ def generate_pbs_text():
     txt.append('')
 
     # start email
-    txt.append('summary=$(abed status)')
+    txt.append('summary=$(abed status | sed -e "s/\\x1b\\[.\\{1,5\\}m//g")')
     txt.append('echo -e "Job $PBS_JOBID started at `date`\\n\\n${summary}"'
             ' | mail $USER -s "Job $PBS_JOBID started"')
     txt.append('')
