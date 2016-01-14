@@ -24,6 +24,18 @@ def git_init():
         print(err.output)
         raise SystemExit
     try:
+        check_output(['git', 'add', 'abed_tasks.txt'])
+    except CalledProcessError as err:
+        error("Error executing 'git add abed_tasks.txt'. Error message:")
+        print(err.output)
+        raise SystemExit
+    try:
+        check_output(['git', 'add', 'abed_auto.txt'])
+    except CalledProcessError as err:
+        error("Error executing 'git add abed_auto.txt'. Error message:")
+        print(err.output)
+        raise SystemExit
+    try:
         check_output(['git', 'commit' ,'-am', '"initialized abed skeleton"'])
     except CalledProcessError as err:
         error("Error executing initial commit. Error message:")
@@ -34,7 +46,7 @@ def git_add_auto():
     try:
         check_output(['git', 'add', settings.AUTO_FILE])
     except CalledProcessError as err:
-        error("Error executing 'git add %s'. Error message:" % 
+        error("Error executing 'git add %s'. Error message:" %
                 settings.AUTO_FILE)
         print(err.output)
         raise SystemExit
@@ -44,7 +56,7 @@ def git_add_tbd():
     try:
         check_output(['git', 'add', settings.TASK_FILE])
     except CalledProcessError as err:
-        error("Error executing 'git add %s'. Error message:" % 
+        error("Error executing 'git add %s'. Error message:" %
                 settings.TASK_FILE)
         print(err.output)
         raise SystemExit

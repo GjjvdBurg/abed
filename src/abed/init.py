@@ -3,7 +3,7 @@ Functions for creating a skeleton config file
 
 """
 
-from abed.utils import info, mkdir
+from abed.utils import info, mkdir, touch
 
 def init_config():
     txt = """
@@ -123,3 +123,6 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
     mkdir('datasets')
     mkdir('execs')
     info("Created 'datasets' and 'execs' directories")
+    touch('./abed_auto.txt')
+    touch('./abed_tasks.txt')
+    info("Created 'abed_auto.txt' and 'abed_tasks.txt'")

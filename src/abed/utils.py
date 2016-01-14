@@ -115,3 +115,7 @@ def hash_from_filename(filename):
 
 def clean_str(string):
     return '_'.join(string.split(' ')).lower()
+
+def touch(fname, times=None):
+    with open(fname, 'a'):
+        os.utime(fname, times)
