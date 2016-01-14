@@ -41,7 +41,7 @@ def do_work(hsh, task, local=False):
     datadir = os.path.join(get_scratchdir(local), 'datasets')
     execdir = os.path.join(get_scratchdir(local), 'execs')
     if settings.TYPE == 'EXPLICIT':
-        cmd = task.format({'datadir': datadir, 'execdir': execdir})
+        cmd = task.format(datadir=datadir, execdir=execdir)
     else:
         command = settings.COMMANDS[task['method']]
         task['datadir'] = datadir
