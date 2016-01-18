@@ -2,9 +2,9 @@
 Functions for dealing with zips of results
 
 Note:
-    The bz2file dependency is needed because tar.bz2 files are created with 
-    pbzip2, which results in multiple streams in the tarfile. The Python 2.x 
-    tarfile module does not handle multiple streams, but the bz2file package 
+    The bz2file dependency is needed because tar.bz2 files are created with
+    pbzip2, which results in multiple streams in the tarfile. The Python 2.x
+    tarfile module does not handle multiple streams, but the bz2file package
     does. Unpacking the tarfiles is thus done in two separate steps.
 
 """
@@ -47,7 +47,7 @@ def unpack_zips():
     else:
         unzipped = []
     all_tasks = init_tasks()
-    bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2') and 
+    bzips = [x for x in os.listdir(settings.ZIP_DIR) if x.endswith('.bz2') and
             not x in unzipped]
     if len(bzips) == 0:
         return
@@ -68,14 +68,18 @@ def move_results(task_dict):
                 warning("Couldn't obtain hash from file: %s. Skipping." %
                         basename(fpath))
                 continue
-            if settings.TYPE == 'ASSESS':
-                dset = dataset_name(task_dict[hsh]['dataset'])
-            elif settings.TYPE == 'CV_TT':
-                dset = dataset_name((task_dict[hsh]['train_dataset'], 
-                    task_dict[hsh]['test_dataset']))
-            method = task_dict[hsh]['method']
-            outdir = '%s%s%s%s%s' % (settings.RESULT_DIR, os.sep, dset, os.sep, 
-                    method)
+            if settings.TYPE == 'EXPLICIT':
+                dset = 'dataset'
+                method = 'method'
+            else:
+                if settings.TYPE == 'ASSESS':
+                    dset = dataset_name(task_dict[hsh]['dataset'])
+                elif settings.TYPE == 'CV_TT':
+                    dset = dataset_name((task_dict[hsh]['train_dataset'],
+                        task_dict[hsh]['test_dataset']))
+                method = task_dict[hsh]['method']
+            outdir = '%s%s%s%s%s' % (settings.RESULT_DIR, os.sep, dset,
+                    os.sep, method)
             mkdir(outdir)
             dpath = '%s%s%s' % (outdir, os.sep, fname)
             shutil.move(fpath, dpath)
