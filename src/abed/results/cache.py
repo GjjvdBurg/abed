@@ -8,7 +8,7 @@ that we want to know for each hash.
 from abed.conf import settings
 from abed.results.models import AbedCache, AbedResult
 from abed.results.walk import walk_results
-from abed.utils import info, hash_from_filename
+from abed.utils import info, warning, hash_from_filename
 
 def find_label(line):
     for scalar in settings.SCALARS:
@@ -30,11 +30,23 @@ def parse_result_file(filepath, dataset, method):
                 data[label] = {'true': [], 'pred': []}
             continue
         if label in settings.SCALARS:
-            data[label] = float(l)
+            try:
+                data[label] = float(l)
+            except ValueError as e:
+                warning("Could not parse scalar metric '%s' for "
+                        "file %s. Skipping." % (label, filepath))
+                fid.close()
+                return None
         else:
             true, pred = l.split('\t')
-            data[label]['true'].append(float(true))
-            data[label]['pred'].append(float(pred))
+            try:
+                data[label]['true'].append(float(true))
+                data[label]['pred'].append(float(pred))
+            except ValueError as e:
+                warning("Could not parse true/pred metric '%s' for "
+                        "file %s. Skipping." % (label, filepath))
+                fid.close()
+                return None
     fid.close()
 
     hsh = hash_from_filename(filepath)
@@ -57,6 +69,8 @@ def init_result_cache(task_dict):
     for dataset, method, files in walk_results():
         for f in files:
             result = parse_result_file(f, dataset, method)
+            if result is None:
+                continue
             ac.add_result(result)
     ac.dump()
     return ac
@@ -84,6 +98,8 @@ def update_result_cache(task_dict):
             hsh = hash_from_filename(f)
             if not ac.has_result(hsh):
                 result = parse_result_file(f, dataset, method)
+                if result is None:
+                    continue
                 ac.add_result(result)
     ac.dump()
     return ac
