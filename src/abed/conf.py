@@ -30,7 +30,7 @@ def init_config():
     except NameError as err:
         error("You probably Britta'd the settings file, "
                 "NameError: %s" % str(err))
-    except:
+    except Exception as err:
         error("You probably Britta'd the settings file, "
                 "an error occured parsing it: %s" % str(err))
     keys = list(config.keys())
