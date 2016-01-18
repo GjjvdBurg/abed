@@ -64,7 +64,11 @@ def get_starttime(jobid):
             jobid)
     if not text.strip():
         return None
-    return parse(text)
+    try:
+        timestr = parse(text)
+    except:
+        return None
+    return timestr
 
 def get_remaining(jobid):
     text = myfab.run("qstat -f %s | grep Remaining | cut -d'=' -f2" % jobid)
