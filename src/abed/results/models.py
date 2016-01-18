@@ -12,6 +12,7 @@ from collections import OrderedDict
 from abed.conf import settings
 from abed.datasets import dataset_name
 from abed.exceptions import AbedHashCollissionException
+from abed.utils import mkdir
 
 class AbedCache(object):
     """
@@ -26,6 +27,7 @@ class AbedCache(object):
         self.scalars = set()
         self.cache = {}
         self.cachefile = settings.OUTPUT_DIR + os.sep + 'abed_cache.pkl'
+        mkdir(settings.OUTPUT_DIR)
 
     def dump(self):
         f = open(self.cachefile, 'wb')
