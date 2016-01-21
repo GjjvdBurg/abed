@@ -5,7 +5,7 @@ import time
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from abed.conf import settings
 from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
-from abed.git import (git_add_auto, git_add_tbd, git_commit_auto, 
+from abed.git import (git_add_auto, git_add_tbd, git_commit_auto,
         git_commit_tbd, git_init, git_ok)
 from abed.html.view import view_html
 from abed.local import copy_local_files
@@ -120,7 +120,6 @@ class Abed(object):
                     self.pull(jobid=jobid)
                 if len(self.task_dict) == 0:
                     break
-                info("Starting push")
                 self.push()
             info("Task busy, sleeping for a while ...")
             time.sleep(settings.AUTO_SLEEP)

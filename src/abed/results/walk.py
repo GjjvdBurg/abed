@@ -26,7 +26,7 @@ def files_w_method(method):
             yield fname
 
 def files_w_dataset(dataset):
-    dset = splitext(basename(dataset))[0]
+    dset = dataset_name(dataset)
     if dset not in os.listdir(settings.RESULT_DIR):
         raise AbedDatasetdirNotFoundException
     dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
@@ -37,7 +37,7 @@ def files_w_dataset(dataset):
             yield fname
 
 def files_w_dset_and_method(dataset, method):
-    dset = splitext(basename(dataset))[0]
+    dset = dataset_name(dataset)
     if dset not in os.listdir(settings.RESULT_DIR):
         raise AbedDatasetdirNotFoundException(dset)
     dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)

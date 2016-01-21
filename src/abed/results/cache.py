@@ -79,6 +79,7 @@ def update_result_cache(task_dict):
     ac = AbedCache()
     try:
         ac.load()
+        info("Result cache loaded from disk.")
     except IOError:
         info("Result cache non-existent, generating it.")
         ac = init_result_cache(task_dict)
