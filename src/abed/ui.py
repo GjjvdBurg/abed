@@ -7,22 +7,26 @@ from abed.utils import info, error
 DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 
 COMMANDS_HELP = {
-        'auto': '\tAutomate push and pull to facilitate continuous operation',
-        'explain_tasks': 'Print the task ID and corresponding command',
-        'init': '\tInitialize a skeleton for abed',
-        'local': '\tRun the computations locally.',
-        'parse_results': 'Parse the results into summary files',
-        'process_zips': 'Process result zip files',
-        'pull': '\tPull all results from the cluster and process them',
-        'push': '\tPush all necessary data to the cluster using fabric',
-        'reload_tasks': 'Reload the task file based on config and results',
-        'repull': ('\tRepull the zips from the cluster for all jobids in the '
-            'auto log file'),
-        'run': '\tRun the master/worker MPI program of abed on the cluster',
-        'setup': '\tSetup the remote directory structure for abed',
-        'status': '\tStatus of abed task list',
-        'update_tasks': 'Update the task list (part of pull)',
-        'view_results': 'Open the HTML results in the default browser'
+        'auto': ('\t\tAutomate push and pull to facilitate '
+            'continuous operation'),
+        'explain_tbd_tasks': ('Print the task ID and corresponding command '
+            'of remaining tasks'),
+        'explain_all_tasks': ('Print the task ID and corresponding command '
+            'of all defined tasks'),
+        'init': '\t\tInitialize a skeleton for abed',
+        'local': '\t\tRun the computations locally.',
+        'parse_results': '\tParse the results into summary files',
+        'process_zips': '\tProcess result zip files',
+        'pull': '\t\tPull all results from the cluster and process them',
+        'push': '\t\tPush all necessary data to the cluster using fabric',
+        'reload_tasks': '\tReload the task file based on config and results',
+        'repull': ('\t\tRepull the zips from the cluster for all jobids '
+            'in the auto log file'),
+        'run': '\t\tRun the master/worker MPI program of abed on the cluster',
+        'setup': '\t\tSetup the remote directory structure for abed',
+        'status': '\t\tStatus of abed task list',
+        'update_tasks': '\tUpdate the task list (part of pull)',
+        'view_results': '\tOpen the HTML results in the default browser'
 }
 
 class SmartFormatter(argparse.HelpFormatter):

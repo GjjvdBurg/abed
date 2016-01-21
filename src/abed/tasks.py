@@ -114,3 +114,15 @@ def update_tasks(tasks):
                 except KeyError:
                     pass
     return delcnt
+
+def explain_tasks(all_tasks):
+    for task in sorted(all_tasks.keys()):
+        if settings.TYPE == 'EXPLICIT':
+            cmd = all_tasks[task]
+        else:
+            d = {k:v for k, v in all_tasks[task].iteritems()}
+            command = settings.COMMANDS[d['method']]
+            d['datadir'] = '{datadir}'
+            d['execdir'] = '{execdir}'
+            cmd = command.format(**d)
+        print('%s : %s' % (task, cmd))

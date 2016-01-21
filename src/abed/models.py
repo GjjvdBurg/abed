@@ -12,7 +12,7 @@ from abed.local import copy_local_files
 from abed.results.main import make_results
 from abed.run import mpi_start
 from abed.init import init_config
-from abed.tasks import init_tasks, read_tasks, update_tasks
+from abed.tasks import init_tasks, read_tasks, update_tasks, explain_tasks
 from abed.utils import info, error
 from abed.zips import unpack_zips
 
@@ -20,7 +20,9 @@ class Abed(object):
 
     commands = [
             'auto',
-            'explain_tasks',
+            'compress_results',
+            'explain_tbd_tasks',
+            'explain_all_tasks',
             'local',
             'parse_results',
             'process_zips',
@@ -53,17 +55,11 @@ class Abed(object):
             git_commit_auto()
             git_commit_tbd()
 
-    def explain_tasks(self):
-        for task in sorted(self.task_dict.keys()):
-            if settings.TYPE == 'EXPLICIT':
-                cmd = self.task_dict[task]
-            else:
-                d = {k:v for k, v in self.task_dict[task].iteritems()}
-                command = settings.COMMANDS[d['method']]
-                d['datadir'] = '{datadir}'
-                d['execdir'] = '{execdir}'
-                cmd = command.format(**d)
-            print('%s : %s' % (task, cmd))
+    def explain_tbd_tasks(self):
+        explain_tasks(self.task_dict)
+
+    def explain_all_tasks(self):
+        explain_tasks(init_tasks())
 
     def update_tasks(self):
         # this takes over update_tasks
