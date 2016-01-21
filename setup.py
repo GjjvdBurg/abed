@@ -32,7 +32,8 @@ setup(
             'bz2file',
             'progressbar',
             'dominate',
-            'tqdm'
+            'tqdm',
+            'backports.lzma'
             ],
         data_files = get_data_files()
 )

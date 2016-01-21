@@ -9,6 +9,7 @@ DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 COMMANDS_HELP = {
         'auto': ('\t\tAutomate push and pull to facilitate '
             'continuous operation'),
+        'compress_results': '\tCompress completed dataset directories.',
         'explain_tbd_tasks': ('Print the task ID and corresponding command '
             'of remaining tasks'),
         'explain_all_tasks': ('Print the task ID and corresponding command '

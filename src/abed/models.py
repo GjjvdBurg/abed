@@ -3,6 +3,7 @@ import os
 import time
 
 from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
+from abed.compress import compress_results
 from abed.conf import settings
 from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
 from abed.git import (git_add_auto, git_add_tbd, git_commit_auto,
@@ -168,3 +169,7 @@ class Abed(object):
         copy_local_files()
         mpi_start(self.task_dict, local=True)
         info("Finished with run command.")
+
+    def compress_results(self):
+        compress_results(init_tasks())
+
