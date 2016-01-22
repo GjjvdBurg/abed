@@ -12,6 +12,7 @@ from itertools import izip, product
 from abed.conf import settings
 from abed.exceptions import (AbedHashCollissionException, 
         AbedExperimentTypeException)
+from abed.results.walk import walk_hashes
 from abed.utils import error
 
 def cartesian(params):
@@ -99,20 +100,12 @@ def update_tasks(tasks):
     delcnt = 0
     if not os.path.exists(settings.RESULT_DIR):
         return 0
-    dsetdirs = os.listdir(settings.RESULT_DIR)
-    for dsetdir in dsetdirs:
-        dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dsetdir)
-        for meth in os.listdir(dpath):
-            mpath = '%s%s%s' % (dpath, os.sep, meth)
-            files = os.listdir(mpath)
-            for f in files:
-                fname = os.path.basename(f)
-                hsh = os.path.splitext(fname)[0]
-                try:
-                    del tasks[int(hsh)]
-                    delcnt += 1
-                except KeyError:
-                    pass
+    for hsh in walk_hashes():
+        try:
+            del tasks[int(hsh)]
+            delcnt += 1
+        except KeyError:
+            pass
     return delcnt
 
 def explain_tasks(all_tasks):

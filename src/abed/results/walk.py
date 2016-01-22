@@ -53,6 +53,45 @@ def files_w_dset_and_method(dataset, method):
         fname = '%s%s%s' % (mpath, os.sep, f)
         yield fname
 
+def walk_hashes():
+    results = os.listdir(settings.RESULT_DIR)
+    for dataset in iter_progress(settings.DATASETS):
+        dset = dataset_name(dataset)
+        if dset in results:
+            for hsh in walk_dir_hashes(dataset, dset):
+                yield hsh
+        tarstr = '%s.tar' % dset
+        if any([x.startswith(tarstr) for x in results]):
+            fname = next((x for x in results if x.startswith(tarstr)), None)
+            for hsh in walk_archive_hashes(dataset, dset, fname):
+                yield hsh
+
+def walk_dir_hashes(dataset, dset):
+    dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
+    for method in settings.METHODS:
+        if method not in os.listdir(dpath):
+            continue
+        mpath = '%s%s%s' % (dpath, os.sep, method)
+        files = ['%s%s%s' % (mpath, os.sep, f) for f in os.listdir(mpath)]
+        for f in files:
+            hsh = hash_from_filename(f)
+            yield hsh
+
+def walk_archive_hashes(dataset, dset, fname):
+    fpath = os.path.join(settings.RESULT_DIR, fname)
+    if fname.endswith('bz2'):
+        tar = tarfile.open(fpath, 'r:bz2')
+    elif fname.endswith('gz'):
+        tar = tarfile.open(fpath, 'r:gz')
+    else:
+        l = lzma.open(fpath, 'r')
+        tar = tarfile.open(fileobj=l)
+    for tarinfo in tar:
+        if not tarinfo.isreg():
+            continue
+        hsh = hash_from_filename(tarinfo.name)
+        yield hsh
+
 def walk_for_cache(ac):
     results = os.listdir(settings.RESULT_DIR)
     for dataset in iter_progress(settings.DATASETS):
