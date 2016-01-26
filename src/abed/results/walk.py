@@ -97,10 +97,13 @@ def walk_for_cache(ac):
     for dataset in iter_progress(settings.DATASETS):
         dset = dataset_name(dataset)
         if dset in results:
-            return walk_directory(dataset, dset, ac)
-        if any([x.startswith('%s.tar' % dset) for x in results]):
-            fname = next((x for x in results if x.startswith('%s.tar')), None)
-            return walk_archive(dataset, dset, fname, ac)
+            for d, m, f, h in walk_directory(dataset, dset, ac):
+                yield d, m, f, h
+        tarstr = '%s.tar' % dset
+        if any([x.startswith(tarstr) for x in results]):
+            fname = next((x for x in results if x.startswith(tarstr)), None)
+            for d, m, f, h in walk_archive(dataset, dset, fname, ac):
+                yield d, m, f, h
 
 def walk_directory(dataset, dset, ac):
     dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
