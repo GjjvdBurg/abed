@@ -37,8 +37,8 @@ def parse_result_fileobj(fid, hsh, dataset, method):
                 fid.close()
                 return None
         else:
-            true, pred = l.split('\t')
             try:
+                true, pred = l.split('\t')
                 data[label]['true'].append(float(true))
                 data[label]['pred'].append(float(pred))
             except ValueError:
