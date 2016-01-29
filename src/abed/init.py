@@ -50,6 +50,7 @@ MW_COPY_SLEEP = 120
 # Cross validation with train and test dataset #
 #TYPE = 'CV_TT'
 #CV_BASESEED = 123456
+#YTRAIN_LABEL = 'y_train'
 
 # Explicitly defined commands in a text file #
 #TYPE = 'EXPLICIT'
