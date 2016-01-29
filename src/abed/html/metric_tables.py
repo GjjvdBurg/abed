@@ -55,9 +55,9 @@ def generate_tables_html(tables):
 
         # ABED CSS & JS
         tags.link(rel='stylesheet', href=copy_data_file('abed/css/abed.css'))
-        tags.script(type="text/javascript", 
+        tags.script(type="text/javascript",
                 src=copy_data_file('abed/js/abed_showtables.js'))
-        tags.script(type="text/javascript", 
+        tags.script(type="text/javascript",
                 src=copy_data_file('abed/js/abed_metrictables.js'))
 
     with doc:
@@ -71,8 +71,9 @@ def generate_tables_html(tables):
                     if settings.TYPE == 'ASSESS':
                         tr += tags.th('Metric')
                     elif settings.TYPE == 'CV_TT':
-                        tr += tags.th('Train Metric')
-                        tr += tags.th('Test Metric')
+                        tr += tags.th('Train Metric (on %s)' %
+                                settings.YTRAIN_LABEL)
+                        tr += tags.th('Test Metric (on target)')
                     tr += tags.th('Output Type')
                 with tags.tbody():
                     tr = tags.tr()
@@ -93,7 +94,7 @@ def generate_tables_html(tables):
                 with tags.div(id='div_'+ tabid, _class='AbedTable'):
                     if 'summary' in tabid:
                         tags.p("Summary Table:")
-                    with tags.table(id='tbl_'+tabid, _class='display', 
+                    with tags.table(id='tbl_'+tabid, _class='display',
                             cellspacing='0', width='100%'):
                         with tags.thead():
                             tr = tags.tr()
@@ -108,7 +109,7 @@ def generate_tables_html(tables):
     return str(doc)
 
 def write_tables_html(doc):
-    fname = '%s%s%s%s%s' % (settings.OUTPUT_DIR, os.sep, 'html', os.sep, 
+    fname = '%s%s%s%s%s' % (settings.OUTPUT_DIR, os.sep, 'html', os.sep,
             'metric_tables.html')
     with open(fname, 'w') as fid:
         fid.write(doc)

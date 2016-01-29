@@ -90,11 +90,13 @@ def generate_graphs_html(tables):
                                                 table.metricname)
                                     elif settings.TYPE == 'CV_TT':
                                         with tags.div(_class="col-xs-6"):
-                                            tags.b("Train Metric: %s" %
-                                                    table.trainmetricname)
+                                            tags.b("Train Metric on %s: %s" %
+                                                    (settings.YTRAIN_LABEL,
+                                                        table.trainmetricname))
                                         with tags.div(_class="col-xs-6"):
-                                            tags.b("Test Metric: %s" %
-                                                    table.testmetricname)
+                                            tags.b("Test Metric on %s: %s" %
+                                                    (lbl,
+                                                        table.testmetricname))
                                 with tags.div(id=tabid, _class='AbedRanks'):
                                     pass
                                 tags.hr()
