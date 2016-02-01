@@ -108,7 +108,7 @@ def walk_for_cache(ac):
 def walk_directory(dataset, dset, ac):
     dpath = '%s%s%s' % (settings.RESULT_DIR, os.sep, dset)
     for method in settings.METHODS:
-        if method not in os.listdir(dpath):
+        if not method in os.listdir(dpath):
             continue
         mpath = '%s%s%s' % (dpath, os.sep, method)
         files = ['%s%s%s' % (mpath, os.sep, f) for f in os.listdir(mpath)]
@@ -126,10 +126,11 @@ def walk_tar(tar, ac):
         hsh = hash_from_filename(tarinfo.name)
         if not ac.has_result(hsh):
             fid = tar.extractfile(tarinfo)
-            dataset = next((x for x in settings.DATASETS if dataset_name(x) in
-                tarinfo.name), None)
-            method = next((x for x in settings.METHODS if x in tarinfo.name),
-                    None)
+            tar_dset = tarinfo.name.split('/')[0]
+            dataset = next((x for x in settings.DATASETS if dataset_name(x) == 
+                tar_dset), None)
+            tar_mth = tarinfo.name.split('/')[1]
+            method = next((x for x in settings.METHODS if x == tar_mth), None)
             yield dataset, method, fid, hsh
 
 def walk_archive(dataset, dset, fname, ac):
