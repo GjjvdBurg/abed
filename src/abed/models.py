@@ -39,8 +39,9 @@ class Abed(object):
             'view_results'
             ]
 
-    def __init__(self, skip_init=False):
+    def __init__(self, skip_init=False, skip_cache=False):
         self.task_dict = None
+        self.skip_cache = skip_cache
         if not skip_init:
             self.init_tasks()
 
@@ -130,7 +131,7 @@ class Abed(object):
     def parse_results(self):
         # this takes over parse_results.py
         info("Starting make_results()")
-        make_results(self.task_dict)
+        make_results(self.task_dict, self.skip_cache)
 
     def run(self):
         # this takes over master/worker
