@@ -11,9 +11,9 @@ from .cv_tt import cvtt_tables
 from .assess import assess_tables
 from .export import export_tables
 
-def make_results(task_dict):
+def make_results(task_dict, skip_cache=False):
     """ This is the main function for result generation. """
-    abed_cache = update_result_cache(task_dict)
+    abed_cache = update_result_cache(task_dict, skip_cache=skip_cache)
     if settings.TYPE == 'ASSESS':
         tables = assess_tables(abed_cache)
     elif settings.TYPE == 'CV_TT':

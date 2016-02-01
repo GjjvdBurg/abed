@@ -8,7 +8,7 @@ that we want to know for each hash.
 from abed.conf import settings
 from abed.results.models import AbedCache, AbedResult
 from abed.results.walk import walk_for_cache
-from abed.utils import info, warning, hash_from_filename
+from abed.utils import info, warning
 
 def find_label(line):
     for scalar in settings.SCALARS:
@@ -64,15 +64,18 @@ def init_result_cache(task_dict):
     ac = AbedCache(methods=settings.METHODS, datasets=settings.DATASETS,
             metrics=settings.METRICS, scalars=settings.SCALARS)
     info("Starting cache generation")
+    counter = 0
     for dataset, method, fid, hsh in walk_for_cache(ac):
         result = parse_result_fileobj(fid, hsh, dataset, method)
         if result is None:
             continue
         ac.add_result(result)
+        counter += 1
     ac.dump()
+    info("Read %i result files into cache." % counter)
     return ac
 
-def update_result_cache(task_dict):
+def update_result_cache(task_dict, skip_cache=False):
     ac = AbedCache()
     try:
         ac.load()
@@ -81,6 +84,12 @@ def update_result_cache(task_dict):
         info("Result cache non-existent, generating it.")
         ac = init_result_cache(task_dict)
         return ac
+
+    # User requested skip of cache regeneration
+    if skip_cache:
+        warning("Skipping cache regeneration check on user request.")
+        return ac
+
     # updating the result cache is done in two steps:
     # 1. Check if new metrics or scalars are added, if so regenerate everything
     # 2. Check if new result files are added, if that's the case only generate

@@ -10,9 +10,9 @@ COMMANDS_HELP = {
         'auto': ('\t\tAutomate push and pull to facilitate '
             'continuous operation'),
         'compress_results': '\tCompress completed dataset directories.',
-        'explain_tbd_tasks': ('Print the task ID and corresponding command '
+        'explain_tbd_tasks': ('\tPrint the task ID and corresponding command '
             'of remaining tasks'),
-        'explain_all_tasks': ('Print the task ID and corresponding command '
+        'explain_all_tasks': ('\tPrint the task ID and corresponding command '
             'of all defined tasks'),
         'init': '\t\tInitialize a skeleton for abed',
         'local': '\t\tRun the computations locally.',
@@ -46,6 +46,8 @@ def parse_arguments():
         helptxt.append("%s:\t%s\n" % (cmd, COMMANDS_HELP[cmd]))
     parser.add_argument('cmd', choices=commands,
             help=''.join(helptxt), metavar='cmd')
+    parser.add_argument('-s', '--skip-cache', action='store_true',
+            help='Skip cache regeneration check')
     return parser.parse_args()
 
 def main():
@@ -60,7 +62,7 @@ def main():
                     "Run 'abed init' to initialize one. Exiting.")
             raise SystemExit
         skip_init = True
-    abed = Abed(skip_init=skip_init)
+    abed = Abed(skip_init=skip_init, skip_cache=args.skip_cache)
 
     info("Running abed command: %s" % args.cmd)
     try:
