@@ -28,7 +28,8 @@ def build_tables_scalar(abed_cache, scalarname):
     for i, dset in enumerate(sorted(abed_cache.datasets)):
         row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
-            values = abed_cache.get_scalar_values_dm(dset, method, scalarname)
+            values = list(abed_cache.get_scalar_values_dm(dset, method, 
+                scalarname))
             best_value = settings.SCALARS[scalarname]['best'](values)
             rounded = round(best_value, settings.RESULT_PRECISION)
             fmt = '%%.%df' % settings.RESULT_PRECISION

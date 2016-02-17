@@ -17,9 +17,10 @@ class AbedHTMLTypes:
     SCALAR_TABLES = ('Scalar Tables', 'scalar_tables.html')
     PROFILE_PLOTS = ('Profile Plots', 'profile_plots.html')
     RANK_GRAPHS = ('Rank Graphs', 'rank_graphs.html')
+    RANK_TESTS = ('Rank Tests', 'rank_tests.html')
     HISTOGRAMS = ('Histograms', 'histograms.html')
     types = [INDEX, METRIC_TABLES, SCALAR_TABLES, PROFILE_PLOTS, RANK_GRAPHS,
-            HISTOGRAMS]
+            RANK_TESTS, HISTOGRAMS]
 
 def get_data_path(filepath):
     packagedir = abed.__path__[0]

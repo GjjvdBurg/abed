@@ -25,6 +25,8 @@ on the first metric is optimal. This is done for all metric targets other than
 from itertools import product
 
 from abed.conf import settings
+from abed.utils import info
+from abed.progress import enum_progress
 from abed.results.models import AbedTable, AbedTableTypes
 from abed.results.ranks import make_rank_table
 from abed.results.tables import make_tables_scalar
@@ -63,7 +65,9 @@ def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
 def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
     table = AbedTable()
     table.headers = ['ID'] + sorted(abed_cache.methods)
-    for i, dset in enumerate(sorted(abed_cache.datasets)):
+    info("Generating tables for train metric %s, test metric %s, target %s" % 
+            (train_metric, test_metric, target))
+    for i, dset in enum_progress(sorted(abed_cache.datasets), label='Tables'):
         row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
             results = list(abed_cache.iter_results_dm(dset, method))

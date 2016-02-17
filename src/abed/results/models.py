@@ -99,6 +99,12 @@ class AbedResult(object):
             return self.results[label]
         else:
             return self.results[label][metric]
+    def __str__(self):
+        s = ("AbedResult(hsh=%r, dataset=%r, method=%r, results=%r)" % 
+                (self.hsh, self.dataset, self.method, self.results))
+        return s
+    def __repr__(self):
+        return str(self)
 
 class AbedTableTypes:
     VALUES = 'values'
