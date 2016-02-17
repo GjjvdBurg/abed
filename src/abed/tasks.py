@@ -37,8 +37,8 @@ def init_tasks():
         return init_tasks_assess()
     elif settings.TYPE == 'CV_TT':
         return init_tasks_cv_tt()
-    elif settings.TYPE == 'EXPLICIT':
-        return init_tasks_explicit()
+    elif settings.TYPE == 'RAW':
+        return init_tasks_raw()
     raise AbedExperimentTypeException
 
 def init_tasks_assess():
@@ -73,9 +73,9 @@ def init_tasks_cv_tt():
                 out[hsh] = task
     return out
 
-def init_tasks_explicit():
+def init_tasks_raw():
     out = {}
-    with open(settings.EXPLICIT_CMD_FILE, 'r') as fid:
+    with open(settings.RAW_CMD_FILE, 'r') as fid:
         tasks = [x.strip() for x in fid.readlines()]
     for txttask in tasks:
         hsh = hash(txttask)
@@ -110,7 +110,7 @@ def update_tasks(tasks):
 
 def explain_tasks(all_tasks):
     for task in sorted(all_tasks.keys()):
-        if settings.TYPE == 'EXPLICIT':
+        if settings.TYPE == 'RAW':
             cmd = all_tasks[task]
         else:
             d = {k:v for k, v in all_tasks[task].iteritems()}

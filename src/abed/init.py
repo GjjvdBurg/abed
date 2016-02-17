@@ -52,9 +52,9 @@ MW_COPY_SLEEP = 120
 #CV_BASESEED = 123456
 #YTRAIN_LABEL = 'y_train'
 
-# Explicitly defined commands in a text file #
-#TYPE = 'EXPLICIT'
-#EXPLICIT_CMD_FILE = '/path/to/file.txt'
+# Commands defined in a text file #
+#TYPE = 'RAW'
+#RAW_CMD_FILE = '/path/to/file.txt'
 
 ##############################################################################
 #                                Build settings                              #

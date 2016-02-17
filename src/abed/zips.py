@@ -68,7 +68,7 @@ def move_results(task_dict):
                 warning("Couldn't obtain hash from file: %s. Skipping." %
                         basename(fpath))
                 continue
-            if settings.TYPE == 'EXPLICIT':
+            if settings.TYPE == 'RAW':
                 dset = 'dataset'
                 method = 'method'
             else:
