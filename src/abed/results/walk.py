@@ -112,10 +112,9 @@ def walk_directory(dataset, dset, ac):
             continue
         mpath = '%s%s%s' % (dpath, os.sep, method)
         files = ['%s%s%s' % (mpath, os.sep, f) for f in os.listdir(mpath)]
-        for f in files:
-            hsh = hash_from_filename(f)
+        for fpath in files:
+            hsh = hash_from_filename(fpath)
             if not ac.has_result(hsh):
-                fpath = os.path.join(mpath, f)
                 fid = open(fpath, 'r')
                 yield dataset, method, fid, hsh
 

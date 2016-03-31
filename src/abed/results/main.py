@@ -18,6 +18,9 @@ def make_results(task_dict, skip_cache=False):
         tables = assess_tables(abed_cache)
     elif settings.TYPE == 'CV_TT':
         tables = cvtt_tables(abed_cache)
+    else:
+        raise NotImplementedError("Result generation for RAW mode is "
+                "not implemented yet.")
     summary_tables = export_tables(tables)
     tables.extend(summary_tables)
     generate_html(task_dict, tables)

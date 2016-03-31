@@ -27,7 +27,7 @@ def submitted():
             info("Job %s queued. Start time: %s" % (jobid, 
                 sttime.strftime("%c")))
         else:
-            info("Job %s queued.")
+            info("Job %s queued." % jobid)
     elif state == RUNNING:
         rmtime = get_remaining(jobid)
         info("Job %s running. Time remaining: %s" % (jobid, rmtime))
