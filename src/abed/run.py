@@ -52,7 +52,7 @@ def do_work(hsh, task, local=False):
         output = check_output(cmd, stderr=STDOUT, shell=True)
     except CalledProcessError as err:
         error("There was an error executing: '%s'. Here is the error: %s" % 
-                (cmd, err), color_wrap=False)
+                (cmd, err.output), color_wrap=False)
         return
     write_output(output, hsh)
     info("Finished with %s" % hsh, color_wrap=False)
