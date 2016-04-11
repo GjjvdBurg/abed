@@ -41,9 +41,10 @@ def generate_label_panel(lbl, lbl_table):
                     fval, fprob = global_difference(table)
                     tags.p("Friedman Test: F = %.4f with p-value %.6f" % 
                             (fval, fprob))
-                    holms = reference_difference(table)
+                    holms, CD = reference_difference(table)
                     tags.p("Holm's procedure, comparing all with %s:" % 
                             settings.REFERENCE_METHOD)
+                    tags.p("Critical difference: %f" % CD)
                     with tags.table(id="rt_"+tabid, _class="display", 
                             cellspacing='0', width='100%'):
                         with tags.thead():

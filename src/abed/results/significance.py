@@ -59,10 +59,14 @@ def reference_difference(table):
 
     # Calculate significant differences following Holm's procedure
     significant_differences = [False]*len(others)
+    CD_threshold = None
     for i in range(int(k-1)):
         threshold = settings.SIGNIFICANCE_LEVEL/float(k - (i+1))
         pval, idx = sorted_pvals[i]
         significant_differences[idx] = pval < threshold
+        if pval > threshold and CD_threshold is None:
+            CD_threshold = threshold
 
+    CD = -1*norm_dist.ppf(CD_threshold) / constant
     out = list(zip(others, Z_scores, P_values, significant_differences))
-    return out
+    return out, CD
