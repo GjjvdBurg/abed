@@ -72,7 +72,7 @@ def copy_worker(local):
     curdir = '%s/releases/current' % settings.REMOTE_DIR
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir
-    copy_task = ("rsync -avm --include='*.txt' -f 'hide,! */' %s %s" % 
+    copy_task = ("rsync -avm --include='*.*' -f 'hide,! */' %s %s" % 
             (scratch_results, local_results))
     while True:
         if comm.Iprobe(source=0, tag=MPI.ANY_TAG):
