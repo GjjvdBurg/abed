@@ -57,7 +57,7 @@ def do_work(hsh, task, local=False):
         cmd = command.format(**task)
     try:
         info("Executing: '%s'" % cmd, color_wrap=False)
-        output = check_output(cmd, stderr=STDOUT, shell=True)
+        output = check_output(cmd, shell=True)
     except CalledProcessError as err:
         error("There was an error executing: '%s'. Here is the error: %s" % 
                 (cmd, err.output), color_wrap=False)
