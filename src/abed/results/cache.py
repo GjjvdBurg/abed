@@ -16,6 +16,7 @@ def find_label(line):
             return scalar
     return '_'.join(line.split(' ')[1].split('_')[:-1])
 
+
 def parse_result_fileobj(fid, hsh, dataset, method):
     data = {}
     label = None
@@ -29,23 +30,30 @@ def parse_result_fileobj(fid, hsh, dataset, method):
                 data[label] = {'true': [], 'pred': []}
             continue
         if label in settings.SCALARS:
+            # If we already have data for a label, we continue to avoid 
+            # overwriting it
+            if data[label]:
+                continue
             try:
                 data[label] = float(l)
             except ValueError:
                 warning("Could not parse scalar metric '%s' for "
-                        "file with hash %s. Skipping." % (label, hsh))
-                fid.close()
-                return None
+                        "file with hash %s. Skipping.\nOffending line: %s" % 
+                        (label, hsh, l))
+                continue
         else:
             try:
-                true, pred = l.split('\t')
+                if '\t' in l:
+                    true, pred = l.split('\t')
+                else:
+                    true, pred = l.split(' ')
                 data[label]['true'].append(float(true))
                 data[label]['pred'].append(float(pred))
             except ValueError:
                 warning("Could not parse true/pred metric '%s' for "
-                        "file %s. Skipping." % (label, hsh))
-                fid.close()
-                return None
+                        "file %s. Skipping.\nOffending line: %s" % (label, hsh, 
+                            l))
+                continue
     fid.close()
 
     ar = AbedResult(hsh, dataset=dataset, method=method)
