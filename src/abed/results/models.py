@@ -70,6 +70,12 @@ class AbedCache(object):
             if result.dataset == dataset and result.method == method:
                 yield result.get_result(scalarname)
 
+    def __repr__(self):
+        return "AbedCache(n_results=%i)" % len(self.cache)
+
+    def __str__(self):
+        return repr(self)
+
 class AbedResult(object):
     """
     """
