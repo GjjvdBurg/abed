@@ -73,6 +73,9 @@ def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
             results = list(abed_cache.iter_results_dm(dset, method))
             values = [r.get_result(settings.YTRAIN_LABEL, metric=train_metric)
                     for r in results]
+            if not values:
+                row.append('NaN')
+                continue
             best_value = settings.METRICS[train_metric]['best'](values)
             best_results = [r for r in results if
                     r.get_result(settings.YTRAIN_LABEL, metric=train_metric)

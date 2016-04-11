@@ -50,7 +50,8 @@ def generate_buttons(tables, attribute):
                 'active': False
                 }
         buttons.append(btn)
-    buttons[0]['active'] = True
+    if buttons:
+        buttons[0]['active'] = True
     return buttons
 
 def bootstrap_radio_btn(_id, name, value, label, active=False):

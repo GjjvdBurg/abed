@@ -23,6 +23,8 @@ def generate_label_panel(lbl, lbl_table):
             tags.h3('Target: %s' % lbl, _class='panel-title')
         with tags.div(_class='panel-body'):
             for table in lbl_table[lbl]:
+                if len(settings.METHODS) <= 1:
+                    continue
                 tabid = get_table_id(table)
                 if table.is_metric:
                     if settings.TYPE == 'ASSESS':
