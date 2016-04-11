@@ -17,8 +17,9 @@ WORKTAG = 0
 KILLTAG = 1
 
 class Work(object):
-    def __init__(self):
+    def __init__(self, n_workers=1):
         self.work_items = []
+        self.n_workers = n_workers
 
     def get_next_item(self):
         if self.isempty():
@@ -28,9 +29,16 @@ class Work(object):
     def isempty(self):
         return (len(self.work_items) == 0)
 
+    @property
+    def send_at_once(self):
+        if self.n_workers*settings.MW_SENDATONCE <= len(self.work_items):
+            return settings.MW_SENDATONCE
+        else:
+            return 1
+
     def get_chunk(self):
         next_work = []
-        for n in range(settings.MW_SENDATONCE):
+        for n in range(self.send_at_once):
             next_work.append(self.get_next_item())
         next_work = [x for x in next_work if not x is None]
         if not next_work:
@@ -138,10 +146,11 @@ def mpi_start(task_dict, local=False):
 
 def mpi_start_remote(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
+    size = MPI.COMM_WORLD.Get_size()
 
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
-        work = Work()
+        work = Work(n_workers=size-2)
         work.work_items = task_dict.keys()
         master(work)
     elif rank == 1:
@@ -151,10 +160,11 @@ def mpi_start_remote(task_dict):
 
 def mpi_start_local(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
+    size = MPI.COMM_WORLD.Get_size()
 
-    # 0 = master, 1 = copy, rest = worker
+    # 0 = master, rest = worker
     if rank == 0:
-        work = Work()
+        work = Work(n_workers=size-1)
         work.work_items = task_dict.keys()
         master(work)
     else:
