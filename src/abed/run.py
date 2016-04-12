@@ -100,16 +100,19 @@ def master(all_work):
     size = MPI.COMM_WORLD.Get_size()
     comm = MPI.COMM_WORLD
     status = MPI.Status()
+    killed_workers = []
 
-    # send initial tasks to the workers
+    # send initial tasks to the workers, if there is no work for a worker then 
+    # kill it
     for rank in range(2, size):
         next_work = all_work.get_chunk()
         if next_work is None:
-            continue
-        comm.send(obj=next_work, dest=rank, tag=WORKTAG)
+            killed_workers.append(rank)
+            comm.send(obj=None, dest=rank, tag=KILLTAG)
+        else:
+            comm.send(obj=next_work, dest=rank, tag=WORKTAG)
 
     # keep sending out tasks when requested
-    killed_workers = []
     while True:
         comm.recv(obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, 
                 status=status)
