@@ -1,11 +1,10 @@
 import dominate
 import os
 
-from abed.conf import settings
-from abed.utils import info, clean_str
-
 from .common import navbar, bootstrap_radio_group, generate_buttons
 from .utils import AbedHTMLTypes, copy_data_file
+from ..conf import settings
+from ..utils import info, clean_str
 
 tags = dominate.tags
 

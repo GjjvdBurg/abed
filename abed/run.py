@@ -9,9 +9,9 @@ import time
 from mpi4py import MPI
 from subprocess import check_output, CalledProcessError, STDOUT
 
-from abed.conf import settings
-from abed.utils import info, error
-from abed.run_utils import get_scratchdir, write_output
+from .conf import settings
+from .utils import info, error
+from .run_utils import get_scratchdir, write_output
 
 WORKTAG = 0
 KILLTAG = 1

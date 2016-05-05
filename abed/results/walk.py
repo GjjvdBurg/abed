@@ -8,12 +8,12 @@ import tarfile
 
 from backports import lzma
 
-from abed.conf import settings
-from abed.datasets import dataset_name
-from abed.exceptions import (AbedDatasetdirNotFoundException,
+from ..conf import settings
+from ..datasets import dataset_name
+from ..exceptions import (AbedDatasetdirNotFoundException,
         AbedMethoddirNotFoundException)
-from abed.progress import iter_progress
-from abed.utils import hash_from_filename
+from ..progress import iter_progress
+from ..utils import hash_from_filename
 
 basename = os.path.basename
 splitext = os.path.splitext

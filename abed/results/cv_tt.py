@@ -24,12 +24,12 @@ on the first metric is optimal. This is done for all metric targets other than
 
 from itertools import product
 
-from abed.conf import settings
-from abed.utils import info
-from abed.progress import enum_progress
-from abed.results.models import AbedTable, AbedTableTypes
-from abed.results.ranks import make_rank_table
-from abed.results.tables import make_tables_scalar
+from .models import AbedTable, AbedTableTypes
+from .ranks import make_rank_table
+from .tables import make_tables_scalar
+from ..conf import settings
+from ..utils import info
+from ..progress import enum_progress
 
 def filter_targets(targets):
     for target in targets:

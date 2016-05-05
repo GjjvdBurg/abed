@@ -7,11 +7,11 @@ import tarfile
 import os
 from subprocess import check_output, CalledProcessError, STDOUT
 
-from abed.conf import settings
-from abed.datasets import dataset_name
-from abed.utils import error, info, hash_from_filename
-from abed.progress import iter_progress
-from abed.results.walk import files_w_dataset
+from .conf import settings
+from .datasets import dataset_name
+from .utils import error, info, hash_from_filename
+from .progress import iter_progress
+from .results.walk import files_w_dataset
 
 def dataset_completed(dsetfiles, dset, task_dict):
     if settings.TYPE == 'ASSESS':

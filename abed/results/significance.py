@@ -7,9 +7,9 @@ from scipy.stats import f as f_dist
 from scipy.stats import norm as norm_dist
 from math import sqrt
 
-from abed.conf import settings
-from abed.utils import error
 from .models import AbedTableTypes
+from ..conf import settings
+from ..utils import error
 
 def global_difference(table):
     """ Runs and F-test on the ranks. """

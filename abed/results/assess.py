@@ -4,10 +4,10 @@ Functions for generating result tables for type 'assess'
 
 """
 
-from abed.conf import settings
-from abed.results.models import AbedTable, AbedTableTypes
-from abed.results.ranks import make_rank_table
-from abed.results.tables import make_tables_scalar
+from .models import AbedTable, AbedTableTypes
+from .ranks import make_rank_table
+from .tables import make_tables_scalar
+from ..conf import settings
 
 def assess_tables(abed_cache):
     tables = []

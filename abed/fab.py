@@ -7,11 +7,11 @@ import time
 
 from fabric.operations import local
 
-from abed.auto import get_jobid_from_logs
-from abed.conf import settings
-from abed.fab_util import myfab
-from abed.pbs import generate_pbs_text
-from abed.utils import info, mkdir
+from .auto import get_jobid_from_logs
+from .conf import settings
+from .fab_util import myfab
+from .pbs import generate_pbs_text
+from .utils import info, mkdir
 
 def init_data():
     """ Push the data to the remote server """

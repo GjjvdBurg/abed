@@ -9,10 +9,10 @@ import os
 
 from collections import OrderedDict
 
-from abed.conf import settings
-from abed.datasets import dataset_name
-from abed.exceptions import AbedHashCollissionException
-from abed.utils import mkdir
+from ..conf import settings
+from ..datasets import dataset_name
+from ..exceptions import AbedHashCollissionException
+from ..utils import mkdir
 
 class AbedCache(object):
     """

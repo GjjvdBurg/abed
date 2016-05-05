@@ -8,8 +8,8 @@ import shutil
 
 import abed
 
-from abed.conf import settings
-from abed.utils import mkdir
+from ..conf import settings
+from ..utils import mkdir
 
 class AbedHTMLTypes:
     INDEX = ('Home', 'index.html')

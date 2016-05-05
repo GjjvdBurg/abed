@@ -1,7 +1,7 @@
 import os
 
 from .constants import CONFIG_FILENAME
-from abed.utils import error
+from .utils import error
 
 class Settings(object):
     def __init__(self, **entries):

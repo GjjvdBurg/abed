@@ -11,8 +11,8 @@ import webbrowser
 
 from socket import error as socket_error
 
-from abed.conf import settings
-from abed.utils import warning
+from ..conf import settings
+from ..utils import warning
 
 def view_html():
     port = settings.HTML_PORT

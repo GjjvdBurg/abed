@@ -1,8 +1,8 @@
 import argparse
 
-from abed.conf import settings
-from abed.models import Abed
-from abed.utils import info, error
+from .conf import settings
+from .models import Abed
+from .utils import info, error
 
 DESCRIPTION = ("ABED is a utility for Automated BEnchmark Distribution")
 

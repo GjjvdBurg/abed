@@ -5,9 +5,9 @@ Functions for dealing with git
 
 from subprocess import check_output, CalledProcessError
 
-from .constants import CONFIG_FILENAME
-from abed.conf import settings
-from abed.utils import error, info
+from .conf import settings
+from .constants import CONFIG_FILENAME, TASKS_FILENAME, AUTO_FILENAME
+from .utils import error, info
 
 def git_init():
     # init repo
@@ -26,15 +26,15 @@ def git_init():
         print(err.output)
         raise SystemExit
     try:
-        check_output(['git', 'add', 'abed_tasks.txt'])
+        check_output(['git', 'add', TASKS_FILENAME])
     except CalledProcessError as err:
-        error("Error executing 'git add abed_tasks.txt'. Error message:")
+        error("Error executing 'git add %s'. Error message:" % TASKS_FILENAME)
         print(err.output)
         raise SystemExit
     try:
-        check_output(['git', 'add', 'abed_auto.txt'])
+        check_output(['git', 'add', AUTO_FILENAME])
     except CalledProcessError as err:
-        error("Error executing 'git add abed_auto.txt'. Error message:")
+        error("Error executing 'git add %s'. Error message:" % AUTO_FILENAME)
         print(err.output)
         raise SystemExit
     try:

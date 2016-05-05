@@ -9,11 +9,11 @@ import random
 
 from itertools import izip, product
 
-from abed.conf import settings
-from abed.exceptions import (AbedHashCollissionException, 
+from .conf import settings
+from .exceptions import (AbedHashCollissionException, 
         AbedExperimentTypeException)
-from abed.results.walk import walk_hashes
-from abed.utils import error
+from .results.walk import walk_hashes
+from .utils import error
 
 def cartesian(params):
     return (dict(izip(params, x)) for x in product(*params.itervalues()))

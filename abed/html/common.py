@@ -8,8 +8,8 @@ import dominate
 
 tags = dominate.tags
 
-from abed.utils import clean_str
 from .utils import AbedHTMLTypes
+from ..utils import clean_str
 
 def navbar_content(active):
     nav = tags.ul(_class='nav navbar-nav')

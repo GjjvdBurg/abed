@@ -4,9 +4,9 @@ General functions for generating tables for Abed results
 
 """
 
-from abed.conf import settings
-from abed.results.models import AbedTable, AbedTableTypes
-from abed.results.ranks import make_rank_table
+from .models import AbedTable, AbedTableTypes
+from .ranks import make_rank_table
+from ..conf import settings
 
 def make_tables_scalar(abed_cache, scalar):
     # First create the normal table

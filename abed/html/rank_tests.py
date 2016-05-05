@@ -1,14 +1,13 @@
 import dominate
 import os
 
-from abed.conf import settings
-from abed.utils import info
-from abed.results.models import AbedTableTypes
-from abed.results.significance import global_difference, reference_difference
-
 from .common import navbar
 from .rank_graphs import get_table_id
 from .utils import AbedHTMLTypes, copy_data_file
+from ..conf import settings
+from ..utils import info
+from ..results.models import AbedTableTypes
+from ..results.significance import global_difference, reference_difference
 
 tags = dominate.tags
 

@@ -5,10 +5,10 @@ The result cache is basically a dictionary between the hashes and the metrics
 that we want to know for each hash.
 """
 
-from abed.conf import settings
-from abed.results.models import AbedCache, AbedResult
-from abed.results.walk import walk_for_cache
-from abed.utils import info, warning
+from .models import AbedCache, AbedResult
+from .walk import walk_for_cache
+from ..conf import settings
+from ..utils import info, warning
 
 def find_label(line):
     for scalar in settings.SCALARS:

@@ -9,7 +9,7 @@ be in the configuration file then.
 
 import time
 
-from abed.conf import settings
+from .conf import settings
 
 def sec2str(seconds):
     hours = seconds // 3600

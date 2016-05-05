@@ -7,7 +7,7 @@ import os
 
 from .constants import (CONFIG_FILENAME, DATASET_DIRNAME, EXECS_DIRNAME, 
         TASKS_FILENAME, AUTO_FILENAME)
-from abed.utils import info, mkdir, touch
+from .utils import info, mkdir, touch
 
 def init_config():
     txt = """

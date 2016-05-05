@@ -8,10 +8,10 @@ import os
 from dateutil.parser import parse
 from datetime import timedelta
 
-from abed.conf import settings
-from abed.exceptions import AbedPBSMultipleException
-from abed.fab_util import myfab
-from abed.utils import info
+from .conf import settings
+from .exceptions import AbedPBSMultipleException
+from .fab_util import myfab
+from .utils import info
 
 RUNNING = 'R'
 QUEUED = 'Q'

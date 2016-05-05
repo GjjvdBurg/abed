@@ -4,9 +4,9 @@ import os
 
 from tabulate import tabulate
 
-from abed.conf import settings
-from abed.results.models import AbedTable
-from abed.utils import info, mkdir, clean_str
+from .models import AbedTable
+from ..conf import settings
+from ..utils import info, mkdir, clean_str
 
 def export_tables(tables):
     summary_tables = []

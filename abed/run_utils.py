@@ -1,8 +1,8 @@
 
 import os
 
-from abed.conf import settings
-from abed.utils import info, mkdir
+from .conf import settings
+from .utils import info, mkdir
 
 def get_scratchdir(local=False):
     if local:

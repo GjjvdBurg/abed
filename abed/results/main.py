@@ -3,13 +3,12 @@ Main functions for generating ABED results
 
 """
 
-from abed.conf import settings
-from abed.html.main import generate_html
-
 from .cache import update_result_cache
 from .cv_tt import cvtt_tables
 from .assess import assess_tables
 from .export import export_tables
+from ..conf import settings
+from ..html.main import generate_html
 
 def make_results(task_dict, skip_cache=False):
     """ This is the main function for result generation. """

@@ -2,20 +2,20 @@
 import os
 import time
 
-from abed.auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
-from abed.compress import compress_results
-from abed.conf import settings
-from abed.fab import fab_push, fab_pull, fab_repull, fab_setup
-from abed.git import (git_add_auto, git_add_tbd, git_commit_auto,
-        git_commit_tbd, git_init, git_ok)
-from abed.html.view import view_html
-from abed.local import copy_local_files
-from abed.results.main import make_results
-from abed.run import mpi_start
-from abed.init import init_config
-from abed.tasks import init_tasks, read_tasks, update_tasks, explain_tasks
-from abed.utils import info, error
-from abed.zips import unpack_zips
+from .auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
+from .compress import compress_results
+from .conf import settings
+from .fab import fab_push, fab_pull, fab_repull, fab_setup
+from .git import (git_add_auto, git_add_tbd, git_commit_auto, git_commit_tbd,
+        git_init, git_ok)
+from .html.view import view_html
+from .local import copy_local_files
+from .results.main import make_results
+from .run import mpi_start
+from .init import init_config
+from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
+from .utils import info, error
+from .zips import unpack_zips
 
 class Abed(object):
 

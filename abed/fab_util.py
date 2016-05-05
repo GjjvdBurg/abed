@@ -5,7 +5,7 @@ from fabric.context_managers import cd as fab_cd
 from fabric.context_managers import settings as fab_settings
 from fabric.operations import hide, run, put, get
 
-from abed.conf import settings
+from .conf import settings
 
 class MyFabric(object):
     """

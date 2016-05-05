@@ -3,8 +3,8 @@ Functions for generating fractional ranks
 
 """
 
-from abed.conf import settings
-from abed.results.models import AbedTable, AbedTableTypes
+from .models import AbedTable, AbedTableTypes
+from ..conf import settings
 
 def get_ranks(x):
     """

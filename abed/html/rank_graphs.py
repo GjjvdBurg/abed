@@ -2,12 +2,11 @@ import dominate
 import os
 import json
 
-from abed.conf import settings
-from abed.utils import info, clean_str
-from abed.results.models import AbedTableTypes
-
 from .common import navbar
 from .utils import AbedHTMLTypes, copy_data_file
+from ..conf import settings
+from ..utils import info, clean_str
+from ..results.models import AbedTableTypes
 
 tags = dominate.tags
 

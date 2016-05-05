@@ -3,9 +3,9 @@ import shutil
 
 from mpi4py import MPI
 
-from abed.conf import settings
-from abed.run_utils import get_scratchdir
-from abed.utils import info, mkdir
+from .conf import settings
+from .run_utils import get_scratchdir
+from .utils import info, mkdir
 
 def copy_local_files():
     rank = MPI.COMM_WORLD.Get_rank()
