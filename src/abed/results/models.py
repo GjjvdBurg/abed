@@ -19,17 +19,21 @@ class AbedCache(object):
 
     """
 
-    def __init__(self, methods=None, datasets=None, metrics=None, scalars=None):
+    def __init__(self, methods=None, datasets=None, metrics=None, scalars=None, 
+            cachefile=None):
         self.methods = set()
         self.datasets = set()
         self.metrics = set()
         self.metric_targets = set()
         self.scalars = set()
         self.cache = {}
-        self.cachefile = settings.OUTPUT_DIR + os.sep + 'abed_cache.pkl'
-        mkdir(settings.OUTPUT_DIR)
+        if cachefile is None:
+            self.cachefile = settings.OUTPUT_DIR + os.sep + 'abed_cache.pkl'
+        else:
+            self.cachefile = cachefile
 
     def dump(self):
+        mkdir(os.path.dirname(self.cachefile))
         f = open(self.cachefile, 'wb')
         cPickle.dump(self.__dict__, f, 2)
         f.close()
@@ -75,6 +79,11 @@ class AbedCache(object):
 
     def __str__(self):
         return repr(self)
+
+    def __iter__(self):
+        for hsh in self.cache:
+            yield self.cache[hsh]
+
 
 class AbedResult(object):
     """
