@@ -3,6 +3,10 @@ Functions for creating a skeleton config file
 
 """
 
+import os
+
+from .constants import (CONFIG_FILENAME, DATASET_DIRNAME, EXECS_DIRNAME, 
+        TASKS_FILENAME, AUTO_FILENAME)
 from abed.utils import info, mkdir, touch
 
 def init_config():
@@ -11,8 +15,8 @@ def init_config():
 #                                General Settings                            #
 ##############################################################################
 PROJECT_NAME = ''
-TASK_FILE = './abed_tasks.txt'
-AUTO_FILE = './abed_auto.txt'
+TASK_FILE = '{task_file}'
+AUTO_FILE = '{auto_file}'
 RESULT_DIR = '/path/to/local/results'
 STAGE_DIR = '/path/to/local/stagedir'
 MAX_FILES = 1000
@@ -29,7 +33,7 @@ COMPRESSION = 'bzip2'
 REMOTE_NEEDS_INIT = True
 REMOTE_USER = 'username'
 REMOTE_HOST = 'address.of.host'
-REMOTE_DIR = '/home/%s/projects/project_name' % REMOTE_USER
+REMOTE_DIR = '/home/%s/projects/%s' % (REMOTE_USER, PROJECT_NAME)
 REMOTE_PORT = 22
 REMOTE_SCRATCH = None
 REMOTE_SCRATCH_ENV = 'TMPDIR'
@@ -66,43 +70,43 @@ BUILD_CMD = 'make all' # Build command
 ##############################################################################
 #                      Experiment parameters and settings                    #
 ##############################################################################
-DATADIR = 'datasets'
-EXECDIR = 'execs'
+DATADIR = '{data_dir}'
+EXECDIR = '{exec_dir}'
 DATASETS = ['dataset_1', 'dataset_2']
 METHODS = ['method_1', 'method_2']
-PARAMS = {
-        'method_1': {
+PARAMS = {{
+        'method_1': {{
             'param_1': [val_1, val_2],
             'param_2': [val_3, val_4],
             'param_3': [val_5, val_6]
-            },
-        'method_2': {
+            }},
+        'method_2': {{
             'param_1': [val_1, val_2, val_3],
-            },
-        }
+            }},
+        }}
 
-COMMANDS = {
-        'method_1': ("{execdir}/method_1 {datadir}/{dataset} {param_1} "
-            "{param_2} {param_3}"),
-        'method_2': "{execdir}/method_2 {datadir}/{dataset} {param_1}"
-        }
+COMMANDS = {{
+        'method_1': ("{{execdir}}/method_1 {{datadir}}/{{dataset}} {{param_1}} "
+            "{{param_2}} {{param_3}}"),
+        'method_2': "{{execdir}}/method_2 {{datadir}}/{{dataset}} {{param_1}}"
+        }}
 
-METRICS = {
-        'NAME_1': {
+METRICS = {{
+        'NAME_1': {{
             'metric': metric_function_1,
             'best': max
-            },
-        'NAME_2': {
+            }},
+        'NAME_2': {{
             'metric': metric_function_2,
             'best': min
-            }
-        }
+            }}
+        }}
 
-SCALARS = {
-        'time': {
+SCALARS = {{
+        'time': {{
             'best': min
-            },
-        }
+            }},
+        }}
 
 RESULT_PRECISION = 4
 
@@ -122,17 +126,19 @@ PBS_CORETYPE = None
 PBS_PPN = None
 PBS_MODULES = ['mpicopy', 'python/2.7.9']
 PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
-PBS_MPICOPY = ['datasets', EXECDIR, TASK_FILE]
+PBS_MPICOPY = ['{data_dir}', EXECDIR, TASK_FILE]
 PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
 
-"""
-    configfile = './abed_conf.py'
+""".format(task_file=TASKS_FILENAME, auto_file=AUTO_FILENAME, 
+        data_dir=DATASET_DIRNAME, exec_dir=EXECS_DIRNAME)
+    configfile = os.path.join(os.getcwd(), CONFIG_FILENAME)
     with open(configfile, 'w') as fid:
         fid.write(txt)
     info("Wrote initial config to %s." % configfile)
-    mkdir('datasets')
-    mkdir('execs')
-    info("Created 'datasets' and 'execs' directories")
-    touch('./abed_auto.txt')
-    touch('./abed_tasks.txt')
-    info("Created 'abed_auto.txt' and 'abed_tasks.txt'")
+    mkdir(os.path.join(os.getcwd(), DATASET_DIRNAME))
+    mkdir(os.path.join(os.getcwd(), EXECS_DIRNAME))
+    info("Created '%s' and '%s' directories" % (DATASET_DIRNAME, 
+        EXECS_DIRNAME))
+    touch(AUTO_FILENAME)
+    touch(TASKS_FILENAME)
+    info("Created '%s' and '%s'" % (AUTO_FILENAME, TASKS_FILENAME))

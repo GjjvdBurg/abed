@@ -13,18 +13,18 @@ from abed import init
 class AbedInitTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.conf_path = './abed_conf.py'
-        self.data_path = './datasets'
-        self.exec_path = './execs'
-        self.task_path = './abed_tasks.txt'
-        self.auto_path = './abed_auto.txt'
+        self.conf_path = 'abed_conf.py'
+        self.data_path = 'datasets'
+        self.exec_path = 'execs'
+        self.task_path = 'abed_tasks.txt'
+        self.auto_path = 'abed_auto.txt'
         self.expected_config = """
 ##############################################################################
 #                                General Settings                            #
 ##############################################################################
 PROJECT_NAME = ''
-TASK_FILE = './abed_tasks.txt'
-AUTO_FILE = './abed_auto.txt'
+TASK_FILE = 'abed_tasks.txt'
+AUTO_FILE = 'abed_auto.txt'
 RESULT_DIR = '/path/to/local/results'
 STAGE_DIR = '/path/to/local/stagedir'
 MAX_FILES = 1000
@@ -41,7 +41,7 @@ COMPRESSION = 'bzip2'
 REMOTE_NEEDS_INIT = True
 REMOTE_USER = 'username'
 REMOTE_HOST = 'address.of.host'
-REMOTE_DIR = '/home/%s/projects/project_name' % REMOTE_USER
+REMOTE_DIR = '/home/%s/projects/%s' % (REMOTE_USER, PROJECT_NAME)
 REMOTE_PORT = 22
 REMOTE_SCRATCH = None
 REMOTE_SCRATCH_ENV = 'TMPDIR'
@@ -150,9 +150,14 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
         self.assertTrue(os.path.isfile(self.conf_path))
 
         with open(self.conf_path, 'r') as fid:
-            lines = fid.readlines()
-        txt = ''.join(lines)
-        self.assertEqual(txt, self.expected_config)
+            lines = [l.strip() for l in fid.readlines()]
+
+        exp_lines = [l.strip() for l in self.expected_config.split('\n')]
+        counter = 0
+        for tl, el in zip(lines, exp_lines):
+            print(counter, tl, el)
+            self.assertEqual(tl, el)
+            counter += 1
 
     def tearDown(self):
         os.rmdir(self.data_path)

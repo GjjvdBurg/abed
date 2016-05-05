@@ -5,6 +5,7 @@ Functions for dealing with git
 
 from subprocess import check_output, CalledProcessError
 
+from .constants import CONFIG_FILENAME
 from abed.conf import settings
 from abed.utils import error, info
 
@@ -18,9 +19,10 @@ def git_init():
         raise SystemExit
     # add conf
     try:
-        check_output(['git', 'add', 'abed_conf.py'])
+        check_output(['git', 'add', CONFIG_FILENAME])
     except CalledProcessError as err:
-        error("Error executing 'git add abed_conf.py'. Error message:")
+        error("Error executing 'git add %s'. Error message:" %
+                CONFIG_FILENAME)
         print(err.output)
         raise SystemExit
     try:

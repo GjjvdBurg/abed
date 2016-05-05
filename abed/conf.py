@@ -1,5 +1,6 @@
 import os
 
+from .constants import CONFIG_FILENAME
 from abed.utils import error
 
 class Settings(object):
@@ -18,12 +19,9 @@ def parse_dirs(config, key):
         config[key] = config[key].rstrip(os.sep)
 
 def init_config():
-    cur = os.getcwd()
-    files = os.listdir(cur)
-    conf_file = next((x for x in files if x.startswith('abed_conf')), None)
-    if conf_file is None:
+    configfile = os.path.join(os.getcwd(), CONFIG_FILENAME)
+    if not os.path.isfile(configfile):
         return None
-    configfile = os.path.realpath(conf_file)
     config = {}
     try:
         exec(open(configfile).read(), config)
