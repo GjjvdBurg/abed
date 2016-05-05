@@ -21,8 +21,7 @@ setup(
         author_email = "gertjanvandenburg@gmail.com",
         description = ("A utility for Automated BEnchmark Distribution"),
         license = "GPL v2",
-        package_dir = {'': 'src'},
-        packages = find_packages('src'),
+        packages = find_packages(),
         long_description = read('README.md'),
         scripts = ['bin/abed'],
         install_requires = [
