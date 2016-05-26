@@ -11,8 +11,8 @@ from ..results.significance import global_difference, reference_difference
 
 tags = dominate.tags
 
-def create_rank_tests_html(tables):
-    html = generate_tests_html(tables)
+def create_rt_html(tables):
+    html = generate_rt_html(tables)
     write_tables_html(html)
 
 def generate_label_panel(lbl, lbl_table):
@@ -60,7 +60,7 @@ def generate_label_panel(lbl, lbl_table):
                 tags.hr()
     return panel
 
-def generate_tests_html(tables):
+def generate_rt_html(tables):
     doc = dominate.document(title='ABED Rank Tests')
 
     with doc.head:

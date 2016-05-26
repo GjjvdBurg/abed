@@ -3,7 +3,7 @@ from .index import create_index_html
 from .metric_tables import create_metric_tables_html
 from .scalar_tables import create_scalar_tables_html
 from .rank_graphs import create_rank_graphs_html
-from .rank_tests import create_rank_tests_html
+from .rank_tests import create_rt_html
 from .utils import copy_auxiliary_files
 
 def generate_html(task_dict, tables):
@@ -13,5 +13,5 @@ def generate_html(task_dict, tables):
     scalartables = [t for t in tables if not t.is_metric]
     create_scalar_tables_html(scalartables)
     create_rank_graphs_html(tables)
-    create_rank_tests_html(tables)
+    create_rt_html(tables)
     copy_auxiliary_files()
