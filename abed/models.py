@@ -113,7 +113,7 @@ class Abed(object):
             if len(self.task_dict) == 0:
                 info("Stopping auto loop")
                 break
-            if submitted() is None:
+            if not submitted():
                 info("No submitted task found, assuming done.")
                 jobid = get_jobid_from_logs()
                 info("Found jobid from logs: %s" % jobid)
