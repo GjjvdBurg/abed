@@ -45,10 +45,14 @@ def parse_arguments():
     for cmd in commands:
         helptxt.append("%s:\t%s\n" % (cmd, COMMANDS_HELP[cmd]))
     parser.add_argument('cmd', choices=commands,
-            help=''.join(helptxt), metavar='cmd')
+            help=''.join(helptxt), metavar='cmd', nargs='?', default=None)
     parser.add_argument('-s', '--skip-cache', action='store_true',
             help='Skip cache regeneration check')
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.cmd is None:
+        parser.print_help()
+        raise SystemExit
+    return args
 
 def main():
     args = parse_arguments()
