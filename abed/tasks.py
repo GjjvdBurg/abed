@@ -7,7 +7,7 @@ import os
 import sys
 import random
 
-from itertools import izip, product
+from itertools import product
 
 from .conf import settings
 from .exceptions import (AbedHashCollissionException, 
@@ -16,7 +16,7 @@ from .results.walk import walk_hashes
 from .utils import error
 
 def cartesian(params):
-    return (dict(izip(params, x)) for x in product(*params.itervalues()))
+    return (dict(zip(params, x)) for x in product(*params.itervalues()))
 
 def check_size():
     if not sys.maxsize == 9223372036854775807:

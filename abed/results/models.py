@@ -4,10 +4,10 @@ Models for holding a result cache
 
 """
 
-import cPickle
 import os
 
 from collections import OrderedDict
+from six.moves import cPickle
 
 from ..conf import settings
 from ..datasets import dataset_name

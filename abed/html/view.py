@@ -5,9 +5,9 @@ This starts up a simple http server and launches the browser
 
 import errno
 import os
-import SimpleHTTPServer
-import SocketServer
 import webbrowser
+
+from six.moves import SimpleHTTPServer, socketserver
 
 from socket import error as socket_error
 
@@ -20,7 +20,7 @@ def view_html():
     handler = SimpleHTTPServer.SimpleHTTPRequestHandler
     while True:
         try:
-            httpd = SocketServer.TCPServer(('', port), handler)
+            httpd = socketserver.TCPServer(('', port), handler)
             break
         except socket_error as err:
             if not err.errno == errno.EADDRINUSE:
