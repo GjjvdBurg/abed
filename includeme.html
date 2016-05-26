@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ABED: Automated BEnchmark Distribution in Python &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to abed’s documentation!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="abed-automated-benchmark-distribution-in-python">
+<h1>ABED: Automated BEnchmark Distribution in Python<a class="headerlink" href="#abed-automated-benchmark-distribution-in-python" title="Permalink to this headline">¶</a></h1>
+<p>ABED is an automated system for benchmarking machine learning algorithms. It
+is created for running experiments where it is desired to run multiple methods
+on multiple datasets using multiple parameters. It includes automated
+processing of result files into result tables. ABED was designed for use
+with the Dutch LISA supercomputer, but can hopefully be used on any Torque
+compute cluster.</p>
+<p>ABED was created as a way to automate all the tedious work necessary to set
+up proper benchmarking experiments. It also removes much of the hassle by
+using a single configuration file for the experimental setup. A core feature
+of ABED is that it doesn&#8217;t care about which language the tested methods are
+written in.</p>
+<p>ABED can create output tables as either simple txt files, or as html pages
+using the excellent <a class="reference external" href="https://datatables.net/">DataTables</a> plugin. To support
+offline operation the necessary DataTables files are packaged with ABED.</p>
+<div class="section" id="usage">
+<h2>Usage:<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Create a skeleton for your project:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">init</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Edit configuration, add datasets and executables, and git commit these</p>
+</li>
+<li><p class="first">Create remote directory structure (this will also create task file from
+config):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">setup</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Push to server:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">push</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">When tasks are done, collect results:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">pull</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Alternatively, automate push/pull using:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>This however requires SSH keys to be exchanged with the remote host. See
+for instance, <a class="reference external" href="http://www.rebol.com/docs/ssh-auto-login.html">this</a>
+guide.</p>
+</li>
+<li><p class="first">Create summary files using the specified metrics using:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">parse_results</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>ABED works only on Python 2 due to the dependency on Fabric. For the list of
+dependencies see <code class="docutils literal"><span class="pre">setup.py</span></code>.</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To install ABED only for the current user, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python2</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span>
+</pre></div>
+</div>
+<p>Note, if you&#8217;re on LISA, you need to specify the Python version you wish to
+use by first running:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">python</span><span class="o">/</span><span class="mf">2.7</span><span class="o">.</span><span class="mi">9</span>
+</pre></div>
+</div>
+<p>After installation, the executable will be placed in <code class="docutils literal"><span class="pre">~/.local/bin</span></code>, which you
+should add to your <code class="docutils literal"><span class="pre">PATH</span></code> variable for convenience, by placing the following
+line in your <code class="docutils literal"><span class="pre">~/.bashrc</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>export PATH=$PATH:~/.local/bin/
+</pre></div>
+</div>
+<p>After this, either open a new terminal or run <code class="docutils literal"><span class="pre">source</span> <span class="pre">~/.bashrc</span></code>.</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>ABED works with a single configuration file. It was designed for the Dutch
+LISA compute cluster, but can hopefully be generalized to other environments
+as well. Some functionality provided by LISA is used which may not be
+available in other environments:</p>
+<ul class="simple">
+<li>Scratch directories: tasks executed through the PBS server are executed on
+nodes which have a temporary local storage directory, called the &#8220;scratch&#8221;
+directory. The location of this storage is provided through the TMPDIR
+environment variable, which is used by ABED to place the result files. This
+reduces communication overhead to the users home directory, which is located
+outside the compute node.</li>
+<li>mpicopy is a command which copies data from the home directory of the user
+to the scratch directory on the node. The ABED setting &#8216;PBS_MPICOPY&#8217; can be
+used to define folders or files which need to be copied to the nodes. In the
+skeleton configuration file the dataset, executable, abed task file are
+added to this list.</li>
+<li>pbzip2</li>
+<li>mail system, see <a class="reference external" href="https://surfsara.nl/systems/lisa/usage/batch-usage#heading18">here</a></li>
+</ul>
+</div>
+<div class="section" id="workings">
+<h2>Workings<a class="headerlink" href="#workings" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Start a new project by running <code class="docutils literal"><span class="pre">abed</span> <span class="pre">init</span></code></li>
+<li>Use <code class="docutils literal"><span class="pre">abed</span> <span class="pre">setup</span></code> to setup the remote directory structure.</li>
+<li>Use <code class="docutils literal"><span class="pre">abed</span> <span class="pre">push</span></code> or <code class="docutils literal"><span class="pre">abed</span> <span class="pre">auto</span></code> to push the data to the remote server, write
+out the PBS file, and queue it.</li>
+<li>Use <code class="docutils literal"><span class="pre">abed</span> <span class="pre">pull</span></code> or <code class="docutils literal"><span class="pre">abed</span> <span class="pre">auto</span></code> to pull the results from the remote server,
+unpack the zip files, update the task list and git commit the updated list.</li>
+</ol>
+<p>Running the tasks on the cluster is done as follows:</p>
+<ol class="arabic">
+<li><p class="first">In the PBS the following preprocessing steps are taken:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>A <code class="docutils literal"><span class="pre">results</span></code> directory is created on the scratch filesystem (see
+above)</li>
+<li>An email is sent to the current user with a brief summary of the
+number of tasks to be performed. This is sent to the users email,
+an may require a forwarding file to be delivered correctly.</li>
+<li>Optional modules are loaded</li>
+<li>Optional environment variables are exported</li>
+<li><code class="docutils literal"><span class="pre">mpicopy</span></code> is used to copy files from the home directory to the
+scratch filesystem</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">abed</span> <span class="pre">run</span></code> is executed through <code class="docutils literal"><span class="pre">mpiexec</span></code>. This requires ABED to be in the
+PATH variable. This command is run in a timeout command, with the execution
+time reduced by a configurable number of seconds. This should allow enough
+time for the post-processing steps</p>
+</li>
+<li><p class="first">The postprocessing steps are:</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Create a <code class="docutils literal"><span class="pre">bzips</span></code> directory in the current release directory</li>
+<li>Create a compressed archive for each dataset in the result
+directory, this is done in parallel through <code class="docutils literal"><span class="pre">pbzip2</span></code></li>
+<li>Copy the compressed files to the current release directory</li>
+<li>Sent an email to the user that the task is completed.</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Installation of ABED and its dependencies must be done under the same
+Python version. It is recommended to use Python version 2.7.9.</li>
+<li>ABED currently allows two modes of operation: &#8216;ASSESS&#8217; for model
+assessment, and &#8216;CV_TT&#8217; for cross validation with a test dataset. In the
+latter case the datasets need to be specified with &#8216;{train_dataset}&#8217; and
+&#8216;{test_dataset}&#8217; in the ABED configuration file.</li>
+<li>ABED is very much a work in process and functionality can break at any
+moment. For a similar and more mature project see:
+<a class="reference external" href="https://github.com/tudo-r/BatchExperiments">BatchExperiments</a>.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ABED: Automated BEnchmark Distribution in Python</a><ul>
+<li><a class="reference internal" href="#usage">Usage:</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#workings">Workings</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to abed&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/includeme.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/includeme.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
