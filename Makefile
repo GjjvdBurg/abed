@@ -3,6 +3,7 @@
 #
 
 PACKAGE=abed
+DOC_DIR='./docs/'
 
 .PHONY: help
 
@@ -41,3 +42,6 @@ dist: ## Make Python source distribution
 
 dist2: ## Make Python 2 source distribution
 	python2 setup.py sdist
+
+doc: install ## Build documentation with sphinx
+	$(MAKE) -C $(DOC_DIR) html

@@ -14,12 +14,13 @@
 # serve to show the default.
 
 import sys
-import os
+
+from os.path import abspath, dirname, join
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.append(abspath(join(dirname(__file__), "_ext")))
 
 # -- General configuration ------------------------------------------------
 
@@ -30,6 +31,7 @@ import os
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'abeddocs',
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',

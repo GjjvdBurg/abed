@@ -5,14 +5,19 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../../abed_docs/
+BUILDDIR      = ../../abed_docs
 PDFBUILDDIR   = /tmp
 PDF           = ../manual.pdf
 
 # User-friendly check for sphinx-build
-ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
-	$(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don\'t have Sphinx installed, grab it from http://sphinx-doc.org/)
-endif
+#ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
+#	$(error The '$(SPHINXBUILD)' command was not found. Make sure you have 
+#	Sphinx installed, then set the SPHINXBUILD environment variable to 
+#	point to the full path of the '$(SPHINXBUILD)' executable.  
+#	Alternatively you can add the directory with the executable to your 
+#	PATH. If you don\'t have Sphinx installed, grab it from 
+#	http://sphinx-doc.org/)
+#endif
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -231,3 +236,8 @@ dummy:
 	$(SPHINXBUILD) -b dummy $(ALLSPHINXOPTS) $(BUILDDIR)/dummy
 	@echo
 	@echo "Build finished. Dummy builder generates no files."
+#
+#.PHONY: build_and_gh_push
+#build_and_gh_push: html
+#	cd $(BUILDDIR)/html ; git add . ; git commit -m "rebuilt docs" ; git 
+#	push origin gh-pages

@@ -22,7 +22,7 @@ setup(
         description = ("A utility for Automated BEnchmark Distribution"),
         license = "GPL v2",
         packages = find_packages(),
-        long_description = read('README.md'),
+        long_description = read('README.rst'),
         scripts = ['bin/abed'],
         install_requires = [
             'Fabric3==1.11.1.post1',
