@@ -38,7 +38,6 @@ COMPRESSION = 'bzip2'
 ##############################################################################
 #                          Server parameters and settings                    #
 ##############################################################################
-REMOTE_NEEDS_INIT = True
 REMOTE_USER = 'username'
 REMOTE_HOST = 'address.of.host'
 REMOTE_DIR = '/home/%s/projects/%s' % (REMOTE_USER, PROJECT_NAME)

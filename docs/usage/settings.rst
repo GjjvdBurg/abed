@@ -98,13 +98,6 @@ Default: ``'bzip2'``
 Server parameters and settings
 ==============================
 
-.. setting:: REMOTE_NEEDS_INIT
-
-``REMOTE_NEEDS_INIT``
----------------------
-
-Default: ``True``
-
 .. setting:: REMOTE_USER
 
 ``REMOTE_USER``
