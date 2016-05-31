@@ -125,7 +125,7 @@ PBS_CORETYPE = None
 PBS_PPN = None
 PBS_MODULES = ['mpicopy', 'python/2.7.9']
 PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
-PBS_MPICOPY = ['{data_dir}', EXECDIR, TASK_FILE]
+PBS_MPICOPY = ['{data_dir}', '{exec_dir}', TASK_FILE]
 PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
 
 """.format(task_file=TASKS_FILENAME, auto_file=AUTO_FILENAME, 
