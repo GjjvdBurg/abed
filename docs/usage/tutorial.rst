@@ -5,11 +5,13 @@ Overview and Tutorial
 Welcome to the tutorial for Abed!
 
 This document will take you through setting up and running your first 
-experiments with Abed.
+experiments with Abed. It is assumed that you have already installed Abed both 
+locally and on the compute cluster you intend to use, as described in the 
+guide on :doc:`installation`.
 
 
 What is Abed?
-=================
+=============
 
 Abed was designed to simplify the deployment and analysis of benchmark 
 studies in statistics and machine learning, but can also be used as an easy 
@@ -18,10 +20,10 @@ overview of Abed's features.
 
 
 Using Abed
-==============
+==========
 
 Note first that Abed is a command line tool, with an interface that should 
-familiar to users of *git*. For instance, simply typing::
+familiar to users of **git**. For instance, simply typing::
 
     abed
 
@@ -30,7 +32,7 @@ Abed. So how do we actually use Abed?
 
 
 Local setup of an Abed project
-----------------------------------
+------------------------------
 
 First of all, create a new directory for your experiment and switch to it::
 
@@ -74,11 +76,11 @@ this).
 
 Now that you've initialized the Abed folder, it's time to edit the 
 appropriate settings, define tasks, and create executables. Don't forget to 
-commit everything to git once you're done. See :doc:`usage/settings` for more 
+commit everything to git once you're done. See :doc:`settings` for more 
 information on defining the experiments through the settings file.
 
 Remote setup of an Abed project
------------------------------------
+-------------------------------
 
 Assuming that you've defined everything in the settings file, we should first 
 reload the tasks that Abed will run, so the task file corresponds to the 
@@ -133,7 +135,7 @@ commited to the git repository will be transferred to the remote.*
 
 
 Running an Abed project
----------------------------
+-----------------------
 
 Now that we've finished the setup of Abed both locally and on the remote, 
 it's time to start the computations. This can be done by running::
@@ -177,7 +179,10 @@ command can be used::
 
    abed auto
 
-This command automatically pushes and pulls, until all tasks are completed.
+This command automatically pushes and pulls, until all tasks are completed.  
+For this to work as intended, it must be possible to login to the cluster 
+without typing a password. This can be done by exchanging SSH keys, as 
+described `here <http://www.rebol.com/docs/ssh-auto-login.html>`_.
 
 
 When all tasks are finished
