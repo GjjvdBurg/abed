@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.results.assess &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.results.assess</h1><div class="highlight"><pre>
+<span></span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for generating result tables for type &#39;assess&#39;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">AbedTable</span><span class="p">,</span> <span class="n">AbedTableTypes</span>
+<span class="kn">from</span> <span class="nn">.ranks</span> <span class="kn">import</span> <span class="n">make_rank_table</span>
+<span class="kn">from</span> <span class="nn">.tables</span> <span class="kn">import</span> <span class="n">make_tables_scalar</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<div class="viewcode-block" id="assess_tables"><a class="viewcode-back" href="../../../api/results/abed.results.assess.html#abed.results.assess.assess_tables">[docs]</a><span class="k">def</span> <span class="nf">assess_tables</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">):</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">abed_cache</span><span class="o">.</span><span class="n">metric_targets</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">abed_cache</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
+            <span class="n">tables</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">assess_make_tables_metric</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">abed_cache</span><span class="o">.</span><span class="n">scalars</span><span class="p">:</span>
+        <span class="n">tables</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">make_tables_scalar</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">,</span> <span class="n">scalar</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">tables</span></div>
+
+<div class="viewcode-block" id="assess_make_tables_metric"><a class="viewcode-back" href="../../../api/results/abed.results.assess.html#abed.results.assess.assess_make_tables_metric">[docs]</a><span class="k">def</span> <span class="nf">assess_make_tables_metric</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="c1"># First create the normal table</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">assess_build_tables_metric</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">higher_better</span> <span class="o">=</span> <span class="p">(</span><span class="bp">True</span> <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">max</span> <span class="k">else</span> 
+            <span class="bp">False</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">AbedTableTypes</span><span class="o">.</span><span class="n">VALUES</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;Metric: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">metric</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">metric</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">is_metric</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">metricname</span> <span class="o">=</span> <span class="n">metric</span>
+    <span class="c1"># Now create the rank table from the generated table</span>
+    <span class="n">ranktable</span> <span class="o">=</span> <span class="n">make_rank_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">table</span><span class="p">,</span> <span class="n">ranktable</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="assess_build_tables_metric"><a class="viewcode-back" href="../../../api/results/abed.results.assess.html#abed.results.assess.assess_build_tables_metric">[docs]</a><span class="k">def</span> <span class="nf">assess_build_tables_metric</span><span class="p">(</span><span class="n">abed_cache</span><span class="p">,</span> <span class="n">metricname</span><span class="p">,</span> <span class="n">metric_label</span><span class="p">):</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">AbedTable</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">abed_cache</span><span class="o">.</span><span class="n">methods</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">abed_cache</span><span class="o">.</span><span class="n">datasets</span><span class="p">)):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">abed_cache</span><span class="o">.</span><span class="n">methods</span><span class="p">)):</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">abed_cache</span><span class="o">.</span><span class="n">get_metric_values_dm</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> 
+                <span class="n">metric_label</span><span class="p">,</span> <span class="n">metricname</span><span class="p">))</span>
+            <span class="n">best_value</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">[</span><span class="n">metricname</span><span class="p">][</span><span class="s1">&#39;best&#39;</span><span class="p">](</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">rounded</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">best_value</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">RESULT_PRECISION</span><span class="p">)</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%%</span><span class="s1">.</span><span class="si">%d</span><span class="s1">f&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">RESULT_PRECISION</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fmt</span> <span class="o">%</span> <span class="n">rounded</span><span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">table</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

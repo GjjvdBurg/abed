@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>General Utility functions &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-abed.utils">
+<span id="general-utility-functions"></span><h1>General Utility functions<a class="headerlink" href="#module-abed.utils" title="Permalink to this headline">¶</a></h1>
+<p>Various utility functions used throughout abed</p>
+<dl class="function">
+<dt id="abed.utils.clean_str">
+<code class="descclassname">abed.utils.</code><code class="descname">clean_str</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#clean_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.clean_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.colorprint">
+<code class="descclassname">abed.utils.</code><code class="descname">colorprint</code><span class="sig-paren">(</span><em>s</em>, <em>color=None</em>, <em>sep=''</em>, <em>end='\n'</em>, <em>file=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#colorprint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.colorprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for printing output to stdout in colour. Simply an extension of
+the Python 3 print function which supports colour by adding a shell
+colour code. Available colors are: purple, blue, gree, yellow, and red.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.error">
+<code class="descclassname">abed.utils.</code><code class="descname">error</code><span class="sig-paren">(</span><em>txt</em>, <em>color_wrap=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.hash_from_filename">
+<code class="descclassname">abed.utils.</code><code class="descname">hash_from_filename</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#hash_from_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.hash_from_filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.info">
+<code class="descclassname">abed.utils.</code><code class="descname">info</code><span class="sig-paren">(</span><em>txt</em>, <em>color_wrap=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.mkdir">
+<code class="descclassname">abed.utils.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.touch">
+<code class="descclassname">abed.utils.</code><code class="descname">touch</code><span class="sig-paren">(</span><em>fname</em>, <em>times=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#touch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.touch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.warning">
+<code class="descclassname">abed.utils.</code><code class="descname">warning</code><span class="sig-paren">(</span><em>txt</em>, <em>color_wrap=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.warning" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="abed.utils.wrap_text">
+<code class="descclassname">abed.utils.</code><code class="descname">wrap_text</code><span class="sig-paren">(</span><em>text</em>, <em>max_length=120</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/utils.html#wrap_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.utils.wrap_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps the words into lines of a fixed length for prettier printing.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/core/abed.utils.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../../_sources/api/core/abed.utils.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

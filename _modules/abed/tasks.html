@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.tasks &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.tasks</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for managing tasks</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AbedHashCollissionException</span><span class="p">,</span> 
+        <span class="n">AbedExperimentTypeException</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.results.walk</span> <span class="kn">import</span> <span class="n">walk_hashes</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">error</span>
+
+<div class="viewcode-block" id="cartesian"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.cartesian">[docs]</a><span class="k">def</span> <span class="nf">cartesian</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="o">.</span><span class="n">itervalues</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="check_size"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.check_size">[docs]</a><span class="k">def</span> <span class="nf">check_size</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">==</span> <span class="mi">9223372036854775807</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Running on a non 64-bit system. This may cause problems with &quot;</span>
+                <span class="s2">&quot;hashes.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span></div>
+
+<div class="viewcode-block" id="task_hash"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.task_hash">[docs]</a><span class="k">def</span> <span class="nf">task_hash</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This yields a hash of a list by combining the hashes of all list elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hsh</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="n">hsh</span> <span class="o">%=</span> <span class="p">((</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hsh</span></div>
+
+<div class="viewcode-block" id="init_tasks"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks">[docs]</a><span class="k">def</span> <span class="nf">init_tasks</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">init_tasks_assess</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">init_tasks_cv_tt</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;RAW&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">init_tasks_raw</span><span class="p">()</span>
+    <span class="k">raise</span> <span class="n">AbedExperimentTypeException</span></div>
+
+<div class="viewcode-block" id="init_tasks_assess"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks_assess">[docs]</a><span class="k">def</span> <span class="nf">init_tasks_assess</span><span class="p">():</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prmset</span> <span class="ow">in</span> <span class="n">cartesian</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="n">method</span><span class="p">]):</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">prmset</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()}</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dset</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span>
+                <span class="n">hsh</span> <span class="o">=</span> <span class="n">task_hash</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">AbedHashCollissionException</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">hsh</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="init_tasks_cv_tt"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks_cv_tt">[docs]</a><span class="k">def</span> <span class="nf">init_tasks_cv_tt</span><span class="p">():</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">CV_BASESEED</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">:</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prmset</span> <span class="ow">in</span> <span class="n">cartesian</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="n">method</span><span class="p">]):</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">prmset</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()}</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;train_dataset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;test_dataset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">method</span>
+                <span class="n">task</span><span class="p">[</span><span class="s1">&#39;cv_seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
+                <span class="n">hsh</span> <span class="o">=</span> <span class="n">task_hash</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">AbedHashCollissionException</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">hsh</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="init_tasks_raw"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks_raw">[docs]</a><span class="k">def</span> <span class="nf">init_tasks_raw</span><span class="p">():</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RAW_CMD_FILE</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+    <span class="k">for</span> <span class="n">txttask</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="n">hsh</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">txttask</span><span class="p">)</span>
+        <span class="n">hsh</span> <span class="o">%=</span> <span class="p">((</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AbedHashCollissionException</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">hsh</span><span class="p">]</span> <span class="o">=</span> <span class="n">txttask</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="read_tasks"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.read_tasks">[docs]</a><span class="k">def</span> <span class="nf">read_tasks</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">TASK_FILE</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">]</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">tasks</span><span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">init_tasks</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="update_tasks"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.update_tasks">[docs]</a><span class="k">def</span> <span class="nf">update_tasks</span><span class="p">(</span><span class="n">tasks</span><span class="p">):</span>
+    <span class="n">delcnt</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RESULT_DIR</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">walk_hashes</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">tasks</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">hsh</span><span class="p">)]</span>
+            <span class="n">delcnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">delcnt</span></div>
+
+<div class="viewcode-block" id="explain_tasks"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.explain_tasks">[docs]</a><span class="k">def</span> <span class="nf">explain_tasks</span><span class="p">(</span><span class="n">all_tasks</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_tasks</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;RAW&#39;</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">all_tasks</span><span class="p">[</span><span class="n">task</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">all_tasks</span><span class="p">[</span><span class="n">task</span><span class="p">]</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()}</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMMANDS</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]]</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;datadir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;{datadir}&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;execdir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;{execdir}&#39;</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> : </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">cmd</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

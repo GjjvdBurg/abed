@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to abed’s documentation! &mdash; abed 0.1 documentation</title>
+    <title>Welcome to Abed! &mdash; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,6 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="abed 0.1 documentation" href="#" />
-    <link rel="next" title="ABED: Automated BEnchmark Distribution in Python" href="includeme.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -38,30 +37,36 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-abed-s-documentation">
-<h1>Welcome to abed&#8217;s documentation!<a class="headerlink" href="#welcome-to-abed-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="includeme.html">ABED: Automated BEnchmark Distribution in Python</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#usage">Usage:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#workings">Workings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="includeme.html#notes">Notes</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="welcome-to-abed">
+<h1>Welcome to Abed!<a class="headerlink" href="#welcome-to-abed" title="Permalink to this headline">¶</a></h1>
+<p>Abed is an automated system for benchmarking machine learning algorithms. It
+is created for running experiments where it is desired to run multiple methods
+on multiple datasets using multiple parameters. It includes automated
+processing of result files into result tables. Abed was designed for use
+with the Dutch LISA supercomputer, but can hopefully be used on any Torque
+compute cluster.</p>
+<p>Abed was created as a way to automate all the tedious work necessary to set
+up proper benchmarking experiments. It also removes much of the hassle by
+using a single configuration file for the experimental setup. A core feature
+of Abed is that it doesn&#8217;t care about which language the tested methods are
+written in.</p>
+<p>Abed can create output tables as either simple txt files, or as html pages
+using the excellent <a class="reference external" href="https://datatables.net/">DataTables</a> plugin. To support
+offline operation the necessary DataTables files are packaged with Abed.</p>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>For Abed&#8217;s documentation, see <a class="reference internal" href="docs.html"><span class="doc">Welcome to Abed&#8217;s documentation!</span></a>.</p>
 </div>
+<div class="section" id="screenshots">
+<h2>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this headline">¶</a></h2>
+<p>Tbd.</p>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
+<p>Abed is very much a work in process and functionality can break at any moment.
+For a similar and more mature project which works with R see:
+<a class="reference external" href="https://github.com/tudo-r/BatchExperiments">BatchExperiments</a>.</p>
+</div>
 </div>
 
 
@@ -72,14 +77,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to abed&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#">Welcome to Abed!</a><ul>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#screenshots">Screenshots</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="includeme.html" title="next chapter">ABED: Automated BEnchmark Distribution in Python</a></li>
   </ul></li>
 </ul>
 </div>

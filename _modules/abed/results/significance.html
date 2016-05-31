@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.results.significance &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.results.significance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for evaluating statistically significant differences between </span>
+<span class="sd">methods.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f</span> <span class="k">as</span> <span class="n">f_dist</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span> <span class="k">as</span> <span class="n">norm_dist</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">AbedTableTypes</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">error</span>
+
+<div class="viewcode-block" id="global_difference"><a class="viewcode-back" href="../../../api/results/abed.results.significance.html#abed.results.significance.global_difference">[docs]</a><span class="k">def</span> <span class="nf">global_difference</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Runs and F-test on the ranks. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">is_summary</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">AbedTableTypes</span><span class="o">.</span><span class="n">RANKS</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">))</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">))</span>
+    <span class="n">averages</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s1">&#39;Average&#39;</span><span class="p">),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">av_sq</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">pow</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">2.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">averages</span><span class="p">])</span>
+    <span class="n">chi2</span> <span class="o">=</span> <span class="mf">12.0</span><span class="o">*</span><span class="n">N</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">av_sq</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">)</span><span class="o">/</span><span class="mf">4.0</span><span class="p">))</span>
+    <span class="n">Fstat</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">*</span><span class="n">chi2</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">chi2</span><span class="p">)</span>
+    <span class="n">Fprob</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">f_dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">Fstat</span><span class="p">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Fstat</span><span class="p">,</span> <span class="n">Fprob</span></div>
+
+<div class="viewcode-block" id="reference_difference"><a class="viewcode-back" href="../../../api/results/abed.results.significance.html#abed.results.significance.reference_difference">[docs]</a><span class="k">def</span> <span class="nf">reference_difference</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Runs Holm&#39;s procedure for a reference classifier. &quot;&quot;&quot;</span>
+    <span class="c1"># Sanity checks</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">REFERENCE_METHOD</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">table</span><span class="o">.</span><span class="n">is_summary</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">AbedTableTypes</span><span class="o">.</span><span class="n">RANKS</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">REFERENCE_METHOD</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Reference method </span><span class="si">%s</span><span class="s2"> not in list of methods.&quot;</span> <span class="o">%</span> 
+                <span class="n">settings</span><span class="o">.</span><span class="n">REFERENCE_METHOD</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
+
+    <span class="c1"># define constants</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">))</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">))</span>
+    <span class="n">av_ranks</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s1">&#39;Average&#39;</span><span class="p">),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">av_ranks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">av_ranks</span><span class="p">]</span>
+    <span class="n">ref_idx</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">REFERENCE_METHOD</span><span class="p">)</span>
+    <span class="n">others</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span> <span class="o">==</span> 
+            <span class="n">settings</span><span class="o">.</span><span class="n">REFERENCE_METHOD</span><span class="p">]</span>
+
+    <span class="c1"># Calculate the Z-scores compared to the reference method</span>
+    <span class="n">Z_scores</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">others</span><span class="p">)</span>
+    <span class="n">P_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">others</span><span class="p">)</span>
+    <span class="n">constant</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="mf">6.0</span><span class="o">*</span><span class="n">N</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mf">1.0</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">others</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">Z_scores</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">av_ranks</span><span class="p">[</span><span class="n">ref_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">av_ranks</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">constant</span>
+        <span class="n">P_values</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_dist</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">Z_scores</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+    <span class="c1"># Sort the p-values in ascending order</span>
+    <span class="n">sorted_pvals</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">P_values</span><span class="p">))</span>
+
+    <span class="c1"># Calculate significant differences following Holm&#39;s procedure</span>
+    <span class="n">significant_differences</span> <span class="o">=</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">others</span><span class="p">)</span>
+    <span class="n">CD_threshold</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">SIGNIFICANCE_LEVEL</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">pval</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">sorted_pvals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">significant_differences</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">pval</span> <span class="o">&lt;</span> <span class="n">threshold</span>
+        <span class="k">if</span> <span class="n">pval</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="ow">and</span> <span class="n">CD_threshold</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">CD_threshold</span> <span class="o">=</span> <span class="n">threshold</span>
+
+    <span class="n">CD</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">norm_dist</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">CD_threshold</span><span class="p">)</span> <span class="o">/</span> <span class="n">constant</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">others</span><span class="p">,</span> <span class="n">Z_scores</span><span class="p">,</span> <span class="n">P_values</span><span class="p">,</span> <span class="n">significant_differences</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">CD</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

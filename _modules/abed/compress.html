@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.compress &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.compress</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for compressing result directories.</span>
+
+<span class="sd">The functions in this module are used to compress results files for datasets </span>
+<span class="sd">that are completely finished. This can be useful for when raw results need to </span>
+<span class="sd">be stored on disk, but storage space is sparse. The compression algorithm used </span>
+<span class="sd">can be set by the user in the configuration file (:setting:`COMPRESSION` </span>
+<span class="sd">setting).  All compressed files are tar files, generated with the highest </span>
+<span class="sd">possible compression setting.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_output</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">STDOUT</span>
+
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.datasets</span> <span class="kn">import</span> <span class="n">dataset_name</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">error</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">hash_from_filename</span>
+<span class="kn">from</span> <span class="nn">.progress</span> <span class="kn">import</span> <span class="n">iter_progress</span>
+<span class="kn">from</span> <span class="nn">.results.walk</span> <span class="kn">import</span> <span class="n">files_w_dataset</span>
+
+<div class="viewcode-block" id="dataset_completed"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.dataset_completed">[docs]</a><span class="k">def</span> <span class="nf">dataset_completed</span><span class="p">(</span><span class="n">dsetfiles</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">task_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if a given dataset is complete</span>
+
+<span class="sd">    This function checks if all results for a given dataset are available on </span>
+<span class="sd">    disk. This is done by checking if all hashes for the specified dataset are </span>
+<span class="sd">    available.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dsetfiles : list</span>
+<span class="sd">        Filenames of files relating to this dataset</span>
+<span class="sd">    dset : str/tuple</span>
+<span class="sd">        The name of the dataset. Depending on the type of experiments that were </span>
+<span class="sd">        done this is either a string or a tuple of strings</span>
+<span class="sd">    task_dict : dict</span>
+<span class="sd">        The dict with the mappings from hashes to command dicts, as returned by </span>
+<span class="sd">        :func:`.tasks.init_tasks`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Whether or not all results for the given dataset are available.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    SystemExit</span>
+<span class="sd">        When trying to compress results for an experiment type which does not </span>
+<span class="sd">        support result compression (for instance when using RAW mode), an error </span>
+<span class="sd">        is printed and the program exits.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
+        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span>
+                <span class="n">v</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">}</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
+        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span>
+                <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;train_dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span>
+                    <span class="n">v</span><span class="p">[</span><span class="s1">&#39;test_dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Compressing data not supported for TYPE = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
+    <span class="n">have_hashes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">hash_from_filename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dsetfiles</span><span class="p">])</span>
+    <span class="n">need_hashes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dset_tasks</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">have_hashes</span> <span class="o">==</span> <span class="n">need_hashes</span></div>
+
+<div class="viewcode-block" id="compress_dataset"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.compress_dataset">[docs]</a><span class="k">def</span> <span class="nf">compress_dataset</span><span class="p">(</span><span class="n">dset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compress results of a given dataset</span>
+
+<span class="sd">    This function compresses the results for a given dataset into a compressed </span>
+<span class="sd">    tar file. This is done through the tarfile module for the gzip and bzip2 </span>
+<span class="sd">    compression algorithms. When lzma is used, the tarfile module can only be </span>
+<span class="sd">    used when ABED is run through Python 3 (as lzma compression is not </span>
+<span class="sd">    available in the Python 2 tarfile package). When running on Python 2 on a </span>
+<span class="sd">    posix platform however, we assume that lzma compression is available in the </span>
+<span class="sd">    ``tar`` command. Therefore, in this case the result directory is compressed </span>
+<span class="sd">    using a call to ``tar``.</span>
+
+<span class="sd">    In all cases, the highest compression level is used, to save as much disk </span>
+<span class="sd">    space as possible.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dset : str/tuple</span>
+<span class="sd">        The name of the dataset. Depending on the type of experiments that were </span>
+<span class="sd">        done this is either a string or a tuple of strings</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    ABED doesn&#39;t remove the existing folder, so this should be done by the </span>
+<span class="sd">    user.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    SystemExit</span>
+<span class="sd">        When an unknown compression algorithm is specified, when lzma </span>
+<span class="sd">        compression is requested on an unsupported platform, or when an error </span>
+<span class="sd">        occurs with the external ``tar`` command, the program exits.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dsetname</span> <span class="o">=</span> <span class="n">dataset_name</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+    <span class="n">dsetpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RESULT_DIR</span><span class="p">,</span> <span class="n">dsetname</span><span class="p">)</span>
+    <span class="n">dsetpath</span> <span class="o">=</span> <span class="n">dsetpath</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMPRESSION</span> <span class="o">==</span> <span class="s1">&#39;bzip2&#39;</span><span class="p">:</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s1">&#39;bz2&#39;</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMPRESSION</span> <span class="o">==</span> <span class="s1">&#39;gzip&#39;</span><span class="p">:</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s1">&#39;gz&#39;</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMPRESSION</span> <span class="o">==</span> <span class="s1">&#39;lzma&#39;</span><span class="p">:</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="s1">&#39;xz&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unknown compression algorithm specified in &quot;</span>
+                <span class="s2">&quot;COMPRESSION configuration. Please check the &quot;</span>
+                <span class="s2">&quot;configuration file.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
+    <span class="n">output_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.tar.</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dsetpath</span><span class="p">,</span> <span class="n">extension</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;posix&#39;</span> <span class="ow">and</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMPRESSION</span> <span class="o">==</span> <span class="s1">&#39;lzma&#39;</span> <span class="ow">and</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;XZ_OPT=-9 tar --directory=</span><span class="si">%s</span><span class="s1"> -Jcf </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RESULT_DIR</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">dsetname</span><span class="p">))</span>
+            <span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;There was an error executing &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">SystemExit</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">COMPRESSION</span> <span class="o">==</span> <span class="s1">&#39;lzma&#39;</span> <span class="ow">and</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;lzma compression is not yet available for your platform.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;w:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">extension</span>
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="n">tar</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dsetpath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">dsetpath</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="compress_results"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.compress_results">[docs]</a><span class="k">def</span> <span class="nf">compress_results</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compress results for all datasets which are complete</span>
+
+<span class="sd">    This function iterates over all datasets defined in the settings file, and </span>
+<span class="sd">    collects a list of files in the result directory that correspond to each </span>
+<span class="sd">    dataset. Next, for each dataset that is complete, the function </span>
+<span class="sd">    :func:`compress_dataset` is called, which does the actual compressing.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    task_dict : dict</span>
+<span class="sd">        The dict with the mappings from hashes to command dicts, as returned by </span>
+<span class="sd">        :func:`.tasks.init_tasks`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">completed_dsets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_w_dataset</span><span class="p">(</span><span class="n">dset</span><span class="p">)]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">dataset_completed</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">task_dict</span><span class="p">):</span>
+            <span class="n">completed_dsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting compression of </span><span class="si">%i</span><span class="s2"> completed result directories.&quot;</span> <span class="o">%</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">completed_dsets</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">iter_progress</span><span class="p">(</span><span class="n">completed_dsets</span><span class="p">,</span> <span class="s1">&#39;Datasets&#39;</span><span class="p">):</span>
+        <span class="n">compress_dataset</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

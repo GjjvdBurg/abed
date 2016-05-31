@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.auto &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.auto</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for automatic job management.</span>
+
+<span class="sd">The functions in this module are used for automating the job management of PBS </span>
+<span class="sd">jobs. Abed has the ability to automatically submit a new job when a previous </span>
+<span class="sd">one is finished. To do this, functions are needed which check if any job is </span>
+<span class="sd">submitted, get the jobid of a running or finished job, get expected start times </span>
+<span class="sd">and remaining times, and mark finished jobs as done. This last functionality is </span>
+<span class="sd">needed to avoid repulling finished results.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">AbedPBSMultipleException</span>
+<span class="kn">from</span> <span class="nn">.fab_util</span> <span class="kn">import</span> <span class="n">myfab</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">info</span>
+
+<span class="n">RUNNING</span> <span class="o">=</span> <span class="s1">&#39;R&#39;</span>
+<span class="n">QUEUED</span> <span class="o">=</span> <span class="s1">&#39;Q&#39;</span>
+
+<div class="viewcode-block" id="submitted"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.submitted">[docs]</a><span class="k">def</span> <span class="nf">submitted</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Check if a currently submitted job exists</span>
+
+<span class="sd">    This function checks if a job exists on the remote, by trying to find a </span>
+<span class="sd">    jobid from the pbs service. If no jobid can be found ``False`` is </span>
+<span class="sd">    returned, otherwise ``True`` is returned. If a job exists, an attempt is </span>
+<span class="sd">    made to check the state of the job, by through :func:`get_state`. If the </span>
+<span class="sd">    job is queued, the starttime is retrieved through :func:`get_starttime`, </span>
+<span class="sd">    and if it is running, the remaining time is retrieved through </span>
+<span class="sd">    :func:`get_remaining`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Whether or not a currently submitted job exists.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">jobid</span> <span class="o">=</span> <span class="n">get_jobid_from_pbs</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">jobid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">get_state</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">QUEUED</span><span class="p">:</span>
+        <span class="n">sttime</span> <span class="o">=</span> <span class="n">get_starttime</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sttime</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Job </span><span class="si">%s</span><span class="s2"> queued. Start time: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jobid</span><span class="p">,</span> 
+                <span class="n">sttime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Job </span><span class="si">%s</span><span class="s2"> queued.&quot;</span> <span class="o">%</span> <span class="n">jobid</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">RUNNING</span><span class="p">:</span>
+        <span class="n">rmtime</span> <span class="o">=</span> <span class="n">get_remaining</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Job </span><span class="si">%s</span><span class="s2"> running. Time remaining: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jobid</span><span class="p">,</span> <span class="n">rmtime</span><span class="p">))</span>
+    <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="get_jobid_from_pbs"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.get_jobid_from_pbs">[docs]</a><span class="k">def</span> <span class="nf">get_jobid_from_pbs</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Try to get the jobid of a running job from the PBS server</span>
+
+<span class="sd">    This function attempts to get the jobid of a currently running job by </span>
+<span class="sd">    running the ``qstat`` command, and trying to find a line that looks similar </span>
+<span class="sd">    to this::</span>
+
+<span class="sd">        9941363.batch1.lisa.su username queuename jobname SessID NDS TSK --\</span>
+<span class="sd">        00:01:00 R 00:00:26</span>
+
+<span class="sd">    From this line, it is assumed that the text before the first period is the </span>
+<span class="sd">    jobid, ``9941363`` in this case.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The id of the job as text. None is returned if no job is found.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    AbedPBSMultipleException</span>
+<span class="sd">        When more than one job is running simultaneously, an exception is </span>
+<span class="sd">        thrown. In this case the program doesn&#39;t know which task to manage.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;qstat -u </span><span class="si">%s</span><span class="s2"> | grep </span><span class="si">%s</span><span class="s2"> | tail -n +2 | &quot;</span>
+        <span class="s2">&quot;cut -d&#39;.&#39; -f1&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_USER</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_USER</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AbedPBSMultipleException</span>
+    <span class="k">return</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="get_jobid_from_logs"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.get_jobid_from_logs">[docs]</a><span class="k">def</span> <span class="nf">get_jobid_from_logs</span><span class="p">(</span><span class="n">logpath</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Try to get the jobid from existing log files</span>
+
+<span class="sd">    This function attempt to get the jobid of a finished job by checking the </span>
+<span class="sd">    filenames of the log files. If used as expected, the PBS server will place </span>
+<span class="sd">    output and error logs in the logs directory with the names </span>
+<span class="sd">    ``abed.pbs.o{jobid}`` and ``abed.pbs.e{jobid}``. This function expects </span>
+<span class="sd">    this exact format, and tries to retrieve the jobid from the first file in </span>
+<span class="sd">    the logs directory.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logpath : str, optional</span>
+<span class="sd">        An optional path to search for the log files. If not provided, the </span>
+<span class="sd">        path ``{remote_dir}/releases/current/logs/`` will be used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The ID of the job that created the log files. None is returned when no </span>
+<span class="sd">        jobid can be found.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">logpath</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">logpath</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/releases/current/logs/&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_DIR</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;ls -1 </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">logpath</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">jobid</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">jobid</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">jobid</span></div>
+
+<div class="viewcode-block" id="get_state"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.get_state">[docs]</a><span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="n">jobid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the state of the job with the provided jobid</span>
+
+<span class="sd">    This function uses the PBS command ``qstat -f username`` to find out the </span>
+<span class="sd">    state of the job. It is assumed that a job with the given jobid exists.  </span>
+<span class="sd">    See the documentation of the ``qstat`` command for possible job states.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The PBS id of a job.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    state : str</span>
+<span class="sd">        The state of the job as given by the ``qstat`` command.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;qstat -f </span><span class="si">%s</span><span class="s2"> | grep job_state | cut -d&#39;=&#39; -f2&quot;</span> <span class="o">%</span> <span class="n">jobid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="get_starttime"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.get_starttime">[docs]</a><span class="k">def</span> <span class="nf">get_starttime</span><span class="p">(</span><span class="n">jobid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the expected start time of a queued job</span>
+
+<span class="sd">    This function tries to find the start time of a queued job by using the </span>
+<span class="sd">    ``showstart`` command (assuming it is available). It is expected that the </span>
+<span class="sd">    output of showstart contains a line of the form::</span>
+
+<span class="sd">       Earliest start in          1:26:14 on Thu May 26 22:56:43</span>
+
+<span class="sd">    From this string the date at the end is extracted, which is converted to a </span>
+<span class="sd">    datetime.datetime object and returned.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The PBS id of a job.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    starttime : datetime.datetime</span>
+<span class="sd">        The expected start time of the job as given by ``showstart``. None is </span>
+<span class="sd">        returned if no date can be found.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;showstart </span><span class="si">%s</span><span class="s2"> | grep start | cut -d&#39;o&#39; -f2- | cut -c 3-&quot;</span> 
+            <span class="o">%</span> <span class="n">jobid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">timestr</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">timestr</span></div>
+
+<div class="viewcode-block" id="get_remaining"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.get_remaining">[docs]</a><span class="k">def</span> <span class="nf">get_remaining</span><span class="p">(</span><span class="n">jobid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the remaining runtime of a job</span>
+
+<span class="sd">    This function uses the ``qstat -f`` command to retrieve the remaining </span>
+<span class="sd">    walltime of the specified job. It does this by looking for the line::</span>
+
+<span class="sd">        Walltime.Ramining = 32754</span>
+
+<span class="sd">    and converting this to a string of the form ``HH:MM:SS`` through </span>
+<span class="sd">    `datetime.timedelta`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The PBS id of a job.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The remaining time for the specified job in the form HH:MM:SS.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;qstat -f </span><span class="si">%s</span><span class="s2"> | grep Remaining | cut -d&#39;=&#39; -f2&quot;</span> <span class="o">%</span> <span class="n">jobid</span><span class="p">)</span>
+    <span class="n">td</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">td</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="is_job_marked"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.is_job_marked">[docs]</a><span class="k">def</span> <span class="nf">is_job_marked</span><span class="p">(</span><span class="n">jobid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if a job is marked in the auto file</span>
+
+<span class="sd">    This function checks if a given jobid occurs in the auto file. The auto </span>
+<span class="sd">    file is used to record for which jobs the results have been pulled from </span>
+<span class="sd">    the server. The auto file records the jobids one for each line (see </span>
+<span class="sd">    :func:`mark_job`), so this function checks if the provided jobid is on any </span>
+<span class="sd">    of the lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The PBS id of a job.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        Whether or not the job is marked in the auto file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">jobid</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="mark_job"><a class="viewcode-back" href="../../api/core/abed.auto.html#abed.auto.mark_job">[docs]</a><span class="k">def</span> <span class="nf">mark_job</span><span class="p">(</span><span class="n">jobid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mark the job in the auto file</span>
+
+<span class="sd">    See also :func:`is_job_marked`. This function marks a job by appending the </span>
+<span class="sd">    given jobid to the auto file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    jobid : str</span>
+<span class="sd">        The PBS id of a job.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">jobid</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

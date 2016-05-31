@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Result Compression &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-abed.compress">
+<span id="result-compression"></span><h1>Result Compression<a class="headerlink" href="#module-abed.compress" title="Permalink to this headline">¶</a></h1>
+<p>Functions for compressing result directories.</p>
+<p>The functions in this module are used to compress results files for datasets
+that are completely finished. This can be useful for when raw results need to
+be stored on disk, but storage space is sparse. The compression algorithm used
+can be set by the user in the configuration file (<a class="reference internal" href="../../usage/settings.html#std:setting-COMPRESSION"><code class="xref std std-setting docutils literal"><span class="pre">COMPRESSION</span></code></a>
+setting).  All compressed files are tar files, generated with the highest
+possible compression setting.</p>
+<dl class="function">
+<dt id="abed.compress.compress_dataset">
+<code class="descclassname">abed.compress.</code><code class="descname">compress_dataset</code><span class="sig-paren">(</span><em>dset</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/compress.html#compress_dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.compress.compress_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compress results of a given dataset</p>
+<p>This function compresses the results for a given dataset into a compressed
+tar file. This is done through the tarfile module for the gzip and bzip2
+compression algorithms. When lzma is used, the tarfile module can only be
+used when ABED is run through Python 3 (as lzma compression is not
+available in the Python 2 tarfile package). When running on Python 2 on a
+posix platform however, we assume that lzma compression is available in the
+<code class="docutils literal"><span class="pre">tar</span></code> command. Therefore, in this case the result directory is compressed
+using a call to <code class="docutils literal"><span class="pre">tar</span></code>.</p>
+<p>In all cases, the highest compression level is used, to save as much disk
+space as possible.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dset</strong> (<em>str/tuple</em>) &#8211; The name of the dataset. Depending on the type of experiments that were
+done this is either a string or a tuple of strings</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>ABED doesn&#8217;t remove the existing folder, so this should be done by the
+user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SystemExit</span></code> &#8211; When an unknown compression algorithm is specified, when lzma
+compression is requested on an unsupported platform, or when an error
+occurs with the external <code class="docutils literal"><span class="pre">tar</span></code> command, the program exits.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="abed.compress.compress_results">
+<code class="descclassname">abed.compress.</code><code class="descname">compress_results</code><span class="sig-paren">(</span><em>task_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/compress.html#compress_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.compress.compress_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compress results for all datasets which are complete</p>
+<p>This function iterates over all datasets defined in the settings file, and
+collects a list of files in the result directory that correspond to each
+dataset. Next, for each dataset that is complete, the function
+<a class="reference internal" href="#abed.compress.compress_dataset" title="abed.compress.compress_dataset"><code class="xref py py-func docutils literal"><span class="pre">compress_dataset()</span></code></a> is called, which does the actual compressing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>task_dict</strong> (<em>dict</em>) &#8211; The dict with the mappings from hashes to command dicts, as returned by
+<a class="reference internal" href="abed.tasks.html#abed.tasks.init_tasks" title="abed.tasks.init_tasks"><code class="xref py py-func docutils literal"><span class="pre">tasks.init_tasks()</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="abed.compress.dataset_completed">
+<code class="descclassname">abed.compress.</code><code class="descname">dataset_completed</code><span class="sig-paren">(</span><em>dsetfiles</em>, <em>dset</em>, <em>task_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/compress.html#dataset_completed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.compress.dataset_completed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a given dataset is complete</p>
+<p>This function checks if all results for a given dataset are available on
+disk. This is done by checking if all hashes for the specified dataset are
+available.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dsetfiles</strong> (<em>list</em>) &#8211; Filenames of files relating to this dataset</li>
+<li><strong>dset</strong> (<em>str/tuple</em>) &#8211; The name of the dataset. Depending on the type of experiments that were
+done this is either a string or a tuple of strings</li>
+<li><strong>task_dict</strong> (<em>dict</em>) &#8211; The dict with the mappings from hashes to command dicts, as returned by
+<a class="reference internal" href="abed.tasks.html#abed.tasks.init_tasks" title="abed.tasks.init_tasks"><code class="xref py py-func docutils literal"><span class="pre">tasks.init_tasks()</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Whether or not all results for the given dataset are available.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">bool</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SystemExit</span></code> &#8211; When trying to compress results for an experiment type which does not
+support result compression (for instance when using RAW mode), an error
+is printed and the program exits.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/core/abed.compress.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="../../_sources/api/core/abed.compress.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

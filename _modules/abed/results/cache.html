@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.results.cache &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.results.cache</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for creating the result cache.</span>
+
+<span class="sd">The result cache is basically a dictionary between the hashes and the metrics</span>
+<span class="sd">that we want to know for each hash.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">AbedCache</span><span class="p">,</span> <span class="n">AbedResult</span>
+<span class="kn">from</span> <span class="nn">.walk</span> <span class="kn">import</span> <span class="n">walk_for_cache</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">warning</span>
+
+<div class="viewcode-block" id="find_label"><a class="viewcode-back" href="../../../api/results/abed.results.cache.html#abed.results.cache.find_label">[docs]</a><span class="k">def</span> <span class="nf">find_label</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">scalar</span>
+    <span class="k">return</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="parse_result_fileobj"><a class="viewcode-back" href="../../../api/results/abed.results.cache.html#abed.results.cache.parse_result_fileobj">[docs]</a><span class="k">def</span> <span class="nf">parse_result_fileobj</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">find_label</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;true&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;pred&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">:</span>
+            <span class="c1"># If we already have data for a label, we continue to avoid </span>
+            <span class="c1"># overwriting it</span>
+            <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not parse scalar metric &#39;</span><span class="si">%s</span><span class="s2">&#39; for &quot;</span>
+                        <span class="s2">&quot;file with hash </span><span class="si">%s</span><span class="s2">. Skipping.</span><span class="se">\n</span><span class="s2">Offending line: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> 
+                        <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
+                <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                    <span class="n">true</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">true</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;true&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">true</span><span class="p">))</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;pred&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not parse true/pred metric &#39;</span><span class="si">%s</span><span class="s2">&#39; for &quot;</span>
+                        <span class="s2">&quot;file </span><span class="si">%s</span><span class="s2">. Skipping.</span><span class="se">\n</span><span class="s2">Offending line: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> 
+                            <span class="n">l</span><span class="p">))</span>
+                <span class="k">continue</span>
+    <span class="n">fid</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">ar</span> <span class="o">=</span> <span class="n">AbedResult</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">:</span>
+            <span class="n">ar</span><span class="o">.</span><span class="n">add_result_scalar</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">:</span>
+                <span class="n">metric_func</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">[</span><span class="n">metric</span><span class="p">][</span><span class="s1">&#39;metric&#39;</span><span class="p">]</span>
+                <span class="n">ar</span><span class="o">.</span><span class="n">add_result_metric</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span>
+                        <span class="n">metric_func</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;true&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="s1">&#39;pred&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">ar</span></div>
+
+<div class="viewcode-block" id="init_result_cache"><a class="viewcode-back" href="../../../api/results/abed.results.cache.html#abed.results.cache.init_result_cache">[docs]</a><span class="k">def</span> <span class="nf">init_result_cache</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">AbedCache</span><span class="p">(</span><span class="n">methods</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">,</span> <span class="n">datasets</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">,</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">)</span>
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting cache generation&quot;</span><span class="p">)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">walk_for_cache</span><span class="p">(</span><span class="n">ac</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">parse_result_fileobj</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">ac</span><span class="o">.</span><span class="n">add_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">ac</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Read </span><span class="si">%i</span><span class="s2"> result files into cache.&quot;</span> <span class="o">%</span> <span class="n">counter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ac</span></div>
+
+<div class="viewcode-block" id="update_result_cache"><a class="viewcode-back" href="../../../api/results/abed.results.cache.html#abed.results.cache.update_result_cache">[docs]</a><span class="k">def</span> <span class="nf">update_result_cache</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">skip_cache</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">ac</span> <span class="o">=</span> <span class="n">AbedCache</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ac</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Result cache loaded from disk.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Result cache non-existent, generating it.&quot;</span><span class="p">)</span>
+        <span class="n">ac</span> <span class="o">=</span> <span class="n">init_result_cache</span><span class="p">(</span><span class="n">task_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ac</span>
+
+    <span class="c1"># User requested skip of cache regeneration</span>
+    <span class="k">if</span> <span class="n">skip_cache</span><span class="p">:</span>
+        <span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Skipping cache regeneration check on user request.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ac</span>
+
+    <span class="c1"># updating the result cache is done in two steps:</span>
+    <span class="c1"># 1. Check if new metrics or scalars are added, if so regenerate everything</span>
+    <span class="c1"># 2. Check if new result files are added, if that&#39;s the case only generate</span>
+    <span class="c1"># those</span>
+    <span class="n">conf_metrics</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">cache_metrics</span> <span class="o">=</span> <span class="n">ac</span><span class="o">.</span><span class="n">metrics</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">conf_metrics</span> <span class="o">-</span> <span class="n">cache_metrics</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">ac</span> <span class="o">=</span> <span class="n">init_result_cache</span><span class="p">(</span><span class="n">task_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ac</span>
+
+    <span class="k">for</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">walk_for_cache</span><span class="p">(</span><span class="n">ac</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">parse_result_fileobj</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">ac</span><span class="o">.</span><span class="n">add_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="n">ac</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ac</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

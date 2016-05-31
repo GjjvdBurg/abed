@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.ui &mdash; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.ui</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Abed</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">error</span>
+
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;ABED is a utility for Automated BEnchmark Distribution&quot;</span><span class="p">)</span>
+
+<span class="n">COMMANDS_HELP</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;auto&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Automate push and pull to facilitate &#39;</span>
+            <span class="s1">&#39;continuous operation&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;compress_results&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Compress completed dataset directories.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Print the task ID and corresponding command &#39;</span>
+            <span class="s1">&#39;of remaining tasks&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Print the task ID and corresponding command &#39;</span>
+            <span class="s1">&#39;of all defined tasks&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Initialize a skeleton for abed&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Run the computations locally.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;parse_results&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Parse the results into summary files&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;process_zips&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Process result zip files&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pull&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Pull all results from the cluster and process them&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;push&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Push all necessary data to the cluster using fabric&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;reload_tasks&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Reload the task file based on config and results&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;repull&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Repull the zips from the cluster for all jobids &#39;</span>
+            <span class="s1">&#39;in the auto log file&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Run the master/worker MPI program of abed on the cluster&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;setup&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Setup the remote directory structure for abed&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Status of abed task list&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;update_tasks&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Update the task list (part of pull)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;view_results&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Open the HTML results in the default browser&#39;</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="SmartFormatter"><a class="viewcode-back" href="../../api/core/abed.ui.html#abed.ui.SmartFormatter">[docs]</a><span class="k">class</span> <span class="nc">SmartFormatter</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">HelpFormatter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_split_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;R|&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">text</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">argparse</span><span class="o">.</span><span class="n">HelpFormatter</span><span class="o">.</span><span class="n">_split_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="parse_arguments"><a class="viewcode-back" href="../../api/core/abed.ui.html#abed.ui.parse_arguments">[docs]</a><span class="k">def</span> <span class="nf">parse_arguments</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">DESCRIPTION</span><span class="p">,</span>
+            <span class="n">formatter_class</span><span class="o">=</span><span class="n">SmartFormatter</span><span class="p">)</span>
+
+    <span class="n">helptxt</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;R|Command to be performed</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">]</span>
+    <span class="n">commands</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">COMMANDS_HELP</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
+        <span class="n">helptxt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="se">\t</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">COMMANDS_HELP</span><span class="p">[</span><span class="n">cmd</span><span class="p">]))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">commands</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">helptxt</span><span class="p">),</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--skip-cache&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Skip cache regeneration check&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
+    <span class="k">return</span> <span class="n">args</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/core/abed.ui.html#abed.ui.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_arguments</span><span class="p">()</span>
+
+    <span class="n">skip_init</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span> <span class="o">==</span> <span class="s1">&#39;reload_tasks&#39;</span><span class="p">:</span>
+        <span class="n">skip_init</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="n">settings</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span> <span class="o">==</span> <span class="s1">&#39;init&#39;</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;No ABED configuration file found in this directory. &quot;</span>
+                    <span class="s2">&quot;Run &#39;abed init&#39; to initialize one. Exiting.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">SystemExit</span>
+        <span class="n">skip_init</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">abed</span> <span class="o">=</span> <span class="n">Abed</span><span class="p">(</span><span class="n">skip_init</span><span class="o">=</span><span class="n">skip_init</span><span class="p">,</span> <span class="n">skip_cache</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">skip_cache</span><span class="p">)</span>
+
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running abed command: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">abed</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cmd</span><span class="p">)()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Exiting.&quot;</span><span class="p">)</span>
+        <span class="k">pass</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
