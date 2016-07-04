@@ -71,7 +71,10 @@ BUILD_CMD = 'make all' # Build command
 ##############################################################################
 DATADIR = '{data_dir}'
 EXECDIR = '{exec_dir}'
+
 DATASETS = ['dataset_1', 'dataset_2']
+DATASET_NAMES = {{k:str(i) for i, k in enumerate(DATASETS)}}
+
 METHODS = ['method_1', 'method_2']
 PARAMS = {{
         'method_1': {{
