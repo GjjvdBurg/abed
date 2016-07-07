@@ -22,7 +22,8 @@ offline operation the necessary DataTables files are packaged with Abed.
 Documentation
 -------------
 
-For Abed's documentation, see :doc:`docs`.
+For Abed's documentation, see `the documentation 
+<https://gjjvdburg.github.io/ABED/docs.html>`_.
 
 Screenshots
 -----------

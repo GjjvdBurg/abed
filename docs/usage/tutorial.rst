@@ -188,9 +188,14 @@ described `here <http://www.rebol.com/docs/ssh-auto-login.html>`_.
 When all tasks are finished
 ---------------------------
 
-When all tasks are finished, Abed automatically generates the summary 
-files from the results. Both static webpages and simple text files are 
-generated. The webpages can be viewed simply by running::
+When all tasks are finished, Abed automatically generates the summary files 
+from the results. If it doesn't do this for whatever reason, you can force 
+generation of result pages with the command::
+
+    abed parse_results
+
+Both static webpages and simple text files will be generated.  The webpages 
+can be viewed simply by running::
 
     abed view_results
 

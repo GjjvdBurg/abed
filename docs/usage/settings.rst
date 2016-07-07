@@ -406,21 +406,44 @@ This setting defines the names of the datasets that will be used in the
 experiments. Abed expects a different type in the list depending on the 
 :setting:`TYPE` that is used:
 
-* When TYPE is ``'ASSESS'``, the expected format is the same as the default, 
-  simply a list of names of the datasets, as strings.
+* When :setting:`TYPE` is ``'ASSESS'``, the expected format is the same as the 
+  default, simply a list of names of the datasets, as strings.
 
-* When TYPE is ``'CV_TT'``, the expected format is a list of tuples, where 
-  each tuple is a pair of strings. The first string gives the name of the 
-  training dataset, and the second string the name of the test dataset. For 
-  instance::
+* When :setting:`TYPE` is ``'CV_TT'``, the expected format is a list of 
+  tuples, where each tuple is a pair of strings. The first string gives the 
+  name of the training dataset, and the second string the name of the test 
+  dataset.  For instance::
 
     DATASETS = [('dataset_1_train', 'dataset_1_test'), ('dataset_2_train', 
     'dataset_2_test')]
 
-* When TYPE is ``'RAW'``, this setting is not used.
+* When :setting:`TYPE` is ``'RAW'``, this setting is not used.
 
 See for more info on the different experiment types and their requirements 
 :doc:`experiments`.
+
+.. setting:: DATASET_NAMES
+
+``DATASET_NAMES``
+-----------------
+
+Default: ``{k:str(i) for i, k in enumerate(DATASETS)}``
+
+Optional. This setting gives a mapping of datasets to names. This can be 
+useful when you wish to use different names for the datasets in the output 
+than in the :setting:`DATASETS` setting. If this setting is not present in the 
+settings file, the ID of a dataset will be generated with the function 
+:py:func:`abed.datasets.dataset_name`. 
+
+As an example, consider datasets names following the pattern ``'dataset_1'``, 
+``'dataset_2'``, etc.  It may then be nice to use names such as ``'001'``, 
+``'002'``, etc. in the result tables. This can be achieved by setting::
+
+    DATASET_NAMES = {k:'%03i' % int(k.split('_')[-1]) for k in DATASETS}
+
+Note that this setting relates closely to the setting 
+:setting:`DATA_DESCRIPTION_CSV`.
+
 
 .. setting:: METHODS
 
@@ -429,6 +452,12 @@ See for more info on the different experiment types and their requirements
 
 Default: ``['method_1', 'method_2']``
 
+Here you define the names of the methods that you will use. These names will 
+must be the same as the ones used in the :setting:`PARAMS` and the 
+:setting:`COMMANDS` settings. Since these names will also be used in directory 
+names, it is advisable to not use spaces or other illegal characters in these 
+names.
+
 .. setting:: PARAMS
 
 ``PARAMS``
@@ -436,16 +465,25 @@ Default: ``['method_1', 'method_2']``
 
 Default::
 
-    {{
-        'method_1': {{
+    {
+        'method_1': {
             'param_1': [val_1, val_2],
             'param_2': [val_3, val_4],
             'param_3': [val_5, val_6]
-            }},
-        'method_2': {{
+            },
+        'method_2': {
             'param_1': [val_1, val_2, val_3],
-            }},
-     }}
+            },
+     }
+
+As described in :doc:`workings`, Abed runs a grid search where the commands 
+defined in :setting:`COMMANDS` are run for the respective method for each 
+dataset, and all possible combinations of the values in the parameters. The 
+values that are used are defined in this setting. Expected is a list of values 
+for each parameter, even if only one value is used. Note that the names used 
+for the parameters match those used in the commands. The user must therefore 
+ensure that these are the same. This setting is not used with the ``'RAW'`` 
+experiment type.
 
 .. setting:: COMMANDS
 
@@ -454,16 +492,41 @@ Default::
 
 Default::
 
-    {{
-        'method_1': ("{{execdir}}/method_1 {{datadir}}/{{dataset}} {{param_1}} "
-            "{{param_2}} {{param_3}}"),
-        'method_2': "{{execdir}}/method_2 {{datadir}}/{{dataset}} {{param_1}}"
-    }}
+    {
+        'method_1': ("{execdir}/method_1 {datadir}/{dataset} {param_1} "
+            "{param_2} {param_3}"),
+        'method_2': "{execdir}/method_2 {datadir}/{dataset} {param_1}"
+    }
 
-TODO Abed currently allows two modes of operation: 'ASSESS' for model 
-assessment, and 'CV_TT' for cross validation with a test dataset. In the 
-latter case the datasets need to be specified with '{train_dataset}' and 
-'{test_dataset}' in the Abed configuration file.
+Abed works by calling external commands for each method. The advantage of 
+running external commands, is that Abed can be used regardless of the language 
+that the methods are implemented in. This setting defines the commands that 
+Abed needs to run for each method. The variables ``{execdir}`` and 
+``{datadir}`` are special variables, which are formatted by Abed 
+automatically. The ``{param_*}`` variables correspond to the names defined in 
+:setting:`PARAMS`. Finally, the ``{dataset}`` variable will be formatted by 
+Abed based on the names of the datasets defined in the :setting:`DATASETS` 
+setting. Note that it is up to the user to ensure the right file extension is 
+supplied here. This means, that if the name of a dataset defined in 
+:setting:`DATASETS` is for instance ``'iris'``, but the filename on the disk 
+is ``'iris.txt'``, the command should be adjusted with the part 
+``{datadir}/{dataset}.txt``.
+
+There are slight differences between the way the commands are used depending 
+on the type of experiment that is run (see :setting:`TYPE`). Thus,
+
+* When :setting:`TYPE` is ``'ASSESS'``, the expected form for the dataset part 
+  of the command is ``{dataset}`` (as in the default).
+
+* When :setting:`TYPE` is ``'CV_TT'``, both a training and a test dataset 
+  should be included in the command, with the variables ``{train_dataset}`` 
+  and ``{test_dataset}``, respectively. Thus, for this format a command could 
+  look like::
+
+    COMMANDS = {'method_1': ("{execdir}/method_1 {datadir}/{train_dataset} "
+        "{datadir}/{test_dataset} {param_1} {param_2} {param_3}")}
+
+* When :setting:`TYPE` is ``'RAW'``, this setting is not used.
 
 .. setting:: METRICS
 
@@ -472,16 +535,30 @@ latter case the datasets need to be specified with '{train_dataset}' and
 
 Default::
 
-    {{
-        'NAME_1': {{
+    {
+        'NAME_1': {
             'metric': metric_function_1,
             'best': max
-            }},
-        'NAME_2': {{
+            },
+        'NAME_2': {
             'metric': metric_function_2,
             'best': min
-            }}
-    }}
+            }
+    }
+
+This setting defines the metrics that are applied to the output of a single 
+command. The user is free to define any function here, although Abed currently 
+expects a function that takes two lists as input. It is therefore recommended 
+to either use functions from `sklearn.metrics 
+<http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics>`_, 
+or define functions with a similar signature. See :doc:`metric_functions` for 
+instructions on how to include custom metrics.
+
+Note that in these settings, a name can be defined by the user, as well as 
+which direction is considered *better* in the metric function. This is done by 
+defining the ``'best'`` field, which can be either the ``max`` function, or 
+the ``min`` function. These directions will be used when Abed ranks the 
+results of a method on a given dataset with a given set of parameters.
 
 .. setting:: SCALARS
 
@@ -490,11 +567,21 @@ Default::
 
 Default::
 
-    {{
-        'time': {{
+    {
+        'time': {
             'best': min
-            }},
-    }}
+            },
+    }
+
+To compare results from a command on a single variable, this setting can be 
+used. This can be useful when one wants to compare the computation time of a 
+command for instance. The external executable could print for instance::
+
+    time
+    0.8473294179
+
+With the default setting for the :setting:`SCALARS` field, Abed would read 
+this value as a scalar result for the command.
 
 .. setting:: RESULT_PRECISION
 
@@ -503,12 +590,33 @@ Default::
 
 Default: ``4``
 
+Results are considered equal if they are the same number within this 
+precision. Thus, with the default setting, the numbers 1.12345 and 1.12354 
+would be considered *equal*, and would therefore get the same rank. If no 
+results should ever be considered equal, increase this setting to a large 
+enough number.
+
 .. setting:: DATA_DESCRIPTION_CSV
 
 ``DATA_DESCRIPTION_CSV``
 ------------------------
 
 Default: ``None``
+
+When generating result tables, it is possible to add additional columns of the 
+table with an external CSV file. It is required that the CSV file is of the 
+format::
+
+    ID,col1,col2,col3
+    1,a,10,3
+    2,b,20,2
+    3,c,30,1
+
+where the first column is considered the column with IDs of the datasets. The 
+easiest way to do this is to combine this with the :setting:`DATASET_NAMES` 
+setting, which is a ``dict`` mapping elements of the :setting:`DATASETS` list 
+to IDs. IDs of datasets must be strings. The first row of the CSV file will be 
+used as headers in the table. 
 
 .. setting:: REFERENCE_METHOD
 
@@ -517,6 +625,13 @@ Default: ``None``
 
 Default: ``None``
 
+Abed automatically runs statistical tests to see if a chosen reference method 
+is statistically different from other methods. This reference method can be 
+set here, and must be a method from the :setting:`METHODS` setting. If you do 
+not wish to run these statistical tests, use the default value of ``None``.  
+See also the documentation in :doc:`statistical_tests` for more information on 
+how to use and interpret the test results (tldr: carefully!).
+
 .. setting:: SIGNIFICANCE_LEVEL
 
 ``SIGNIFICANCE_LEVEL``
@@ -524,8 +639,17 @@ Default: ``None``
 
 Default: ``0.05``
 
+This sets the significance level used in the statistical tests. See also the 
+documentation in :doc:`statistical_tests` and the setting 
+:setting:`REFERENCE_METHOD`.
+
 PBS settings
 ============
+
+The settings below all relate to running the simulations on a compute cluster.  
+Currently only PBS Torque type clusters are supported. In the future, these 
+settings will likely be generalized to support other compute cluster setups as 
+well.
 
 .. setting:: PBS_NODES
 
@@ -534,12 +658,18 @@ PBS settings
 
 Default: ``1``
 
+The number of compute nodes to use on the cluster.
+
 .. setting:: PBS_WALLTIME
 
 ``PBS_WALLTIME``
 ----------------
 
 Default: ``360``
+
+Wall-clock time in minutes for the computations. This is the time that will be 
+reserved from the queueing system. Note that the actual computation time is 
+dependent also on :setting:`PBS_TIME_REDUCE`.
 
 .. setting:: PBS_CPUTYPE
 
@@ -548,12 +678,25 @@ Default: ``360``
 
 Default: ``None``
 
+Optional. The type of cpu to use on the cluster. Some clusters allow to 
+specify which type of cpu will be used by the job. This can be very important 
+for jobs where time comparisons are performed, as there it is vital to use the 
+same type of cpu. If set, this setting must be a string. For example, one can 
+specify ``'cpu4'`` for a specific type of CPU on `Lisa 
+<https://userinfo.surfsara.nl/systems/lisa/usage/batch-usage#heading5>`_. This 
+setting may not be available on all PBS systems.
+
 .. setting:: PBS_CORETYPE
 
 ``PBS_CORETYPE``
 ----------------
 
 Default: ``None``
+
+Optional. The type of node to use on the cluster, as specified by the number 
+of cores of the node.  This setting is similar to the :setting:`PBS_CPUTYPE` 
+setting. For example, one can specify ``'cores16'`` for a 16-core node for 
+instance.  This setting may not be available on all PBS systems.
 
 .. setting:: PBS_PPN
 
@@ -562,12 +705,27 @@ Default: ``None``
 
 Default: ``None``
 
+Optional. The number of processors per node to use. If you know beforehand how 
+many cores there are on a node, this setting allows you to limit the number of 
+processors that are actually used for computations. Especially when running 
+computation time comparisons, it is recommended to reserve one core for system 
+processes.
+
 .. setting:: PBS_MODULES
 
 ``PBS_MODULES``
 ---------------
 
 Default: ``['mpicopy', 'python/2.7.9']``
+
+Optional. On some PBS systems, additional modules may be loaded with the 
+command ``module load``. This configuration defines the modules that are 
+loaded.
+
+Note that some modules may be necessary for Abed to function correctly. For 
+instance, the ``mpicopy`` command is used for copying files to compute nodes 
+during a job, and on some systems this may require loading the ``mpicopy`` 
+module. See also the setting :setting:`PBS_MPICOPY`.
 
 .. setting:: PBS_EXPORTS
 
@@ -576,6 +734,10 @@ Default: ``['mpicopy', 'python/2.7.9']``
 
 Default: ``['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]``
 
+Optional. The lines in this list are interpreted as arguments for the 
+``export`` command. This can be useful for setting PATH variables, or defining 
+other environment settings.
+
 .. setting:: PBS_MPICOPY
 
 ``PBS_MPICOPY``
@@ -583,9 +745,32 @@ Default: ``['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]``
 
 Default: ``['{data_dir}', EXECDIR, TASK_FILE]``
 
+Optional. Abed was initially designed for the Dutch National LISA Compute 
+Cluster. On this cluster, it is more efficient to store results from 
+computations on a so-called *scratch* directory, which is a disk attached 
+locally on the compute node. To copy files to this scratch directory, the LISA 
+staff designed the ``mpicopy`` command. This setting can be used to define the 
+files and directories that will be copied to the scratch directory on the 
+node. For more information on the ``mpicopy`` command, see `here 
+<https://userinfo.surfsara.nl/systems/lisa/software/mpicopy>`_. 
+
+Dependency on this command is not a very portable solution, ideas for 
+improvement are very welcome.
+
 .. setting:: PBS_TIME_REDUCE
 
 ``PBS_TIME_REDUCE``
 -------------------
 
 Default: ``600``
+
+Abed generates a result file for every task. Since this can be quite a lot of 
+files to download from the server after the job is done, Abed creates 
+compressed archives of results. These archives are generated using the 
+``pbzip2`` command, which compresses files in parallel. Hence, part of the 
+time of the job is used for this result compression. The time allotted for 
+this is defined with this setting, in seconds. If you expect only a few result 
+files, you can choose to reduce the value of this setting.
+
+Note: it is currently unknown if the ``pbzip2`` command is widely available.  
+If dependency on this command is a problem, please let us know.
