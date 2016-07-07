@@ -26,11 +26,13 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="abed 0.1 documentation" href="../index.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -324,140 +326,296 @@ version control.</p>
 experiments. Abed expects a different type in the list depending on the
 <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> that is used:</p>
 <ul>
-<li><p class="first">When TYPE is <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, the expected format is the same as the default,
-simply a list of names of the datasets, as strings.</p>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, the expected format is the same as the
+default, simply a list of names of the datasets, as strings.</p>
 </li>
-<li><p class="first">When TYPE is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, the expected format is a list of tuples, where
-each tuple is a pair of strings. The first string gives the name of the
-training dataset, and the second string the name of the test dataset. For
-instance:</p>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, the expected format is a list of
+tuples, where each tuple is a pair of strings. The first string gives the
+name of the training dataset, and the second string the name of the test
+dataset.  For instance:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dataset_1_train&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_1_test&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dataset_2_train&#39;</span><span class="p">,</span>
 <span class="s1">&#39;dataset_2_test&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">When TYPE is <code class="docutils literal"><span class="pre">'RAW'</span></code>, this setting is not used.</p>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'RAW'</span></code>, this setting is not used.</p>
 </li>
 </ul>
 <p>See for more info on the different experiment types and their requirements
 <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a>.</p>
 </div>
+<div class="section" id="dataset-names">
+<span id="std:setting-DATASET_NAMES"></span><h3><code class="docutils literal"><span class="pre">DATASET_NAMES</span></code><a class="headerlink" href="#dataset-names" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">{k:str(i)</span> <span class="pre">for</span> <span class="pre">i,</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">enumerate(DATASETS)}</span></code></p>
+<p>Optional. This setting gives a mapping of datasets to names. This can be
+useful when you wish to use different names for the datasets in the output
+than in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> setting. If this setting is not present in the
+settings file, the ID of a dataset will be generated with the function
+<a class="reference internal" href="../api/core/abed.datasets.html#abed.datasets.dataset_name" title="abed.datasets.dataset_name"><code class="xref py py-func docutils literal"><span class="pre">abed.datasets.dataset_name()</span></code></a>.</p>
+<p>As an example, consider datasets names following the pattern <code class="docutils literal"><span class="pre">'dataset_1'</span></code>,
+<code class="docutils literal"><span class="pre">'dataset_2'</span></code>, etc.  It may then be nice to use names such as <code class="docutils literal"><span class="pre">'001'</span></code>,
+<code class="docutils literal"><span class="pre">'002'</span></code>, etc. in the result tables. This can be achieved by setting:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATASET_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%03i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DATASETS</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that this setting relates closely to the setting
+<a class="reference internal" href="#std:setting-DATA_DESCRIPTION_CSV"><code class="xref std std-setting docutils literal"><span class="pre">DATA_DESCRIPTION_CSV</span></code></a>.</p>
+</div>
 <div class="section" id="methods">
 <span id="std:setting-METHODS"></span><h3><code class="docutils literal"><span class="pre">METHODS</span></code><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">['method_1',</span> <span class="pre">'method_2']</span></code></p>
+<p>Here you define the names of the methods that you will use. These names will
+must be the same as the ones used in the <a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> and the
+<a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> settings. Since these names will also be used in directory
+names, it is advisable to not use spaces or other illegal characters in these
+names.</p>
 </div>
 <div class="section" id="params">
 <span id="std:setting-PARAMS"></span><h3><code class="docutils literal"><span class="pre">PARAMS</span></code><a class="headerlink" href="#params" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{{</span>
-    <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">{{</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;param_1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_1</span><span class="p">,</span> <span class="n">val_2</span><span class="p">],</span>
         <span class="s1">&#39;param_2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_3</span><span class="p">,</span> <span class="n">val_4</span><span class="p">],</span>
         <span class="s1">&#39;param_3&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_5</span><span class="p">,</span> <span class="n">val_6</span><span class="p">]</span>
-        <span class="p">}},</span>
-    <span class="s1">&#39;method_2&#39;</span><span class="p">:</span> <span class="p">{{</span>
+        <span class="p">},</span>
+    <span class="s1">&#39;method_2&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;param_1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_1</span><span class="p">,</span> <span class="n">val_2</span><span class="p">,</span> <span class="n">val_3</span><span class="p">],</span>
-        <span class="p">}},</span>
- <span class="p">}}</span>
+        <span class="p">},</span>
+ <span class="p">}</span>
 </pre></div>
 </div>
+<p>As described in <a class="reference internal" href="workings.html"><span class="doc">How Abed works</span></a>, Abed runs a grid search where the commands
+defined in <a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> are run for the respective method for each
+dataset, and all possible combinations of the values in the parameters. The
+values that are used are defined in this setting. Expected is a list of values
+for each parameter, even if only one value is used. Note that the names used
+for the parameters match those used in the commands. The user must therefore
+ensure that these are the same. This setting is not used with the <code class="docutils literal"><span class="pre">'RAW'</span></code>
+experiment type.</p>
 </div>
 <div class="section" id="commands">
 <span id="std:setting-COMMANDS"></span><h3><code class="docutils literal"><span class="pre">COMMANDS</span></code><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{{</span>
-    <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;{{execdir}}/method_1 {{datadir}}/{{dataset}} {{param_1}} &quot;</span>
-        <span class="s2">&quot;{{param_2}} {{param_3}}&quot;</span><span class="p">),</span>
-    <span class="s1">&#39;method_2&#39;</span><span class="p">:</span> <span class="s2">&quot;{{execdir}}/method_2 {{datadir}}/{{dataset}} {{param_1}}&quot;</span>
-<span class="p">}}</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_1 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2"> &quot;</span>
+        <span class="s2">&quot;</span><span class="si">{param_2}</span><span class="s2"> </span><span class="si">{param_3}</span><span class="s2">&quot;</span><span class="p">),</span>
+    <span class="s1">&#39;method_2&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_2 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2">&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p>TODO Abed currently allows two modes of operation: &#8216;ASSESS&#8217; for model
-assessment, and &#8216;CV_TT&#8217; for cross validation with a test dataset. In the
-latter case the datasets need to be specified with &#8216;{train_dataset}&#8217; and
-&#8216;{test_dataset}&#8217; in the Abed configuration file.</p>
+<p>Abed works by calling external commands for each method. The advantage of
+running external commands, is that Abed can be used regardless of the language
+that the methods are implemented in. This setting defines the commands that
+Abed needs to run for each method. The variables <code class="docutils literal"><span class="pre">{execdir}</span></code> and
+<code class="docutils literal"><span class="pre">{datadir}</span></code> are special variables, which are formatted by Abed
+automatically. The <code class="docutils literal"><span class="pre">{param_*}</span></code> variables correspond to the names defined in
+<a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a>. Finally, the <code class="docutils literal"><span class="pre">{dataset}</span></code> variable will be formatted by
+Abed based on the names of the datasets defined in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a>
+setting. Note that it is up to the user to ensure the right file extension is
+supplied here. This means, that if the name of a dataset defined in
+<a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> is for instance <code class="docutils literal"><span class="pre">'iris'</span></code>, but the filename on the disk
+is <code class="docutils literal"><span class="pre">'iris.txt'</span></code>, the command should be adjusted with the part
+<code class="docutils literal"><span class="pre">{datadir}/{dataset}.txt</span></code>.</p>
+<p>There are slight differences between the way the commands are used depending
+on the type of experiment that is run (see <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a>). Thus,</p>
+<ul>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, the expected form for the dataset part
+of the command is <code class="docutils literal"><span class="pre">{dataset}</span></code> (as in the default).</p>
+</li>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, both a training and a test dataset
+should be included in the command, with the variables <code class="docutils literal"><span class="pre">{train_dataset}</span></code>
+and <code class="docutils literal"><span class="pre">{test_dataset}</span></code>, respectively. Thus, for this format a command could
+look like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_1 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2"> &quot;</span>
+    <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2"> </span><span class="si">{param_2}</span><span class="s2"> </span><span class="si">{param_3}</span><span class="s2">&quot;</span><span class="p">)}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'RAW'</span></code>, this setting is not used.</p>
+</li>
+</ul>
 </div>
 <div class="section" id="metrics">
 <span id="std:setting-METRICS"></span><h3><code class="docutils literal"><span class="pre">METRICS</span></code><a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{{</span>
-    <span class="s1">&#39;NAME_1&#39;</span><span class="p">:</span> <span class="p">{{</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;NAME_1&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="n">metric_function_1</span><span class="p">,</span>
         <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">max</span>
-        <span class="p">}},</span>
-    <span class="s1">&#39;NAME_2&#39;</span><span class="p">:</span> <span class="p">{{</span>
+        <span class="p">},</span>
+    <span class="s1">&#39;NAME_2&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="n">metric_function_2</span><span class="p">,</span>
         <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">min</span>
-        <span class="p">}}</span>
-<span class="p">}}</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
+<p>This setting defines the metrics that are applied to the output of a single
+command. The user is free to define any function here, although Abed currently
+expects a function that takes two lists as input. It is therefore recommended
+to either use functions from <a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics">sklearn.metrics</a>,
+or define functions with a similar signature. See <a class="reference internal" href="metric_functions.html"><span class="doc">Defining custom metric functions</span></a> for
+instructions on how to include custom metrics.</p>
+<p>Note that in these settings, a name can be defined by the user, as well as
+which direction is considered <em>better</em> in the metric function. This is done by
+defining the <code class="docutils literal"><span class="pre">'best'</span></code> field, which can be either the <code class="docutils literal"><span class="pre">max</span></code> function, or
+the <code class="docutils literal"><span class="pre">min</span></code> function. These directions will be used when Abed ranks the
+results of a method on a given dataset with a given set of parameters.</p>
 </div>
 <div class="section" id="scalars">
 <span id="std:setting-SCALARS"></span><h3><code class="docutils literal"><span class="pre">SCALARS</span></code><a class="headerlink" href="#scalars" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{{</span>
-    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">{{</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">min</span>
-        <span class="p">}},</span>
-<span class="p">}}</span>
+        <span class="p">},</span>
+<span class="p">}</span>
 </pre></div>
 </div>
+<p>To compare results from a command on a single variable, this setting can be
+used. This can be useful when one wants to compare the computation time of a
+command for instance. The external executable could print for instance:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">time</span>
+<span class="mf">0.8473294179</span>
+</pre></div>
+</div>
+<p>With the default setting for the <a class="reference internal" href="#std:setting-SCALARS"><code class="xref std std-setting docutils literal"><span class="pre">SCALARS</span></code></a> field, Abed would read
+this value as a scalar result for the command.</p>
 </div>
 <div class="section" id="result-precision">
 <span id="std:setting-RESULT_PRECISION"></span><h3><code class="docutils literal"><span class="pre">RESULT_PRECISION</span></code><a class="headerlink" href="#result-precision" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">4</span></code></p>
+<p>Results are considered equal if they are the same number within this
+precision. Thus, with the default setting, the numbers 1.12345 and 1.12354
+would be considered <em>equal</em>, and would therefore get the same rank. If no
+results should ever be considered equal, increase this setting to a large
+enough number.</p>
 </div>
 <div class="section" id="data-description-csv">
 <span id="std:setting-DATA_DESCRIPTION_CSV"></span><h3><code class="docutils literal"><span class="pre">DATA_DESCRIPTION_CSV</span></code><a class="headerlink" href="#data-description-csv" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>When generating result tables, it is possible to add additional columns of the
+table with an external CSV file. It is required that the CSV file is of the
+format:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ID</span><span class="p">,</span><span class="n">col1</span><span class="p">,</span><span class="n">col2</span><span class="p">,</span><span class="n">col3</span>
+<span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span>
+<span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span>
+<span class="mi">3</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>where the first column is considered the column with IDs of the datasets. The
+easiest way to do this is to combine this with the <a class="reference internal" href="#std:setting-DATASET_NAMES"><code class="xref std std-setting docutils literal"><span class="pre">DATASET_NAMES</span></code></a>
+setting, which is a <code class="docutils literal"><span class="pre">dict</span></code> mapping elements of the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> list
+to IDs. IDs of datasets must be strings. The first row of the CSV file will be
+used as headers in the table.</p>
 </div>
 <div class="section" id="reference-method">
 <span id="std:setting-REFERENCE_METHOD"></span><h3><code class="docutils literal"><span class="pre">REFERENCE_METHOD</span></code><a class="headerlink" href="#reference-method" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>Abed automatically runs statistical tests to see if a chosen reference method
+is statistically different from other methods. This reference method can be
+set here, and must be a method from the <a class="reference internal" href="#std:setting-METHODS"><code class="xref std std-setting docutils literal"><span class="pre">METHODS</span></code></a> setting. If you do
+not wish to run these statistical tests, use the default value of <code class="docutils literal"><span class="pre">None</span></code>.
+See also the documentation in <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a> for more information on
+how to use and interpret the test results (tldr: carefully!).</p>
 </div>
 <div class="section" id="significance-level">
 <span id="std:setting-SIGNIFICANCE_LEVEL"></span><h3><code class="docutils literal"><span class="pre">SIGNIFICANCE_LEVEL</span></code><a class="headerlink" href="#significance-level" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">0.05</span></code></p>
+<p>This sets the significance level used in the statistical tests. See also the
+documentation in <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a> and the setting
+<a class="reference internal" href="#std:setting-REFERENCE_METHOD"><code class="xref std std-setting docutils literal"><span class="pre">REFERENCE_METHOD</span></code></a>.</p>
 </div>
 </div>
 <div class="section" id="pbs-settings">
 <h2><a class="toc-backref" href="#id7">PBS settings</a><a class="headerlink" href="#pbs-settings" title="Permalink to this headline">¶</a></h2>
+<p>The settings below all relate to running the simulations on a compute cluster.
+Currently only PBS Torque type clusters are supported. In the future, these
+settings will likely be generalized to support other compute cluster setups as
+well.</p>
 <div class="section" id="pbs-nodes">
 <span id="std:setting-PBS_NODES"></span><h3><code class="docutils literal"><span class="pre">PBS_NODES</span></code><a class="headerlink" href="#pbs-nodes" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">1</span></code></p>
+<p>The number of compute nodes to use on the cluster.</p>
 </div>
 <div class="section" id="pbs-walltime">
 <span id="std:setting-PBS_WALLTIME"></span><h3><code class="docutils literal"><span class="pre">PBS_WALLTIME</span></code><a class="headerlink" href="#pbs-walltime" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">360</span></code></p>
+<p>Wall-clock time in minutes for the computations. This is the time that will be
+reserved from the queueing system. Note that the actual computation time is
+dependent also on <a class="reference internal" href="#std:setting-PBS_TIME_REDUCE"><code class="xref std std-setting docutils literal"><span class="pre">PBS_TIME_REDUCE</span></code></a>.</p>
 </div>
 <div class="section" id="pbs-cputype">
 <span id="std:setting-PBS_CPUTYPE"></span><h3><code class="docutils literal"><span class="pre">PBS_CPUTYPE</span></code><a class="headerlink" href="#pbs-cputype" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>Optional. The type of cpu to use on the cluster. Some clusters allow to
+specify which type of cpu will be used by the job. This can be very important
+for jobs where time comparisons are performed, as there it is vital to use the
+same type of cpu. If set, this setting must be a string. For example, one can
+specify <code class="docutils literal"><span class="pre">'cpu4'</span></code> for a specific type of CPU on <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/usage/batch-usage#heading5">Lisa</a>. This
+setting may not be available on all PBS systems.</p>
 </div>
 <div class="section" id="pbs-coretype">
 <span id="std:setting-PBS_CORETYPE"></span><h3><code class="docutils literal"><span class="pre">PBS_CORETYPE</span></code><a class="headerlink" href="#pbs-coretype" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>Optional. The type of node to use on the cluster, as specified by the number
+of cores of the node.  This setting is similar to the <a class="reference internal" href="#std:setting-PBS_CPUTYPE"><code class="xref std std-setting docutils literal"><span class="pre">PBS_CPUTYPE</span></code></a>
+setting. For example, one can specify <code class="docutils literal"><span class="pre">'cores16'</span></code> for a 16-core node for
+instance.  This setting may not be available on all PBS systems.</p>
 </div>
 <div class="section" id="pbs-ppn">
 <span id="std:setting-PBS_PPN"></span><h3><code class="docutils literal"><span class="pre">PBS_PPN</span></code><a class="headerlink" href="#pbs-ppn" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>Optional. The number of processors per node to use. If you know beforehand how
+many cores there are on a node, this setting allows you to limit the number of
+processors that are actually used for computations. Especially when running
+computation time comparisons, it is recommended to reserve one core for system
+processes.</p>
 </div>
 <div class="section" id="pbs-modules">
 <span id="std:setting-PBS_MODULES"></span><h3><code class="docutils literal"><span class="pre">PBS_MODULES</span></code><a class="headerlink" href="#pbs-modules" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">['mpicopy',</span> <span class="pre">'python/2.7.9']</span></code></p>
+<p>Optional. On some PBS systems, additional modules may be loaded with the
+command <code class="docutils literal"><span class="pre">module</span> <span class="pre">load</span></code>. This configuration defines the modules that are
+loaded.</p>
+<p>Note that some modules may be necessary for Abed to function correctly. For
+instance, the <code class="docutils literal"><span class="pre">mpicopy</span></code> command is used for copying files to compute nodes
+during a job, and on some systems this may require loading the <code class="docutils literal"><span class="pre">mpicopy</span></code>
+module. See also the setting <a class="reference internal" href="#std:setting-PBS_MPICOPY"><code class="xref std std-setting docutils literal"><span class="pre">PBS_MPICOPY</span></code></a>.</p>
 </div>
 <div class="section" id="pbs-exports">
 <span id="std:setting-PBS_EXPORTS"></span><h3><code class="docutils literal"><span class="pre">PBS_EXPORTS</span></code><a class="headerlink" href="#pbs-exports" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">['PATH=$PATH:/home/%s/.local/bin/abed'</span> <span class="pre">%</span> <span class="pre">REMOTE_USER]</span></code></p>
+<p>Optional. The lines in this list are interpreted as arguments for the
+<code class="docutils literal"><span class="pre">export</span></code> command. This can be useful for setting PATH variables, or defining
+other environment settings.</p>
 </div>
 <div class="section" id="pbs-mpicopy">
 <span id="std:setting-PBS_MPICOPY"></span><h3><code class="docutils literal"><span class="pre">PBS_MPICOPY</span></code><a class="headerlink" href="#pbs-mpicopy" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">['{data_dir}',</span> <span class="pre">EXECDIR,</span> <span class="pre">TASK_FILE]</span></code></p>
+<p>Optional. Abed was initially designed for the Dutch National LISA Compute
+Cluster. On this cluster, it is more efficient to store results from
+computations on a so-called <em>scratch</em> directory, which is a disk attached
+locally on the compute node. To copy files to this scratch directory, the LISA
+staff designed the <code class="docutils literal"><span class="pre">mpicopy</span></code> command. This setting can be used to define the
+files and directories that will be copied to the scratch directory on the
+node. For more information on the <code class="docutils literal"><span class="pre">mpicopy</span></code> command, see <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/software/mpicopy">here</a>.</p>
+<p>Dependency on this command is not a very portable solution, ideas for
+improvement are very welcome.</p>
 </div>
 <div class="section" id="pbs-time-reduce">
 <span id="std:setting-PBS_TIME_REDUCE"></span><h3><code class="docutils literal"><span class="pre">PBS_TIME_REDUCE</span></code><a class="headerlink" href="#pbs-time-reduce" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">600</span></code></p>
+<p>Abed generates a result file for every task. Since this can be quite a lot of
+files to download from the server after the job is done, Abed creates
+compressed archives of results. These archives are generated using the
+<code class="docutils literal"><span class="pre">pbzip2</span></code> command, which compresses files in parallel. Hence, part of the
+time of the job is used for this result compression. The time allotted for
+this is defined with this setting, in seconds. If you expect only a few result
+files, you can choose to reduce the value of this setting.</p>
+<p>Note: it is currently unknown if the <code class="docutils literal"><span class="pre">pbzip2</span></code> command is widely available.
+If dependency on this command is a problem, please let us know.</p>
 </div>
 </div>
 </div>
@@ -517,6 +675,7 @@ latter case the datasets need to be specified with &#8216;{train_dataset}&#8217;
 <li><a class="reference internal" href="#datadir"><code class="docutils literal"><span class="pre">DATADIR</span></code></a></li>
 <li><a class="reference internal" href="#execdir"><code class="docutils literal"><span class="pre">EXECDIR</span></code></a></li>
 <li><a class="reference internal" href="#datasets"><code class="docutils literal"><span class="pre">DATASETS</span></code></a></li>
+<li><a class="reference internal" href="#dataset-names"><code class="docutils literal"><span class="pre">DATASET_NAMES</span></code></a></li>
 <li><a class="reference internal" href="#methods"><code class="docutils literal"><span class="pre">METHODS</span></code></a></li>
 <li><a class="reference internal" href="#params"><code class="docutils literal"><span class="pre">PARAMS</span></code></a></li>
 <li><a class="reference internal" href="#commands"><code class="docutils literal"><span class="pre">COMMANDS</span></code></a></li>
@@ -560,8 +719,8 @@ latter case the datasets need to be specified with &#8216;{train_dataset}&#8217;
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -575,8 +734,8 @@ latter case the datasets need to be specified with &#8216;{train_dataset}&#8217;
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |
       <a href="../_sources/usage/settings.txt"
