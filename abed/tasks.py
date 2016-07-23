@@ -87,8 +87,7 @@ def init_tasks_raw():
 
 def read_tasks():
     with open(settings.TASK_FILE, 'r') as fid:
-        tasks = fid.readlines()
-    tasks = [x.strip() for x in tasks]
+        tasks = [l.strip() for l in fid.readlines() if l.strip()]
     tasks = map(int, tasks)
     grid = init_tasks()
     out = {}

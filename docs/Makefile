@@ -58,7 +58,7 @@ help:
 
 .PHONY: clean
 clean:
-	rm -rf $(BUILDDIR)/*
+	rm -rf $(BUILDDIR)/html/* $(BUILDDIR)/doctrees/*
 
 .PHONY: html
 html:
