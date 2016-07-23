@@ -321,7 +321,7 @@ the part in the result file which corresponds to the training set.
 Default: ``'/path/to/file.txt'``
 
 Only used when the experiment type is ``'RAW'``. This is the path to the file 
-with raw tasks.
+with raw tasks. See also :doc:`experiments`.
 
 Build settings
 ==============

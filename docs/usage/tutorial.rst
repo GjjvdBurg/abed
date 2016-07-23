@@ -131,7 +131,7 @@ is done.
 
 **Note:** *the package that is uploaded is simply an archive made from the 
 current state of the git repository. This means that only files that are 
-commited to the git repository will be transferred to the remote.*
+commited to the git repository will be transferred to the remote!*
 
 
 Running an Abed project
