@@ -160,7 +160,7 @@ class AbedTable(object):
 
     def table_averages(self):
         averages = [0.0]*self.num_columns
-        for _id in self.rows.iterkeys():
+        for _id in self.rows.keys():
             for i, x in enumerate(self.rows[_id]):
                 averages[i] += float(x)
         averages = [x/float(self.num_rows) for x in averages]
@@ -174,7 +174,7 @@ class AbedTable(object):
     def table_wins(self):
         hb = self.higher_better
         wins = [0]*self.num_columns
-        for _id in self.rows.iterkeys():
+        for _id in self.rows.keys():
             best = float('inf')
             best *= -1 if hb else 1
             best_idx = None
@@ -190,7 +190,7 @@ class AbedTable(object):
     def table_losses(self):
         hb = self.higher_better
         losses = [0]*self.num_columns
-        for _id in self.rows.iterkeys():
+        for _id in self.rows.keys():
             worst = float("inf")
             worst *= 1 if hb else -1
             worst_idx = None
@@ -205,7 +205,7 @@ class AbedTable(object):
 
     def table_ties(self):
         num_ties = 0
-        for _id in self.rows.iterkeys():
+        for _id in self.rows.keys():
             values = [float(x) for x in self.rows[_id]]
             num_uniq = len(set(values))
             if num_uniq == 1:

@@ -154,7 +154,7 @@ def mpi_start_remote(task_dict):
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
         work = Work(n_workers=size-2)
-        work.work_items = task_dict.keys()
+        work.work_items = list(task_dict.keys())
         master(work)
     elif rank == 1:
         copy_worker(local=False)
@@ -168,7 +168,7 @@ def mpi_start_local(task_dict):
     # 0 = master, rest = worker
     if rank == 0:
         work = Work(n_workers=size-1)
-        work.work_items = task_dict.keys()
+        work.work_items = list(task_dict.keys())
         master(work)
     else:
         worker(task_dict, local=True)

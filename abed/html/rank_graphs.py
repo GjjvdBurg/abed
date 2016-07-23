@@ -76,7 +76,7 @@ def generate_graphs_html(tables):
             navbar(active=AbedHTMLTypes.RANK_GRAPHS)
         with tags.div(id='content'):
             with tags.div(_class='container'):
-                for lbl in sorted(lbl_table.iterkeys()):
+                for lbl in sorted(lbl_table.keys()):
                     with tags.div(_class="panel panel-default"):
                         with tags.div(_class="panel-heading"):
                             tags.h3('Target: %s' % lbl, _class="panel-title")

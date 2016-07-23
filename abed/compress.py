@@ -54,10 +54,10 @@ def dataset_completed(dsetfiles, dset, task_dict):
 
     """
     if settings.TYPE == 'ASSESS':
-        dset_tasks = {k:v for k, v in task_dict.iteritems() if
+        dset_tasks = {k:v for k, v in task_dict.items() if
                 v['dataset'] == dset}
     elif settings.TYPE == 'CV_TT':
-        dset_tasks = {k:v for k, v in task_dict.iteritems() if
+        dset_tasks = {k:v for k, v in task_dict.items() if
                 (v['train_dataset'] == dset[0] and
                     v['test_dataset'] == dset[1])}
     else:

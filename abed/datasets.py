@@ -7,7 +7,7 @@ basename = os.path.basename
 splitext = os.path.splitext
 
 def dataset_name(dset):
-    if settings.__dict__.has_key('DATASET_NAMES'):
+    if 'DATASET_NAMES' in settings.__dict__:
         return str(settings.DATASET_NAMES[dset])
     if isinstance(dset, tuple):
         txt = ''

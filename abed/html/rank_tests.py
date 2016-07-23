@@ -98,7 +98,7 @@ def generate_rt_html(tables):
             navbar(active=AbedHTMLTypes.RANK_TESTS)
         with tags.div(id='content'):
             with tags.div(_class='container'):
-                for lbl in sorted(lbl_table.iterkeys()):
+                for lbl in sorted(lbl_table.keys()):
                     generate_label_panel(lbl, lbl_table)
             tags.comment('./container')
         with tags.div(id='footer'):

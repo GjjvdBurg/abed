@@ -58,7 +58,7 @@ def parse_result_fileobj(fid, hsh, dataset, method):
 
     ar = AbedResult(hsh, dataset=dataset, method=method)
 
-    for label in data.iterkeys():
+    for label in data.keys():
         if label in settings.SCALARS:
             ar.add_result_scalar(label, data[label])
         else:

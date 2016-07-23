@@ -16,7 +16,7 @@ from .results.walk import walk_hashes
 from .utils import error
 
 def cartesian(params):
-    return (dict(zip(params, x)) for x in product(*params.itervalues()))
+    return (dict(list(zip(params, x))) for x in product(*params.values()))
 
 def check_size():
     if not sys.maxsize == 9223372036854775807:
@@ -28,7 +28,7 @@ def task_hash(task):
     """
     This yields a hash of a list by combining the hashes of all list elements.
     """
-    hsh = hash(frozenset(task.items()))
+    hsh = hash(frozenset(list(task.items())))
     hsh %= ((sys.maxsize + 1) * 2)
     return hsh
 
@@ -46,7 +46,7 @@ def init_tasks_assess():
     for dset in settings.DATASETS:
         for method in settings.METHODS:
             for prmset in cartesian(settings.PARAMS[method]):
-                task = {key: value for key, value in prmset.iteritems()}
+                task = {key: value for key, value in prmset.items()}
                 task['dataset'] = dset
                 task['method'] = method
                 hsh = task_hash(task)
@@ -62,7 +62,7 @@ def init_tasks_cv_tt():
         seed = rng.randint(0, 2**31-1)
         for method in settings.METHODS:
             for prmset in cartesian(settings.PARAMS[method]):
-                task = {key: value for key, value in prmset.iteritems()}
+                task = {key: value for key, value in prmset.items()}
                 task['train_dataset'] = train
                 task['test_dataset'] = test
                 task['method'] = method
@@ -88,7 +88,7 @@ def init_tasks_raw():
 def read_tasks():
     with open(settings.TASK_FILE, 'r') as fid:
         tasks = [l.strip() for l in fid.readlines() if l.strip()]
-    tasks = map(int, tasks)
+    tasks = list(map(int, tasks))
     grid = init_tasks()
     out = {}
     for key in tasks:
@@ -112,7 +112,7 @@ def explain_tasks(all_tasks):
         if settings.TYPE == 'RAW':
             cmd = all_tasks[task]
         else:
-            d = {k:v for k, v in all_tasks[task].iteritems()}
+            d = {k:v for k, v in all_tasks[task].items()}
             command = settings.COMMANDS[d['method']]
             d['datadir'] = '{datadir}'
             d['execdir'] = '{execdir}'

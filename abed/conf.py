@@ -7,7 +7,7 @@ class Settings(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
     def __getattr__(self, attr):
-        if self.__dict__.has_key(attr):
+        if attr in self.__dict__:
             return getattr(self, attr)
         else:
             error("You probably Britta'd the settings file, "
