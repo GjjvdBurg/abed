@@ -23,7 +23,7 @@ Documentation
 -------------
 
 For Abed's documentation, see `the documentation 
-<https://gjjvdburg.github.io/ABED/docs.html>`_.
+<https://gjjvdburg.github.io/abed/docs.html>`_.
 
 Screenshots
 -----------
