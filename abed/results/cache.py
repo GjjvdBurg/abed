@@ -22,7 +22,10 @@ def parse_result_fileobj(fid, hsh, dataset, method):
     label = None
     for line in fid:
         l = line.strip()
-        if l.startswith('%'):
+        # Skip comment lines
+        if l.startswith('#'):
+            continue
+        elif l.startswith('%'):
             label = find_label(l)
             if label in settings.SCALARS:
                 data[label] = None
