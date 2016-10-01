@@ -38,7 +38,7 @@ def git_init():
         print(err.output)
         raise SystemExit
     try:
-        check_output(['git', 'commit' ,'-am', '"initialized abed skeleton"'])
+        check_output(['git', 'commit' ,'-am', 'initialized abed skeleton'])
     except CalledProcessError as err:
         error("Error executing initial commit. Error message:")
         print(err.output)
