@@ -20,6 +20,7 @@ class MyFabric(object):
         self.port = settings.REMOTE_PORT
         self.data_path = None
         self.empty = None
+        env.use_ssh_config = True
 
     def run(self, command='', warn_only=False, cd=None):
         env.host_string = '%s@%s:%s' % (self.user, self.host, self.port)
