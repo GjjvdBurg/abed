@@ -80,8 +80,8 @@ def get_jobid_from_pbs():
         thrown. In this case the program doesn't know which task to manage.
 
     """
-    text = myfab.run("qstat -u %s | grep %s | tail -n +2 | "
-        "cut -d'.' -f1" % (settings.REMOTE_USER, settings.REMOTE_USER))
+    text = myfab.run("qstat -u %s | grep %s | cut -d'.' -f1" % 
+            (settings.REMOTE_USER, settings.REMOTE_USER))
     if not text:
         return None
     ids = text.split('\n')
