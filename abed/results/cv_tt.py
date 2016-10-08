@@ -6,19 +6,21 @@ experiments.
 In CV_TT experiments, the following is done
 
 1. Labels 'y_train' are expected to exist, with 'y_train_true' and
-'y_train_pred' columns. This must be the true y in the first column, and in the
-second column the predicted values of y when these indices were in the hold-out
-fold of cross validation.
+   'y_train_pred' columns. This must be the true y in the first column, and in 
+   the second column the predicted values of y when these indices were in the 
+   hold-out fold of cross validation.
+
 2. Labels 'y_test' are expected to exist, with 'y_test_true' and 'y_test_pred'.
-These columns are the true and predicted values of y on the test dataset.
-Predicted values should (theoretically) be made by training the model on the
-full training dataset, and predicting the test dataset.
+   These columns are the true and predicted values of y on the test dataset. 
+   Predicted values should (theoretically) be made by training the model on the 
+   full training dataset, and predicting the test dataset.
+
 3. Tables are created for each possible metric/metric combination of the metrics
-in the configuration file.  In the tables, each method is given in a single
-column. In each cell, the performance on the test dataset as measured by the
-second metric is shown for the parameter configuration for which the performance
-on the first metric is optimal. This is done for all metric targets other than
-'y_train'.
+   in the configuration file.  In the tables, each method is given in a single 
+   column. In each cell, the performance on the test dataset as measured by the 
+   second metric is shown for the parameter configuration for which the 
+   performance on the first metric is optimal. This is done for all metric 
+   targets other than 'y_train'.
 
 """
 
