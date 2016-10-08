@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.datasets &mdash; abed 0.1 documentation</title>
+    <title>abed.datasets &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -44,13 +45,13 @@
 <span></span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
 
 <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span>
 <span class="n">splitext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span>
 
 <div class="viewcode-block" id="dataset_name"><a class="viewcode-back" href="../../api/core/abed.datasets.html#abed.datasets.dataset_name">[docs]</a><span class="k">def</span> <span class="nf">dataset_name</span><span class="p">(</span><span class="n">dset</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;DATASET_NAMES&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">&#39;DATASET_NAMES&#39;</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATASET_NAMES</span><span class="p">[</span><span class="n">dset</span><span class="p">])</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -100,8 +101,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

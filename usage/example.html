@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example: Using Abed for comparing regression methods &#8212; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-using-abed-for-comparing-regression-methods">
+<h1>Example: Using Abed for comparing regression methods<a class="headerlink" href="#example-using-abed-for-comparing-regression-methods" title="Permalink to this headline">¶</a></h1>
+<p>Below we describe a complete walkthrough of an experiment ran using Abed. Code
+for this experiment can be found on GitHub.</p>
+<p>In this example, we will compare three regression methods (OLS, Lasso, and
+Ridge regression) on ten artificial datasets with varying levels of sparsity.
+The methods will be implemented through Scikit-Learn and through R.</p>
+<p>Let&#8217;s begin, first we create a new directory for this experiment, and change
+to it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">abed_example</span>
+<span class="n">cd</span> <span class="n">abed_example</span>
+</pre></div>
+</div>
+<p>In this directory, we run the following command to initialize Abed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">init</span>
+</pre></div>
+</div>
+<p>This creates the minimal directory structure needed, as well as three files:
+<code class="docutils literal"><span class="pre">abed_conf.py</span></code>, <code class="docutils literal"><span class="pre">abed_tasks.txt</span></code>, and <code class="docutils literal"><span class="pre">abed_auto.txt</span></code>. The first file is
+<a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a>, and is the one we will focus on first.</p>
+<div class="section" id="defining-the-experiment">
+<h2>Defining the experiment<a class="headerlink" href="#defining-the-experiment" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s open the <code class="docutils literal"><span class="pre">abed_conf.py</span></code> file using our favorite editor, and change
+some of the general settings as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PROJECT_NAME</span> <span class="o">=</span> <span class="s1">&#39;abed_example&#39;</span>
+<span class="n">RESULT_DIR</span> <span class="o">=</span> <span class="s1">&#39;./results&#39;</span>
+<span class="n">STAGE_DIR</span> <span class="o">=</span> <span class="s1">&#39;./stagedir&#39;</span>
+</pre></div>
+</div>
+<p>If you have access to a compute cluster, you can set those parameters in the
+next section of the settings file. If you don&#8217;t have access to such a server,
+you can skip this section and run the computations locally. For the compute
+cluster, we currently assume it is a PBS type compute cluster, with a scratch
+directory set through an environment variable. The following server parameters
+should definitely be changed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">REMOTE_USER</span> <span class="o">=</span> <span class="s1">&#39;username&#39;</span>
+<span class="n">REMOTE_HOST</span> <span class="o">=</span> <span class="s1">&#39;address.of.host&#39;</span>
+</pre></div>
+</div>
+<p>The next section of the settings file defines two variables:
+<a class="reference internal" href="settings.html#std:setting-MW_SENDATONCE"><code class="xref std std-setting docutils literal"><span class="pre">MW_SENDATONCE</span></code></a> and <a class="reference internal" href="settings.html#std:setting-MW_COPY_SLEEP"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a>. In a typical experiment
+with a sufficient number of tasks these settings do not need to be changed
+from the default. In this case however, we will perform a small experiment, so
+we will set:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MW_SENDATONCE</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>On to the next section of the settings file. This section defines the type of
+experiment we want to run (see <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> for more info). Here we&#8217;ll
+use the <code class="docutils literal"><span class="pre">'CV_TT'</span></code> type, so we uncomment the following lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;CV_TT&#39;</span>
+<span class="n">CV_BASESEED</span> <span class="o">=</span> <span class="mi">123456</span>
+<span class="n">YTRAIN_LABEL</span> <span class="o">=</span> <span class="s1">&#39;y_train&#39;</span>
+</pre></div>
+</div>
+<p>The section on &#8220;Build settings&#8221; can be skipped, as we will implement our
+methods in Python for this example. If you want to work with compiled
+executables, you can define the required build procedure here.</p>
+<p>The next section of the settings file (&#8220;Experiment parameters and settings&#8221;)
+is arguably the most important, as it defines which tasks will be executed. We
+will leave the <a class="reference internal" href="settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal"><span class="pre">DATADIR</span></code></a> and <a class="reference internal" href="settings.html#std:setting-EXECDIR"><code class="xref std std-setting docutils literal"><span class="pre">EXECDIR</span></code></a> unchanged. The
+datasets can be defined as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dataset_</span><span class="si">%i</span><span class="s1">_train&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;dataset_</span><span class="si">%i</span><span class="s1">_test&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+        <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>This creates a list of pairs with the names of the datasets as pairs of
+training and test datasets: <code class="docutils literal"><span class="pre">['(dataset_1_train',</span> <span class="pre">'dataset_1_test'),</span>
+<span class="pre">('dataset_2_train',</span> <span class="pre">'dataset_2_test'),</span> <span class="pre">...,</span> <span class="pre">('dataset_10_train',</span>
+<span class="pre">'dataset_10_test')]</span></code>. This corresponds to the <code class="docutils literal"><span class="pre">'CV_TT'</span></code> experiment type, as
+described in <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> (please read the documentation there before
+continuing).  Now we can define the methods:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">METHODS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OLS&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="settings.html#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> defines the parameters that will be used in the grid
+search, each combination of the parameters will result in a single task, which
+will be executed by Abed. For the Lasso and Ridge methods, only one parameter
+will be varied, the cost parameter. We define this as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PARAMS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;OLS&#39;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s1">&#39;Lasso&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+            <span class="p">},</span>
+        <span class="s1">&#39;Ridge&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+<p>This defines the grid of values for the <code class="docutils literal"><span class="pre">alpha</span></code> parameter in Lasso and
+Ridge. Note that OLS needs no parameters. The <a class="reference internal" href="settings.html#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> setting
+relates closely to the <a class="reference internal" href="settings.html#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> setting, which we will define now:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s1">&#39;OLS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/ols.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
+              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt&quot;</span><span class="p">),</span>
+          <span class="s1">&#39;Lasso&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/lasso.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
+              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
+          <span class="s1">&#39;Ridge&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/ridge.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
+              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that we use <code class="docutils literal"><span class="pre">{alpha}</span></code> in the command for Lasso and Ridge, since we used
+that name in the <a class="reference internal" href="settings.html#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> setting above. Below the code for the
+executables will be provided. First, we continue with the next variable in the
+settings file, the <a class="reference internal" href="settings.html#std:setting-METRICS"><code class="xref std std-setting docutils literal"><span class="pre">METRICS</span></code></a> setting. We will use two metrics, the
+mean squared error and the mean absolute error, both provided in the
+scikit-learn package. Since we&#8217;re using the <code class="docutils literal"><span class="pre">metrics</span></code> submodule from this
+package, we first import it at the top of the settings file, as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn.metrics</span>
+</pre></div>
+</div>
+<p>Then, we define the metrics as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">METRICS</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;MSE&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">mean_squared_error</span><span class="p">,</span>
+             <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">,</span>
+             <span class="p">},</span>
+         <span class="s1">&#39;MAE&#39;</span><span class="p">:</span> <span class="p">{</span>
+             <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">mean_absolute_error</span><span class="p">,</span>
+             <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">min</span><span class="p">,</span>
+             <span class="p">}</span>
+         <span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that we set <code class="docutils literal"><span class="pre">'best'</span></code> for both metrics to <code class="docutils literal"><span class="pre">min</span></code>, since lower is
+considered better for both of these metrics. It is also possible to define
+your own metrics, this is described in <span class="xref doc">metrics</span>.</p>
+<p>In addition to the metrics defined above, we also want to compare computation
+time of the three methods. For this, we keep the default value of the
+<a class="reference internal" href="settings.html#std:setting-SCALARS"><code class="xref std std-setting docutils literal"><span class="pre">SCALARS</span></code></a> setting. The remaining settings in this section will be
+kept on their default values.</p>
+<p>The final section of the settings file is the &#8220;PBS Settings&#8221; section, which
+deals with the PBS server on a compute cluster. Here the desired number of
+nodes and the required computation time can be defined, as well as necessary
+modules and environment variables (see <a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a> for a full
+description). We only change the walltime as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">PBS_WALLTIME</span> <span class="o">=</span> <span class="mi">60</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-datasets">
+<h2>Creating the datasets<a class="headerlink" href="#creating-the-datasets" title="Permalink to this headline">¶</a></h2>
+<p>Naturally you will have your own datasets in your simulations. Depending on
+the language you use for your executables, you may or may not have to write
+code for loading the dataset into memory. This is all done in the code you
+write for the methods, to keep Abed lean and allow for language independence.</p>
+<p>In this example, we will use ten datasets generated with scikit-learn&#8217;s
+<code class="docutils literal"><span class="pre">make_regression</span></code> function. The full code used for generating the datasets
+can be found in the GitHub repository. The lines that actually generate the
+datasets are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">coef</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_informative</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="mi">1</span><span class="n">e6</span><span class="p">))</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, datasets are collected as a scikit-learn <code class="docutils literal"><span class="pre">Bunch</span></code> object and
+pickled to a file on disk. All of this is not necessary for Abed, but is just
+the way we&#8217;re doing it in this example.</p>
+</div>
+<div class="section" id="writing-the-executables">
+<h2>Writing the executables<a class="headerlink" href="#writing-the-executables" title="Permalink to this headline">¶</a></h2>
+<p>Abed places no restrictions on the programming language used to implement the
+methods. Here we will use Python to implement the methods. For reference
+however, this example is also available with the methods implemented in R, see
+<a class="reference external" href="http://blabla.com">this GitHub repository</a>.</p>
+<p>There are not many requirements on the way your executables for your
+experiments are written. However, if you want to make use of the
+<a class="reference internal" href="settings.html#std:setting-METRICS"><code class="xref std std-setting docutils literal"><span class="pre">METRICS</span></code></a> setting, Abed requires you to print the true and the
+predicted values of your target to stdout. Abed will catch this output and
+store it in a text file corresponding to the hash of the task. This is later
+processed by Abed into the output files and result webpages through the
+function <code class="xref py py-func docutils literal"><span class="pre">parse_result_fileobj()</span></code>. If you need to print other information
+to stdout, you can start lines with a &#8216;#&#8217; symbol, as these lines will be
+skipped. Results written to stdout should start with a label line which tells
+Abed the name of the quantity that is printed. For instance, <code class="docutils literal"><span class="pre">%</span> <span class="pre">y_true</span>
+<span class="pre">y_pred</span></code> would yield the label <code class="docutils literal"><span class="pre">'y'</span></code>. Labels are detected using the
+<code class="xref py py-func docutils literal"><span class="pre">find_label()</span></code> function. Finally, it&#8217;s also possible to print scalar
+values to the output (computation time for instance). In that case, the name
+of the label should correspond to the name given in the <a class="reference internal" href="settings.html#std:setting-SCALARS"><code class="xref std std-setting docutils literal"><span class="pre">SCALARS</span></code></a>
+setting.</p>
+<p>Here is an example of output we can expect for this experiment (elipses denote
+continuation and shouldn&#8217;t be part of the output):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># lasso, cost = 1.0</span>
+<span class="o">%</span> <span class="n">y_train_true</span> <span class="n">y_train_pred</span>
+<span class="mf">0.352766</span> <span class="mf">0.487470</span>
+<span class="mf">0.487392</span> <span class="mf">0.736820</span>
+<span class="mf">0.423434</span> <span class="mf">0.470752</span>
+<span class="mf">0.379526</span> <span class="mf">0.770139</span>
+<span class="mf">0.024067</span> <span class="mf">0.401180</span>
+<span class="o">...</span>
+<span class="o">%</span> <span class="n">y_test_true</span> <span class="n">y_test_pred</span>
+<span class="mf">0.866426</span> <span class="mf">0.979242</span>
+<span class="mf">0.487919</span> <span class="mf">0.810133</span>
+<span class="mf">0.935068</span> <span class="mf">0.495839</span>
+<span class="mf">0.847661</span> <span class="mf">0.396830</span>
+<span class="mf">0.092845</span> <span class="mf">0.013258</span>
+<span class="o">...</span>
+<span class="o">%</span> <span class="n">beta_true</span> <span class="n">beta_pred</span>
+<span class="mf">0.221069</span> <span class="mf">0.862545</span>
+<span class="mf">0.076156</span> <span class="mf">0.339206</span>
+<span class="mf">0.283400</span> <span class="mf">0.998565</span>
+<span class="o">...</span>
+<span class="o">%</span> <span class="n">time</span>
+<span class="mf">0.1329487</span>
+</pre></div>
+</div>
+<p>When you&#8217;ve finished writing the executables, don&#8217;t forget to add them to the
+Git repository with <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> and <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span></code>. Remember, only files that
+are part of the git repository or are in the datasets directory will be pushed
+to the compute cluster.</p>
+</div>
+<div class="section" id="starting-the-simulations">
+<h2>Starting the simulations<a class="headerlink" href="#starting-the-simulations" title="Permalink to this headline">¶</a></h2>
+<p>When you&#8217;ve finished setting up your experiment, have generated or obtained
+the datasets, and have finished writing the executables, it is then time to
+start the simulations.</p>
+<p>First, reload the tasks in Abed to make sure the task file is up to date:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">reload_tasks</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">reload_tasks</span></code> command should also be used when you change something in
+<a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a>. Next, setup the environment for this project on the remote
+server.  You only need to do this once:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">setup</span>
+</pre></div>
+</div>
+<p>This command sets up the remote directory structure and copies over the
+datasets. It might be useful to take a look at how Abed sets up this remote
+structure. More info on this remote setup can be found in the <a class="reference internal" href="tutorial.html"><span class="doc">Overview and Tutorial</span></a>.
+Now, it&#8217;s time to start the simulations with a simple:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">push</span>
+</pre></div>
+</div>
+<p>Abed will push the latest version of the Git repository contents to the
+compute cluster, unpack everything there in the <code class="docutils literal"><span class="pre">current</span></code> directory,
+generate a PBS file based on your settings, and submit the job to the queue.
+When all tasks are finished, you can retrieve the compressed results with the
+command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">pull</span>
+</pre></div>
+</div>
+<p>This command downloads the bzipped archives from the <code class="docutils literal"><span class="pre">current</span></code> directory in
+the project folder on the cluster, unpacks them in the staging directory
+(<a class="reference internal" href="settings.html#std:setting-STAGE_DIR"><code class="xref std std-setting docutils literal"><span class="pre">STAGE_DIR</span></code></a>), and finally move the results to the
+<a class="reference internal" href="settings.html#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal"><span class="pre">RESULT_DIR</span></code></a>. In this result directory the result files will be
+organized in a hierarchy based on the method and the dataset, for easy lookup.
+The <code class="docutils literal"><span class="pre">pull</span></code> command ends with updating the <a class="reference internal" href="settings.html#std:setting-TASK_FILE"><code class="xref std std-setting docutils literal"><span class="pre">TASK_FILE</span></code></a>, removing the
+hash of tasks that are finished. You can see the remaining tasks with the
+command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">status</span>
+</pre></div>
+</div>
+<p>If more tasks need to be done, you can push again to the compute cluster now.
+The process of pushing and pulling can be automated using the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>For this to be useful however, it is adviced to configure password-less login
+to the compute cluster by exchanging SSH keys.</p>
+</div>
+<div class="section" id="analyzing-the-results">
+<h2>Analyzing the Results<a class="headerlink" href="#analyzing-the-results" title="Permalink to this headline">¶</a></h2>
+<p>When Abed detects that all tasks have finished, it will automatically generate
+the summary files from the results. If this fails for some reason, the
+command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">parse_results</span>
+</pre></div>
+</div>
+<p>does the same.</p>
+<p>Two types of summary files are generated: text files and HTML pages. The text
+files are simple text tables, whereas the HTML pages include both tables and
+figures. Here, we will focus on the HTML pages. To view the results, type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">view_results</span>
+</pre></div>
+</div>
+<p>This should open your browser and show the main result page of your project.
+At the top of the page you will see links to various tables and figures which
+you can use to explore your results. For a more detailed description of how to
+analyse the results, see <a class="reference internal" href="analysis.html"><span class="doc">Analyzing Abed&#8217;s Output</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Example: Using Abed for comparing regression methods</a><ul>
+<li><a class="reference internal" href="#defining-the-experiment">Defining the experiment</a></li>
+<li><a class="reference internal" href="#creating-the-datasets">Creating the datasets</a></li>
+<li><a class="reference internal" href="#writing-the-executables">Writing the executables</a></li>
+<li><a class="reference internal" href="#starting-the-simulations">Starting the simulations</a></li>
+<li><a class="reference internal" href="#analyzing-the-results">Analyzing the Results</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/example.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/usage/example.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

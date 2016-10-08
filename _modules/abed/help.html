@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.help &#8212; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.help</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for displaying command-line help</span>
+
+<span class="sd">This module contains all the documentation and functionality needed for the </span>
+<span class="sd">&#39;abed help&#39; command.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Author: Gertjan van den Burg</span>
+<span class="c1"># Date: Sat Oct  8, 2016</span>
+<span class="c1"># License: GPL v. 2</span>
+
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Abed is a utility for Automated BEnchmark Distribution&quot;</span><span class="p">)</span>
+
+<span class="n">COMMAND_CATEGORIES</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Initialization commands:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;setup&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Compute cluster job management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="s2">&quot;pull&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> 
+            <span class="s2">&quot;repull&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Task management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;update_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;reload_tasks&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Computations:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Abed status:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_tbd_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_all_tasks&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Result management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;view_results&quot;</span><span class="p">,</span> <span class="s2">&quot;compress_results&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Manual intervention:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;parse_results&quot;</span><span class="p">,</span> <span class="s2">&quot;process_zips&quot;</span><span class="p">]),</span>
+        <span class="p">]</span>
+
+<span class="n">ABED_SHORT_HELP</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;auto&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Automate push and pull to facilitate &#39;</span>
+            <span class="s1">&#39;continuous operation&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;compress_results&#39;</span><span class="p">:</span> <span class="s1">&#39;Compress completed dataset directories.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Print the task ID and command &#39;</span>
+            <span class="s1">&#39;of remaining tasks&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Print the task ID and command &#39;</span>
+            <span class="s1">&#39;of all defined tasks&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;Initialize a skeleton for abed&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;Show help for Abed&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="s1">&#39;Run the computations locally.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;parse_results&#39;</span><span class="p">:</span> <span class="s1">&#39;Parse the results into summary files&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;process_zips&#39;</span><span class="p">:</span> <span class="s1">&#39;Process result zip files&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;pull&#39;</span><span class="p">:</span> <span class="s1">&#39;Pull all results from the cluster and process them&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;push&#39;</span><span class="p">:</span> <span class="s1">&#39;Push all necessary data to the cluster using fabric&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;reload_tasks&#39;</span><span class="p">:</span> <span class="s1">&#39;Reload the task file based on config and results&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;repull&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Repull results for all jobids in the auto log file&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="s1">&#39;Run the master/worker MPI program of abed on the cluster&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;setup&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Setup the remote directory structure and transfer the &#39;</span>
+            <span class="s1">&#39;datasets&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;Status of abed task list&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;update_tasks&#39;</span><span class="p">:</span> <span class="s1">&#39;Update the task list (part of pull)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;view_results&#39;</span><span class="p">:</span> <span class="s1">&#39;Open the HTML results in the default browser&#39;</span>
+        <span class="p">}</span>
+
+<span class="n">ABED_SYNOPSES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;parse_results&quot;</span><span class="p">:</span> <span class="s2">&quot;abed parse_results [&lt;options&gt;]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;help&quot;</span><span class="p">:</span> <span class="s2">&quot;abed help [&lt;topic&gt;]&quot;</span>
+        <span class="p">}</span>
+
+<span class="n">ABED_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;parse_results&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;--skip-cache, -s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                    When parsing the result files, Abed checks if the result </span>
+<span class="s2">                    cache needs to be reconstructed.  Since this can be a </span>
+<span class="s2">                    time-intensive task, it can be useful in some cases to skip </span>
+<span class="s2">                    cache regeneration and use an existing result cache.  With </span>
+<span class="s2">                    this flag to the parse_result command, cache regeneration </span>
+<span class="s2">                    can be skipped.  The user should be aware that results are </span>
+<span class="s2">                    potentially outdated or incomplete if this flag is used.</span>
+<span class="s2">                    &quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+
+
+<span class="n">ABED_LONG_HELP</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;auto&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                The &#39;auto&#39; command automates repeated uses of &#39;push&#39; and &#39;pull&#39; </span>
+<span class="s2">                commands. It regularly checks the compute cluster to see if the </span>
+<span class="s2">                current job is queued, running, or finished. If the job is </span>
+<span class="s2">                queued but not yet running, Abed will attempt to get the </span>
+<span class="s2">                expected starting time of the job and display this to the user.  </span>
+<span class="s2">                If a job is running, Abed will attempt to get the remaining </span>
+<span class="s2">                computation time of the job, and display this to the user. If </span>
+<span class="s2">                no running job can be found, Abed assumes that the job is </span>
+<span class="s2">                finished and will try to get the job ID of the job from the log  </span>
+<span class="s2">                files, and subsequently pull the results from the cluster. When </span>
+<span class="s2">                this is finished, Abed will mark the job ID in the AUTO_FILE,  </span>
+<span class="s2">                to ensure it isn&#39;t pulled twice. After the pull command is done </span>
+<span class="s2">                and there are still tasks remaining, Abed will execute a push </span>
+<span class="s2">                command.</span>
+
+<span class="s2">                The &#39;auto&#39; command should only be run after a job has already </span>
+<span class="s2">                been submitted by using the &#39;push&#39; command. Note that for the </span>
+<span class="s2">                &#39;auto&#39; command to work properly, password-less login to the </span>
+<span class="s2">                compute cluster should be configured. This can be done by </span>
+<span class="s2">                exchanging SSH keys with the cluster.</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;compress_results&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                The &#39;compress_results&#39; command can be used when the disk space </span>
+<span class="s2">                used by the raw results is too large. This command finds out </span>
+<span class="s2">                for which datasets all tasks have been finished, and compresses </span>
+<span class="s2">                the corresponding directories with the highest compression </span>
+<span class="s2">                level possible. Since this can be a time-consuming command, it </span>
+<span class="s2">                is best to run it when you&#39;re asleep. The type of compression </span>
+<span class="s2">                algorithm used by Abed can be set using the COMPRESSION </span>
+<span class="s2">                setting.</span>
+
+<span class="s2">                Note that after Abed creates a compressed archive of a results </span>
+<span class="s2">                directory for a dataset, it doesn&#39;t remove the original dataset </span>
+<span class="s2">                directory. This should be done by the user.</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;parse_results&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;process_zips&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;pull&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;push&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;reload_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;repull&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;setup&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;update_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;view_results&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+                <span class="p">}</span>
+
+<div class="viewcode-block" id="bold"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.bold">[docs]</a><span class="k">def</span> <span class="nf">bold</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[1m&#39;</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span></div>
+
+<div class="viewcode-block" id="paragraph_wrapper"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.paragraph_wrapper">[docs]</a><span class="k">def</span> <span class="nf">paragraph_wrapper</span><span class="p">(</span><span class="n">all_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">all_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">dedents</span> <span class="o">=</span> <span class="p">[</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+    <span class="n">cleans</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dedented</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">dedented</span> <span class="ow">in</span> 
+            <span class="n">dedents</span><span class="p">]</span>
+    <span class="n">cleaner</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">clean</span> <span class="ow">in</span> <span class="n">cleans</span><span class="p">]</span>
+    <span class="n">filled</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">para</span> <span class="ow">in</span> <span class="n">cleaner</span><span class="p">:</span>
+        <span class="n">filled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">para</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">initial_indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span> 
+            <span class="n">subsequent_indent</span><span class="o">=</span><span class="n">indent</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filled</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cmd_strings"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.cmd_strings">[docs]</a><span class="k">def</span> <span class="nf">cmd_strings</span><span class="p">(</span><span class="n">cmds</span><span class="p">):</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">space_before</span> <span class="o">=</span> <span class="s2">&quot;   &quot;</span>
+    <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ABED_SHORT_HELP</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">cmds</span><span class="p">:</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">sentences</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">ABED_SHORT_HELP</span><span class="p">[</span><span class="n">cmd</span><span class="p">],</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="n">space_after</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">maxlen</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">while</span> <span class="n">sentences</span><span class="p">:</span>
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">cmd</span> <span class="k">if</span> <span class="n">first</span> <span class="k">else</span> <span class="s1">&#39; &#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="n">lead</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">space_before</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">space_after</span><span class="p">)</span>
+            <span class="n">line</span> <span class="o">+=</span> <span class="n">lead</span> <span class="o">+</span> <span class="n">sentences</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">txt</span></div>
+
+<div class="viewcode-block" id="get_help"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.get_help">[docs]</a><span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;usage: abed [-s | --skip-cache] &lt;command&gt;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">DESCRIPTION</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Available Abed commands are:&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span>
+            <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">commands</span> <span class="ow">in</span> <span class="n">COMMAND_CATEGORIES</span><span class="p">:</span>
+        <span class="n">text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+        <span class="n">text</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cmd_strings</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
+
+    <span class="n">text</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Use &#39;abed help &lt;command&gt;&#39; to learn about a specific command,&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;or check the online documentation at: &quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http://gjjvdburg.github.io/abed&quot;</span>
+            <span class="p">]</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_topic_help"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.get_topic_help">[docs]</a><span class="k">def</span> <span class="nf">get_topic_help</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">ABED_LONG_HELP</span><span class="p">:</span>
+        <span class="n">synop</span> <span class="o">=</span> <span class="n">ABED_SYNOPSES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="s2">&quot;abed </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">topic</span><span class="p">)</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Abed Help&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">abed-</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">ABED_SHORT_HELP</span><span class="p">[</span><span class="n">topic</span><span class="p">]),</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;SYNOPSIS&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">synop</span><span class="p">),</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;DESCRIPTION&quot;</span><span class="p">),</span>
+                <span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">ABED_LONG_HELP</span><span class="p">[</span><span class="n">topic</span><span class="p">])</span>
+                <span class="p">]</span>
+        <span class="k">if</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">:</span>
+            <span class="n">txt</span> <span class="o">+=</span> <span class="p">[</span><span class="n">bold</span><span class="p">(</span><span class="s2">&quot;OPTIONS&quot;</span><span class="p">),</span>
+                    <span class="p">]</span>
+            <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">[</span><span class="n">topic</span><span class="p">]:</span>
+                <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">option</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">option</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

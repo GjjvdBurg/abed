@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.html.rank_graphs &mdash; abed 0.1 documentation</title>
+    <title>abed.html.rank_graphs &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -45,11 +46,11 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
-<span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">navbar</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">AbedHTMLTypes</span><span class="p">,</span> <span class="n">copy_data_file</span>
-<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">clean_str</span>
-<span class="kn">from</span> <span class="nn">..results.models</span> <span class="kn">import</span> <span class="n">AbedTableTypes</span>
+<span class="kn">from</span> <span class="nn">.common</span> <span class="k">import</span> <span class="n">navbar</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">AbedHTMLTypes</span><span class="p">,</span> <span class="n">copy_data_file</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">clean_str</span>
+<span class="kn">from</span> <span class="nn">..results.models</span> <span class="k">import</span> <span class="n">AbedTableTypes</span>
 
 <span class="n">tags</span> <span class="o">=</span> <span class="n">dominate</span><span class="o">.</span><span class="n">tags</span>
 
@@ -119,7 +120,7 @@
             <span class="n">navbar</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">AbedHTMLTypes</span><span class="o">.</span><span class="n">RANK_GRAPHS</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;content&#39;</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s1">&#39;container&#39;</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lbl_table</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">()):</span>
+                <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lbl_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                     <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel panel-default&quot;</span><span class="p">):</span>
                         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-heading&quot;</span><span class="p">):</span>
                             <span class="n">tags</span><span class="o">.</span><span class="n">h3</span><span class="p">(</span><span class="s1">&#39;Target: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-title&quot;</span><span class="p">)</span>
@@ -151,7 +152,7 @@
 
 <div class="viewcode-block" id="write_table_json"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.write_table_json">[docs]</a><span class="k">def</span> <span class="nf">write_table_json</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">tabid</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">averages</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s1">&#39;Average&#39;</span><span class="p">),</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">averages</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s1">&#39;Average&#39;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">for</span> <span class="n">hdr</span><span class="p">,</span> <span class="n">avg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">averages</span><span class="p">):</span>
         <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">hdr</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">avg</span><span class="p">)})</span>
@@ -199,8 +200,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

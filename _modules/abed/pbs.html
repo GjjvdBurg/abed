@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.pbs &mdash; abed 0.1 documentation</title>
+    <title>abed.pbs &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -28,6 +28,7 @@
     <link rel="up" title="Module code" href="../index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -52,7 +53,7 @@
 
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
 
 <div class="viewcode-block" id="sec2str"><a class="viewcode-back" href="../../api/core/abed.pbs.html#abed.pbs.sec2str">[docs]</a><span class="k">def</span> <span class="nf">sec2str</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="n">hours</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">//</span> <span class="mi">3600</span>
@@ -65,11 +66,11 @@
 
     <span class="c1"># create pbs line</span>
     <span class="n">pbs_line</span> <span class="o">=</span> <span class="s1">&#39;#PBS -lnodes=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_NODES</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:ppn=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span>
         <span class="k">else</span><span class="p">:</span>
@@ -93,18 +94,18 @@
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="c1"># result dir</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p ${CURRENT}/results&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p ${TMPDIR}/results&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s1">/results&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{TMPDIR}</span><span class="s1">/results&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="c1"># start email</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;summary=$(abed status | sed -e &quot;s/</span><span class="se">\\</span><span class="s1">x1b</span><span class="se">\\</span><span class="s1">[.</span><span class="se">\\</span><span class="s1">{1,5</span><span class="se">\\</span><span class="s1">}m//g&quot;)&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;echo -e &quot;Job $PBS_JOBID started at `date`</span><span class="se">\\</span><span class="s1">n</span><span class="se">\\</span><span class="s1">n${summary}&quot;&#39;</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;echo -e &quot;Job $PBS_JOBID started at `date`</span><span class="se">\\</span><span class="s1">n</span><span class="se">\\</span><span class="s1">n$</span><span class="si">{summary}</span><span class="s1">&quot;&#39;</span>
             <span class="s1">&#39; | mail $USER -s &quot;Job $PBS_JOBID started&quot;&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="c1"># copy files to nodes</span>
-    <span class="n">cp_line</span> <span class="o">=</span> <span class="s1">&#39;mpicopy &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;${CURRENT}/&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
+    <span class="n">cp_line</span> <span class="o">=</span> <span class="s1">&#39;mpicopy &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;$</span><span class="si">{CURRENT}</span><span class="s1">/&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
         <span class="n">settings</span><span class="o">.</span><span class="n">PBS_MPICOPY</span><span class="p">])</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cp_line</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
@@ -117,15 +118,15 @@
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="c1"># zip tasks</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p ${CURRENT}/bzips&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cd ${TMPDIR}/results&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s1">/bzips&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cd $</span><span class="si">{TMPDIR}</span><span class="s1">/results&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;for dset in `ls`&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;do&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">packtime=$(date +%Y_%m_</span><span class="si">%d</span><span class="s1">_%H_%M_%S)&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">tar -c ${dset} | &#39;</span>
-            <span class="s1">&#39;pbzip2 -vc -p14 -m1000 &gt; ${packtime}_results_${dset}.tar.bz2&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">cp ${packtime}_results_${dset}.tar.bz2 ${CURRENT}/bzips/&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">tar -c $</span><span class="si">{dset}</span><span class="s1"> | &#39;</span>
+            <span class="s1">&#39;pbzip2 -vc -p14 -m1000 &gt; $</span><span class="si">{packtime}</span><span class="s1">_results_$</span><span class="si">{dset}</span><span class="s1">.tar.bz2&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">cp $</span><span class="si">{packtime}</span><span class="s1">_results_$</span><span class="si">{dset}</span><span class="s1">.tar.bz2 $</span><span class="si">{CURRENT}</span><span class="s1">/bzips/&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
@@ -167,8 +168,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

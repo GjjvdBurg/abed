@@ -11,14 +11,14 @@ the vector.
 
 Assume our method outputs the following data::
 
-    beta_true, beta_pred
-    0.1, 0.0
-    1.2, 1.0
-    0, 0.1
-    0.3, 0.2
-    0, 0.0
-    0, 0.5
-    0.7, 0.5
+    beta_true beta_pred
+    0.1 0.0
+    1.2 1.0
+    0 0.1
+    0.3 0.2
+    0 0.0
+    0 0.5
+    0.7 0.5
 
 Thus, in 4 out of 7 elements the sparsity is correctly identified (2nd, 4th, 
 5th, and 7th element). We can compute this with the following Python code, 

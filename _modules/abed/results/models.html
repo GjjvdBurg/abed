@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.results.models &mdash; abed 0.1 documentation</title>
+    <title>abed.results.models &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -49,28 +50,28 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="n">cPickle</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="n">cPickle</span>
 
-<span class="kn">from</span> <span class="nn">..conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">..datasets</span> <span class="kn">import</span> <span class="n">dataset_name</span>
-<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="kn">import</span> <span class="n">AbedHashCollissionException</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">..datasets</span> <span class="k">import</span> <span class="n">dataset_name</span>
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">AbedHashCollissionException</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">mkdir</span>
 
 <div class="viewcode-block" id="AbedCache"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedCache">[docs]</a><span class="k">class</span> <span class="nc">AbedCache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">datasets</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> 
-            <span class="n">cachefile</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datasets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+            <span class="n">cachefile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metric_targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="n">cachefile</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cachefile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cachefile</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;abed_cache.pkl&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cachefile</span> <span class="o">=</span> <span class="n">cachefile</span>
@@ -132,7 +133,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hsh</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hsh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metric_targets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -152,8 +153,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
-<div class="viewcode-block" id="AbedResult.get_result"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedResult.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">metric</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<div class="viewcode-block" id="AbedResult.get_result"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedResult.get_result">[docs]</a>    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="n">metric</span><span class="p">]</span></div>
@@ -176,23 +177,23 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">higher_better</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">higher_better</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_metric</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_summary</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_metric</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_summary</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metricname</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metricname</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">trainmetricname</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">testmetricname</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trainmetricname</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testmetricname</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="AbedTable.add_row"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.add_row">[docs]</a>    <span class="k">def</span> <span class="nf">add_row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">_id</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Existing id in table&#39;</span><span class="p">)</span>
@@ -203,7 +204,7 @@
 
 <div class="viewcode-block" id="AbedTable.table_averages"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.table_averages">[docs]</a>    <span class="k">def</span> <span class="nf">table_averages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">averages</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_columns</span>
-        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="n">_id</span><span class="p">]):</span>
                 <span class="n">averages</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">averages</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_rows</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">averages</span><span class="p">]</span>
@@ -217,10 +218,10 @@
 <div class="viewcode-block" id="AbedTable.table_wins"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.table_wins">[docs]</a>    <span class="k">def</span> <span class="nf">table_wins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">higher_better</span>
         <span class="n">wins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_columns</span>
-        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">best</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
             <span class="n">best</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">hb</span> <span class="k">else</span> <span class="mi">1</span>
-            <span class="n">best_idx</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">best_idx</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="n">_id</span><span class="p">]):</span>
                 <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">((</span><span class="n">hb</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">best</span><span class="p">))</span> <span class="ow">or</span> <span class="p">((</span><span class="ow">not</span> <span class="n">hb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">))):</span>
@@ -233,10 +234,10 @@
 <div class="viewcode-block" id="AbedTable.table_losses"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.table_losses">[docs]</a>    <span class="k">def</span> <span class="nf">table_losses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">hb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">higher_better</span>
         <span class="n">losses</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">num_columns</span>
-        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">worst</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
             <span class="n">worst</span> <span class="o">*=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">hb</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="n">worst_idx</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">worst_idx</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="n">_id</span><span class="p">]):</span>
                 <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">if</span> <span class="p">((</span><span class="n">hb</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">worst</span><span class="p">))</span> <span class="ow">or</span> <span class="p">((</span><span class="ow">not</span> <span class="n">hb</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span> <span class="o">&gt;</span> <span class="n">worst</span><span class="p">))):</span>
@@ -248,7 +249,7 @@
 
 <div class="viewcode-block" id="AbedTable.table_ties"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.table_ties">[docs]</a>    <span class="k">def</span> <span class="nf">table_ties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">num_ties</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="n">_id</span><span class="p">]]</span>
             <span class="n">num_uniq</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">num_uniq</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -273,7 +274,7 @@
         <span class="n">at</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s1">&#39;Wins&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_wins</span><span class="p">())</span>
         <span class="n">at</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s1">&#39;Losses&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_losses</span><span class="p">())</span>
         <span class="n">at</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span><span class="s1">&#39;Ties&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_ties</span><span class="p">())</span>
-        <span class="n">at</span><span class="o">.</span><span class="n">is_summary</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">at</span><span class="o">.</span><span class="n">is_summary</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">at</span></div>
 
 <div class="viewcode-block" id="AbedTable.left_insert"><a class="viewcode-back" href="../../../api/results/abed.results.models.html#abed.results.models.AbedTable.left_insert">[docs]</a>    <span class="k">def</span> <span class="nf">left_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -281,8 +282,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">num_columns</span> <span class="o">+=</span> <span class="n">other</span><span class="o">.</span><span class="n">num_columns</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">headers</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">otherrow</span> <span class="ow">in</span> <span class="n">other</span><span class="p">:</span>
-            <span class="n">myrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_id</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">myrow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">myrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">myrow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">otherrow</span> <span class="o">+</span> <span class="n">myrow</span>
         <span class="k">return</span> <span class="n">summary</span></div>
@@ -334,8 +335,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

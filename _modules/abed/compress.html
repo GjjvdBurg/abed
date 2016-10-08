@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.compress &mdash; abed 0.1 documentation</title>
+    <title>abed.compress &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -28,6 +28,7 @@
     <link rel="up" title="Module code" href="../index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -56,13 +57,13 @@
 <span class="kn">import</span> <span class="nn">tarfile</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">check_output</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">STDOUT</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">check_output</span><span class="p">,</span> <span class="n">CalledProcessError</span><span class="p">,</span> <span class="n">STDOUT</span>
 
-<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">.datasets</span> <span class="kn">import</span> <span class="n">dataset_name</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">error</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">hash_from_filename</span>
-<span class="kn">from</span> <span class="nn">.progress</span> <span class="kn">import</span> <span class="n">iter_progress</span>
-<span class="kn">from</span> <span class="nn">.results.walk</span> <span class="kn">import</span> <span class="n">files_w_dataset</span>
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.datasets</span> <span class="k">import</span> <span class="n">dataset_name</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">error</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">hash_from_filename</span>
+<span class="kn">from</span> <span class="nn">.progress</span> <span class="k">import</span> <span class="n">iter_progress</span>
+<span class="kn">from</span> <span class="nn">.results.walk</span> <span class="k">import</span> <span class="n">files_w_dataset</span>
 
 <div class="viewcode-block" id="dataset_completed"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.dataset_completed">[docs]</a><span class="k">def</span> <span class="nf">dataset_completed</span><span class="p">(</span><span class="n">dsetfiles</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">task_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check if a given dataset is complete</span>
@@ -97,10 +98,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
-        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span>
+        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span>
                 <span class="n">v</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">}</span>
     <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
-        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span>
+        <span class="n">dset_tasks</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">task_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span>
                 <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;train_dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span>
                     <span class="n">v</span><span class="p">[</span><span class="s1">&#39;test_dataset&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dset</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
     <span class="k">else</span><span class="p">:</span>
@@ -165,7 +166,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;XZ_OPT=-9 tar --directory=</span><span class="si">%s</span><span class="s1"> -Jcf </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
                     <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RESULT_DIR</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">dsetname</span><span class="p">))</span>
-            <span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
             <span class="n">error</span><span class="p">(</span><span class="s2">&quot;There was an error executing &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span>
@@ -238,8 +239,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

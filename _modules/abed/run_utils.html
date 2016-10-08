@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.run_utils &mdash; abed 0.1 documentation</title>
+    <title>abed.run_utils &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -44,10 +45,10 @@
 <span></span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">mkdir</span>
 
-<div class="viewcode-block" id="get_scratchdir"><a class="viewcode-back" href="../../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir">[docs]</a><span class="k">def</span> <span class="nf">get_scratchdir</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="get_scratchdir"><a class="viewcode-back" href="../../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir">[docs]</a><span class="k">def</span> <span class="nf">get_scratchdir</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;/tmp/abed&#39;</span>
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_SCRATCH</span><span class="p">:</span>
@@ -56,7 +57,7 @@
         <span class="n">scratchdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_SCRATCH_ENV</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">scratchdir</span></div>
 
-<div class="viewcode-block" id="get_output_dir"><a class="viewcode-back" href="../../api/core/abed.run_utils.html#abed.run_utils.get_output_dir">[docs]</a><span class="k">def</span> <span class="nf">get_output_dir</span><span class="p">(</span><span class="n">result_dir</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="get_output_dir"><a class="viewcode-back" href="../../api/core/abed.run_utils.html#abed.run_utils.get_output_dir">[docs]</a><span class="k">def</span> <span class="nf">get_output_dir</span><span class="p">(</span><span class="n">result_dir</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">subdirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">result_dir</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">subdirs</span><span class="p">:</span>
         <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/0&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">result_dir</span><span class="p">)</span>
@@ -116,8 +117,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

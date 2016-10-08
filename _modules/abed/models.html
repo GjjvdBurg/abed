@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>abed.models &mdash; abed 0.1 documentation</title>
+    <title>abed.models &#8212; abed 0.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -45,20 +46,20 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">.auto</span> <span class="kn">import</span> <span class="n">submitted</span><span class="p">,</span> <span class="n">get_jobid_from_logs</span><span class="p">,</span> <span class="n">is_job_marked</span><span class="p">,</span> <span class="n">mark_job</span>
-<span class="kn">from</span> <span class="nn">.compress</span> <span class="kn">import</span> <span class="n">compress_results</span>
-<span class="kn">from</span> <span class="nn">.conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">.fab</span> <span class="kn">import</span> <span class="n">fab_push</span><span class="p">,</span> <span class="n">fab_pull</span><span class="p">,</span> <span class="n">fab_repull</span><span class="p">,</span> <span class="n">fab_setup</span>
-<span class="kn">from</span> <span class="nn">.git</span> <span class="kn">import</span> <span class="p">(</span><span class="n">git_add_auto</span><span class="p">,</span> <span class="n">git_add_tbd</span><span class="p">,</span> <span class="n">git_commit_auto</span><span class="p">,</span> <span class="n">git_commit_tbd</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">.auto</span> <span class="k">import</span> <span class="n">submitted</span><span class="p">,</span> <span class="n">get_jobid_from_logs</span><span class="p">,</span> <span class="n">is_job_marked</span><span class="p">,</span> <span class="n">mark_job</span>
+<span class="kn">from</span> <span class="nn">.compress</span> <span class="k">import</span> <span class="n">compress_results</span>
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.fab</span> <span class="k">import</span> <span class="n">fab_push</span><span class="p">,</span> <span class="n">fab_pull</span><span class="p">,</span> <span class="n">fab_repull</span><span class="p">,</span> <span class="n">fab_setup</span>
+<span class="kn">from</span> <span class="nn">.git</span> <span class="k">import</span> <span class="p">(</span><span class="n">git_add_auto</span><span class="p">,</span> <span class="n">git_add_tbd</span><span class="p">,</span> <span class="n">git_commit_auto</span><span class="p">,</span> <span class="n">git_commit_tbd</span><span class="p">,</span>
         <span class="n">git_init</span><span class="p">,</span> <span class="n">git_ok</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.html.view</span> <span class="kn">import</span> <span class="n">view_html</span>
-<span class="kn">from</span> <span class="nn">.local</span> <span class="kn">import</span> <span class="n">copy_local_files</span>
-<span class="kn">from</span> <span class="nn">.results.main</span> <span class="kn">import</span> <span class="n">make_results</span>
-<span class="kn">from</span> <span class="nn">.run</span> <span class="kn">import</span> <span class="n">mpi_start</span>
-<span class="kn">from</span> <span class="nn">.init</span> <span class="kn">import</span> <span class="n">init_config</span>
-<span class="kn">from</span> <span class="nn">.tasks</span> <span class="kn">import</span> <span class="n">init_tasks</span><span class="p">,</span> <span class="n">read_tasks</span><span class="p">,</span> <span class="n">update_tasks</span><span class="p">,</span> <span class="n">explain_tasks</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">error</span>
-<span class="kn">from</span> <span class="nn">.zips</span> <span class="kn">import</span> <span class="n">unpack_zips</span>
+<span class="kn">from</span> <span class="nn">.html.view</span> <span class="k">import</span> <span class="n">view_html</span>
+<span class="kn">from</span> <span class="nn">.local</span> <span class="k">import</span> <span class="n">copy_local_files</span>
+<span class="kn">from</span> <span class="nn">.results.main</span> <span class="k">import</span> <span class="n">make_results</span>
+<span class="kn">from</span> <span class="nn">.run</span> <span class="k">import</span> <span class="n">mpi_start</span>
+<span class="kn">from</span> <span class="nn">.init</span> <span class="k">import</span> <span class="n">init_config</span>
+<span class="kn">from</span> <span class="nn">.tasks</span> <span class="k">import</span> <span class="n">init_tasks</span><span class="p">,</span> <span class="n">read_tasks</span><span class="p">,</span> <span class="n">update_tasks</span><span class="p">,</span> <span class="n">explain_tasks</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">error</span>
+<span class="kn">from</span> <span class="nn">.zips</span> <span class="k">import</span> <span class="n">unpack_zips</span>
 
 <div class="viewcode-block" id="Abed"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed">[docs]</a><span class="k">class</span> <span class="nc">Abed</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
@@ -82,8 +83,8 @@
             <span class="s1">&#39;view_results&#39;</span>
             <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">skip_init</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">skip_cache</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">skip_init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">skip_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">skip_cache</span> <span class="o">=</span> <span class="n">skip_cache</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_init</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">init_tasks</span><span class="p">()</span>
@@ -137,12 +138,12 @@
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting push&quot;</span><span class="p">)</span>
         <span class="n">fab_push</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Abed.pull"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.pull">[docs]</a>    <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Abed.pull"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.pull">[docs]</a>    <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting pull&quot;</span><span class="p">)</span>
         <span class="n">fab_pull</span><span class="p">()</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting unpacking of zips&quot;</span><span class="p">)</span>
         <span class="n">unpack_zips</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">jobid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">jobid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">jobid</span> <span class="o">=</span> <span class="n">get_jobid_from_logs</span><span class="p">()</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Marking job as pulled: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">jobid</span><span class="p">)</span>
         <span class="n">mark_job</span><span class="p">(</span><span class="n">jobid</span><span class="p">)</span>
@@ -152,7 +153,7 @@
 
 <div class="viewcode-block" id="Abed.auto"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.auto">[docs]</a>    <span class="k">def</span> <span class="nf">auto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting auto loop&quot;</span><span class="p">)</span>
-        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Stopping auto loop&quot;</span><span class="p">)</span>
                 <span class="k">break</span>
@@ -178,7 +179,7 @@
 
 <div class="viewcode-block" id="Abed.run"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># this takes over master/worker</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">error</span><span class="p">(</span><span class="s2">&quot;No tasks defined before attempted run. Exiting&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span>
         <span class="n">mpi_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)</span>
@@ -197,7 +198,7 @@
 
 <div class="viewcode-block" id="Abed.repull"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.repull">[docs]</a>    <span class="k">def</span> <span class="nf">repull</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># use abed_auto.log to repull all zips from previous runs</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting repull based on {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">))</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting repull based on </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">))</span>
         <span class="n">fab_repull</span><span class="p">()</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unpacking zips&quot;</span><span class="p">)</span>
         <span class="n">unpack_zips</span><span class="p">()</span>
@@ -207,11 +208,11 @@
         <span class="n">view_html</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Abed.local"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.local">[docs]</a>    <span class="k">def</span> <span class="nf">local</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">error</span><span class="p">(</span><span class="s2">&quot;No tasks defined before attempted run. Exiting&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span>
         <span class="n">copy_local_files</span><span class="p">()</span>
-        <span class="n">mpi_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">mpi_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished with run command.&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Abed.compress_results"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.compress_results">[docs]</a>    <span class="k">def</span> <span class="nf">compress_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -250,8 +251,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 
