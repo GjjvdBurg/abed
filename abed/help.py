@@ -175,7 +175,7 @@ def cmd_strings(cmds):
     return txt
 
 def get_help():
-    text = ["usage: abed [-s | --skip-cache] <command>",
+    text = ["usage: abed <command> [<options>]",
             "",
             DESCRIPTION,
             "",
@@ -195,7 +195,7 @@ def get_help():
 
     return "\n".join(text)
 
-def get_topic_help(topic, width):
+def get_topic_help(topic):
     if topic in ABED_LONG_HELP:
         synop = ABED_SYNOPSES.get(topic, "abed %s" % topic)
         txt = ["Abed Help",

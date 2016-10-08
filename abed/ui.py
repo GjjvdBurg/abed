@@ -5,10 +5,9 @@ from .help import get_help, get_topic_help
 from .models import Abed
 from .utils import info, error
 
-def parse_command(command, with_help=True):
+def parse_command(command):
     choices = list(Abed.commands)
-    if with_help:
-        choices.append('help')
+    choices.append('help')
     if not command in choices:
         print("abed: '%s' is not a valid command. See 'abed help'" % command)
         print("")
@@ -26,7 +25,7 @@ def parse_arguments():
     args['cmd'] = parse_command(cmdargs[idx])
     idx += 1
     if args['cmd'] == 'help' and len(cmdargs) > idx:
-        args['topic'] = parse_command(cmdargs[idx], with_help=False)
+        args['topic'] = parse_command(cmdargs[idx])
     elif args['cmd'] == 'parse_results' and len(cmdargs) > idx:
         if cmdargs[idx] in ["-s", "--skip-cache"]:
             args['skip_cache'] = True
@@ -48,7 +47,7 @@ def main():
             print(get_help())
             raise SystemExit
         else:
-            print(get_topic_help(args['topic'], 60))
+            print(get_topic_help(args['topic']))
             raise SystemExit
 
     skip_init = False
