@@ -23,7 +23,7 @@ class Abed(object):
             'auto',
             'compress_results',
             'explain_tbd_tasks',
-            'explain_all_tasks',
+            'explain_tasks',
             'local',
             'parse_results',
             'process_zips',
@@ -60,7 +60,7 @@ class Abed(object):
     def explain_tbd_tasks(self):
         explain_tasks(self.task_dict)
 
-    def explain_all_tasks(self):
+    def explain_tasks(self):
         explain_tasks(init_tasks())
 
     def update_tasks(self):

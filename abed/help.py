@@ -19,7 +19,7 @@ COMMAND_CATEGORIES = [
             "repull"]),
         ("Task management:", ["update_tasks", "reload_tasks"]),
         ("Computations:", ["run", "local"]),
-        ("Abed status:", ["status", "explain_tbd_tasks", "explain_all_tasks"]),
+        ("Abed status:", ["status", "explain_tasks", "explain_tbd_tasks"]),
         ("Result management:", ["view_results", "compress_results"]),
         ("Manual intervention:", ["parse_results", "process_zips"]),
         ]
@@ -30,7 +30,7 @@ ABED_SHORT_HELP = {
         'compress_results': 'Compress completed dataset directories.',
         'explain_tbd_tasks': ('Print the task ID and command '
             'of remaining tasks'),
-        'explain_all_tasks': ('Print the task ID and command '
+        'explain_tasks': ('Print the task ID and command '
             'of all defined tasks'),
         'init': 'Initialize a skeleton for abed',
         'help': 'Show help for Abed',
@@ -108,7 +108,7 @@ ABED_LONG_HELP = {
                 """,
         'explain_tbd_tasks': """\
                 """,
-        'explain_all_tasks': """\
+        'explain_tasks': """\
                 """,
         'init': """\
                 """,
