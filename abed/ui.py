@@ -1,7 +1,7 @@
 import sys
 
 from .conf import settings
-from .help import get_help, get_topic_help
+from .help import get_help, get_command_help
 from .models import Abed
 from .utils import info, error
 
@@ -47,7 +47,7 @@ def main():
             print(get_help())
             raise SystemExit
         else:
-            print(get_topic_help(args['topic']))
+            print(get_command_help(args['topic']))
             raise SystemExit
 
     skip_init = False
