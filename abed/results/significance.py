@@ -20,7 +20,12 @@ def global_difference(table):
     averages = next((row for _id, row in table if _id == 'Average'), None)
     av_sq = sum([pow(float(x), 2.0) for x in averages])
     chi2 = 12.0*N/(k*(k+1))*(av_sq - (k*pow(k+1, 2.0)/4.0))
-    Fstat = (N - 1.0)*chi2/(N*(k - 1) - chi2)
+
+    # this can happen when the ordering of methods is always the same
+    try:
+        Fstat = (N - 1.0)*chi2/(N*(k - 1) - chi2)
+    except ZeroDivisionError:
+        Fstat = float('inf')
     Fprob = 1.0 - f_dist.cdf(Fstat, k-1, (k-1)*(N-1))
     return Fstat, Fprob
 
