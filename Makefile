@@ -36,6 +36,9 @@ cover2: ## Test unit test coverage using nosetests2
 
 clean: ## Clean build dist and egg directories left after install
 	rm -rf ./dist ./build ./$(PACKAGE).egg-info
+	rm -rf ./abed/*.pyc ./abed/*/*.pyc
+	rm -rf ./abed/__pycache__ ./abed/html/__pycache__\
+		./abed/results/__pycache__
 
 dist: ## Make Python source distribution
 	python setup.py sdist
