@@ -6,6 +6,7 @@ import os
 import time
 
 from fabric.operations import local
+from tempfile import gettempdir
 
 from .auto import get_jobid_from_logs
 from .conf import settings
@@ -101,7 +102,8 @@ def get_results(basepath=None):
     get_files_from_glob(log_path, log_glob, settings.LOG_DIR)
 
 def write_and_queue():
-    with open('/tmp/abed.pbs', 'w') as pbs:
+    temp_pbs = os.path.join(gettempdir(), 'abed.pbs')
+    with open(temp_pbs, 'w') as pbs:
         pbs.write(generate_pbs_text())
     curr_path = '{}/releases/current'.format(myfab.project_path)
     myfab.put('/tmp/abed.pbs', '{}/'.format(curr_path))
