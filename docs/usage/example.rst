@@ -100,12 +100,14 @@ Ridge. Note that OLS needs no parameters. The :setting:`PARAMS` setting
 relates closely to the :setting:`COMMANDS` setting, which we will define now::
 
     COMMANDS = {
-              'OLS': ("{execdir}/ols.py {datadir}/{train_dataset}.txt "
+              'OLS': ("python {execdir}/ols.py {datadir}/{train_dataset}.txt "
                   "{datadir}/{test_dataset}.txt"),
-              'Lasso': ("{execdir}/lasso.py {datadir}/{train_dataset}.txt "
-                  "{datadir}/{test_dataset}.txt {alpha}"),
-              'Ridge': ("{execdir}/ridge.py {datadir}/{train_dataset}.txt "
-                  "{datadir}/{test_dataset}.txt {alpha}"),
+              'Lasso': ("python {execdir}/lasso.py "
+                  "{datadir}/{train_dataset}.txt {datadir}/{test_dataset}.txt"
+                  " {alpha}"),
+              'Ridge': ("python {execdir}/ridge.py "
+                  "{datadir}/{train_dataset}.txt {datadir}/{test_dataset}.txt"
+                  " {alpha}"),
             }
 
 Note that we use ``{alpha}`` in the command for Lasso and Ridge, since we used 
