@@ -6,7 +6,7 @@ from .utils import info, mkdir
 
 def get_scratchdir(local=False):
     if local:
-        return '/tmp/abed'
+        return os.getcwd()
     if settings.REMOTE_SCRATCH:
         scratchdir = settings.REMOTE_SCRATCH
     else:
@@ -32,9 +32,12 @@ def get_output_dir(result_dir, quiet=False):
         outdir = '%s/%i' % (result_dir, latest)
     return outdir
 
-def write_output(output, hsh):
+def write_output(output, hsh, local=False):
     scratchdir = get_scratchdir()
-    scratch_results = '%s/results' % scratchdir
+    if local:
+        scratch_results = settings.STAGE_DIR
+    else:
+        scratch_results = '%s/results' % scratchdir
     mkdir(scratch_results)
     outdir = get_output_dir(scratch_results)
     fname = '%s/%s.txt' % (outdir, hsh)

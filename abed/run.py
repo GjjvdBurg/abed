@@ -7,7 +7,7 @@ import os
 import time
 
 from mpi4py import MPI
-from subprocess import check_output, CalledProcessError, STDOUT
+from subprocess import check_output, CalledProcessError
 
 from .conf import settings
 from .utils import info, error
@@ -62,7 +62,7 @@ def do_work(hsh, task, local=False):
         error("There was an error executing: '%s'. Here is the error: %s" % 
                 (cmd, err.output), color_wrap=False)
         return
-    write_output(output, hsh)
+    write_output(output, hsh, local=local)
     info("Finished with %s" % hsh, color_wrap=False)
 
 def copy_worker(local):
@@ -96,15 +96,22 @@ def worker(task_dict, local=False):
             do_work(hsh, task_dict[hsh], local=local)
         comm.send(obj=None, dest=0)
 
-def master(all_work):
+def master(all_work, local=False):
     size = MPI.COMM_WORLD.Get_size()
     comm = MPI.COMM_WORLD
     status = MPI.Status()
     killed_workers = []
 
+    # The number of workers differs depending on whether or not there is a copy 
+    # worker
+    if local:
+        worker_range = range(1, size)
+    else:
+        worker_range = range(2, size)
+
     # send initial tasks to the workers, if there is no work for a worker then 
     # kill it
-    for rank in range(2, size):
+    for rank in worker_range:
         next_work = all_work.get_chunk()
         if next_work is None:
             killed_workers.append(rank)
@@ -130,7 +137,7 @@ def master(all_work):
         comm.send(obj=next_work, dest=status.Get_source(), tag=WORKTAG)
 
     # collect all remaining results from workers that are still busy
-    for rank in range(2, size):
+    for rank in worker_range:
         if rank in killed_workers:
             continue
         comm.recv(obj=None, source=rank, tag=MPI.ANY_TAG)
@@ -138,8 +145,9 @@ def master(all_work):
 
     # if we're here, there are no more tasks and all workers are killed, except 
     # the copy worker. We'll give him a chance to complete and then quit.
-    time.sleep(settings.MW_COPY_SLEEP)
-    comm.send(obj=None, dest=1, tag=KILLTAG)
+    if not local:
+        time.sleep(settings.MW_COPY_SLEEP)
+        comm.send(obj=None, dest=1, tag=KILLTAG)
 
 def mpi_start(task_dict, local=False):
     if local:
@@ -169,6 +177,6 @@ def mpi_start_local(task_dict):
     if rank == 0:
         work = Work(n_workers=size-1)
         work.work_items = list(task_dict.keys())
-        master(work)
+        master(work, local=True)
     else:
         worker(task_dict, local=True)

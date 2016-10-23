@@ -9,7 +9,7 @@ from .fab import fab_push, fab_pull, fab_repull, fab_setup
 from .git import (git_add_auto, git_add_tbd, git_commit_auto, git_commit_tbd,
         git_init, git_ok)
 from .html.view import view_html
-from .local import copy_local_files
+from .local import local_move_results
 from .results.main import make_results
 from .run import mpi_start
 from .init import init_config
@@ -167,9 +167,8 @@ class Abed(object):
         if self.task_dict is None:
             error("No tasks defined before attempted run. Exiting")
             raise SystemExit
-        copy_local_files()
         mpi_start(self.task_dict, local=True)
-        info("Finished with run command.")
+        local_move_results(self.task_dict)
 
     def compress_results(self):
         compress_results(init_tasks())
