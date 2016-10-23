@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
@@ -50,19 +52,21 @@
 <span class="sd">In CV_TT experiments, the following is done</span>
 
 <span class="sd">1. Labels &#39;y_train&#39; are expected to exist, with &#39;y_train_true&#39; and</span>
-<span class="sd">&#39;y_train_pred&#39; columns. This must be the true y in the first column, and in the</span>
-<span class="sd">second column the predicted values of y when these indices were in the hold-out</span>
-<span class="sd">fold of cross validation.</span>
+<span class="sd">   &#39;y_train_pred&#39; columns. This must be the true y in the first column, and in </span>
+<span class="sd">   the second column the predicted values of y when these indices were in the </span>
+<span class="sd">   hold-out fold of cross validation.</span>
+
 <span class="sd">2. Labels &#39;y_test&#39; are expected to exist, with &#39;y_test_true&#39; and &#39;y_test_pred&#39;.</span>
-<span class="sd">These columns are the true and predicted values of y on the test dataset.</span>
-<span class="sd">Predicted values should (theoretically) be made by training the model on the</span>
-<span class="sd">full training dataset, and predicting the test dataset.</span>
+<span class="sd">   These columns are the true and predicted values of y on the test dataset. </span>
+<span class="sd">   Predicted values should (theoretically) be made by training the model on the </span>
+<span class="sd">   full training dataset, and predicting the test dataset.</span>
+
 <span class="sd">3. Tables are created for each possible metric/metric combination of the metrics</span>
-<span class="sd">in the configuration file.  In the tables, each method is given in a single</span>
-<span class="sd">column. In each cell, the performance on the test dataset as measured by the</span>
-<span class="sd">second metric is shown for the parameter configuration for which the performance</span>
-<span class="sd">on the first metric is optimal. This is done for all metric targets other than</span>
-<span class="sd">&#39;y_train&#39;.</span>
+<span class="sd">   in the configuration file.  In the tables, each method is given in a single </span>
+<span class="sd">   column. In each cell, the performance on the test dataset as measured by the </span>
+<span class="sd">   second metric is shown for the parameter configuration for which the </span>
+<span class="sd">   performance on the first metric is optimal. This is done for all metric </span>
+<span class="sd">   targets other than &#39;y_train&#39;.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -165,7 +169,7 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

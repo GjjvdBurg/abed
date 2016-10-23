@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -48,27 +50,119 @@
 <dl class="function">
 <dt id="abed.help.bold">
 <code class="descclassname">abed.help.</code><code class="descname">bold</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#bold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.bold" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add bold escape sequences to text</p>
+<p>This adds the <code class="docutils literal"><span class="pre">'\033[1m'</span></code> before the string, and <code class="docutils literal"><span class="pre">'\033[0m'</span></code> after
+the string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<em>str</em>) &#8211; Text to include in escape sequences for bold text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Text surrounded by escape sequences</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="abed.help.cmd_strings">
 <code class="descclassname">abed.help.</code><code class="descname">cmd_strings</code><span class="sig-paren">(</span><em>cmds</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#cmd_strings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.cmd_strings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Format commands with short help for general help text</p>
+<p>Given a list of commands, this formats the help text in the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">command</span>     <span class="n">short</span> <span class="n">description</span>
+</pre></div>
+</div>
+<p>The formatting is done such that the short descriptions of all the commands
+line up in the same way, and long descriptions are continued on the next
+line at the correct indentation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmds</strong> (<em>list</em>) &#8211; The command names (as strings) for which the help text should be
+generated</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Formatted help text</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="abed.help.get_command_help">
+<code class="descclassname">abed.help.</code><code class="descname">get_command_help</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#get_command_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.get_command_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate help text for a command</p>
+<p>This function generates the help text for a command that is printed when
+you call <code class="docutils literal"><span class="pre">abed</span> <span class="pre">help</span> <span class="pre">&lt;command&gt;</span></code>. This command formats the help text
+similar to the structure of manual pages on Linux. The help text consists
+of several paragraphs: name, synopsis, description, and optionally a see
+also and options paragraph. The content of these paragraphs comes from the
+variables ABED_SHORT_HELP, ABED_SYNOPSES, ABED_LONG_HELP, ABED_SEE_ALSO,
+and ABED_OPTIONS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> (<em>str</em>) &#8211; The command to generate help text for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Help text formatted appropriately, None if nonexisting command.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="abed.help.get_help">
 <code class="descclassname">abed.help.</code><code class="descname">get_help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#get_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.get_help" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="abed.help.get_topic_help">
-<code class="descclassname">abed.help.</code><code class="descname">get_topic_help</code><span class="sig-paren">(</span><em>topic</em>, <em>width</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#get_topic_help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.get_topic_help" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generate the main help text</p>
+<p>Generate the main help text for Abed. This is the help text that is shown
+with the commands <code class="docutils literal"><span class="pre">abed</span> <span class="pre">help</span></code> and <code class="docutils literal"><span class="pre">abed</span></code>. The help text is modelled on
+the help text that is shown when you run <code class="docutils literal"><span class="pre">git</span></code> without arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Help text for Abed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="abed.help.paragraph_wrapper">
-<code class="descclassname">abed.help.</code><code class="descname">paragraph_wrapper</code><span class="sig-paren">(</span><em>all_text</em>, <em>width=60</em>, <em>indent='\t'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#paragraph_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.paragraph_wrapper" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">abed.help.</code><code class="descname">paragraph_wrapper</code><span class="sig-paren">(</span><em>all_text</em>, <em>width=70</em>, <em>indent='\t'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/help.html#paragraph_wrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.help.paragraph_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format text to have a maximum length while maintaining paragraphs</p>
+<p>This function is very similar to <a class="reference external" href="https://docs.python.org/3/library/textwrap.html#textwrap.wrap">textwrap.wrap()</a>, with the
+exception that paragraphs in the triple-quoted string will be maintained.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>all_text</strong> (<em>str</em>) &#8211; Text to format, expected to be a triple-quoted string.</li>
+<li><strong>width</strong> (<em>int, optional</em>) &#8211; Maximum width of the formatted text.</li>
+<li><strong>indent</strong> (<em>str, optional</em>) &#8211; Indentation of the paragraph in the output.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Indented formatted paragraphs</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -109,7 +203,7 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |

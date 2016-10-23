@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
@@ -50,6 +52,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">fabric.operations</span> <span class="k">import</span> <span class="n">local</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="k">import</span> <span class="n">gettempdir</span>
 
 <span class="kn">from</span> <span class="nn">.auto</span> <span class="k">import</span> <span class="n">get_jobid_from_logs</span>
 <span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
@@ -145,7 +148,8 @@
     <span class="n">get_files_from_glob</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="n">log_glob</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">LOG_DIR</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="write_and_queue"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.write_and_queue">[docs]</a><span class="k">def</span> <span class="nf">write_and_queue</span><span class="p">():</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/abed.pbs&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbs</span><span class="p">:</span>
+    <span class="n">temp_pbs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gettempdir</span><span class="p">(),</span> <span class="s1">&#39;abed.pbs&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_pbs</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbs</span><span class="p">:</span>
         <span class="n">pbs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">generate_pbs_text</span><span class="p">())</span>
     <span class="n">curr_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/releases/current&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">)</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;/tmp/abed.pbs&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">curr_path</span><span class="p">))</span>
@@ -233,7 +237,7 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

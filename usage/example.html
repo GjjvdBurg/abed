@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -134,12 +136,14 @@ will be varied, the cost parameter. We define this as follows:</p>
 Ridge. Note that OLS needs no parameters. The <a class="reference internal" href="settings.html#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> setting
 relates closely to the <a class="reference internal" href="settings.html#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> setting, which we will define now:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span>
-          <span class="s1">&#39;OLS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/ols.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
+          <span class="s1">&#39;OLS&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;python </span><span class="si">{execdir}</span><span class="s2">/ols.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
               <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt&quot;</span><span class="p">),</span>
-          <span class="s1">&#39;Lasso&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/lasso.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
-              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
-          <span class="s1">&#39;Ridge&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/ridge.py </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt &quot;</span>
-              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
+          <span class="s1">&#39;Lasso&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;python </span><span class="si">{execdir}</span><span class="s2">/lasso.py &quot;</span>
+              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt&quot;</span>
+              <span class="s2">&quot; </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
+          <span class="s1">&#39;Ridge&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;python </span><span class="si">{execdir}</span><span class="s2">/ridge.py &quot;</span>
+              <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2">.txt </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2">.txt&quot;</span>
+              <span class="s2">&quot; </span><span class="si">{alpha}</span><span class="s2">&quot;</span><span class="p">),</span>
         <span class="p">}</span>
 </pre></div>
 </div>
@@ -376,7 +380,7 @@ analyse the results, see <a class="reference internal" href="analysis.html"><spa
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |

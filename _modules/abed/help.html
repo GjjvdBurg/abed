@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
@@ -55,26 +57,31 @@
 
 <span class="kn">import</span> <span class="nn">textwrap</span>
 
+<span class="c1"># General description for the Abed help</span>
 <span class="n">DESCRIPTION</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Abed is a utility for Automated BEnchmark Distribution&quot;</span><span class="p">)</span>
 
+
+<span class="c1"># Categories for the commands in the Abed help</span>
 <span class="n">COMMAND_CATEGORIES</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="s2">&quot;Initialization commands:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;setup&quot;</span><span class="p">]),</span>
         <span class="p">(</span><span class="s2">&quot;Compute cluster job management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="s2">&quot;pull&quot;</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> 
             <span class="s2">&quot;repull&quot;</span><span class="p">]),</span>
         <span class="p">(</span><span class="s2">&quot;Task management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;update_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;reload_tasks&quot;</span><span class="p">]),</span>
         <span class="p">(</span><span class="s2">&quot;Computations:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;local&quot;</span><span class="p">]),</span>
-        <span class="p">(</span><span class="s2">&quot;Abed status:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_tbd_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_all_tasks&quot;</span><span class="p">]),</span>
+        <span class="p">(</span><span class="s2">&quot;Abed status:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;explain_tbd_tasks&quot;</span><span class="p">]),</span>
         <span class="p">(</span><span class="s2">&quot;Result management:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;view_results&quot;</span><span class="p">,</span> <span class="s2">&quot;compress_results&quot;</span><span class="p">]),</span>
         <span class="p">(</span><span class="s2">&quot;Manual intervention:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;parse_results&quot;</span><span class="p">,</span> <span class="s2">&quot;process_zips&quot;</span><span class="p">]),</span>
         <span class="p">]</span>
 
+
+<span class="c1"># Short help line for each command</span>
 <span class="n">ABED_SHORT_HELP</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;auto&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Automate push and pull to facilitate &#39;</span>
             <span class="s1">&#39;continuous operation&#39;</span><span class="p">),</span>
         <span class="s1">&#39;compress_results&#39;</span><span class="p">:</span> <span class="s1">&#39;Compress completed dataset directories.&#39;</span><span class="p">,</span>
         <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Print the task ID and command &#39;</span>
             <span class="s1">&#39;of remaining tasks&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Print the task ID and command &#39;</span>
+        <span class="s1">&#39;explain_tasks&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Print the task ID and command &#39;</span>
             <span class="s1">&#39;of all defined tasks&#39;</span><span class="p">),</span>
         <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;Initialize a skeleton for abed&#39;</span><span class="p">,</span>
         <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s1">&#39;Show help for Abed&#39;</span><span class="p">,</span>
@@ -93,11 +100,38 @@
         <span class="s1">&#39;view_results&#39;</span><span class="p">:</span> <span class="s1">&#39;Open the HTML results in the default browser&#39;</span>
         <span class="p">}</span>
 
+
+<span class="c1"># Synopsis for commands which take parameters or options</span>
 <span class="n">ABED_SYNOPSES</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;help&quot;</span><span class="p">:</span> <span class="s2">&quot;abed help [&lt;topic&gt;]&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parse_results&quot;</span><span class="p">:</span> <span class="s2">&quot;abed parse_results [&lt;options&gt;]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;help&quot;</span><span class="p">:</span> <span class="s2">&quot;abed help [&lt;topic&gt;]&quot;</span>
         <span class="p">}</span>
 
+
+<span class="c1"># See also definitions for the commands</span>
+<span class="n">ABED_SEE_ALSO</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;auto&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pull&quot;</span><span class="p">,</span> <span class="s2">&quot;push&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;compress_results&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;view_results&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;explain_tbd_tasks&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;explain_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;explain_tasks&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;explain_tbd_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;init&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;help&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;run&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;parse_results&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;view_results&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;process_zips&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pull&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;pull&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="s2">&quot;process_zips&quot;</span><span class="p">,</span> <span class="s2">&quot;update_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;repull&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;push&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;pull&quot;</span><span class="p">,</span> <span class="s2">&quot;setup&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;reload_tasks&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;update_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;repull&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;pull&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;run&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;setup&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;push&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;update_tasks&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;reload_tasks&quot;</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;view_results&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;compress_results&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+
+
+<span class="c1"># Documentation of options for commands which have options</span>
 <span class="n">ABED_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;parse_results&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">(</span><span class="s2">&quot;--skip-cache, -s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
@@ -113,6 +147,7 @@
         <span class="p">}</span>
 
 
+<span class="c1"># Long help description for each command, for &#39;abed help &lt;command&gt;&#39; calls</span>
 <span class="n">ABED_LONG_HELP</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;auto&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">                The &#39;auto&#39; command automates repeated uses of &#39;push&#39; and &#39;pull&#39; </span>
@@ -151,55 +186,232 @@
 <span class="s2">                directory. This should be done by the user.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Print an overview with the mapping from hash to task for the </span>
+<span class="s2">                tasks that remain to be done.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
-        <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+        <span class="s1">&#39;explain_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Print an overview with the mapping from hash to task for all </span>
+<span class="s2">                tasks.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Initialize a new Abed experiment. This is the first step to </span>
+<span class="s2">                starting a new Abed experiment and should be done only once.  </span>
+<span class="s2">                This command creates the initial files: the settings file, an </span>
+<span class="s2">                empty task file, an empty auto file, and two directories for </span>
+<span class="s2">                the datasets and executables respectively.  Additionally, Abed </span>
+<span class="s2">                will create a Git repository and add the settings file and the </span>
+<span class="s2">                task file to it.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;help&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Display help on the commands to Abed. For available commands, </span>
+<span class="s2">                simply type &#39;abed help&#39;, for help on a certain command type </span>
+<span class="s2">                &#39;abed help &lt;command&gt;&#39;.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Run the computations locally. This command is essentially the </span>
+<span class="s2">                same as the &#39;run&#39; command, but it runs the computations </span>
+<span class="s2">                locally. Since the master-worker program in Abed that runs the </span>
+<span class="s2">                computations uses MPI, this command should be executed through </span>
+<span class="s2">                mpiexec: &#39;mpiexec abed local&#39;. Note that this command requires </span>
+<span class="s2">                at least two cores on your workstation, one for the master </span>
+<span class="s2">                thread and the remainders for the working threads.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;parse_results&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Process the result files into summary pages. This process will </span>
+<span class="s2">                be started automatically when Abed detects that there are no </span>
+<span class="s2">                more tasks to be done after the &#39;pull&#39; command, but it can also </span>
+<span class="s2">                be used to generate result pages before all the results are in.  </span>
+<span class="s2">                Both text summary files and web pages are generated. The </span>
+<span class="s2">                webpages can easily be viewed in the browser using &#39;abed </span>
+<span class="s2">                view_results&#39;</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;process_zips&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command is included as a fallback command. In general, the </span>
+<span class="s2">                &#39;pull&#39; command should unpack the compressed archives of results </span>
+<span class="s2">                obtained from the compute cluster. However, if this fails for </span>
+<span class="s2">                some reason, this command can be used to unpack the archives </span>
+<span class="s2">                manually. Note that typically the archived files will not be </span>
+<span class="s2">                actual .zip files, but .bz2 (bzip) files.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;pull&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Download the results from the compute cluster and process them.  </span>
+<span class="s2">                This command downloads the bzip2 archives from the bzips </span>
+<span class="s2">                directory in the current directory on the compute cluster, as </span>
+<span class="s2">                well as the PBS log files from the log directory on the compute </span>
+<span class="s2">                cluster. When the file transfers are finished, the bzip2 </span>
+<span class="s2">                archives are first unpacked in the STAGE_DIR, after which they </span>
+<span class="s2">                are organized hierarchically based on dataset and method, in </span>
+<span class="s2">                the RESULT_DIR. After this is finished, the job ID of the </span>
+<span class="s2">                remote job is obtained from the log files and registred in the </span>
+<span class="s2">                AUTO_FILE. Finally, the list of remaining tasks is updated, </span>
+<span class="s2">                which is automatically registered in the Git repository.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;push&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command transfers the Git repository to the compute </span>
+<span class="s2">                cluster and queues the job there. It&#39;s important to realise </span>
+<span class="s2">                that only the files that are registered in the Git repository </span>
+<span class="s2">                will be transferred. To help with this, the push command will </span>
+<span class="s2">                print an error is there are uncommitted changes in the Git </span>
+<span class="s2">                repository.</span>
+
+<span class="s2">                If there are no uncommited changes, this command will continue </span>
+<span class="s2">                by transferring the Git repository to the compute cluster.  </span>
+<span class="s2">                Next, it moves the datasets over that have been uploaded </span>
+<span class="s2">                earlier with the &#39;abed setup&#39; command. Following this, if </span>
+<span class="s2">                compilation is required, the build command will run on the </span>
+<span class="s2">                compute cluster.  Finally, Abed will write the PBS batch file </span>
+<span class="s2">                and submit it to the job queue.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;reload_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command should be used when the tasks need to be </span>
+<span class="s2">                regenerated from the settings file. Any changes to the METHODS, </span>
+<span class="s2">                DATASETS, PARAMETERS, or COMMANDS settings require that this </span>
+<span class="s2">                command is executed. A powerful feature of Abed is that you can </span>
+<span class="s2">                add to these variables while some existing tasks have already </span>
+<span class="s2">                been completed. This allows you to extend your experiment at a </span>
+<span class="s2">                later time when more methods, datasets, or paramter </span>
+<span class="s2">                configurations are necessary.</span>
+
+<span class="s2">                Important: When using the CV_TT experiment type, only add to </span>
+<span class="s2">                the above settings at the _end_ of the lists. Due to technical </span>
+<span class="s2">                reasons related to the random seed that Abed generates for this </span>
+<span class="s2">                experiment type, if you add them anywhere else it will mess up </span>
+<span class="s2">                the hashes of the other tasks.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;repull&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                With this command you can pull the results from previously </span>
+<span class="s2">                finished jobs. This is useful when you wish to download results </span>
+<span class="s2">                from the compute cluster on a different workstation. This will </span>
+<span class="s2">                read the job IDs from the AUTO_FILE, and pull the results from </span>
+<span class="s2">                the corresponding directories on the compute cluster.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command starts the computations on the compute cluster, </span>
+<span class="s2">                and will typically not be run by the user, but through a (PBS) </span>
+<span class="s2">                job file. If for whatever reason you&#39;re running this command </span>
+<span class="s2">                manually, bare in mind that it should be run through mpiexec.  </span>
+<span class="s2">                For running computations on your local workstation, use the </span>
+<span class="s2">                &#39;local&#39; command to Abed.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;setup&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command sets up the directory structure that Abed uses on </span>
+<span class="s2">                the compute cluster, as well as transferring the datasets to </span>
+<span class="s2">                the cluster. Run this command after you&#39;ve finished selecting </span>
+<span class="s2">                your datasets and have configured your Abed project, just </span>
+<span class="s2">                before the first time you run &#39;abed push&#39;. This command should </span>
+<span class="s2">                be run only once for a project. If you need to add datasets to </span>
+<span class="s2">                your simulations at a later stage, copy them manually to the </span>
+<span class="s2">                &#39;current/datasets&#39; directory on the compute cluster.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Get an overview of the current status of an Abed project. This </span>
+<span class="s2">                command will give the number of tasks that have been defined, </span>
+<span class="s2">                as well as the number of tasks that remain to be done.</span>
+
+<span class="s2">                Note that after you&#39;ve added to the settings file to extend the </span>
+<span class="s2">                computations with more tasks, running this command will not </span>
+<span class="s2">                give the correct total. In that case, run the &#39;reload_tasks&#39; </span>
+<span class="s2">                command first, to update the task list correctly.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;update_tasks&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                This command updates the task list based on the definitions in </span>
+<span class="s2">                the settings file, and the result files in the RESULT_DIR </span>
+<span class="s2">                directory. It is automatically run after the pull command, but </span>
+<span class="s2">                if this fails for some reason, you can use this to update the </span>
+<span class="s2">                task list.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
         <span class="s1">&#39;view_results&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                Open the default browser to view the results. This function is </span>
+<span class="s2">                included for convenience.</span>
 <span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
                 <span class="p">}</span>
 
+
 <div class="viewcode-block" id="bold"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.bold">[docs]</a><span class="k">def</span> <span class="nf">bold</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add bold escape sequences to text</span>
+
+<span class="sd">    This adds the ``&#39;\\033[1m&#39;`` before the string, and ``&#39;\\033[0m&#39;`` after </span>
+<span class="sd">    the string.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : str</span>
+<span class="sd">        Text to include in escape sequences for bold text</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Text surrounded by escape sequences</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[1m&#39;</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[0m&#39;</span></div>
 
-<div class="viewcode-block" id="paragraph_wrapper"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.paragraph_wrapper">[docs]</a><span class="k">def</span> <span class="nf">paragraph_wrapper</span><span class="p">(</span><span class="n">all_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">):</span>
+
+<div class="viewcode-block" id="paragraph_wrapper"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.paragraph_wrapper">[docs]</a><span class="k">def</span> <span class="nf">paragraph_wrapper</span><span class="p">(</span><span class="n">all_text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format text to have a maximum length while maintaining paragraphs</span>
+
+<span class="sd">    This function is very similar to `textwrap.wrap() </span>
+<span class="sd">    &lt;https://docs.python.org/3/library/textwrap.html#textwrap.wrap&gt;`_, with the </span>
+<span class="sd">    exception that paragraphs in the triple-quoted string will be maintained.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    all_text : str</span>
+<span class="sd">        Text to format, expected to be a triple-quoted string.</span>
+
+<span class="sd">    width : int, optional</span>
+<span class="sd">        Maximum width of the formatted text.</span>
+
+<span class="sd">    indent : str, optional</span>
+<span class="sd">        Indentation of the paragraph in the output.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Indented formatted paragraphs</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># split on paragraphs in the triple-quoted string</span>
     <span class="n">texts</span> <span class="o">=</span> <span class="n">all_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># remove indentation of paragraphs</span>
     <span class="n">dedents</span> <span class="o">=</span> <span class="p">[</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+    <span class="c1"># clean out double spaces</span>
     <span class="n">cleans</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dedented</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">])</span> <span class="k">for</span> <span class="n">dedented</span> <span class="ow">in</span> 
             <span class="n">dedents</span><span class="p">]</span>
+    <span class="c1"># remove newlines</span>
     <span class="n">cleaner</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">clean</span> <span class="ow">in</span> <span class="n">cleans</span><span class="p">]</span>
+    <span class="c1"># use textwrap.fill() to wrap the text</span>
     <span class="n">filled</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">para</span> <span class="ow">in</span> <span class="n">cleaner</span><span class="p">:</span>
         <span class="n">filled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">para</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">initial_indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span> 
             <span class="n">subsequent_indent</span><span class="o">=</span><span class="n">indent</span><span class="p">))</span>
+    <span class="c1"># join paragraphs</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filled</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="cmd_strings"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.cmd_strings">[docs]</a><span class="k">def</span> <span class="nf">cmd_strings</span><span class="p">(</span><span class="n">cmds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format commands with short help for general help text</span>
+
+<span class="sd">    Given a list of commands, this formats the help text in the form::</span>
+
+<span class="sd">        command     short description</span>
+
+<span class="sd">    The formatting is done such that the short descriptions of all the commands </span>
+<span class="sd">    line up in the same way, and long descriptions are continued on the next </span>
+<span class="sd">    line at the correct indentation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cmds : list</span>
+<span class="sd">        The command names (as strings) for which the help text should be </span>
+<span class="sd">        generated</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Formatted help text</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">txt</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">space_before</span> <span class="o">=</span> <span class="s2">&quot;   &quot;</span>
     <span class="n">maxlen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ABED_SHORT_HELP</span><span class="p">))</span>
@@ -218,8 +430,23 @@
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">txt</span></div>
 
+
 <div class="viewcode-block" id="get_help"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.get_help">[docs]</a><span class="k">def</span> <span class="nf">get_help</span><span class="p">():</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;usage: abed [-s | --skip-cache] &lt;command&gt;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;Generate the main help text</span>
+
+<span class="sd">    Generate the main help text for Abed. This is the help text that is shown </span>
+<span class="sd">    with the commands ``abed help`` and ``abed``. The help text is modelled on </span>
+<span class="sd">    the help text that is shown when you run ``git`` without arguments.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Help text for Abed</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Generate the basis text</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;usage: abed &lt;command&gt; [&lt;options&gt;]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">DESCRIPTION</span><span class="p">,</span>
             <span class="s2">&quot;&quot;</span><span class="p">,</span>
@@ -227,10 +454,12 @@
             <span class="s2">&quot;&quot;</span>
             <span class="p">]</span>
 
+    <span class="c1"># Expand the help text with different categories</span>
     <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">commands</span> <span class="ow">in</span> <span class="n">COMMAND_CATEGORIES</span><span class="p">:</span>
         <span class="n">text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
         <span class="n">text</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cmd_strings</span><span class="p">(</span><span class="n">commands</span><span class="p">))</span>
 
+    <span class="c1"># Add the remainder of the help text</span>
     <span class="n">text</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Use &#39;abed help &lt;command&gt;&#39; to learn about a specific command,&quot;</span><span class="p">,</span>
             <span class="s2">&quot;or check the online documentation at: &quot;</span><span class="p">,</span>
@@ -239,28 +468,62 @@
 
     <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="get_topic_help"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.get_topic_help">[docs]</a><span class="k">def</span> <span class="nf">get_topic_help</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">width</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">ABED_LONG_HELP</span><span class="p">:</span>
-        <span class="n">synop</span> <span class="o">=</span> <span class="n">ABED_SYNOPSES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="s2">&quot;abed </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">topic</span><span class="p">)</span>
-        <span class="n">txt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Abed Help&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">abed-</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">ABED_SHORT_HELP</span><span class="p">[</span><span class="n">topic</span><span class="p">]),</span>
-                <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;SYNOPSIS&quot;</span><span class="p">),</span>
-                <span class="s2">&quot;</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">synop</span><span class="p">),</span>
-                <span class="s2">&quot;&quot;</span><span class="p">,</span>
-                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;DESCRIPTION&quot;</span><span class="p">),</span>
-                <span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">ABED_LONG_HELP</span><span class="p">[</span><span class="n">topic</span><span class="p">])</span>
+
+<div class="viewcode-block" id="get_command_help"><a class="viewcode-back" href="../../api/core/abed.help.html#abed.help.get_command_help">[docs]</a><span class="k">def</span> <span class="nf">get_command_help</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate help text for a command</span>
+
+<span class="sd">    This function generates the help text for a command that is printed when </span>
+<span class="sd">    you call ``abed help &lt;command&gt;``. This command formats the help text </span>
+<span class="sd">    similar to the structure of manual pages on Linux. The help text consists </span>
+<span class="sd">    of several paragraphs: name, synopsis, description, and optionally a see </span>
+<span class="sd">    also and options paragraph. The content of these paragraphs comes from the </span>
+<span class="sd">    variables ABED_SHORT_HELP, ABED_SYNOPSES, ABED_LONG_HELP, ABED_SEE_ALSO, </span>
+<span class="sd">    and ABED_OPTIONS.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    command : str</span>
+<span class="sd">        The command to generate help text for</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Help text formatted appropriately, None if nonexisting command.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">ABED_LONG_HELP</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Build the required paragraphs</span>
+    <span class="n">synop</span> <span class="o">=</span> <span class="n">ABED_SYNOPSES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="s2">&quot;abed </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">command</span><span class="p">)</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Abed Help&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">abed-</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">ABED_SHORT_HELP</span><span class="p">[</span><span class="n">command</span><span class="p">]),</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;SYNOPSIS&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;</span><span class="se">\t</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">synop</span><span class="p">),</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;DESCRIPTION&quot;</span><span class="p">),</span>
+            <span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">ABED_LONG_HELP</span><span class="p">[</span><span class="n">command</span><span class="p">])</span>
+            <span class="p">]</span>
+
+    <span class="c1"># If the command has options, build the options paragraph</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">:</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;OPTIONS&quot;</span><span class="p">),</span>
                 <span class="p">]</span>
-        <span class="k">if</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">:</span>
-            <span class="n">txt</span> <span class="o">+=</span> <span class="p">[</span><span class="n">bold</span><span class="p">(</span><span class="s2">&quot;OPTIONS&quot;</span><span class="p">),</span>
-                    <span class="p">]</span>
-            <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">[</span><span class="n">topic</span><span class="p">]:</span>
-                <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">option</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">option</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&#39;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-    <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">for</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">ABED_OPTIONS</span><span class="p">[</span><span class="n">command</span><span class="p">]:</span>
+            <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">option</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paragraph_wrapper</span><span class="p">(</span><span class="n">option</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span> 
+                <span class="n">indent</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">&#39;</span><span class="p">))</span>
+
+    <span class="c1"># If the command has see also&#39;s, build that paragraph</span>
+    <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">ABED_SEE_ALSO</span> <span class="ow">and</span> <span class="n">ABED_SEE_ALSO</span><span class="p">[</span><span class="n">command</span><span class="p">]:</span>
+        <span class="n">txt</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">bold</span><span class="p">(</span><span class="s2">&quot;SEE ALSO&quot;</span><span class="p">),</span>
+                <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ABED_SEE_ALSO</span><span class="p">[</span><span class="n">command</span><span class="p">])]</span>
+
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -294,7 +557,7 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>

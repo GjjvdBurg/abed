@@ -24,6 +24,8 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
     <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
@@ -53,7 +55,7 @@
 <span class="kn">from</span> <span class="nn">.git</span> <span class="k">import</span> <span class="p">(</span><span class="n">git_add_auto</span><span class="p">,</span> <span class="n">git_add_tbd</span><span class="p">,</span> <span class="n">git_commit_auto</span><span class="p">,</span> <span class="n">git_commit_tbd</span><span class="p">,</span>
         <span class="n">git_init</span><span class="p">,</span> <span class="n">git_ok</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.html.view</span> <span class="k">import</span> <span class="n">view_html</span>
-<span class="kn">from</span> <span class="nn">.local</span> <span class="k">import</span> <span class="n">copy_local_files</span>
+<span class="kn">from</span> <span class="nn">.local</span> <span class="k">import</span> <span class="n">local_move_results</span>
 <span class="kn">from</span> <span class="nn">.results.main</span> <span class="k">import</span> <span class="n">make_results</span>
 <span class="kn">from</span> <span class="nn">.run</span> <span class="k">import</span> <span class="n">mpi_start</span>
 <span class="kn">from</span> <span class="nn">.init</span> <span class="k">import</span> <span class="n">init_config</span>
@@ -67,7 +69,7 @@
             <span class="s1">&#39;auto&#39;</span><span class="p">,</span>
             <span class="s1">&#39;compress_results&#39;</span><span class="p">,</span>
             <span class="s1">&#39;explain_tbd_tasks&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;explain_all_tasks&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;explain_tasks&#39;</span><span class="p">,</span>
             <span class="s1">&#39;local&#39;</span><span class="p">,</span>
             <span class="s1">&#39;parse_results&#39;</span><span class="p">,</span>
             <span class="s1">&#39;process_zips&#39;</span><span class="p">,</span>
@@ -104,7 +106,7 @@
 <div class="viewcode-block" id="Abed.explain_tbd_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.explain_tbd_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">explain_tbd_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">explain_tasks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Abed.explain_all_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.explain_all_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">explain_all_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Abed.explain_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.explain_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">explain_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">explain_tasks</span><span class="p">(</span><span class="n">init_tasks</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Abed.update_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.update_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">update_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -211,9 +213,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">error</span><span class="p">(</span><span class="s2">&quot;No tasks defined before attempted run. Exiting&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span>
-        <span class="n">copy_local_files</span><span class="p">()</span>
         <span class="n">mpi_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished with run command.&quot;</span><span class="p">)</span></div>
+        <span class="n">local_move_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Abed.compress_results"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.compress_results">[docs]</a>    <span class="k">def</span> <span class="nf">compress_results</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">compress_results</span><span class="p">(</span><span class="n">init_tasks</span><span class="p">())</span></div></div>
@@ -251,7 +252,7 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
