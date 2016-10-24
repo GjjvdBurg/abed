@@ -64,7 +64,6 @@ class Abed(object):
         explain_tasks(init_tasks())
 
     def update_tasks(self):
-        # this takes over update_tasks
         cnt = update_tasks(self.task_dict)
         info("Task update removed %i completed tasks. Tasks remaining: %i" % 
                 (cnt, len(self.task_dict)))

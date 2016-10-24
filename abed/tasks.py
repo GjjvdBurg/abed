@@ -34,11 +34,19 @@ def task_hash(task):
 
 def init_tasks():
     if settings.TYPE == 'ASSESS':
-        return init_tasks_assess()
+        task_func = init_tasks_assess
     elif settings.TYPE == 'CV_TT':
-        return init_tasks_cv_tt()
+        task_func = init_tasks_cv_tt
     elif settings.TYPE == 'RAW':
-        return init_tasks_raw()
+        task_func = init_tasks_raw
+
+    try:
+        return task_func()
+    except AbedHashCollissionException:
+        error("A hash collision occured. This rarely occurs naturally, so it"
+                " is most likely caused by duplicate tasks in the task list. "
+                "Abed does not currently support duplicate tasks.")
+        raise SystemExit
     raise AbedExperimentTypeException
 
 def init_tasks_assess():
