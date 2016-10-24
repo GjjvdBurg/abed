@@ -76,7 +76,7 @@ def init_tasks_cv_tt():
 def init_tasks_raw():
     out = {}
     with open(settings.RAW_CMD_FILE, 'r') as fid:
-        tasks = [x.strip() for x in fid.readlines()]
+        tasks = [x.strip() for x in fid.readlines() if x.strip()]
     for txttask in tasks:
         hsh = hash(txttask)
         hsh %= ((sys.maxsize + 1) * 2)
