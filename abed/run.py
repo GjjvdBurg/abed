@@ -137,11 +137,16 @@ def master(all_work, local=False):
         comm.send(obj=next_work, dest=status.Get_source(), tag=WORKTAG)
 
     # collect all remaining results from workers that are still busy
-    for rank in worker_range:
-        if rank in killed_workers:
-            continue
-        comm.recv(obj=None, source=rank, tag=MPI.ANY_TAG)
-        comm.send(obj=None, dest=rank, tag=KILLTAG)
+    # we're using a non-blocking receive here (through Iprobe), so that we kill 
+    # worker processes as soon as possible.
+    remaining = [r for r in worker_range if not r in killed_workers]
+    while remaining:
+        for rank in remaining:
+            if comm.Iprobe(source=rank, tag=MPI.ANY_TAG):
+                comm.recv(obj=None, source=rank, tag=MPI.ANY_TAG)
+                comm.send(obj=None, dest=rank, tag=KILLTAG)
+                killed_workers.append(rank)
+        remaining = [r for r in worker_range if not r in killed_workers]
 
     # if we're here, there are no more tasks and all workers are killed, except 
     # the copy worker. We'll give him a chance to complete and then quit.
