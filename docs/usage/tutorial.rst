@@ -25,7 +25,7 @@ Using Abed
 Note first that Abed is a command line tool, with an interface that should 
 familiar to users of **git**. For instance, simply typing::
 
-    abed
+    $ abed
 
 on the command line, gives an overview of the different commands available in 
 Abed. So how do we actually use Abed?
@@ -36,12 +36,12 @@ Local setup of an Abed project
 
 First of all, create a new directory for your experiment and switch to it::
 
-    mkdir experiment
-    cd experiment
+    $ mkdir experiment
+    $ cd experiment
 
 Next, initialize a new Abed project by typing::
 
-    abed init
+    $ abed init
 
 This does the following:
 
@@ -86,13 +86,13 @@ Assuming that you've defined everything in the settings file, we should first
 reload the tasks that Abed will run, so the task file corresponds to the 
 tasks defined in the settings. This can be done by running::
 
-    abed reload_tasks
+    $ abed reload_tasks
 
 Once this is done, we can start working with the remote compute cluster. The 
 first thing we do is to setup the remote environment, and push the datasets to 
 the server. This is done with the command::
 
-    abed setup
+    $ abed setup
 
 This creates the following structure on the remote server::
 
@@ -140,7 +140,7 @@ Running an Abed project
 Now that we've finished the setup of Abed both locally and on the remote, 
 it's time to start the computations. This can be done by running::
 
-    abed push
+    $ abed push
 
 This pushes the last state of the git repository to the remote server, runs 
 the build command (e.g. ``make``) when needed, creates the PBS file, and 
@@ -163,7 +163,7 @@ itself, other than sending out work to the worker threads.
 When the computations are finished, the results can be collected using the 
 command::
 
-    abed pull
+    $ abed pull
 
 This command download the results from the remote server, unpacks them into 
 the *staging* directory, and organizes the files into the local *results* 
@@ -177,7 +177,7 @@ computations.
 Since it is inefficient manually push and pull every time, the following 
 command can be used::
 
-   abed auto
+   $ abed auto
 
 This command automatically pushes and pulls, until all tasks are completed.  
 For this to work as intended, it must be possible to login to the cluster 
@@ -192,12 +192,12 @@ When all tasks are finished, Abed automatically generates the summary files
 from the results. If it doesn't do this for whatever reason, you can force 
 generation of result pages with the command::
 
-    abed parse_results
+    $ abed parse_results
 
 Both static webpages and simple text files will be generated.  The webpages 
 can be viewed simply by running::
 
-    abed view_results
+    $ abed view_results
 
 This will open the static summary pages in your default browser. For more on 
 interpreting and exploring these summary pages, see :doc:`analysis`.

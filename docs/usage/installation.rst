@@ -7,12 +7,12 @@ Basic Installation
 
 To install Abed only for the current user, run::
 
-    python2 setup.py install --user
+    $ python2 setup.py install --user
 
 Note, if you're on LISA, you need to specify the Python version you wish to 
 use by first running::
 
-    module load python/2.7.9
+    $ module load python/2.7.9
 
 After installation, the executable will be placed in ``~/.local/bin``, which you 
 should add to your ``PATH`` variable for convenience, by placing the following 

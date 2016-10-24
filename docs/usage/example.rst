@@ -9,15 +9,18 @@ In this example, we will compare three regression methods (OLS, Lasso, and
 Ridge regression) on ten artificial datasets with varying levels of sparsity.  
 The methods will be implemented through Scikit-Learn and through R.
 
+*Note: throughout this documentation, code lines that start with a $ sign are 
+intented to be typed into a terminal.*
+
 Let's begin, first we create a new directory for this experiment, and change 
 to it::
 
-   mkdir abed_example
-   cd abed_example
+   $ mkdir abed_example
+   $ cd abed_example
 
 In this directory, we run the following command to initialize Abed::
 
-   abed init
+   $ abed init
 
 This creates the minimal directory structure needed, as well as three files: 
 ``abed_conf.py``, ``abed_tasks.txt``, and ``abed_auto.txt``. The first file is 
@@ -240,20 +243,27 @@ start the simulations.
 
 First, reload the tasks in Abed to make sure the task file is up to date::
 
-    abed reload_tasks
+    $ abed reload_tasks
 
 The ``reload_tasks`` command should also be used when you change something in 
-:doc:`settings`. Next, setup the environment for this project on the remote 
-server.  You only need to do this once::
+:doc:`settings`. After this, it is time to start the simulations. This can be 
+done either on a compute cluster, or locally on your computer.
 
-    abed setup
+Running on a cluster
+------------------------
+
+When you choose to run the simulations on the compute cluster, the first thing 
+is to setup the environment for this project on the remote server.  You only 
+need to do this once for each experiment::
+
+    $ abed setup
 
 This command sets up the remote directory structure and copies over the 
 datasets. It might be useful to take a look at how Abed sets up this remote 
 structure. More info on this remote setup can be found in the :doc:`tutorial`.  
 Now, it's time to start the simulations with a simple::
 
-    abed push
+    $ abed push
 
 Abed will push the latest version of the Git repository contents to the 
 compute cluster, unpack everything there in the ``current`` directory, 
@@ -261,7 +271,7 @@ generate a PBS file based on your settings, and submit the job to the queue.
 When all tasks are finished, you can retrieve the compressed results with the 
 command::
 
-    abed pull
+    $ abed pull
 
 This command downloads the bzipped archives from the ``current`` directory in 
 the project folder on the cluster, unpacks them in the staging directory 
@@ -272,15 +282,36 @@ The ``pull`` command ends with updating the :setting:`TASK_FILE`, removing the
 hash of tasks that are finished. You can see the remaining tasks with the 
 command::
 
-    abed status
+    $ abed status
 
 If more tasks need to be done, you can push again to the compute cluster now.  
 The process of pushing and pulling can be automated using the command::
 
-    abed auto
+    $ abed auto
 
 For this to be useful however, it is adviced to configure password-less login 
 to the compute cluster by exchanging SSH keys.
+
+Running locally
+---------------
+
+If you prefer to run the simulations for this example locally, you can do so 
+quite easily with Abed. The command you need to run is::
+
+    $ mpiexec abed local
+
+Note that ``mpiexec`` may automatically select the number of cores that are 
+used. Please refer to the documentation of the command (``man mpiexec``) for 
+more info. Running these computations should not take more than a few minutes.  
+The results of these computations will be placed in the :setting:`STAGE_DIR` 
+during the computations, and will be organized into the :setting:`RESULT_DIR` 
+as a last step. When the computations are finished, the task list needs to be 
+updated with the command::
+
+    $ abed update_tasks
+
+If everything went correctly, Abed will show that there are no more tasks to 
+be done.
 
 Analyzing the Results
 =====================
@@ -289,7 +320,7 @@ When Abed detects that all tasks have finished, it will automatically generate
 the summary files from the results. If this fails for some reason, the 
 command::
 
-    abed parse_results
+    $ abed parse_results
 
 does the same.
 
@@ -297,7 +328,7 @@ Two types of summary files are generated: text files and HTML pages. The text
 files are simple text tables, whereas the HTML pages include both tables and 
 figures. Here, we will focus on the HTML pages. To view the results, type::
 
-    abed view_results
+    $ abed view_results
 
 This should open your browser and show the main result page of your project.  
 At the top of the page you will see links to various tables and figures which 
