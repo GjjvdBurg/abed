@@ -2,7 +2,7 @@
 Working with Git
 ================
 
-.. automodule:: abed.git
+.. automodule:: abed.git_util
     :members:
     :undoc-members:
     :show-inheritance:

@@ -32,7 +32,8 @@ setup(
             'progressbar',
             'dominate',
             'tqdm',
-            'backports.lzma'
+            'backports.lzma',
+            'gitpython'
             ],
         data_files = get_data_files()
 )

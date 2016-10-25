@@ -6,8 +6,7 @@ from .auto import submitted, get_jobid_from_logs, is_job_marked, mark_job
 from .compress import compress_results
 from .conf import settings
 from .fab import fab_push, fab_pull, fab_repull, fab_setup
-from .git import (git_add_auto, git_add_tbd, git_commit_auto, git_commit_tbd,
-        git_init, git_ok)
+from .git_util import git_commit_auto, git_commit_tbd, git_init, git_ok
 from .html.view import view_html
 from .local import local_move_results
 from .results.main import make_results
@@ -52,9 +51,6 @@ class Abed(object):
         else:
             self.task_dict = init_tasks()
             self.write_tasks()
-            git_add_auto()
-            git_add_tbd()
-            git_commit_auto()
             git_commit_tbd()
 
     def explain_tbd_tasks(self):
