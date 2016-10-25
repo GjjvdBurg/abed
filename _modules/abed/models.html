@@ -52,8 +52,7 @@
 <span class="kn">from</span> <span class="nn">.compress</span> <span class="k">import</span> <span class="n">compress_results</span>
 <span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">.fab</span> <span class="k">import</span> <span class="n">fab_push</span><span class="p">,</span> <span class="n">fab_pull</span><span class="p">,</span> <span class="n">fab_repull</span><span class="p">,</span> <span class="n">fab_setup</span>
-<span class="kn">from</span> <span class="nn">.git</span> <span class="k">import</span> <span class="p">(</span><span class="n">git_add_auto</span><span class="p">,</span> <span class="n">git_add_tbd</span><span class="p">,</span> <span class="n">git_commit_auto</span><span class="p">,</span> <span class="n">git_commit_tbd</span><span class="p">,</span>
-        <span class="n">git_init</span><span class="p">,</span> <span class="n">git_ok</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.git_util</span> <span class="k">import</span> <span class="n">git_commit_auto</span><span class="p">,</span> <span class="n">git_commit_tbd</span><span class="p">,</span> <span class="n">git_init</span><span class="p">,</span> <span class="n">git_ok</span>
 <span class="kn">from</span> <span class="nn">.html.view</span> <span class="k">import</span> <span class="n">view_html</span>
 <span class="kn">from</span> <span class="nn">.local</span> <span class="k">import</span> <span class="n">local_move_results</span>
 <span class="kn">from</span> <span class="nn">.results.main</span> <span class="k">import</span> <span class="n">make_results</span>
@@ -98,9 +97,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span> <span class="o">=</span> <span class="n">init_tasks</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">write_tasks</span><span class="p">()</span>
-            <span class="n">git_add_auto</span><span class="p">()</span>
-            <span class="n">git_add_tbd</span><span class="p">()</span>
-            <span class="n">git_commit_auto</span><span class="p">()</span>
             <span class="n">git_commit_tbd</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Abed.explain_tbd_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.explain_tbd_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">explain_tbd_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -110,7 +106,6 @@
         <span class="n">explain_tasks</span><span class="p">(</span><span class="n">init_tasks</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Abed.update_tasks"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.update_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">update_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># this takes over update_tasks</span>
         <span class="n">cnt</span> <span class="o">=</span> <span class="n">update_tasks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)</span>
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Task update removed </span><span class="si">%i</span><span class="s2"> completed tasks. Tasks remaining: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> 
                 <span class="p">(</span><span class="n">cnt</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">)))</span>

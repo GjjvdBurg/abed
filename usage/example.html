@@ -49,14 +49,16 @@ for this experiment can be found on GitHub.</p>
 <p>In this example, we will compare three regression methods (OLS, Lasso, and
 Ridge regression) on ten artificial datasets with varying levels of sparsity.
 The methods will be implemented through Scikit-Learn and through R.</p>
+<p><em>Note: throughout this documentation, code lines that start with a $ sign are
+intented to be typed into a terminal.</em></p>
 <p>Let&#8217;s begin, first we create a new directory for this experiment, and change
 to it:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">abed_example</span>
-<span class="n">cd</span> <span class="n">abed_example</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir abed_example
+$ cd abed_example
 </pre></div>
 </div>
 <p>In this directory, we run the following command to initialize Abed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">init</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed init
 </pre></div>
 </div>
 <p>This creates the minimal directory structure needed, as well as three files:
@@ -266,20 +268,25 @@ to the compute cluster.</p>
 the datasets, and have finished writing the executables, it is then time to
 start the simulations.</p>
 <p>First, reload the tasks in Abed to make sure the task file is up to date:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">reload_tasks</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed reload_tasks
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">reload_tasks</span></code> command should also be used when you change something in
-<a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a>. Next, setup the environment for this project on the remote
-server.  You only need to do this once:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">setup</span>
+<a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a>. After this, it is time to start the simulations. This can be
+done either on a compute cluster, or locally on your computer.</p>
+<div class="section" id="running-on-a-cluster">
+<h3>Running on a cluster<a class="headerlink" href="#running-on-a-cluster" title="Permalink to this headline">¶</a></h3>
+<p>When you choose to run the simulations on the compute cluster, the first thing
+is to setup the environment for this project on the remote server.  You only
+need to do this once for each experiment:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed setup
 </pre></div>
 </div>
 <p>This command sets up the remote directory structure and copies over the
 datasets. It might be useful to take a look at how Abed sets up this remote
 structure. More info on this remote setup can be found in the <a class="reference internal" href="tutorial.html"><span class="doc">Overview and Tutorial</span></a>.
 Now, it&#8217;s time to start the simulations with a simple:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">push</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed push
 </pre></div>
 </div>
 <p>Abed will push the latest version of the Git repository contents to the
@@ -287,7 +294,7 @@ compute cluster, unpack everything there in the <code class="docutils literal"><
 generate a PBS file based on your settings, and submit the job to the queue.
 When all tasks are finished, you can retrieve the compressed results with the
 command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">pull</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed pull
 </pre></div>
 </div>
 <p>This command downloads the bzipped archives from the <code class="docutils literal"><span class="pre">current</span></code> directory in
@@ -298,30 +305,51 @@ organized in a hierarchy based on the method and the dataset, for easy lookup.
 The <code class="docutils literal"><span class="pre">pull</span></code> command ends with updating the <a class="reference internal" href="settings.html#std:setting-TASK_FILE"><code class="xref std std-setting docutils literal"><span class="pre">TASK_FILE</span></code></a>, removing the
 hash of tasks that are finished. You can see the remaining tasks with the
 command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">status</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed status
 </pre></div>
 </div>
 <p>If more tasks need to be done, you can push again to the compute cluster now.
 The process of pushing and pulling can be automated using the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">auto</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed auto
 </pre></div>
 </div>
 <p>For this to be useful however, it is adviced to configure password-less login
 to the compute cluster by exchanging SSH keys.</p>
+</div>
+<div class="section" id="running-locally">
+<h3>Running locally<a class="headerlink" href="#running-locally" title="Permalink to this headline">¶</a></h3>
+<p>If you prefer to run the simulations for this example locally, you can do so
+quite easily with Abed. The command you need to run is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mpiexec abed local
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal"><span class="pre">mpiexec</span></code> may automatically select the number of cores that are
+used. Please refer to the documentation of the command (<code class="docutils literal"><span class="pre">man</span> <span class="pre">mpiexec</span></code>) for
+more info. Running these computations should not take more than a few minutes.
+The results of these computations will be placed in the <a class="reference internal" href="settings.html#std:setting-STAGE_DIR"><code class="xref std std-setting docutils literal"><span class="pre">STAGE_DIR</span></code></a>
+during the computations, and will be organized into the <a class="reference internal" href="settings.html#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal"><span class="pre">RESULT_DIR</span></code></a>
+as a last step. When the computations are finished, the task list needs to be
+updated with the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed update_tasks
+</pre></div>
+</div>
+<p>If everything went correctly, Abed will show that there are no more tasks to
+be done.</p>
+</div>
 </div>
 <div class="section" id="analyzing-the-results">
 <h2>Analyzing the Results<a class="headerlink" href="#analyzing-the-results" title="Permalink to this headline">¶</a></h2>
 <p>When Abed detects that all tasks have finished, it will automatically generate
 the summary files from the results. If this fails for some reason, the
 command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">parse_results</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed parse_results
 </pre></div>
 </div>
 <p>does the same.</p>
 <p>Two types of summary files are generated: text files and HTML pages. The text
 files are simple text tables, whereas the HTML pages include both tables and
 figures. Here, we will focus on the HTML pages. To view the results, type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">view_results</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed view_results
 </pre></div>
 </div>
 <p>This should open your browser and show the main result page of your project.
@@ -343,7 +371,11 @@ analyse the results, see <a class="reference internal" href="analysis.html"><spa
 <li><a class="reference internal" href="#defining-the-experiment">Defining the experiment</a></li>
 <li><a class="reference internal" href="#creating-the-datasets">Creating the datasets</a></li>
 <li><a class="reference internal" href="#writing-the-executables">Writing the executables</a></li>
-<li><a class="reference internal" href="#starting-the-simulations">Starting the simulations</a></li>
+<li><a class="reference internal" href="#starting-the-simulations">Starting the simulations</a><ul>
+<li><a class="reference internal" href="#running-on-a-cluster">Running on a cluster</a></li>
+<li><a class="reference internal" href="#running-locally">Running locally</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#analyzing-the-results">Analyzing the Results</a></li>
 </ul>
 </li>

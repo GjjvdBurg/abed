@@ -80,11 +80,19 @@
 
 <div class="viewcode-block" id="init_tasks"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks">[docs]</a><span class="k">def</span> <span class="nf">init_tasks</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">init_tasks_assess</span><span class="p">()</span>
+        <span class="n">task_func</span> <span class="o">=</span> <span class="n">init_tasks_assess</span>
     <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">init_tasks_cv_tt</span><span class="p">()</span>
+        <span class="n">task_func</span> <span class="o">=</span> <span class="n">init_tasks_cv_tt</span>
     <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;RAW&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">init_tasks_raw</span><span class="p">()</span>
+        <span class="n">task_func</span> <span class="o">=</span> <span class="n">init_tasks_raw</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">task_func</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">AbedHashCollissionException</span><span class="p">:</span>
+        <span class="n">error</span><span class="p">(</span><span class="s2">&quot;A hash collision occured. This rarely occurs naturally, so it&quot;</span>
+                <span class="s2">&quot; is most likely caused by duplicate tasks in the task list. &quot;</span>
+                <span class="s2">&quot;Abed does not currently support duplicate tasks.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>
     <span class="k">raise</span> <span class="n">AbedExperimentTypeException</span></div>
 
 <div class="viewcode-block" id="init_tasks_assess"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks_assess">[docs]</a><span class="k">def</span> <span class="nf">init_tasks_assess</span><span class="p">():</span>
@@ -122,7 +130,7 @@
 <div class="viewcode-block" id="init_tasks_raw"><a class="viewcode-back" href="../../api/core/abed.tasks.html#abed.tasks.init_tasks_raw">[docs]</a><span class="k">def</span> <span class="nf">init_tasks_raw</span><span class="p">():</span>
     <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">RAW_CMD_FILE</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
-        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
     <span class="k">for</span> <span class="n">txttask</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
         <span class="n">hsh</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="n">txttask</span><span class="p">)</span>
         <span class="n">hsh</span> <span class="o">%=</span> <span class="p">((</span><span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>

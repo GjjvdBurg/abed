@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>abed.git_util &#8212; abed 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="abed 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for abed.git_util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for dealing with Git</span>
+
+<span class="sd">In this file functions are defined for dealing with the Git repository: </span>
+<span class="sd">creating the initial repository, committing changes to the task file or the </span>
+<span class="sd">auto file, and checking if the working directory is clean.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">git</span> <span class="k">import</span> <span class="n">Repo</span>
+
+<span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">.constants</span> <span class="k">import</span> <span class="n">CONFIG_FILENAME</span><span class="p">,</span> <span class="n">TASKS_FILENAME</span><span class="p">,</span> <span class="n">AUTO_FILENAME</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">info</span>
+
+<div class="viewcode-block" id="git_init"><a class="viewcode-back" href="../../api/core/abed.git_util.html#abed.git_util.git_init">[docs]</a><span class="k">def</span> <span class="nf">git_init</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Initializes the Git repository for Abed</span>
+
+<span class="sd">    This function initializes a Git repository in the current directory, adds </span>
+<span class="sd">    the task file, the auto file, and the settings file, and commits them to </span>
+<span class="sd">    the Git repository.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">CONFIG_FILENAME</span><span class="p">])</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">TASKS_FILENAME</span><span class="p">])</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">AUTO_FILENAME</span><span class="p">])</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="s2">&quot;initialized abed skeleton&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="git_commit_file"><a class="viewcode-back" href="../../api/core/abed.git_util.html#abed.git_util.git_commit_file">[docs]</a><span class="k">def</span> <span class="nf">git_commit_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Commit changes to a given file if necessary</span>
+
+<span class="sd">    This function commits changes to a given file to the git repository, using </span>
+<span class="sd">    the provided message as the commit message. It also prints the message to </span>
+<span class="sd">    the user with the :func:`info()` function, with the addition of the word </span>
+<span class="sd">    &quot;Git&quot;. Note that changes will only be committed if necessary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        The filename of the file to commit.</span>
+<span class="sd">    message : str</span>
+<span class="sd">        The commit message.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">diffidx</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">filename</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">diffidx</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">filename</span><span class="p">])</span>
+    <span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Git - &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="git_commit_tbd"><a class="viewcode-back" href="../../api/core/abed.git_util.html#abed.git_util.git_commit_tbd">[docs]</a><span class="k">def</span> <span class="nf">git_commit_tbd</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper around :func:`git_commit_file()` for the TBD file &quot;&quot;&quot;</span>
+    <span class="n">git_commit_file</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">TASK_FILE</span><span class="p">,</span> <span class="s2">&quot;Automatic commit of TBD task file&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="git_commit_auto"><a class="viewcode-back" href="../../api/core/abed.git_util.html#abed.git_util.git_commit_auto">[docs]</a><span class="k">def</span> <span class="nf">git_commit_auto</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper around :func:`git_commit_file()` for the auto file &quot;&quot;&quot;</span>
+    <span class="n">git_commit_file</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTO_FILE</span><span class="p">,</span> <span class="s2">&quot;Automatic commit of auto log file&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="git_ok"><a class="viewcode-back" href="../../api/core/abed.git_util.html#abed.git_util.git_ok">[docs]</a><span class="k">def</span> <span class="nf">git_ok</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Check if the Git working directory is clean&quot;&quot;&quot;</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">repo</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Gertjan van den Burg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

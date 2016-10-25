@@ -60,7 +60,7 @@ overview of Abed&#8217;s features.</p>
 <h2>Using Abed<a class="headerlink" href="#using-abed" title="Permalink to this headline">¶</a></h2>
 <p>Note first that Abed is a command line tool, with an interface that should
 familiar to users of <strong>git</strong>. For instance, simply typing:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed
 </pre></div>
 </div>
 <p>on the command line, gives an overview of the different commands available in
@@ -68,12 +68,12 @@ Abed. So how do we actually use Abed?</p>
 <div class="section" id="local-setup-of-an-abed-project">
 <h3>Local setup of an Abed project<a class="headerlink" href="#local-setup-of-an-abed-project" title="Permalink to this headline">¶</a></h3>
 <p>First of all, create a new directory for your experiment and switch to it:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">experiment</span>
-<span class="n">cd</span> <span class="n">experiment</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir experiment
+$ cd experiment
 </pre></div>
 </div>
 <p>Next, initialize a new Abed project by typing:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">init</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed init
 </pre></div>
 </div>
 <p>This does the following:</p>
@@ -113,13 +113,13 @@ information on defining the experiments through the settings file.</p>
 <p>Assuming that you&#8217;ve defined everything in the settings file, we should first
 reload the tasks that Abed will run, so the task file corresponds to the
 tasks defined in the settings. This can be done by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">reload_tasks</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed reload_tasks
 </pre></div>
 </div>
 <p>Once this is done, we can start working with the remote compute cluster. The
 first thing we do is to setup the remote environment, and push the datasets to
 the server. This is done with the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">setup</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed setup
 </pre></div>
 </div>
 <p>This creates the following structure on the remote server:</p>
@@ -164,7 +164,7 @@ commited to the git repository will be transferred to the remote!</em></p>
 <h3>Running an Abed project<a class="headerlink" href="#running-an-abed-project" title="Permalink to this headline">¶</a></h3>
 <p>Now that we&#8217;ve finished the setup of Abed both locally and on the remote,
 it&#8217;s time to start the computations. This can be done by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">push</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed push
 </pre></div>
 </div>
 <p>This pushes the last state of the git repository to the remote server, runs
@@ -185,7 +185,7 @@ need to run on the node. Note finally that the master thread does no work
 itself, other than sending out work to the worker threads.</p>
 <p>When the computations are finished, the results can be collected using the
 command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">pull</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed pull
 </pre></div>
 </div>
 <p>This command download the results from the remote server, unpacks them into
@@ -198,7 +198,7 @@ done, it is immediately possible to push again to the remote, to continue the
 computations.</p>
 <p>Since it is inefficient manually push and pull every time, the following
 command can be used:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">auto</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed auto
 </pre></div>
 </div>
 <p>This command automatically pushes and pulls, until all tasks are completed.
@@ -211,12 +211,12 @@ described <a class="reference external" href="http://www.rebol.com/docs/ssh-auto
 <p>When all tasks are finished, Abed automatically generates the summary files
 from the results. If it doesn&#8217;t do this for whatever reason, you can force
 generation of result pages with the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">parse_results</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed parse_results
 </pre></div>
 </div>
 <p>Both static webpages and simple text files will be generated.  The webpages
 can be viewed simply by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">abed</span> <span class="n">view_results</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed view_results
 </pre></div>
 </div>
 <p>This will open the static summary pages in your default browser. For more on
