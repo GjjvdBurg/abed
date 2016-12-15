@@ -16,7 +16,7 @@ def get_data_files():
 
 setup(
         name = "abed",
-        version = "0.0.1.dev0",
+        version = "0.0.1",
         author = "Gertjan van den Burg",
         author_email = "gertjanvandenburg@gmail.com",
         description = ("A utility for Automated BEnchmark Distribution"),
