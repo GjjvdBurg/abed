@@ -147,6 +147,7 @@ def master(all_work, local=False):
                 comm.send(obj=None, dest=rank, tag=KILLTAG)
                 killed_workers.append(rank)
         remaining = [r for r in worker_range if not r in killed_workers]
+        time.sleep(5)
 
     # if we're here, there are no more tasks and all workers are killed, except 
     # the copy worker. We'll give him a chance to complete and then quit.
