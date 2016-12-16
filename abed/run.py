@@ -169,7 +169,7 @@ def mpi_start_remote(task_dict):
         work = Work(n_workers=size-2)
         work.work_items = list(task_dict.keys())
         master(work)
-    elif rank == 1:
+    elif settings.MW_COPY_WORKER and rank == 1:
         copy_worker(local=False)
     else:
         worker(task_dict, local=False)

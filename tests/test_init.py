@@ -49,6 +49,7 @@ REMOTE_SCRATCH_ENV = 'TMPDIR'
 #                      Settings for Master/Worker program                    #
 ##############################################################################
 MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
+MW_COPY_WORKER = False
 MW_COPY_SLEEP = 120
 
 ##############################################################################

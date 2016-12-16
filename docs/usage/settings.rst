@@ -259,6 +259,20 @@ fewer tasks left than ``n_workers * MW_SENDATONCE``, Abed reduces the number
 of tasks to send to 1.  This ensures that the situation can't occur where one 
 worker gets all the remaining tasks whereas other workers get none.
 
+.. setting:: MW_COPY_WORKER
+
+``MW_COPY_WORKER``
+------------------
+
+Default: ``False``
+
+Abed can reserve a thread on the compute node to periodically copy results 
+from the scratch directory on the node to the home directory of the user.  
+However, this places additional load on the internal bandwith of the compute 
+cluster, so therefore it is turned off by default. The results will in any 
+case be copied as compressed archives from the scratch after the wall time has 
+ended.
+
 .. setting:: MW_COPY_SLEEP
 
 ``MW_COPY_SLEEP``
@@ -266,10 +280,11 @@ worker gets all the remaining tasks whereas other workers get none.
 
 Default: ``120``
 
-Abed reserves one thread on the compute node for copying every once in a while 
-the result files from the scratch directory to the home directory (see also 
-:setting:`REMOTE_SCRATCH`). This setting defines the time in seconds between 
-consecutive copying of the results.
+If :setting:``MW_COPY_WORKER`` is ``True``, Abed reserves one thread on the 
+compute node for periodically copying the result files from the scratch 
+directory to the home directory (see also :setting:`REMOTE_SCRATCH`).  This 
+setting defines the time in seconds between consecutive copying of the 
+results.
 
 Experiment type
 ===============
