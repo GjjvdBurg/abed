@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +27,6 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="abed 0.1 documentation" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -228,13 +228,24 @@ fewer tasks left than <code class="docutils literal"><span class="pre">n_workers
 of tasks to send to 1.  This ensures that the situation can&#8217;t occur where one
 worker gets all the remaining tasks whereas other workers get none.</p>
 </div>
+<div class="section" id="mw-copy-worker">
+<span id="std:setting-MW_COPY_WORKER"></span><h3><code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code><a class="headerlink" href="#mw-copy-worker" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Abed can reserve a thread on the compute node to periodically copy results
+from the scratch directory on the node to the home directory of the user.
+However, this places additional load on the internal bandwith of the compute
+cluster, so therefore it is turned off by default. The results will in any
+case be copied as compressed archives from the scratch after the wall time has
+ended.</p>
+</div>
 <div class="section" id="mw-copy-sleep">
 <span id="std:setting-MW_COPY_SLEEP"></span><h3><code class="docutils literal"><span class="pre">MW_COPY_SLEEP</span></code><a class="headerlink" href="#mw-copy-sleep" title="Permalink to this headline">¶</a></h3>
 <p>Default: <code class="docutils literal"><span class="pre">120</span></code></p>
-<p>Abed reserves one thread on the compute node for copying every once in a while
-the result files from the scratch directory to the home directory (see also
-<a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_SCRATCH</span></code></a>). This setting defines the time in seconds between
-consecutive copying of the results.</p>
+<p>If :setting:<code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code> is <code class="docutils literal"><span class="pre">True</span></code>, Abed reserves one thread on the
+compute node for periodically copying the result files from the scratch
+directory to the home directory (see also <a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_SCRATCH</span></code></a>).  This
+setting defines the time in seconds between consecutive copying of the
+results.</p>
 </div>
 </div>
 <div class="section" id="experiment-type">
@@ -658,6 +669,7 @@ If dependency on this command is a problem, please let us know.</p>
 </li>
 <li><a class="reference internal" href="#settings-for-master-worker-program">Settings for Master/Worker program</a><ul>
 <li><a class="reference internal" href="#mw-sendatonce"><code class="docutils literal"><span class="pre">MW_SENDATONCE</span></code></a></li>
+<li><a class="reference internal" href="#mw-copy-worker"><code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a></li>
 <li><a class="reference internal" href="#mw-copy-sleep"><code class="docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a></li>
 </ul>
 </li>
@@ -715,7 +727,7 @@ If dependency on this command is a problem, please let us know.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/settings.txt"
+      <li><a href="../_sources/usage/settings.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -737,11 +749,11 @@ If dependency on this command is a problem, please let us know.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
-      <a href="../_sources/usage/settings.txt"
+      <a href="../_sources/usage/settings.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

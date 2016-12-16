@@ -17,7 +17,8 @@
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +27,6 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="abed 0.1 documentation" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -44,11 +44,12 @@
             
   <div class="section" id="example-using-abed-for-comparing-regression-methods">
 <h1>Example: Using Abed for comparing regression methods<a class="headerlink" href="#example-using-abed-for-comparing-regression-methods" title="Permalink to this headline">¶</a></h1>
-<p>Below we describe a complete walkthrough of an experiment ran using Abed. Code
-for this experiment can be found on GitHub.</p>
-<p>In this example, we will compare three regression methods (OLS, Lasso, and
-Ridge regression) on ten artificial datasets with varying levels of sparsity.
-The methods will be implemented through Scikit-Learn and through R.</p>
+<p>Below we describe a complete walkthrough of an experiment ran using Abed. In
+this example, we will compare three regression methods (OLS, Lasso, and Ridge
+regression) on ten artificial datasets with varying levels of sparsity. Code
+for this experiment can be found on GitHub. There are two versions, <a class="reference external" href="https://github.com/GjjvdBurg/abed_example_py">one using
+Python</a> for the methods, and
+<a class="reference external" href="https://github.com/GjjvdBurg/abed_example_R">one using R</a>.</p>
 <p><em>Note: throughout this documentation, code lines that start with a $ sign are
 intented to be typed into a terminal.</em></p>
 <p>Let&#8217;s begin, first we create a new directory for this experiment, and change
@@ -83,17 +84,21 @@ should definitely be changed:</p>
 <span class="n">REMOTE_HOST</span> <span class="o">=</span> <span class="s1">&#39;address.of.host&#39;</span>
 </pre></div>
 </div>
-<p>The next section of the settings file defines two variables:
-<a class="reference internal" href="settings.html#std:setting-MW_SENDATONCE"><code class="xref std std-setting docutils literal"><span class="pre">MW_SENDATONCE</span></code></a> and <a class="reference internal" href="settings.html#std:setting-MW_COPY_SLEEP"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a>. In a typical experiment
-with a sufficient number of tasks these settings do not need to be changed
-from the default. In this case however, we will perform a small experiment, so
-we will set:</p>
+<p>The next section of the settings file defines three variables:
+<a class="reference internal" href="settings.html#std:setting-MW_SENDATONCE"><code class="xref std std-setting docutils literal"><span class="pre">MW_SENDATONCE</span></code></a>, <a class="reference internal" href="settings.html#std:setting-MW_COPY_WORKER"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a>, and
+<a class="reference internal" href="settings.html#std:setting-MW_COPY_SLEEP"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a>.  In a typical experiment with a sufficient number of
+tasks these settings do not need to be changed from the default. In this case
+however, we will perform a small experiment, so we will set:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MW_SENDATONCE</span> <span class="o">=</span> <span class="mi">20</span>
 </pre></div>
 </div>
-<p>On to the next section of the settings file. This section defines the type of
-experiment we want to run (see <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> for more info). Here we&#8217;ll
-use the <code class="docutils literal"><span class="pre">'CV_TT'</span></code> type, so we uncomment the following lines:</p>
+<p>Since we don&#8217;t need intermediate copying of result files, we can set:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MW_COPY_WORKER</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>Now, on to the next section of the settings file.  This section defines the
+type of experiment we want to run (see <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> for more info).
+Here we&#8217;ll use the <code class="docutils literal"><span class="pre">'CV_TT'</span></code> type, so we uncomment the following lines:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;CV_TT&#39;</span>
 <span class="n">CV_BASESEED</span> <span class="o">=</span> <span class="mi">123456</span>
 <span class="n">YTRAIN_LABEL</span> <span class="o">=</span> <span class="s1">&#39;y_train&#39;</span>
@@ -390,7 +395,7 @@ analyse the results, see <a class="reference internal" href="analysis.html"><spa
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/example.txt"
+      <li><a href="../_sources/usage/example.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -412,11 +417,11 @@ analyse the results, see <a class="reference internal" href="analysis.html"><spa
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
-      <a href="../_sources/usage/example.txt"
+      <a href="../_sources/usage/example.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
