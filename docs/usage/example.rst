@@ -2,12 +2,15 @@
 Example: Using Abed for comparing regression methods
 ====================================================
 
-Below we describe a complete walkthrough of an experiment ran using Abed. Code 
-for this experiment can be found on GitHub.
+Below we describe a complete walkthrough of an experiment ran using Abed. In 
+this example, we will compare three regression methods (OLS, Lasso, and Ridge 
+regression) on ten artificial datasets with varying levels of sparsity. Code 
+for this experiment can be found on GitHub. There are two versions, `one using 
+Python <https://github.com/GjjvdBurg/abed_example_py>`_ for the methods, and 
+`one using R <https://github.com/GjjvdBurg/abed_example_R>`_.
 
-In this example, we will compare three regression methods (OLS, Lasso, and 
-Ridge regression) on ten artificial datasets with varying levels of sparsity.  
-The methods will be implemented through Scikit-Learn and through R.
+Below, the Python version will be described, but differences with the R 
+version are minimal.
 
 *Note: throughout this documentation, code lines that start with a $ sign are 
 intented to be typed into a terminal.*
@@ -46,24 +49,28 @@ should definitely be changed::
     REMOTE_USER = 'username'
     REMOTE_HOST = 'address.of.host'
 
-The next section of the settings file defines two variables: 
-:setting:`MW_SENDATONCE` and :setting:`MW_COPY_SLEEP`. In a typical experiment 
-with a sufficient number of tasks these settings do not need to be changed 
-from the default. In this case however, we will perform a small experiment, so 
-we will set::
+The next section of the settings file defines three variables: 
+:setting:`MW_SENDATONCE`, :setting:`MW_COPY_WORKER`, and 
+:setting:`MW_COPY_SLEEP`.  In a typical experiment with a sufficient number of 
+tasks these settings do not need to be changed from the default. In this case 
+however, we will perform a small experiment, so we will set::
 
     MW_SENDATONCE = 20
 
-On to the next section of the settings file. This section defines the type of 
-experiment we want to run (see :doc:`experiments` for more info). Here we'll 
-use the ``'CV_TT'`` type, so we uncomment the following lines::
+Since we don't need intermediate copying of result files, we can set::
+
+    MW_COPY_WORKER = False
+
+Now, on to the next section of the settings file.  This section defines the 
+type of experiment we want to run (see :doc:`experiments` for more info).  
+Here we'll use the ``'CV_TT'`` type, so we uncomment the following lines::
 
     TYPE = 'CV_TT'
     CV_BASESEED = 123456
     YTRAIN_LABEL = 'y_train'
 
 The section on "Build settings" can be skipped, as we will implement our 
-methods in Python for this example. If you want to work with compiled 
+methods in Python or R for this example. If you want to work with compiled 
 executables, you can define the required build procedure here.
 
 The next section of the settings file ("Experiment parameters and settings") 
@@ -164,8 +171,10 @@ write for the methods, to keep Abed lean and allow for language independence.
 
 In this example, we will use ten datasets generated with scikit-learn's 
 ``make_regression`` function. The full code used for generating the datasets 
-can be found in the GitHub repository. The lines that actually generate the 
-datasets are::
+can be found in the GitHub repositories (`Python 
+<https://github.com/GjjvdBurg/abed_example_py>`_, `R 
+<https://github.com/GjjvdBurg/abed_example_R>`_).  The lines that actually 
+generate the datasets are::
 
     X, y, coef = make_regression(n_samples=900, n_features=20,
         n_informative=10, bias=bias, noise=2.0, coef=True,
@@ -176,7 +185,8 @@ datasets are::
 
 In this case, datasets are collected as a scikit-learn ``Bunch`` object and 
 pickled to a file on disk. All of this is not necessary for Abed, but is just 
-the way we're doing it in this example.
+the way we're doing it in this example. If you have a different procedure for 
+storing and loading datasets, that's no problem in Abed.
 
 
 Writing the executables
@@ -185,7 +195,7 @@ Writing the executables
 Abed places no restrictions on the programming language used to implement the 
 methods. Here we will use Python to implement the methods. For reference 
 however, this example is also available with the methods implemented in R, see 
-`this GitHub repository <http://blabla.com>`_.
+`this GitHub repository <https://github.com/GjjvdBurg/abed_example_R>`_.
 
 There are not many requirements on the way your executables for your 
 experiments are written. However, if you want to make use of the 
