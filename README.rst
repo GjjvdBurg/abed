@@ -32,6 +32,7 @@ Tbd.
 Notes
 -----
 
-Abed is very much a work in process and functionality can break at any moment.  
-For a similar and more mature project which works with R see: 
-`BatchExperiments <https://github.com/tudo-r/BatchExperiments>`_.
+The current version of Abed is very usable. However, it is still considered 
+beta software, as it is not yet completely documented and some robustness 
+improvements are planned. For a similar and more mature project which works 
+with R see: `BatchExperiments <https://github.com/tudo-r/BatchExperiments>`_.
