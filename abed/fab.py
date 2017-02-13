@@ -14,6 +14,7 @@ from .fab_util import myfab
 from .pbs import generate_pbs_text
 from .utils import info, mkdir
 
+
 def init_data():
     """ Push the data to the remote server """
     local('tar czf datasets.tar.gz -C {} .'.format(settings.DATADIR, os.sep))
@@ -30,6 +31,7 @@ def init_data():
     info('Remote datasets placed in: {}'.format(release_path))
     myfab.data_path = release_path
 
+
 def move_data():
     """ Move the data from previous release """
     curr_path = '{}/releases/current'.format(myfab.project_path)
@@ -39,9 +41,11 @@ def move_data():
             'rsync -av --remove-source-files {}/{}/* {}/{}/'.format(prev_path,
                 'datasets', curr_path, 'datasets'))
 
+
 def setup():
     myfab.run('mkdir -p {}'.format(myfab.project_path))
     myfab.run('mkdir -p releases; mkdir -p packages;', cd=myfab.project_path)
+
 
 def deploy(push_data=False):
     if push_data:
@@ -77,6 +81,7 @@ def deploy(push_data=False):
     myfab.run('ln -s {} releases/current'.format(release_path), 
             cd=myfab.project_path)
 
+
 def get_files_from_glob(glob_path, glob, dest_dir):
     lstxt = myfab.run('shopt -s nullglob && ls -1 %s && shopt -u nullglob' % 
             glob, cd=glob_path)
@@ -86,6 +91,7 @@ def get_files_from_glob(glob_path, glob, dest_dir):
         lpath = '%s%s%s' % (dest_dir, os.sep, fname)
         if not os.path.exists(lpath):
             myfab.get(f, dest_dir)
+
 
 def get_results(basepath=None):
     if basepath is None:
@@ -101,6 +107,7 @@ def get_results(basepath=None):
     mkdir(settings.LOG_DIR)
     get_files_from_glob(log_path, log_glob, settings.LOG_DIR)
 
+
 def write_and_queue():
     temp_pbs = os.path.join(gettempdir(), 'abed.pbs')
     with open(temp_pbs, 'w') as pbs:
@@ -110,6 +117,7 @@ def write_and_queue():
     myfab.run('mkdir -p {}/logs'.format(curr_path))
     myfab.run('qsub -d . -e logs -o logs abed.pbs', cd=curr_path)
     local('rm /tmp/abed.pbs')
+
 
 def build_remote():
     """
@@ -121,19 +129,23 @@ def build_remote():
             settings.BUILD_DIR)
     myfab.run(settings.BUILD_CMD, cd=build_path)
 
+
 def fab_push():
     deploy(push_data=False)
     move_data()
     build_remote()
     write_and_queue()
 
+
 def fab_pull():
     get_results()
+
 
 def fab_setup():
     setup()
     init_data()
     deploy(push_data=True)
+
 
 def fab_repull():
     releasepath = '{}/releases'.format(myfab.project_path)

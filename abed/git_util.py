@@ -13,6 +13,7 @@ from .conf import settings
 from .constants import CONFIG_FILENAME, TASKS_FILENAME, AUTO_FILENAME
 from .utils import info
 
+
 def git_init():
     """Initializes the Git repository for Abed
 

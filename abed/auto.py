@@ -55,6 +55,7 @@ def submitted():
         info("Job %s running. Time remaining: %s" % (jobid, rmtime))
     return True
 
+
 def get_jobid_from_pbs():
     """Try to get the jobid of a running job from the PBS server
 
@@ -88,6 +89,7 @@ def get_jobid_from_pbs():
     if len(ids) > 1:
         raise AbedPBSMultipleException
     return ids[0]
+
 
 def get_jobid_from_logs(logpath=None):
     """Try to get the jobid from existing log files
@@ -126,6 +128,7 @@ def get_jobid_from_logs(logpath=None):
         jobid = None
     return jobid
 
+
 def get_state(jobid):
     """Get the state of the job with the provided jobid
 
@@ -146,6 +149,7 @@ def get_state(jobid):
     """
     text = myfab.run("qstat -f %s | grep job_state | cut -d'=' -f2" % jobid)
     return text
+
 
 def get_starttime(jobid):
     """Get the expected start time of a queued job
@@ -181,6 +185,7 @@ def get_starttime(jobid):
         return None
     return timestr
 
+
 def get_remaining(jobid):
     """Get the remaining runtime of a job
 
@@ -206,6 +211,7 @@ def get_remaining(jobid):
     text = myfab.run("qstat -f %s | grep Remaining | cut -d'=' -f2" % jobid)
     td = timedelta(0, int(text))
     return str(td)
+
 
 def is_job_marked(jobid):
     """Check if a job is marked in the auto file
@@ -235,6 +241,7 @@ def is_job_marked(jobid):
     if jobid in ids:
         return True
     return False
+
 
 def mark_job(jobid):
     """Mark the job in the auto file

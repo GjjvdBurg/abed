@@ -74,7 +74,6 @@ def parse_result_fileobj(fid, hsh, dataset, method):
 def init_result_cache(task_dict):
     ac = AbedCache(methods=settings.METHODS, datasets=settings.DATASETS,
             metrics=settings.METRICS, scalars=settings.SCALARS)
-    info("Starting cache generation")
     counter = 0
     for dataset, method, fid, hsh in walk_for_cache(ac):
         result = parse_result_fileobj(fid, hsh, dataset, method)

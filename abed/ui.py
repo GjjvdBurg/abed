@@ -62,9 +62,7 @@ def main():
         skip_init = True
     abed = Abed(skip_init=skip_init, skip_cache=args['skip_cache'])
 
-    info("Running abed command: %s" % args['cmd'])
     try:
         getattr(abed, args['cmd'])()
     except KeyboardInterrupt:
-        info("Exiting.")
         pass

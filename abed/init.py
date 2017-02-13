@@ -138,11 +138,8 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
     configfile = os.path.join(os.getcwd(), CONFIG_FILENAME)
     with open(configfile, 'w') as fid:
         fid.write(txt)
-    info("Wrote initial config to %s." % configfile)
     mkdir(os.path.join(os.getcwd(), DATASET_DIRNAME))
     mkdir(os.path.join(os.getcwd(), EXECS_DIRNAME))
-    info("Created '%s' and '%s' directories" % (DATASET_DIRNAME, 
-        EXECS_DIRNAME))
     touch(AUTO_FILENAME)
     touch(TASKS_FILENAME)
-    info("Created '%s' and '%s'" % (AUTO_FILENAME, TASKS_FILENAME))
+    info("Initialized new Abed project in %s." % os.getcwd())

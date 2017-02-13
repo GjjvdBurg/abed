@@ -79,14 +79,12 @@ class Abed(object):
         info("Written task file to %s" % settings.TASK_FILE)
 
     def setup(self):
-        info("Starting setup")
         fab_setup()
 
     def push(self):
         if not git_ok():
             error("Git repository has uncommitted changes, not pushing.")
             raise SystemExit
-        info("Starting push")
         fab_push()
 
     def pull(self, jobid=None):

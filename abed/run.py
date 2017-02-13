@@ -57,14 +57,14 @@ def do_work(hsh, task, local=False):
         task['execdir'] = execdir
         cmd = command.format(**task)
     try:
-        info("Executing: '%s'" % cmd, color_wrap=False)
+        info("Executing: '%s'" % cmd)
         output = check_output(cmd, shell=True)
     except CalledProcessError as err:
         error("There was an error executing: '%s'. Here is the error: %s" % 
-                (cmd, err.output), color_wrap=False)
+                (cmd, err.output))
         return
     write_output(output, hsh, local=local)
-    info("Finished with %s" % hsh, color_wrap=False)
+    info("Finished with %s" % hsh)
 
 
 def copy_worker(local):
@@ -84,7 +84,7 @@ def copy_worker(local):
         try:
             check_output(copy_task, shell=True)
         except CalledProcessError:
-            error("There was an error in the copy task", color_wrap=False)
+            error("There was an error in the copy task")
         time.sleep(settings.MW_COPY_SLEEP)
 
 

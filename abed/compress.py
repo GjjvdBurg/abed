@@ -21,6 +21,7 @@ from .utils import error, info, hash_from_filename
 from .progress import iter_progress
 from .results.walk import files_w_dataset
 
+
 def dataset_completed(dsetfiles, dset, task_dict):
     """Check if a given dataset is complete
 
@@ -66,6 +67,7 @@ def dataset_completed(dsetfiles, dset, task_dict):
     have_hashes = set([hash_from_filename(f) for f in dsetfiles])
     need_hashes = set(dset_tasks.keys())
     return have_hashes == need_hashes
+
 
 def compress_dataset(dset):
     """Compress results of a given dataset
@@ -133,6 +135,7 @@ def compress_dataset(dset):
         mode = 'w:%s' % extension
         with tarfile.open(output_filename, mode, compresslevel=9) as tar:
             tar.add(dsetpath, arcname=os.path.basename(dsetpath))
+
 
 def compress_results(task_dict):
     """Compress results for all datasets which are complete
