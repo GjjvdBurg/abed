@@ -48,5 +48,5 @@ dist2: ## Make Python 2 source distribution
 
 docs: doc
 
-doc: install ## Build documentation with sphinx
+doc: install2 ## Build documentation with sphinx
 	$(MAKE) -C $(DOC_DIR) html
