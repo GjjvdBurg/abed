@@ -25,7 +25,7 @@ setup(
         long_description = read('README.rst'),
         scripts = ['bin/abed'],
         install_requires = [
-            'Fabric3==1.12.0.post1',
+            'Fabric3==1.13.1.post1',
             'mpi4py==1.3.1',
             'tabulate',
             'bz2file',
