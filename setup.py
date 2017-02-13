@@ -1,4 +1,5 @@
 import os
+import re
 
 from setuptools import setup, find_packages
 
@@ -14,9 +15,12 @@ def get_data_files():
             datafiles.append((root, newfiles))
     return datafiles
 
+version = re.search("__version__ = '([^']+)'", 
+        open('abed/__init__.py').read()).group(1)
+
 setup(
         name = "abed",
-        version = "0.0.2",
+        version = version,
         author = "Gertjan van den Burg",
         author_email = "gertjanvandenburg@gmail.com",
         description = ("A utility for Automated BEnchmark Distribution"),

@@ -45,6 +45,7 @@ class Work(object):
             next_work = None
         return next_work
 
+
 def do_work(hsh, task, local=False):
     datadir = os.path.join(get_scratchdir(local), 'datasets')
     execdir = os.path.join(get_scratchdir(local), 'execs')
@@ -64,6 +65,7 @@ def do_work(hsh, task, local=False):
         return
     write_output(output, hsh, local=local)
     info("Finished with %s" % hsh, color_wrap=False)
+
 
 def copy_worker(local):
     comm = MPI.COMM_WORLD
@@ -85,6 +87,7 @@ def copy_worker(local):
             error("There was an error in the copy task", color_wrap=False)
         time.sleep(settings.MW_COPY_SLEEP)
 
+
 def worker(task_dict, local=False):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
@@ -96,22 +99,15 @@ def worker(task_dict, local=False):
             do_work(hsh, task_dict[hsh], local=local)
         comm.send(obj=None, dest=0)
 
-def master(all_work, local=False):
-    size = MPI.COMM_WORLD.Get_size()
+
+def master(all_work, worker_ranks, local=False):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
     killed_workers = []
 
-    # The number of workers differs depending on whether or not there is a copy 
-    # worker
-    if local:
-        worker_range = range(1, size)
-    else:
-        worker_range = range(2, size)
-
     # send initial tasks to the workers, if there is no work for a worker then 
     # kill it
-    for rank in worker_range:
+    for rank in worker_ranks:
         next_work = all_work.get_chunk()
         if next_work is None:
             killed_workers.append(rank)
@@ -139,20 +135,21 @@ def master(all_work, local=False):
     # collect all remaining results from workers that are still busy
     # we're using a non-blocking receive here (through Iprobe), so that we kill 
     # worker processes as soon as possible.
-    remaining = [r for r in worker_range if not r in killed_workers]
+    remaining = [r for r in worker_ranks if not r in killed_workers]
     while remaining:
         for rank in remaining:
             if comm.Iprobe(source=rank, tag=MPI.ANY_TAG):
                 comm.recv(obj=None, source=rank, tag=MPI.ANY_TAG)
                 comm.send(obj=None, dest=rank, tag=KILLTAG)
                 killed_workers.append(rank)
-        remaining = [r for r in worker_range if not r in killed_workers]
+        remaining = [r for r in worker_ranks if not r in killed_workers]
 
     # if we're here, there are no more tasks and all workers are killed, except 
     # the copy worker. We'll give him a chance to complete and then quit.
-    if not local:
+    if settings.MW_COPY_WORKER and (not local):
         time.sleep(settings.MW_COPY_SLEEP)
         comm.send(obj=None, dest=1, tag=KILLTAG)
+
 
 def mpi_start(task_dict, local=False):
     if local:
@@ -174,16 +171,18 @@ def mpi_start_remote(task_dict):
     else:
         n_workers = settings.MW_NUM_WORKERS
 
+    # ranks of the worker processes
+    worker_ranks = [r+1+settings.MW_COPY_WORKER for r in range(n_workers)]
+
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
         work = Work(n_workers=n_workers)
         work.work_items = list(task_dict.keys())
-        master(work)
+        master(work, worker_ranks)
     elif settings.MW_COPY_WORKER and rank == 1:
         copy_worker(local=False)
-    elif rank <= n_workers + settings.MW_COPY_WORKER:
+    elif rank in worker_ranks:
         worker(task_dict, local=False)
-
 
 
 def mpi_start_local(task_dict):
@@ -196,10 +195,13 @@ def mpi_start_local(task_dict):
     else:
         n_workers = settings.MW_NUM_WORKERS
 
+    # ranks of the worker processes
+    worker_ranks = [r+1+settings.MW_COPY_WORKER for r in range(n_workers)]
+
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
         work = Work(n_workers=n_workers)
         work.work_items = list(task_dict.keys())
-        master(work, local=True)
-    elif rank <= n_workers:
+        master(work, worker_ranks, local=True)
+    elif rank in worker_ranks:
         worker(task_dict, local=True)
