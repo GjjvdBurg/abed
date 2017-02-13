@@ -43,6 +43,7 @@ REMOTE_SCRATCH_ENV = 'TMPDIR'
 MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
 MW_COPY_WORKER = False
 MW_COPY_SLEEP = 120
+MW_NUM_WORKERS = None
 
 ##############################################################################
 #                               Experiment type                              #

@@ -160,28 +160,46 @@ def mpi_start(task_dict, local=False):
     else:
         mpi_start_remote(task_dict)
 
+
 def mpi_start_remote(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
     size = MPI.COMM_WORLD.Get_size()
 
+    # determine the true number of workers
+    if settings.MW_NUM_WORKERS is None:
+        if settings.MW_COPY_WORKER:
+            n_workers = size - 2
+        else:
+            n_workers = size - 1
+    else:
+        n_workers = settings.MW_NUM_WORKERS
+
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
-        work = Work(n_workers=size-2)
+        work = Work(n_workers=n_workers)
         work.work_items = list(task_dict.keys())
         master(work)
     elif settings.MW_COPY_WORKER and rank == 1:
         copy_worker(local=False)
-    else:
+    elif rank <= n_workers + settings.MW_COPY_WORKER:
         worker(task_dict, local=False)
+
+
 
 def mpi_start_local(task_dict):
     rank = MPI.COMM_WORLD.Get_rank()
     size = MPI.COMM_WORLD.Get_size()
 
-    # 0 = master, rest = worker
+    # determine the true number of workers
+    if settings.MW_NUM_WORKERS is None:
+        n_workers = size - 1
+    else:
+        n_workers = settings.MW_NUM_WORKERS
+
+    # 0 = master, 1 = copy, rest = worker
     if rank == 0:
-        work = Work(n_workers=size-1)
+        work = Work(n_workers=n_workers)
         work.work_items = list(task_dict.keys())
         master(work, local=True)
-    else:
+    elif rank <= n_workers:
         worker(task_dict, local=True)
