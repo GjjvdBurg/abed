@@ -286,6 +286,20 @@ directory to the home directory (see also :setting:`REMOTE_SCRATCH`).  This
 setting defines the time in seconds between consecutive copying of the 
 results.
 
+.. setting:: MW_NUM_WORKERS
+
+``MW_NUM_WORKERS``
+------------------
+
+Default: ``None``
+
+The number of worker processes to use. This can be useful in applications 
+where you *don't* want to use all available processes, for instance because 
+you're using parallelism in your application. Allowed values are a number or 
+``None``. If ``None`` is given, the maximum number of worker processes is 
+started. Note that the master process and the copy worker do not count as 
+worker processes (see also :setting:`MW_COPY_WORKER`).
+
 Experiment type
 ===============
 

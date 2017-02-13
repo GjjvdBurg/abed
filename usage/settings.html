@@ -247,6 +247,16 @@ directory to the home directory (see also <a class="reference internal" href="#s
 setting defines the time in seconds between consecutive copying of the
 results.</p>
 </div>
+<div class="section" id="mw-num-workers">
+<span id="std:setting-MW_NUM_WORKERS"></span><h3><code class="docutils literal"><span class="pre">MW_NUM_WORKERS</span></code><a class="headerlink" href="#mw-num-workers" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The number of worker processes to use. This can be useful in applications
+where you <em>don&#8217;t</em> want to use all available processes, for instance because
+you&#8217;re using parallelism in your application. Allowed values are a number or
+<code class="docutils literal"><span class="pre">None</span></code>. If <code class="docutils literal"><span class="pre">None</span></code> is given, the maximum number of worker processes is
+started. Note that the master process and the copy worker do not count as
+worker processes (see also <a class="reference internal" href="#std:setting-MW_COPY_WORKER"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a>).</p>
+</div>
 </div>
 <div class="section" id="experiment-type">
 <h2><a class="toc-backref" href="#id4">Experiment type</a><a class="headerlink" href="#experiment-type" title="Permalink to this headline">¶</a></h2>
@@ -671,6 +681,7 @@ If dependency on this command is a problem, please let us know.</p>
 <li><a class="reference internal" href="#mw-sendatonce"><code class="docutils literal"><span class="pre">MW_SENDATONCE</span></code></a></li>
 <li><a class="reference internal" href="#mw-copy-worker"><code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a></li>
 <li><a class="reference internal" href="#mw-copy-sleep"><code class="docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a></li>
+<li><a class="reference internal" href="#mw-num-workers"><code class="docutils literal"><span class="pre">MW_NUM_WORKERS</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#experiment-type">Experiment type</a><ul>
@@ -749,7 +760,7 @@ If dependency on this command is a problem, please let us know.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
