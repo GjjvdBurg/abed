@@ -27,7 +27,28 @@ For Abed's documentation, see `the documentation
 
 Screenshots
 -----------
-Tbd.
+
+|figure1|_ |figure2|_ |figure3|_
+
+.. _figure1: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/rank_plots.png
+.. _figure2: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/tables.png
+.. _figure3: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/tables_time.png
+
+.. |figure1| image:: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/rank_plots.png
+        :alt: Rank plots in Abed
+        :width: 32%
+        :align: middle
+
+.. |figure2| image:: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/tables.png
+        :alt: Result tables in Abed
+	:width: 32%
+	:align: middle
+
+.. |figure3| image:: https://raw.githubusercontent.com/GjjvdBurg/abed/master/.github/tables_time.png
+        :alt: Result tables in Abed (time)
+	:width: 32%
+	:align: middle
+
 
 Notes
 -----
