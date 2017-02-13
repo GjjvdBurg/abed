@@ -205,30 +205,48 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">mpi_start_remote</span><span class="p">(</span><span class="n">task_dict</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="mpi_start_remote"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.mpi_start_remote">[docs]</a><span class="k">def</span> <span class="nf">mpi_start_remote</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
     <span class="n">rank</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
 
+    <span class="c1"># determine the true number of workers</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span><span class="p">:</span>
+            <span class="n">n_workers</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_workers</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_workers</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span>
+
     <span class="c1"># 0 = master, 1 = copy, rest = worker</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">size</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">n_workers</span><span class="p">)</span>
         <span class="n">work</span><span class="o">.</span><span class="n">work_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">task_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span> <span class="ow">and</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">copy_worker</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="o">&lt;=</span> <span class="n">n_workers</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span><span class="p">:</span>
         <span class="n">worker</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
 
 <div class="viewcode-block" id="mpi_start_local"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.mpi_start_local">[docs]</a><span class="k">def</span> <span class="nf">mpi_start_local</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
     <span class="n">rank</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_rank</span><span class="p">()</span>
     <span class="n">size</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
 
-    <span class="c1"># 0 = master, rest = worker</span>
+    <span class="c1"># determine the true number of workers</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_workers</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_workers</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span>
+
+    <span class="c1"># 0 = master, 1 = copy, rest = worker</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">n_workers</span><span class="p">)</span>
         <span class="n">work</span><span class="o">.</span><span class="n">work_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">task_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="o">&lt;=</span> <span class="n">n_workers</span><span class="p">:</span>
         <span class="n">worker</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
 
