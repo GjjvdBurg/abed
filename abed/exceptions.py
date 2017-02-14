@@ -1,3 +1,9 @@
+"""Custom Abed Exceptions
+
+These are all subclasses of the Exception class.
+
+"""
+
 
 class AbedPBSException(Exception):
     pass

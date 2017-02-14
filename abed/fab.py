@@ -1,5 +1,10 @@
-"""
-Functions for using fabric
+"""Functions for using fabric
+
+Abed uses Fabric to synchronize data to and from the compute cluster. The 
+various functions that Abed needs are defined here. A helper class is defined 
+in :mod:`fab_util`, which is used to define the Fabric context environment that 
+is used for the commands.
+
 """
 
 import os
@@ -16,7 +21,15 @@ from .utils import info, mkdir
 
 
 def init_data():
-    """ Push the data to the remote server """
+    """Push the data to the remote server
+
+    This function is used to synchronize the :setting:`DATADIR` directory to 
+    the compute cluster. This is done by first locally compressing the entire 
+    directory as a tar file, then syncing it to a ``datasets`` directory in the 
+    remote project path, and unpacking it there. The path where the unpacked 
+    dataset is located is stored in the :class:`MyFabric` class.
+
+    """
     local('tar czf datasets.tar.gz -C {} .'.format(settings.DATADIR, os.sep))
     release_time = time.strftime('%s')
     release_path = '{ppath}/{datapath}/{relpath}'.format(
