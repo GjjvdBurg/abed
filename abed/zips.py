@@ -59,6 +59,9 @@ def move_results(task_dict):
     subdirs = os.listdir(settings.STAGE_DIR)
     for subdir in subdirs:
         subpath = '%s%s%s' % (settings.STAGE_DIR, os.sep, subdir)
+        if not os.path.isdir(subpath):
+            warning("Skipping file in stagedir: %s." % subdir)
+            continue
         files = os.listdir(subpath)
         for fname in files:
             fpath = '%s%s%s' % (subpath, os.sep, fname)

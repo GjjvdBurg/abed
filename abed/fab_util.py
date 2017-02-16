@@ -20,6 +20,8 @@ class MyFabric(object):
         self.port = settings.REMOTE_PORT
         self.data_path = None
         self.empty = None
+        # Use the ssh config of the user. If a password is still requested, 
+        # ensure that the key is added with ``ssh-add /path/to/key``.
         env.use_ssh_config = True
 
     def run(self, command='', warn_only=False, cd=None):
