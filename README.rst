@@ -2,12 +2,12 @@
 Welcome to Abed!
 ================
 
-Abed is an automated system for benchmarking machine learning algorithms. It 
-is created for running experiments where it is desired to run multiple methods 
-on multiple datasets using multiple parameters. It includes automated 
-processing of result files into result tables. Abed was designed for use 
-with the Dutch LISA supercomputer, but can hopefully be used on any Torque 
-compute cluster.
+`Abed <https://github.com/GjjvdBurg/abed>`_ is an automated system for 
+benchmarking machine learning algorithms.  It is created for running 
+experiments where it is desired to run multiple methods on multiple datasets 
+using multiple parameters. It includes automated processing of result files 
+into result tables. Abed was designed for use with the Dutch LISA 
+supercomputer, but can hopefully be used on any Torque compute cluster.
 
 Abed was created as a way to automate all the tedious work necessary to set 
 up proper benchmarking experiments. It also removes much of the hassle by 
