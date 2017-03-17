@@ -107,11 +107,9 @@
         <span class="n">skip_init</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">abed</span> <span class="o">=</span> <span class="n">Abed</span><span class="p">(</span><span class="n">skip_init</span><span class="o">=</span><span class="n">skip_init</span><span class="p">,</span> <span class="n">skip_cache</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;skip_cache&#39;</span><span class="p">])</span>
 
-    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running abed command: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">])</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">abed</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">])()</span>
     <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Exiting.&quot;</span><span class="p">)</span>
         <span class="k">pass</span></div>
 </pre></div>
 
@@ -146,8 +144,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

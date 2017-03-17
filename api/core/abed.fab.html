@@ -45,6 +45,10 @@
   <div class="section" id="module-abed.fab">
 <span id="communication-through-fabric"></span><h1>Communication through Fabric<a class="headerlink" href="#module-abed.fab" title="Permalink to this headline">¶</a></h1>
 <p>Functions for using fabric</p>
+<p>Abed uses Fabric to synchronize data to and from the compute cluster. The
+various functions that Abed needs are defined here. A helper class is defined
+in <code class="xref py py-mod docutils literal"><span class="pre">fab_util</span></code>, which is used to define the Fabric context environment that
+is used for the commands.</p>
 <dl class="function">
 <dt id="abed.fab.build_remote">
 <code class="descclassname">abed.fab.</code><code class="descname">build_remote</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#build_remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.build_remote" title="Permalink to this definition">¶</a></dt>
@@ -90,6 +94,11 @@
 <dt id="abed.fab.init_data">
 <code class="descclassname">abed.fab.</code><code class="descname">init_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#init_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.init_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Push the data to the remote server</p>
+<p>This function is used to synchronize the <a class="reference internal" href="../../usage/settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal"><span class="pre">DATADIR</span></code></a> directory to
+the compute cluster. This is done by first locally compressing the entire
+directory as a tar file, then syncing it to a <code class="docutils literal"><span class="pre">datasets</span></code> directory in the
+remote project path, and unpacking it there. The path where the unpacked
+dataset is located is stored in the <code class="xref py py-class docutils literal"><span class="pre">MyFabric</span></code> class.</p>
 </dd></dl>
 
 <dl class="function">
@@ -147,8 +156,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="../../_sources/api/core/abed.fab.rst.txt"

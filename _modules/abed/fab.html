@@ -43,8 +43,13 @@
           <div class="body" role="main">
             
   <h1>Source code for abed.fab</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Functions for using fabric</span>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for using fabric</span>
+
+<span class="sd">Abed uses Fabric to synchronize data to and from the compute cluster. The </span>
+<span class="sd">various functions that Abed needs are defined here. A helper class is defined </span>
+<span class="sd">in :mod:`fab_util`, which is used to define the Fabric context environment that </span>
+<span class="sd">is used for the commands.</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -59,8 +64,17 @@
 <span class="kn">from</span> <span class="nn">.pbs</span> <span class="k">import</span> <span class="n">generate_pbs_text</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">mkdir</span>
 
+
 <div class="viewcode-block" id="init_data"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.init_data">[docs]</a><span class="k">def</span> <span class="nf">init_data</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; Push the data to the remote server &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Push the data to the remote server</span>
+
+<span class="sd">    This function is used to synchronize the :setting:`DATADIR` directory to </span>
+<span class="sd">    the compute cluster. This is done by first locally compressing the entire </span>
+<span class="sd">    directory as a tar file, then syncing it to a ``datasets`` directory in the </span>
+<span class="sd">    remote project path, and unpacking it there. The path where the unpacked </span>
+<span class="sd">    dataset is located is stored in the :class:`MyFabric` class.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;tar czf datasets.tar.gz -C </span><span class="si">{}</span><span class="s1"> .&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATADIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">))</span>
     <span class="n">release_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">release_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{ppath}</span><span class="s1">/</span><span class="si">{datapath}</span><span class="s1">/</span><span class="si">{relpath}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -75,6 +89,7 @@
     <span class="n">info</span><span class="p">(</span><span class="s1">&#39;Remote datasets placed in: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">release_path</span><span class="p">))</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">data_path</span> <span class="o">=</span> <span class="n">release_path</span></div>
 
+
 <div class="viewcode-block" id="move_data"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.move_data">[docs]</a><span class="k">def</span> <span class="nf">move_data</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; Move the data from previous release &quot;&quot;&quot;</span>
     <span class="n">curr_path</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/releases/current&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">)</span>
@@ -84,9 +99,11 @@
             <span class="s1">&#39;rsync -av --remove-source-files </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">/* </span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prev_path</span><span class="p">,</span>
                 <span class="s1">&#39;datasets&#39;</span><span class="p">,</span> <span class="n">curr_path</span><span class="p">,</span> <span class="s1">&#39;datasets&#39;</span><span class="p">))</span></div>
 
+
 <div class="viewcode-block" id="setup"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.setup">[docs]</a><span class="k">def</span> <span class="nf">setup</span><span class="p">():</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;mkdir -p </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">))</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;mkdir -p releases; mkdir -p packages;&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="deploy"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.deploy">[docs]</a><span class="k">def</span> <span class="nf">deploy</span><span class="p">(</span><span class="n">push_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">push_data</span><span class="p">:</span>
@@ -122,6 +139,7 @@
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;ln -s </span><span class="si">{}</span><span class="s1"> releases/current&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">release_path</span><span class="p">),</span> 
             <span class="n">cd</span><span class="o">=</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="get_files_from_glob"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.get_files_from_glob">[docs]</a><span class="k">def</span> <span class="nf">get_files_from_glob</span><span class="p">(</span><span class="n">glob_path</span><span class="p">,</span> <span class="n">glob</span><span class="p">,</span> <span class="n">dest_dir</span><span class="p">):</span>
     <span class="n">lstxt</span> <span class="o">=</span> <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;shopt -s nullglob &amp;&amp; ls -1 </span><span class="si">%s</span><span class="s1"> &amp;&amp; shopt -u nullglob&#39;</span> <span class="o">%</span> 
             <span class="n">glob</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">glob_path</span><span class="p">)</span>
@@ -131,6 +149,7 @@
         <span class="n">lpath</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">dest_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">lpath</span><span class="p">):</span>
             <span class="n">myfab</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dest_dir</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="get_results"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.get_results">[docs]</a><span class="k">def</span> <span class="nf">get_results</span><span class="p">(</span><span class="n">basepath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">basepath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -146,6 +165,7 @@
     <span class="n">mkdir</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LOG_DIR</span><span class="p">)</span>
     <span class="n">get_files_from_glob</span><span class="p">(</span><span class="n">log_path</span><span class="p">,</span> <span class="n">log_glob</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">LOG_DIR</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="write_and_queue"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.write_and_queue">[docs]</a><span class="k">def</span> <span class="nf">write_and_queue</span><span class="p">():</span>
     <span class="n">temp_pbs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gettempdir</span><span class="p">(),</span> <span class="s1">&#39;abed.pbs&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_pbs</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbs</span><span class="p">:</span>
@@ -155,6 +175,7 @@
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;mkdir -p </span><span class="si">{}</span><span class="s1">/logs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">curr_path</span><span class="p">))</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;qsub -d . -e logs -o logs abed.pbs&#39;</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">curr_path</span><span class="p">)</span>
     <span class="n">local</span><span class="p">(</span><span class="s1">&#39;rm /tmp/abed.pbs&#39;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="build_remote"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.build_remote">[docs]</a><span class="k">def</span> <span class="nf">build_remote</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -166,19 +187,23 @@
             <span class="n">settings</span><span class="o">.</span><span class="n">BUILD_DIR</span><span class="p">)</span>
     <span class="n">myfab</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">BUILD_CMD</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="n">build_path</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="fab_push"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.fab_push">[docs]</a><span class="k">def</span> <span class="nf">fab_push</span><span class="p">():</span>
     <span class="n">deploy</span><span class="p">(</span><span class="n">push_data</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">move_data</span><span class="p">()</span>
     <span class="n">build_remote</span><span class="p">()</span>
     <span class="n">write_and_queue</span><span class="p">()</span></div>
 
+
 <div class="viewcode-block" id="fab_pull"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.fab_pull">[docs]</a><span class="k">def</span> <span class="nf">fab_pull</span><span class="p">():</span>
     <span class="n">get_results</span><span class="p">()</span></div>
+
 
 <div class="viewcode-block" id="fab_setup"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.fab_setup">[docs]</a><span class="k">def</span> <span class="nf">fab_setup</span><span class="p">():</span>
     <span class="n">setup</span><span class="p">()</span>
     <span class="n">init_data</span><span class="p">()</span>
     <span class="n">deploy</span><span class="p">(</span><span class="n">push_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="fab_repull"><a class="viewcode-back" href="../../api/core/abed.fab.html#abed.fab.fab_repull">[docs]</a><span class="k">def</span> <span class="nf">fab_repull</span><span class="p">():</span>
     <span class="n">releasepath</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/releases&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">myfab</span><span class="o">.</span><span class="n">project_path</span><span class="p">)</span>
@@ -236,8 +261,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

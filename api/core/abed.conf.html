@@ -44,21 +44,46 @@
             
   <div class="section" id="module-abed.conf">
 <span id="configuration-loading"></span><h1>Configuration Loading<a class="headerlink" href="#module-abed.conf" title="Permalink to this headline">¶</a></h1>
+<p>Functions for loading the configuration file</p>
+<p>The Abed configuration is loaded into a Settings object, after some
+preprocessing of the options. The preprocessing functions and the Settings
+class are defined here.</p>
+<p>This module also creates a <code class="docutils literal"><span class="pre">settings</span></code> variable, which is an instance of the
+<a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> class. It is supposed to be used as singleton object, by
+importing it from this module:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abed.conf</span> <span class="k">import</span> <span class="n">settings</span>
+</pre></div>
+</div>
 <dl class="class">
 <dt id="abed.conf.Settings">
 <em class="property">class </em><code class="descclassname">abed.conf.</code><code class="descname">Settings</code><span class="sig-paren">(</span><em>**entries</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#Settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.Settings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Simple Settings class</p>
+<p>This class functions as a simple key/value store, with one exception. If a
+key is not available in the class, an error is displayed and the program
+exits cleanly.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.conf.init_config">
 <code class="descclassname">abed.conf.</code><code class="descname">init_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#init_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.init_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="abed.conf.parse_dirs">
-<code class="descclassname">abed.conf.</code><code class="descname">parse_dirs</code><span class="sig-paren">(</span><em>config</em>, <em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#parse_dirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.parse_dirs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Initialize the Settings object from the configuration file</p>
+<p>This function reads the configuration file by parsing it as Python code.
+Next, it deletes all lowercase variables from the configuration and removes
+any trailing path seperators from directory names. Finally, it instantiates
+a <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> object containing the configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>settings</strong> &#8211; The <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> object containing the configuration from the
+configuration file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -99,8 +124,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="../../_sources/api/core/abed.conf.rst.txt"

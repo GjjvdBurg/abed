@@ -90,6 +90,7 @@
             <span class="n">next_work</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">next_work</span></div></div>
 
+
 <div class="viewcode-block" id="do_work"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.do_work">[docs]</a><span class="k">def</span> <span class="nf">do_work</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">datadir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_scratchdir</span><span class="p">(</span><span class="n">local</span><span class="p">),</span> <span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
     <span class="n">execdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_scratchdir</span><span class="p">(</span><span class="n">local</span><span class="p">),</span> <span class="s1">&#39;execs&#39;</span><span class="p">)</span>
@@ -101,14 +102,15 @@
         <span class="n">task</span><span class="p">[</span><span class="s1">&#39;execdir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">execdir</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">task</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Executing: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">color_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Executing: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">cmd</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
         <span class="n">error</span><span class="p">(</span><span class="s2">&quot;There was an error executing: &#39;</span><span class="si">%s</span><span class="s2">&#39;. Here is the error: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> 
-                <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">output</span><span class="p">),</span> <span class="n">color_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">err</span><span class="o">.</span><span class="n">output</span><span class="p">))</span>
         <span class="k">return</span>
     <span class="n">write_output</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">)</span>
-    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished with </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">color_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished with </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">hsh</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="copy_worker"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.copy_worker">[docs]</a><span class="k">def</span> <span class="nf">copy_worker</span><span class="p">(</span><span class="n">local</span><span class="p">):</span>
     <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
@@ -127,8 +129,9 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">check_output</span><span class="p">(</span><span class="n">copy_task</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">CalledProcessError</span><span class="p">:</span>
-            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;There was an error in the copy task&quot;</span><span class="p">,</span> <span class="n">color_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">error</span><span class="p">(</span><span class="s2">&quot;There was an error in the copy task&quot;</span><span class="p">)</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_SLEEP</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="worker"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.worker">[docs]</a><span class="k">def</span> <span class="nf">worker</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
@@ -141,22 +144,15 @@
             <span class="n">do_work</span><span class="p">(</span><span class="n">hsh</span><span class="p">,</span> <span class="n">task_dict</span><span class="p">[</span><span class="n">hsh</span><span class="p">],</span> <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">)</span>
         <span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="master"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.master">[docs]</a><span class="k">def</span> <span class="nf">master</span><span class="p">(</span><span class="n">all_work</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="o">.</span><span class="n">Get_size</span><span class="p">()</span>
+
+<div class="viewcode-block" id="master"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.master">[docs]</a><span class="k">def</span> <span class="nf">master</span><span class="p">(</span><span class="n">all_work</span><span class="p">,</span> <span class="n">worker_ranks</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">comm</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">MPI</span><span class="o">.</span><span class="n">Status</span><span class="p">()</span>
     <span class="n">killed_workers</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># The number of workers differs depending on whether or not there is a copy </span>
-    <span class="c1"># worker</span>
-    <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
-        <span class="n">worker_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">worker_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-
     <span class="c1"># send initial tasks to the workers, if there is no work for a worker then </span>
     <span class="c1"># kill it</span>
-    <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_range</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_ranks</span><span class="p">:</span>
         <span class="n">next_work</span> <span class="o">=</span> <span class="n">all_work</span><span class="o">.</span><span class="n">get_chunk</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">next_work</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">killed_workers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
@@ -184,20 +180,21 @@
     <span class="c1"># collect all remaining results from workers that are still busy</span>
     <span class="c1"># we&#39;re using a non-blocking receive here (through Iprobe), so that we kill </span>
     <span class="c1"># worker processes as soon as possible.</span>
-    <span class="n">remaining</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">worker_range</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">killed_workers</span><span class="p">]</span>
+    <span class="n">remaining</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">worker_ranks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">killed_workers</span><span class="p">]</span>
     <span class="k">while</span> <span class="n">remaining</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">comm</span><span class="o">.</span><span class="n">Iprobe</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_TAG</span><span class="p">):</span>
                 <span class="n">comm</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">ANY_TAG</span><span class="p">)</span>
                 <span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">KILLTAG</span><span class="p">)</span>
                 <span class="n">killed_workers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
-        <span class="n">remaining</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">worker_range</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">killed_workers</span><span class="p">]</span>
+        <span class="n">remaining</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">worker_ranks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">killed_workers</span><span class="p">]</span>
 
     <span class="c1"># if we&#39;re here, there are no more tasks and all workers are killed, except </span>
     <span class="c1"># the copy worker. We&#39;ll give him a chance to complete and then quit.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">local</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">local</span><span class="p">):</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_SLEEP</span><span class="p">)</span>
         <span class="n">comm</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">KILLTAG</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="mpi_start"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.mpi_start">[docs]</a><span class="k">def</span> <span class="nf">mpi_start</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
@@ -219,16 +216,18 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">n_workers</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span>
 
+    <span class="c1"># ranks of the worker processes</span>
+    <span class="n">worker_ranks</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_workers</span><span class="p">)]</span>
+
     <span class="c1"># 0 = master, 1 = copy, rest = worker</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">n_workers</span><span class="p">)</span>
         <span class="n">work</span><span class="o">.</span><span class="n">work_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">task_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">)</span>
+        <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">worker_ranks</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span> <span class="ow">and</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">copy_worker</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">rank</span> <span class="o">&lt;=</span> <span class="n">n_workers</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_ranks</span><span class="p">:</span>
         <span class="n">worker</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
-
 
 
 <div class="viewcode-block" id="mpi_start_local"><a class="viewcode-back" href="../../api/core/abed.run.html#abed.run.mpi_start_local">[docs]</a><span class="k">def</span> <span class="nf">mpi_start_local</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
@@ -241,12 +240,15 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">n_workers</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MW_NUM_WORKERS</span>
 
+    <span class="c1"># ranks of the worker processes</span>
+    <span class="n">worker_ranks</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">settings</span><span class="o">.</span><span class="n">MW_COPY_WORKER</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_workers</span><span class="p">)]</span>
+
     <span class="c1"># 0 = master, 1 = copy, rest = worker</span>
     <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">work</span> <span class="o">=</span> <span class="n">Work</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">n_workers</span><span class="p">)</span>
         <span class="n">work</span><span class="o">.</span><span class="n">work_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">task_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">rank</span> <span class="o">&lt;=</span> <span class="n">n_workers</span><span class="p">:</span>
+        <span class="n">master</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">worker_ranks</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">worker_ranks</span><span class="p">:</span>
         <span class="n">worker</span><span class="p">(</span><span class="n">task_dict</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
 
@@ -281,8 +283,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

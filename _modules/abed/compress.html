@@ -66,6 +66,7 @@
 <span class="kn">from</span> <span class="nn">.progress</span> <span class="k">import</span> <span class="n">iter_progress</span>
 <span class="kn">from</span> <span class="nn">.results.walk</span> <span class="k">import</span> <span class="n">files_w_dataset</span>
 
+
 <div class="viewcode-block" id="dataset_completed"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.dataset_completed">[docs]</a><span class="k">def</span> <span class="nf">dataset_completed</span><span class="p">(</span><span class="n">dsetfiles</span><span class="p">,</span> <span class="n">dset</span><span class="p">,</span> <span class="n">task_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check if a given dataset is complete</span>
 
@@ -111,6 +112,7 @@
     <span class="n">have_hashes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">hash_from_filename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dsetfiles</span><span class="p">])</span>
     <span class="n">need_hashes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dset_tasks</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">have_hashes</span> <span class="o">==</span> <span class="n">need_hashes</span></div>
+
 
 <div class="viewcode-block" id="compress_dataset"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.compress_dataset">[docs]</a><span class="k">def</span> <span class="nf">compress_dataset</span><span class="p">(</span><span class="n">dset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compress results of a given dataset</span>
@@ -179,6 +181,7 @@
         <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">compresslevel</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
             <span class="n">tar</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dsetpath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">dsetpath</span><span class="p">))</span></div>
 
+
 <div class="viewcode-block" id="compress_results"><a class="viewcode-back" href="../../api/core/abed.compress.html#abed.compress.compress_results">[docs]</a><span class="k">def</span> <span class="nf">compress_results</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compress results for all datasets which are complete</span>
 
@@ -240,8 +243,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

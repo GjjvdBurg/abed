@@ -65,6 +65,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_PORT</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_path</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">empty</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Use the ssh config of the user. If a password is still requested, </span>
+        <span class="c1"># ensure that the key is added with ``ssh-add /path/to/key``.</span>
         <span class="n">env</span><span class="o">.</span><span class="n">use_ssh_config</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="MyFabric.run"><a class="viewcode-back" href="../../api/core/abed.fab_util.html#abed.fab_util.MyFabric.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">warn_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cd</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -126,8 +128,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

@@ -44,10 +44,32 @@
             
   <div class="section" id="module-abed.datasets">
 <span id="dataset-utilities"></span><h1>Dataset Utilities<a class="headerlink" href="#module-abed.datasets" title="Permalink to this headline">¶</a></h1>
+<p>Helper functions for dealing with datasets</p>
+<p>This file contains a helper function for dealing with dataset names.</p>
 <dl class="function">
 <dt id="abed.datasets.dataset_name">
 <code class="descclassname">abed.datasets.</code><code class="descname">dataset_name</code><span class="sig-paren">(</span><em>dset</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/datasets.html#dataset_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.datasets.dataset_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the dataset name for a given dataset</p>
+<p>The user has the option to specify alternative names for datasets in the
+<a class="reference internal" href="../../usage/settings.html#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> configuration setting, through the
+<a class="reference internal" href="../../usage/settings.html#std:setting-DATASET_NAMES"><code class="xref std std-setting docutils literal"><span class="pre">DATASET_NAMES</span></code></a> variable. This function can be used to get the
+name of the dataset when the <a class="reference internal" href="../../usage/settings.html#std:setting-DATASET_NAMES"><code class="xref std std-setting docutils literal"><span class="pre">DATASET_NAMES</span></code></a> variable is specified
+or not. If the setting is not specified, a name is created by stripping any
+extensions from the dataset specified. In case the dataset is a tuple, the
+names of the datasets are combined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dset</strong> (<em>str</em><em>, </em><em>tuple</em>) &#8211; The dataset from the <a class="reference internal" href="../../usage/settings.html#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> configuration.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>name</strong> &#8211; The name of the dataset</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -88,8 +110,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="../../_sources/api/core/abed.datasets.rst.txt"

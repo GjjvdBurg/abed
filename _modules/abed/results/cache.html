@@ -119,7 +119,6 @@
 <div class="viewcode-block" id="init_result_cache"><a class="viewcode-back" href="../../../api/results/abed.results.cache.html#abed.results.cache.init_result_cache">[docs]</a><span class="k">def</span> <span class="nf">init_result_cache</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
     <span class="n">ac</span> <span class="o">=</span> <span class="n">AbedCache</span><span class="p">(</span><span class="n">methods</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">METHODS</span><span class="p">,</span> <span class="n">datasets</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">DATASETS</span><span class="p">,</span>
             <span class="n">metrics</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">METRICS</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">SCALARS</span><span class="p">)</span>
-    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting cache generation&quot;</span><span class="p">)</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span> <span class="ow">in</span> <span class="n">walk_for_cache</span><span class="p">(</span><span class="n">ac</span><span class="p">):</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">parse_result_fileobj</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">hsh</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
@@ -198,8 +197,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

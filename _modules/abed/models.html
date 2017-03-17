@@ -124,14 +124,12 @@
         <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Written task file to </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">TASK_FILE</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Abed.setup"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting setup&quot;</span><span class="p">)</span>
         <span class="n">fab_setup</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Abed.push"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">git_ok</span><span class="p">():</span>
             <span class="n">error</span><span class="p">(</span><span class="s2">&quot;Git repository has uncommitted changes, not pushing.&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">SystemExit</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting push&quot;</span><span class="p">)</span>
         <span class="n">fab_push</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Abed.pull"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.pull">[docs]</a>    <span class="k">def</span> <span class="nf">pull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -186,8 +184,8 @@
         <span class="n">git_init</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Abed.status"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of tasks to be done: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">))</span>
-        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Total number of tasks defined: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">init_tasks</span><span class="p">())))</span></div>
+        <span class="n">info</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">%i</span><span class="s2"> tasks left to be done, out of </span><span class="si">%i</span><span class="s2"> tasks defined.&quot;</span> <span class="o">%</span> 
+                <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dict</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">init_tasks</span><span class="p">())))</span></div>
 
 <div class="viewcode-block" id="Abed.process_zips"><a class="viewcode-back" href="../../api/core/abed.models.html#abed.models.Abed.process_zips">[docs]</a>    <span class="k">def</span> <span class="nf">process_zips</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">unpack_zips</span><span class="p">()</span></div>
@@ -246,8 +244,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 
