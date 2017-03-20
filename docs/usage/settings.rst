@@ -727,6 +727,28 @@ of cores of the node.  This setting is similar to the :setting:`PBS_CPUTYPE`
 setting. For example, one can specify ``'cores16'`` for a 16-core node for 
 instance.  This setting may not be available on all PBS systems.
 
+.. setting:: PBS_LINES_BEFORE
+
+``PBS_LINES_BEFORE``
+--------------------
+
+Default: ``[]``
+
+Optional. Additional lines to add to the PBS file. These lines will be added 
+before the email line, and directly after the lines creating the result 
+directories.
+
+.. setting:: PBS_LINES_AFTER
+
+``PBS_LINES_AFTER``
+-------------------
+
+Default: ``[]``
+
+Optional. Additonal lines to add to the PBS file. These lines will be added 
+just after the compression of the result files, and just before the final 
+email line.
+
 .. setting:: PBS_PPN
 
 ``PBS_PPN``

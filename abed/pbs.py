@@ -7,8 +7,6 @@ be in the configuration file then.
 
 """
 
-import time
-
 from .conf import settings
 
 def sec2str(seconds):
@@ -54,6 +52,10 @@ def generate_pbs_text():
     txt.append('mkdir -p ${TMPDIR}/results')
     txt.append('')
 
+    # Extra user supplied commands
+    for line in settings.PBS_LINES_BEFORE:
+        txt.append(line)
+
     # start email
     txt.append('summary=$(abed status | sed -e "s/\\x1b\\[.\\{1,5\\}m//g")')
     txt.append('echo -e "Job $PBS_JOBID started at `date`\\n\\n${summary}"'
@@ -85,6 +87,10 @@ def generate_pbs_text():
     txt.append('\tcp ${packtime}_results_${dset}.tar.bz2 ${CURRENT}/bzips/')
     txt.append('done')
     txt.append('')
+
+    # Extra user supplied lines
+    for line in settings.PBS_LINES_AFTER:
+        txt.append(line)
 
     # end email
     txt.append('echo "Job $PBS_JOBID finished at `date`" | mail $USER -s '
