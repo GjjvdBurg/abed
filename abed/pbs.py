@@ -52,6 +52,12 @@ def generate_pbs_text():
     txt.append('mkdir -p ${TMPDIR}/results')
     txt.append('')
 
+    # copy files to nodes
+    cp_line = 'mpicopy ' + ' '.join(['${CURRENT}/' + x for x in 
+        settings.PBS_MPICOPY])
+    txt.append(cp_line)
+    txt.append('')
+
     # Extra user supplied commands
     for line in settings.PBS_LINES_BEFORE:
         txt.append(line)
@@ -60,12 +66,6 @@ def generate_pbs_text():
     txt.append('summary=$(abed status | sed -e "s/\\x1b\\[.\\{1,5\\}m//g")')
     txt.append('echo -e "Job $PBS_JOBID started at `date`\\n\\n${summary}"'
             ' | mail $USER -s "Job $PBS_JOBID started"')
-    txt.append('')
-
-    # copy files to nodes
-    cp_line = 'mpicopy ' + ' '.join(['${CURRENT}/' + x for x in 
-        settings.PBS_MPICOPY])
-    txt.append(cp_line)
     txt.append('')
 
     # calculate reduced runtime
