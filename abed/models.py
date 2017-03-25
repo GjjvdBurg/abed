@@ -14,7 +14,7 @@ from .run import mpi_start
 from .init import init_config
 from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
 from .utils import info, error
-from .zips import unpack_zips
+from .zips import unpack_zips, move_results
 
 class Abed(object):
 
@@ -25,6 +25,7 @@ class Abed(object):
             'explain_tasks',
             'local',
             'parse_results',
+            'move_results',
             'process_zips',
             'pull',
             'push',
@@ -155,6 +156,10 @@ class Abed(object):
 
     def view_results(self):
         view_html()
+
+    def move_results(self):
+        move_results(init_tasks())
+
 
     def local(self):
         if self.task_dict is None:

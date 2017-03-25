@@ -23,7 +23,8 @@ COMMAND_CATEGORIES = [
         ("Task management:", ["update_tasks", "reload_tasks"]),
         ("Computations:", ["run", "local"]),
         ("Abed status:", ["status", "explain_tasks", "explain_tbd_tasks"]),
-        ("Result management:", ["view_results", "compress_results"]),
+        ("Result management:", ["view_results", "compress_results", 
+            "move_results"]),
         ("Manual intervention:", ["parse_results", "process_zips"]),
         ]
 
@@ -51,7 +52,8 @@ ABED_SHORT_HELP = {
             'datasets'),
         'status': 'Status of abed task list',
         'update_tasks': 'Update the task list (part of pull)',
-        'view_results': 'Open the HTML results in the default browser'
+        'view_results': 'Open the HTML results in the default browser',
+        'move_results': 'Move any results from stagedir to result dir'
         }
 
 
@@ -72,7 +74,8 @@ ABED_SEE_ALSO = {
         "help": [],
         "local": ["run"],
         "parse_results": ["view_results"],
-        "process_zips": ["pull"],
+        "process_zips": ["pull", 'move_results'],
+        "move_results": ["process_zips"],
         "pull": ["auto", "push", "process_zips", "update_tasks", "repull"],
         "push": ["auto", "pull", "setup", "run"],
         "reload_tasks": ["update_tasks", "status"],
@@ -169,6 +172,11 @@ ABED_LONG_HELP = {
                 mpiexec: 'mpiexec abed local'. Note that this command requires 
                 at least two cores on your workstation, one for the master 
                 thread and the remainders for the working threads.
+                """,
+        'move_results': """\
+                Move any results from the stage directory to the results 
+                directory. This is useful when something goes wrong during 
+                pull, but shouldn't be necessary to use in regular use.
                 """,
         'parse_results': """\
                 Process the result files into summary pages. This process will 
