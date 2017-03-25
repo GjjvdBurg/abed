@@ -52,15 +52,15 @@ def generate_pbs_text():
     txt.append('mkdir -p ${TMPDIR}/results')
     txt.append('')
 
+    # Extra user supplied commands
+    for line in settings.PBS_LINES_BEFORE:
+        txt.append(line)
+
     # copy files to nodes
     cp_line = 'mpicopy ' + ' '.join(['${CURRENT}/' + x for x in 
         settings.PBS_MPICOPY])
     txt.append(cp_line)
     txt.append('')
-
-    # Extra user supplied commands
-    for line in settings.PBS_LINES_BEFORE:
-        txt.append(line)
 
     # start email
     txt.append('summary=$(abed status | sed -e "s/\\x1b\\[.\\{1,5\\}m//g")')
