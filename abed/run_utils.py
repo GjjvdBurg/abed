@@ -43,3 +43,4 @@ def write_output(output, hsh, local=False):
     fname = '%s/%s.txt' % (outdir, hsh)
     with open(fname, 'w') as fid:
         fid.write(output)
+    return fname

@@ -3,6 +3,7 @@ Functions for master/worker task execution
 
 """
 
+import datetime
 import os
 import time
 
@@ -56,15 +57,17 @@ def do_work(hsh, task, local=False):
         task['datadir'] = datadir
         task['execdir'] = execdir
         cmd = command.format(**task)
+    dstr = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     try:
-        info("Executing: '%s'" % cmd)
+        info("[%s] Executing: '%s'" % (dstr, cmd))
         output = check_output(cmd, shell=True)
     except CalledProcessError as err:
         error("There was an error executing: '%s'. Here is the error: %s" % 
                 (cmd, err.output))
         return
-    write_output(output, hsh, local=local)
-    info("Finished with %s" % hsh)
+    fname = write_output(output, hsh, local=local)
+    dstr = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    info("[%s] Written output of %s to file: %s" % (dstr, hsh, fname))
 
 
 def copy_worker(local):
