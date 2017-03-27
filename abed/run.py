@@ -77,8 +77,9 @@ def copy_worker(local):
     curdir = '%s/releases/current' % settings.REMOTE_DIR
     local_results = '%s/results/' % curdir
     scratch_results = '%s/results/' % scratchdir
-    copy_task = ("rsync -avm --include='*.*' -f 'hide,! */' %s %s" % 
-            (scratch_results, local_results))
+    logfile = '%s/logs/rsync.log' % curdir
+    copy_task = ("rsync -rtvu --delete --log-file=%s %s %s" % (logfile, 
+        scratch_results, local_results))
     while True:
         if comm.Iprobe(source=0, tag=MPI.ANY_TAG):
             comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
