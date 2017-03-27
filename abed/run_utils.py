@@ -2,7 +2,7 @@
 import os
 
 from .conf import settings
-from .utils import info, mkdir
+from .utils import info, mkdir, warning
 
 def get_scratchdir(local=False):
     if local:
@@ -43,4 +43,8 @@ def write_output(output, hsh, local=False):
     fname = '%s/%s.txt' % (outdir, hsh)
     with open(fname, 'w') as fid:
         fid.write(output)
+    while not os.path.exists(fname):
+        warning("File wasn't written on the first try: %s" % fname)
+        with open(fname, 'w') as fid:
+            fid.write(output)
     return fname
