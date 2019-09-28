@@ -6,6 +6,7 @@ Functions for managing tasks
 import os
 import sys
 import random
+import hashlib
 
 from itertools import product
 
@@ -28,9 +29,14 @@ def task_hash(task):
     """
     This yields a hash of a list by combining the hashes of all list elements.
     """
-    hsh = hash(frozenset(list(task.items())))
-    hsh %= ((sys.maxsize + 1) * 2)
-    return hsh
+    as_tuples = sorted(task.items())
+    hasher = hashlib.blake2b(digest_size=8)
+    for key, value in as_tuples:
+        k = repr(key)
+        v = repr(value)
+        hasher.update(k.encode())
+        hasher.update(v.encode())
+    return hasher.hexdigest()
 
 def init_tasks():
     if settings.TYPE == 'ASSESS':
@@ -96,7 +102,6 @@ def init_tasks_raw():
 def read_tasks():
     with open(settings.TASK_FILE, 'r') as fid:
         tasks = [l.strip() for l in fid.readlines() if l.strip()]
-    tasks = list(map(int, tasks))
     grid = init_tasks()
     out = {}
     for key in tasks:
@@ -109,7 +114,7 @@ def update_tasks(tasks):
         return 0
     for hsh in walk_hashes():
         try:
-            del tasks[int(hsh)]
+            del tasks[hsh]
             delcnt += 1
         except KeyError:
             pass
