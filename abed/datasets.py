@@ -12,6 +12,7 @@ from .conf import settings
 basename = os.path.basename
 splitext = os.path.splitext
 
+
 def dataset_name(dset):
     """Get the dataset name for a given dataset
 
@@ -35,18 +36,18 @@ def dataset_name(dset):
 
     """
 
-    if 'DATASET_NAMES' in settings.__dict__:
+    if "DATASET_NAMES" in settings.__dict__:
         name = settings.DATASET_NAMES.get(dset, None)
         if not name is None:
             return name
     if isinstance(dset, tuple):
-        txt = ''
+        txt = ""
         for name in dset:
             bname = basename(name)
             exts = splitext(bname)
             start = exts[0]
-            txt += start + '_'
-        txt = txt.rstrip('_')
+            txt += start + "_"
+        txt = txt.rstrip("_")
     else:
         bname = basename(dset)
         exts = splitext(bname)

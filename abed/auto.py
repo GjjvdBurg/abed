@@ -19,8 +19,9 @@ from .exceptions import AbedPBSMultipleException
 from .fab_util import myfab
 from .utils import info
 
-RUNNING = 'R'
-QUEUED = 'Q'
+RUNNING = "R"
+QUEUED = "Q"
+
 
 def submitted():
     """Check if a currently submitted job exists
@@ -46,8 +47,10 @@ def submitted():
     if state == QUEUED:
         sttime = get_starttime(jobid)
         if sttime:
-            info("Job %s queued. Start time: %s" % (jobid, 
-                sttime.strftime("%c")))
+            info(
+                "Job %s queued. Start time: %s"
+                % (jobid, sttime.strftime("%c"))
+            )
         else:
             info("Job %s queued." % jobid)
     elif state == RUNNING:
@@ -81,11 +84,13 @@ def get_jobid_from_pbs():
         thrown. In this case the program doesn't know which task to manage.
 
     """
-    text = myfab.run("qstat -u %s | grep %s | cut -d'.' -f1" % 
-            (settings.REMOTE_USER, settings.REMOTE_USER))
+    text = myfab.run(
+        "qstat -u %s | grep %s | cut -d'.' -f1"
+        % (settings.REMOTE_USER, settings.REMOTE_USER)
+    )
     if not text:
         return None
-    ids = text.split('\n')
+    ids = text.split("\n")
     if len(ids) > 1:
         raise AbedPBSMultipleException
     return ids[0]
@@ -115,7 +120,7 @@ def get_jobid_from_logs(logpath=None):
 
     """
     if logpath is None:
-        logpath = '%s/releases/current/logs/' % settings.REMOTE_DIR
+        logpath = "%s/releases/current/logs/" % settings.REMOTE_DIR
     try:
         text = myfab.run("ls -1 %s" % logpath)
     except:
@@ -123,7 +128,7 @@ def get_jobid_from_logs(logpath=None):
     if not text:
         return None
     try:
-        jobid = text.split('\n')[0].split('.')[-1][1:]
+        jobid = text.split("\n")[0].split(".")[-1][1:]
     except:
         jobid = None
     return jobid
@@ -175,8 +180,9 @@ def get_starttime(jobid):
         returned if no date can be found.
 
     """
-    text = myfab.run("showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" 
-            % jobid)
+    text = myfab.run(
+        "showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % jobid
+    )
     if not text.strip():
         return None
     try:
@@ -235,7 +241,7 @@ def is_job_marked(jobid):
     """
     if not os.path.exists(settings.AUTO_FILE):
         return False
-    with open(settings.AUTO_FILE, 'r') as fid:
+    with open(settings.AUTO_FILE, "r") as fid:
         lines = fid.readlines()
     ids = [x.strip() for x in lines]
     if jobid in ids:
@@ -255,5 +261,5 @@ def mark_job(jobid):
         The PBS id of a job.
 
     """
-    with open(settings.AUTO_FILE, 'a') as fid:
-        fid.write(jobid + '\n')
+    with open(settings.AUTO_FILE, "a") as fid:
+        fid.write(jobid + "\n")

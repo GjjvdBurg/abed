@@ -17,6 +17,7 @@ from .run_utils import get_scratchdir, write_output
 WORKTAG = 0
 KILLTAG = 1
 
+
 class Work(object):
     def __init__(self, n_workers=1):
         self.work_items = []
@@ -28,11 +29,11 @@ class Work(object):
         return self.work_items.pop()
 
     def isempty(self):
-        return (len(self.work_items) == 0)
+        return len(self.work_items) == 0
 
     @property
     def send_at_once(self):
-        if self.n_workers*settings.MW_SENDATONCE <= len(self.work_items):
+        if self.n_workers * settings.MW_SENDATONCE <= len(self.work_items):
             return settings.MW_SENDATONCE
         else:
             return 1
@@ -48,25 +49,27 @@ class Work(object):
 
 
 def do_work(hsh, task, local=False):
-    datadir = os.path.join(get_scratchdir(local), 'datasets')
-    execdir = os.path.join(get_scratchdir(local), 'execs')
-    if settings.TYPE == 'RAW':
+    datadir = os.path.join(get_scratchdir(local), "datasets")
+    execdir = os.path.join(get_scratchdir(local), "execs")
+    if settings.TYPE == "RAW":
         cmd = task.format(datadir=datadir, execdir=execdir)
     else:
-        command = settings.COMMANDS[task['method']]
-        task['datadir'] = datadir
-        task['execdir'] = execdir
+        command = settings.COMMANDS[task["method"]]
+        task["datadir"] = datadir
+        task["execdir"] = execdir
         cmd = command.format(**task)
-    dstr = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    dstr = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     try:
         info("[%s] Executing: '%s'" % (dstr, cmd))
         output = check_output(cmd, shell=True)
     except CalledProcessError as err:
-        error("There was an error executing: '%s'. Here is the error: %s" % 
-                (cmd, err.output))
+        error(
+            "There was an error executing: '%s'. Here is the error: %s"
+            % (cmd, err.output)
+        )
         return
     fname = write_output(output, hsh, local=local)
-    dstr = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    dstr = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     info("[%s] Written output of %s to file: %s" % (dstr, hsh, fname))
 
 
@@ -74,12 +77,15 @@ def copy_worker(local):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
     scratchdir = get_scratchdir(local)
-    curdir = '%s/releases/current' % settings.REMOTE_DIR
-    local_results = '%s/results/' % curdir
-    scratch_results = '%s/results/' % scratchdir
-    logfile = '%s/logs/rsync.log' % curdir
-    copy_task = ("rsync -rtvu --delete --log-file=%s %s %s" % (logfile, 
-        scratch_results, local_results))
+    curdir = "%s/releases/current" % settings.REMOTE_DIR
+    local_results = "%s/results/" % curdir
+    scratch_results = "%s/results/" % scratchdir
+    logfile = "%s/logs/rsync.log" % curdir
+    copy_task = "rsync -rtvu --delete --log-file=%s %s %s" % (
+        logfile,
+        scratch_results,
+        local_results,
+    )
     while True:
         if comm.Iprobe(source=0, tag=MPI.ANY_TAG):
             comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
@@ -109,7 +115,7 @@ def master(all_work, worker_ranks, local=False):
     status = MPI.Status()
     killed_workers = []
 
-    # send initial tasks to the workers, if there is no work for a worker then 
+    # send initial tasks to the workers, if there is no work for a worker then
     # kill it
     for rank in worker_ranks:
         next_work = all_work.get_chunk()
@@ -121,8 +127,9 @@ def master(all_work, worker_ranks, local=False):
 
     # keep sending out tasks when requested
     while True:
-        comm.recv(obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, 
-                status=status)
+        comm.recv(
+            obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status
+        )
 
         # if there is no more work we kill the source worker and break the loop
         if all_work.isempty():
@@ -137,7 +144,7 @@ def master(all_work, worker_ranks, local=False):
         comm.send(obj=next_work, dest=status.Get_source(), tag=WORKTAG)
 
     # collect all remaining results from workers that are still busy
-    # we're using a non-blocking receive here (through Iprobe), so that we kill 
+    # we're using a non-blocking receive here (through Iprobe), so that we kill
     # worker processes as soon as possible.
     remaining = [r for r in worker_ranks if not r in killed_workers]
     while remaining:
@@ -148,7 +155,7 @@ def master(all_work, worker_ranks, local=False):
                 killed_workers.append(rank)
         remaining = [r for r in worker_ranks if not r in killed_workers]
 
-    # if we're here, there are no more tasks and all workers are killed, except 
+    # if we're here, there are no more tasks and all workers are killed, except
     # the copy worker. We'll give him a chance to complete and then quit.
     if settings.MW_COPY_WORKER and (not local):
         time.sleep(settings.MW_COPY_SLEEP)
@@ -176,7 +183,7 @@ def mpi_start_remote(task_dict):
         n_workers = settings.MW_NUM_WORKERS
 
     # ranks of the worker processes
-    worker_ranks = [r+1+settings.MW_COPY_WORKER for r in range(n_workers)]
+    worker_ranks = [r + 1 + settings.MW_COPY_WORKER for r in range(n_workers)]
 
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:
@@ -200,7 +207,7 @@ def mpi_start_local(task_dict):
         n_workers = settings.MW_NUM_WORKERS
 
     # ranks of the worker processes
-    worker_ranks = [r+1+settings.MW_COPY_WORKER for r in range(n_workers)]
+    worker_ranks = [r + 1 + settings.MW_COPY_WORKER for r in range(n_workers)]
 
     # 0 = master, 1 = copy, rest = worker
     if rank == 0:

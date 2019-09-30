@@ -10,11 +10,12 @@ from .walk import walk_for_cache
 from ..conf import settings
 from ..utils import info, warning
 
+
 def find_label(line):
     for scalar in settings.SCALARS:
         if scalar in line:
             return scalar
-    return '_'.join(line.split(' ')[1].split('_')[:-1])
+    return "_".join(line.split(" ")[1].split("_")[:-1])
 
 
 def parse_result_fileobj(fid, hsh, dataset, method):
@@ -23,39 +24,42 @@ def parse_result_fileobj(fid, hsh, dataset, method):
     for line in fid:
         l = line.strip()
         # Skip comment lines
-        if l.startswith('#'):
+        if l.startswith("#"):
             continue
-        elif l.startswith('%'):
+        elif l.startswith("%"):
             label = find_label(l)
             if label in settings.SCALARS:
                 data[label] = None
             else:
-                data[label] = {'true': [], 'pred': []}
+                data[label] = {"true": [], "pred": []}
             continue
         if label in settings.SCALARS:
-            # If we already have data for a label, we continue to avoid 
+            # If we already have data for a label, we continue to avoid
             # overwriting it
             if data[label]:
                 continue
             try:
                 data[label] = float(l)
             except ValueError:
-                warning("Could not parse scalar metric '%s' for "
-                        "file with hash %s. Skipping.\nOffending line: %s" % 
-                        (label, hsh, l))
+                warning(
+                    "Could not parse scalar metric '%s' for "
+                    "file with hash %s. Skipping.\nOffending line: %s"
+                    % (label, hsh, l)
+                )
                 continue
         else:
             try:
-                if '\t' in l:
-                    true, pred = l.split('\t')
+                if "\t" in l:
+                    true, pred = l.split("\t")
                 else:
-                    true, pred = l.split(' ')
-                data[label]['true'].append(float(true))
-                data[label]['pred'].append(float(pred))
+                    true, pred = l.split(" ")
+                data[label]["true"].append(float(true))
+                data[label]["pred"].append(float(pred))
             except ValueError:
-                warning("Could not parse true/pred metric '%s' for "
-                        "file %s. Skipping.\nOffending line: %s" % (label, hsh, 
-                            l))
+                warning(
+                    "Could not parse true/pred metric '%s' for "
+                    "file %s. Skipping.\nOffending line: %s" % (label, hsh, l)
+                )
                 continue
     fid.close()
 
@@ -66,14 +70,22 @@ def parse_result_fileobj(fid, hsh, dataset, method):
             ar.add_result_scalar(label, data[label])
         else:
             for metric in settings.METRICS:
-                metric_func = settings.METRICS[metric]['metric']
-                ar.add_result_metric(label, metric,
-                        metric_func(data[label]['true'], data[label]['pred']))
+                metric_func = settings.METRICS[metric]["metric"]
+                ar.add_result_metric(
+                    label,
+                    metric,
+                    metric_func(data[label]["true"], data[label]["pred"]),
+                )
     return ar
 
+
 def init_result_cache(task_dict):
-    ac = AbedCache(methods=settings.METHODS, datasets=settings.DATASETS,
-            metrics=settings.METRICS, scalars=settings.SCALARS)
+    ac = AbedCache(
+        methods=settings.METHODS,
+        datasets=settings.DATASETS,
+        metrics=settings.METRICS,
+        scalars=settings.SCALARS,
+    )
     counter = 0
     for dataset, method, fid, hsh in walk_for_cache(ac):
         result = parse_result_fileobj(fid, hsh, dataset, method)
@@ -84,6 +96,7 @@ def init_result_cache(task_dict):
     ac.dump()
     info("Read %i result files into cache." % counter)
     return ac
+
 
 def update_result_cache(task_dict, skip_cache=False):
     ac = AbedCache()

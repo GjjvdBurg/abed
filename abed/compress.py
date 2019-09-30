@@ -54,13 +54,16 @@ def dataset_completed(dsetfiles, dset, task_dict):
 
 
     """
-    if settings.TYPE == 'ASSESS':
-        dset_tasks = {k:v for k, v in task_dict.items() if
-                v['dataset'] == dset}
-    elif settings.TYPE == 'CV_TT':
-        dset_tasks = {k:v for k, v in task_dict.items() if
-                (v['train_dataset'] == dset[0] and
-                    v['test_dataset'] == dset[1])}
+    if settings.TYPE == "ASSESS":
+        dset_tasks = {
+            k: v for k, v in task_dict.items() if v["dataset"] == dset
+        }
+    elif settings.TYPE == "CV_TT":
+        dset_tasks = {
+            k: v
+            for k, v in task_dict.items()
+            if (v["train_dataset"] == dset[0] and v["test_dataset"] == dset[1])
+        }
     else:
         error("Compressing data not supported for TYPE = %s" % settings.TYPE)
         raise SystemExit
@@ -107,32 +110,37 @@ def compress_dataset(dset):
     dsetpath = os.path.join(settings.RESULT_DIR, dsetname)
     dsetpath = dsetpath.rstrip(os.sep)
 
-    if settings.COMPRESSION == 'bzip2':
-        extension = 'bz2'
-    elif settings.COMPRESSION == 'gzip':
-        extension = 'gz'
-    elif settings.COMPRESSION == 'lzma':
-        extension = 'xz'
+    if settings.COMPRESSION == "bzip2":
+        extension = "bz2"
+    elif settings.COMPRESSION == "gzip":
+        extension = "gz"
+    elif settings.COMPRESSION == "lzma":
+        extension = "xz"
     else:
-        error("Unknown compression algorithm specified in "
-                "COMPRESSION configuration. Please check the "
-                "configuration file.")
+        error(
+            "Unknown compression algorithm specified in "
+            "COMPRESSION configuration. Please check the "
+            "configuration file."
+        )
         raise SystemExit
-    output_filename = '%s.tar.%s' % (dsetpath, extension)
+    output_filename = "%s.tar.%s" % (dsetpath, extension)
 
-    if os.name == 'posix' and settings.COMPRESSION == 'lzma' and six.PY2:
+    if os.name == "posix" and settings.COMPRESSION == "lzma" and six.PY2:
         try:
-            cmd = ('XZ_OPT=-9 tar --directory=%s -Jcf %s %s' %
-                    (settings.RESULT_DIR, output_filename, dsetname))
+            cmd = "XZ_OPT=-9 tar --directory=%s -Jcf %s %s" % (
+                settings.RESULT_DIR,
+                output_filename,
+                dsetname,
+            )
             check_output(cmd, stderr=STDOUT, shell=True)
         except CalledProcessError:
             error("There was an error executing '%s'.")
             raise SystemExit
-    elif settings.COMPRESSION == 'lzma' and six.PY2:
+    elif settings.COMPRESSION == "lzma" and six.PY2:
         error("lzma compression is not yet available for your platform.")
         raise SystemExit
     else:
-        mode = 'w:%s' % extension
+        mode = "w:%s" % extension
         with tarfile.open(output_filename, mode, compresslevel=9) as tar:
             tar.add(dsetpath, arcname=os.path.basename(dsetpath))
 
@@ -161,7 +169,9 @@ def compress_results(task_dict):
         if dataset_completed(files, dset, task_dict):
             completed_dsets.append(dset)
 
-    info("Starting compression of %i completed result directories." %
-            len(completed_dsets))
-    for dset in iter_progress(completed_dsets, 'Datasets'):
+    info(
+        "Starting compression of %i completed result directories."
+        % len(completed_dsets)
+    )
+    for dset in iter_progress(completed_dsets, "Datasets"):
         compress_dataset(dset)

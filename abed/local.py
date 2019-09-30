@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """Helper function for local mode
 
 Abed has support for running simulations locally, instead of on a compute 

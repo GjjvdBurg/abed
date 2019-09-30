@@ -12,86 +12,89 @@ This module contains all the documentation and functionality needed for the
 import textwrap
 
 # General description for the Abed help
-DESCRIPTION = ("Abed is a utility for Automated BEnchmark Distribution")
+DESCRIPTION = "Abed is a utility for Automated BEnchmark Distribution"
 
 
 # Categories for the commands in the Abed help
 COMMAND_CATEGORIES = [
-        ("Initialization commands:", ["init", "setup"]),
-        ("Compute cluster job management:", ["push", "pull", "auto", 
-            "repull"]),
-        ("Task management:", ["update_tasks", "reload_tasks"]),
-        ("Computations:", ["run", "local"]),
-        ("Abed status:", ["status", "explain_tasks", "explain_tbd_tasks"]),
-        ("Result management:", ["view_results", "compress_results", 
-            "move_results"]),
-        ("Manual intervention:", ["parse_results", "process_zips"]),
-        ]
+    ("Initialization commands:", ["init", "setup"]),
+    ("Compute cluster job management:", ["push", "pull", "auto", "repull"]),
+    ("Task management:", ["update_tasks", "reload_tasks"]),
+    ("Computations:", ["run", "local"]),
+    ("Abed status:", ["status", "explain_tasks", "explain_tbd_tasks"]),
+    (
+        "Result management:",
+        ["view_results", "compress_results", "move_results"],
+    ),
+    ("Manual intervention:", ["parse_results", "process_zips"]),
+]
 
 
 # Short help line for each command
 ABED_SHORT_HELP = {
-        'auto': ('Automate push and pull to facilitate '
-            'continuous operation'),
-        'compress_results': 'Compress completed dataset directories.',
-        'explain_tbd_tasks': ('Print the task ID and command '
-            'of remaining tasks'),
-        'explain_tasks': ('Print the task ID and command '
-            'of all defined tasks'),
-        'init': 'Initialize a skeleton for abed',
-        'help': 'Show help for Abed',
-        'local': 'Run the computations locally.',
-        'parse_results': 'Parse the results into summary files',
-        'process_zips': 'Process result zip files',
-        'pull': 'Pull all results from the cluster and process them',
-        'push': 'Push all necessary data to the cluster using fabric',
-        'reload_tasks': 'Reload the task file based on config and results',
-        'repull': ('Repull results for all jobids in the auto log file'),
-        'run': 'Run the master/worker MPI program of abed on the cluster',
-        'setup': ('Setup the remote directory structure and transfer the '
-            'datasets'),
-        'status': 'Status of abed task list',
-        'update_tasks': 'Update the task list (part of pull)',
-        'view_results': 'Open the HTML results in the default browser',
-        'move_results': 'Move any results from stagedir to result dir'
-        }
+    "auto": ("Automate push and pull to facilitate " "continuous operation"),
+    "compress_results": "Compress completed dataset directories.",
+    "explain_tbd_tasks": (
+        "Print the task ID and command " "of remaining tasks"
+    ),
+    "explain_tasks": ("Print the task ID and command " "of all defined tasks"),
+    "init": "Initialize a skeleton for abed",
+    "help": "Show help for Abed",
+    "local": "Run the computations locally.",
+    "parse_results": "Parse the results into summary files",
+    "process_zips": "Process result zip files",
+    "pull": "Pull all results from the cluster and process them",
+    "push": "Push all necessary data to the cluster using fabric",
+    "reload_tasks": "Reload the task file based on config and results",
+    "repull": ("Repull results for all jobids in the auto log file"),
+    "run": "Run the master/worker MPI program of abed on the cluster",
+    "setup": (
+        "Setup the remote directory structure and transfer the " "datasets"
+    ),
+    "status": "Status of abed task list",
+    "update_tasks": "Update the task list (part of pull)",
+    "view_results": "Open the HTML results in the default browser",
+    "move_results": "Move any results from stagedir to result dir",
+}
 
 
 # Synopsis for commands which take parameters or options
 ABED_SYNOPSES = {
-        "help": "abed help [<topic>]",
-        "parse_results": "abed parse_results [<options>]",
-        }
+    "help": "abed help [<topic>]",
+    "parse_results": "abed parse_results [<options>]",
+}
 
 
 # See also definitions for the commands
 ABED_SEE_ALSO = {
-        "auto": ["pull", "push"],
-        "compress_results": ["view_results"],
-        "explain_tbd_tasks": ["explain_tasks", "status"],
-        "explain_tasks": ["explain_tbd_tasks", "status"],
-        "init": ["setup"],
-        "help": [],
-        "local": ["run"],
-        "parse_results": ["view_results"],
-        "process_zips": ["pull", 'move_results'],
-        "move_results": ["process_zips"],
-        "pull": ["auto", "push", "process_zips", "update_tasks", "repull"],
-        "push": ["auto", "pull", "setup", "run"],
-        "reload_tasks": ["update_tasks", "status"],
-        "repull": ["pull"],
-        "run": ["local"],
-        "setup": ["push", "init"],
-        "status": [],
-        "update_tasks": ["reload_tasks", "status"],
-        "view_results": ["compress_results"],
-        }
+    "auto": ["pull", "push"],
+    "compress_results": ["view_results"],
+    "explain_tbd_tasks": ["explain_tasks", "status"],
+    "explain_tasks": ["explain_tbd_tasks", "status"],
+    "init": ["setup"],
+    "help": [],
+    "local": ["run"],
+    "parse_results": ["view_results"],
+    "process_zips": ["pull", "move_results"],
+    "move_results": ["process_zips"],
+    "pull": ["auto", "push", "process_zips", "update_tasks", "repull"],
+    "push": ["auto", "pull", "setup", "run"],
+    "reload_tasks": ["update_tasks", "status"],
+    "repull": ["pull"],
+    "run": ["local"],
+    "setup": ["push", "init"],
+    "status": [],
+    "update_tasks": ["reload_tasks", "status"],
+    "view_results": ["compress_results"],
+}
 
 
 # Documentation of options for commands which have options
 ABED_OPTIONS = {
-        "parse_results": [
-            ("--skip-cache, -s", """\
+    "parse_results": [
+        (
+            "--skip-cache, -s",
+            """\
                     When parsing the result files, Abed checks if the result 
                     cache needs to be reconstructed.  Since this can be a 
                     time-intensive task, it can be useful in some cases to skip 
@@ -99,14 +102,15 @@ ABED_OPTIONS = {
                     this flag to the parse_result command, cache regeneration 
                     can be skipped.  The user should be aware that results are 
                     potentially outdated or incomplete if this flag is used.
-                    """)
-            ]
-        }
+                    """,
+        )
+    ]
+}
 
 
 # Long help description for each command, for 'abed help <command>' calls
 ABED_LONG_HELP = {
-        "auto": """\
+    "auto": """\
                 The 'auto' command automates repeated uses of 'push' and 'pull' 
                 commands. It regularly checks the compute cluster to see if the 
                 current job is queued, running, or finished. If the job is 
@@ -128,7 +132,7 @@ ABED_LONG_HELP = {
                 compute cluster should be configured. This can be done by 
                 exchanging SSH keys with the cluster.
                 """,
-        "compress_results": """\
+    "compress_results": """\
                 The 'compress_results' command can be used when the disk space 
                 used by the raw results is too large. This command finds out 
                 for which datasets all tasks have been finished, and compresses 
@@ -142,15 +146,15 @@ ABED_LONG_HELP = {
                 directory for a dataset, it doesn't remove the original dataset 
                 directory. This should be done by the user.
                 """,
-        'explain_tbd_tasks': """\
+    "explain_tbd_tasks": """\
                 Print an overview with the mapping from hash to task for the 
                 tasks that remain to be done.
                 """,
-        'explain_tasks': """\
+    "explain_tasks": """\
                 Print an overview with the mapping from hash to task for all 
                 tasks.
                 """,
-        'init': """\
+    "init": """\
                 Initialize a new Abed experiment. This is the first step to 
                 starting a new Abed experiment and should be done only once.  
                 This command creates the initial files: the settings file, an 
@@ -159,12 +163,12 @@ ABED_LONG_HELP = {
                 will create a Git repository and add the settings file and the 
                 task file to it.
                 """,
-        'help': """\
+    "help": """\
                 Display help on the commands to Abed. For available commands, 
                 simply type 'abed help', for help on a certain command type 
                 'abed help <command>'.
                 """,
-        'local': """\
+    "local": """\
                 Run the computations locally. This command is essentially the 
                 same as the 'run' command, but it runs the computations 
                 locally. Since the master-worker program in Abed that runs the 
@@ -173,12 +177,12 @@ ABED_LONG_HELP = {
                 at least two cores on your workstation, one for the master 
                 thread and the remainders for the working threads.
                 """,
-        'move_results': """\
+    "move_results": """\
                 Move any results from the stage directory to the results 
                 directory. This is useful when something goes wrong during 
                 pull, but shouldn't be necessary to use in regular use.
                 """,
-        'parse_results': """\
+    "parse_results": """\
                 Process the result files into summary pages. This process will 
                 be started automatically when Abed detects that there are no 
                 more tasks to be done after the 'pull' command, but it can also 
@@ -187,7 +191,7 @@ ABED_LONG_HELP = {
                 webpages can easily be viewed in the browser using 'abed 
                 view_results'
                 """,
-        'process_zips': """\
+    "process_zips": """\
                 This command is included as a fallback command. In general, the 
                 'pull' command should unpack the compressed archives of results 
                 obtained from the compute cluster. However, if this fails for 
@@ -195,7 +199,7 @@ ABED_LONG_HELP = {
                 manually. Note that typically the archived files will not be 
                 actual .zip files, but .bz2 (bzip) files.
                 """,
-        'pull': """\
+    "pull": """\
                 Download the results from the compute cluster and process them.  
                 This command downloads the bzip2 archives from the bzips 
                 directory in the current directory on the compute cluster, as 
@@ -208,7 +212,7 @@ ABED_LONG_HELP = {
                 AUTO_FILE. Finally, the list of remaining tasks is updated, 
                 which is automatically registered in the Git repository.
                 """,
-        'push': """\
+    "push": """\
                 This command transfers the Git repository to the compute 
                 cluster and queues the job there. It's important to realise 
                 that only the files that are registered in the Git repository 
@@ -224,7 +228,7 @@ ABED_LONG_HELP = {
                 compute cluster.  Finally, Abed will write the PBS batch file 
                 and submit it to the job queue.
                 """,
-        'reload_tasks': """\
+    "reload_tasks": """\
                 This command should be used when the tasks need to be 
                 regenerated from the settings file. Any changes to the METHODS, 
                 DATASETS, PARAMETERS, or COMMANDS settings require that this 
@@ -240,14 +244,14 @@ ABED_LONG_HELP = {
                 experiment type, if you add them anywhere else it will mess up 
                 the hashes of the other tasks.
                 """,
-        'repull': """\
+    "repull": """\
                 With this command you can pull the results from previously 
                 finished jobs. This is useful when you wish to download results 
                 from the compute cluster on a different workstation. This will 
                 read the job IDs from the AUTO_FILE, and pull the results from 
                 the corresponding directories on the compute cluster.
                 """,
-        'run': """\
+    "run": """\
                 This command starts the computations on the compute cluster, 
                 and will typically not be run by the user, but through a (PBS) 
                 job file. If for whatever reason you're running this command 
@@ -255,7 +259,7 @@ ABED_LONG_HELP = {
                 For running computations on your local workstation, use the 
                 'local' command to Abed.
                 """,
-        'setup': """\
+    "setup": """\
                 This command sets up the directory structure that Abed uses on 
                 the compute cluster, as well as transferring the datasets to 
                 the cluster. Run this command after you've finished selecting 
@@ -265,7 +269,7 @@ ABED_LONG_HELP = {
                 your simulations at a later stage, copy them manually to the 
                 'current/datasets' directory on the compute cluster.
                 """,
-        'status': """\
+    "status": """\
                 Get an overview of the current status of an Abed project. This 
                 command will give the number of tasks that have been defined, 
                 as well as the number of tasks that remain to be done.
@@ -275,18 +279,18 @@ ABED_LONG_HELP = {
                 give the correct total. In that case, run the 'reload_tasks' 
                 command first, to update the task list correctly.
                 """,
-        'update_tasks': """\
+    "update_tasks": """\
                 This command updates the task list based on the definitions in 
                 the settings file, and the result files in the RESULT_DIR 
                 directory. It is automatically run after the pull command, but 
                 if this fails for some reason, you can use this to update the 
                 task list.
                 """,
-        'view_results': """\
+    "view_results": """\
                 Open the default browser to view the results. This function is 
                 included for convenience.
                 """,
-                }
+}
 
 
 def bold(text):
@@ -306,10 +310,10 @@ def bold(text):
         Text surrounded by escape sequences
 
     """
-    return '\033[1m' + text + '\033[0m'
+    return "\033[1m" + text + "\033[0m"
 
 
-def paragraph_wrapper(all_text, width=70, indent='\t'):
+def paragraph_wrapper(all_text, width=70, indent="\t"):
     """Format text to have a maximum length while maintaining paragraphs
 
     This function is very similar to `textwrap.wrap() 
@@ -334,21 +338,28 @@ def paragraph_wrapper(all_text, width=70, indent='\t'):
 
     """
     # split on paragraphs in the triple-quoted string
-    texts = all_text.split('\n\n')
+    texts = all_text.split("\n\n")
     # remove indentation of paragraphs
     dedents = [textwrap.dedent(text) for text in texts]
     # clean out double spaces
-    cleans = [' '.join([x for x in dedented.split(' ') if x]) for dedented in 
-            dedents]
+    cleans = [
+        " ".join([x for x in dedented.split(" ") if x]) for dedented in dedents
+    ]
     # remove newlines
-    cleaner = [clean.replace('\n', '') for clean in cleans]
+    cleaner = [clean.replace("\n", "") for clean in cleans]
     # use textwrap.fill() to wrap the text
     filled = []
     for para in cleaner:
-        filled.append(textwrap.fill(para, width=width, initial_indent=indent, 
-            subsequent_indent=indent))
+        filled.append(
+            textwrap.fill(
+                para,
+                width=width,
+                initial_indent=indent,
+                subsequent_indent=indent,
+            )
+        )
     # join paragraphs
-    return '\n\n'.join(filled)
+    return "\n\n".join(filled)
 
 
 def cmd_strings(cmds):
@@ -380,14 +391,14 @@ def cmd_strings(cmds):
     for cmd in cmds:
         first = True
         sentences = textwrap.wrap(ABED_SHORT_HELP[cmd], 60)
-        space_after = ' ' * (maxlen + 2 - len(cmd))
-        line = ''
+        space_after = " " * (maxlen + 2 - len(cmd))
+        line = ""
         while sentences:
-            arg = cmd if first else ' '*len(cmd)
-            lead = '%s%s%s' % (space_before, arg, space_after)
-            line += lead + sentences.pop(0) + '\n'
+            arg = cmd if first else " " * len(cmd)
+            lead = "%s%s%s" % (space_before, arg, space_after)
+            line += lead + sentences.pop(0) + "\n"
             first = False
-        line = line.rstrip('\n')
+        line = line.rstrip("\n")
         txt.append(line)
     txt.append("")
     return txt
@@ -408,13 +419,14 @@ def get_help():
     """
 
     # Generate the basis text
-    text = ["usage: abed <command> [<options>]",
-            "",
-            DESCRIPTION,
-            "",
-            "Available Abed commands are:",
-            ""
-            ]
+    text = [
+        "usage: abed <command> [<options>]",
+        "",
+        DESCRIPTION,
+        "",
+        "Available Abed commands are:",
+        "",
+    ]
 
     # Expand the help text with different categories
     for category, commands in COMMAND_CATEGORIES:
@@ -422,11 +434,12 @@ def get_help():
         text.extend(cmd_strings(commands))
 
     # Add the remainder of the help text
-    text += ["",
-            "Use 'abed help <command>' to learn about a specific command,",
-            "or check the online documentation at: ",
-            "http://gjjvdburg.github.io/abed"
-            ]
+    text += [
+        "",
+        "Use 'abed help <command>' to learn about a specific command,",
+        "or check the online documentation at: ",
+        "http://gjjvdburg.github.io/abed",
+    ]
 
     return "\n".join(text)
 
@@ -458,31 +471,28 @@ def get_command_help(command):
 
     # Build the required paragraphs
     synop = ABED_SYNOPSES.get(command, "abed %s" % command)
-    txt = ["Abed Help",
-            "",
-            bold("NAME"),
-            "\tabed-%s - %s" % (command, ABED_SHORT_HELP[command]),
-            "",
-            bold("SYNOPSIS"),
-            "\t%s" % (synop),
-            "",
-            bold("DESCRIPTION"),
-            paragraph_wrapper(ABED_LONG_HELP[command])
-            ]
+    txt = [
+        "Abed Help",
+        "",
+        bold("NAME"),
+        "\tabed-%s - %s" % (command, ABED_SHORT_HELP[command]),
+        "",
+        bold("SYNOPSIS"),
+        "\t%s" % (synop),
+        "",
+        bold("DESCRIPTION"),
+        paragraph_wrapper(ABED_LONG_HELP[command]),
+    ]
 
     # If the command has options, build the options paragraph
     if command in ABED_OPTIONS:
-        txt += ["", bold("OPTIONS"),
-                ]
+        txt += ["", bold("OPTIONS")]
         for option in ABED_OPTIONS[command]:
             txt.append("\t" + option[0])
-            txt.append(paragraph_wrapper(option[1], width=62, 
-                indent='\t\t'))
+            txt.append(paragraph_wrapper(option[1], width=62, indent="\t\t"))
 
     # If the command has see also's, build that paragraph
     if command in ABED_SEE_ALSO and ABED_SEE_ALSO[command]:
-        txt += ["",
-                bold("SEE ALSO"),
-                '\t' + ', '.join(ABED_SEE_ALSO[command])]
+        txt += ["", bold("SEE ALSO"), "\t" + ", ".join(ABED_SEE_ALSO[command])]
 
-    return '\n'.join(txt)
+    return "\n".join(txt)

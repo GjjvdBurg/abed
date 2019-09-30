@@ -17,6 +17,7 @@ import os
 from .constants import CONFIG_FILENAME
 from .utils import error
 
+
 class Settings(object):
     """Simple Settings class
 
@@ -25,6 +26,7 @@ class Settings(object):
     exits cleanly.
 
     """
+
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
@@ -32,8 +34,10 @@ class Settings(object):
         if attr in self.__dict__:
             return getattr(self, attr)
         else:
-            error("You probably Britta'd the settings file, "
-                    "I'm missing parameter %s" % attr)
+            error(
+                "You probably Britta'd the settings file, "
+                "I'm missing parameter %s" % attr
+            )
             raise SystemExit
 
 
@@ -59,18 +63,23 @@ def init_config():
     try:
         exec(open(configfile).read(), config)
     except NameError as err:
-        error("You probably Britta'd the settings file, "
-                "NameError: %s" % str(err))
+        error(
+            "You probably Britta'd the settings file, "
+            "NameError: %s" % str(err)
+        )
     except Exception as err:
-        error("You probably Britta'd the settings file, "
-                "an error occured parsing it: %s" % str(err))
+        error(
+            "You probably Britta'd the settings file, "
+            "an error occured parsing it: %s" % str(err)
+        )
     keys = list(config.keys())
     for key in keys:
         if not key.upper() == key:
             del config[key]
-        if key.endswith('_DIR'):
+        if key.endswith("_DIR"):
             config[key] = config[key].rstrip(os.sep)
     settings = Settings(**config)
     return settings
+
 
 settings = init_config()

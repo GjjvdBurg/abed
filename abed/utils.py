@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Various utility functions used throughout abed
 
@@ -19,40 +21,40 @@ def wrap_text(text, max_length=120):
     """
 
     words = []
-    for part in text.split('\n'):
-        words.extend(part.split(' '))
-        words.append('\n')
+    for part in text.split("\n"):
+        words.extend(part.split(" "))
+        words.append("\n")
     sentences = []
     current_length = 0
-    sentence = ''
+    sentence = ""
     for word in words:
-        if word == '\n':
+        if word == "\n":
             sentences.append(sentence)
-            sentence = ''
+            sentence = ""
             current_length = 0
             continue
-        if (current_length + len(word) + 1 <= max_length):
+        if current_length + len(word) + 1 <= max_length:
             current_length += len(word) + 1
-            sentence += word + ' '
+            sentence += word + " "
         else:
             current_length = len(word) + 1
             sentences.append(sentence)
-            sentence = word + ' '
-    return '\n'.join(sentences)
+            sentence = word + " "
+    return "\n".join(sentences)
 
 
 def info(txt):
-    message = '%s' % txt
+    message = "%s" % txt
     print(message)
 
 
 def error(txt):
-    message = 'Error: %s' % (txt)
+    message = "Error: %s" % (txt)
     print(message, file=sys.stderr)
 
 
 def warning(txt):
-    message = 'Warning: %s' % (txt)
+    message = "Warning: %s" % (txt)
     print(message, file=sys.stderr)
 
 
@@ -65,6 +67,7 @@ def mkdir(path):
         else:
             raise
 
+
 def hash_from_filename(filename):
     bname = basename(filename)
     exts = splitext(bname)
@@ -72,9 +75,11 @@ def hash_from_filename(filename):
     hsh = int(start)
     return hsh
 
+
 def clean_str(string):
-    return '_'.join(string.split(' ')).lower()
+    return "_".join(string.split(" ")).lower()
+
 
 def touch(fname, times=None):
-    with open(fname, 'a'):
+    with open(fname, "a"):
         os.utime(fname, times)

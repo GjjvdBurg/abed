@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import os
 import time
@@ -16,28 +17,29 @@ from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
 from .utils import info, error
 from .zips import unpack_zips, move_results
 
+
 class Abed(object):
 
     commands = [
-            'auto',
-            'compress_results',
-            'explain_tbd_tasks',
-            'explain_tasks',
-            'local',
-            'parse_results',
-            'move_results',
-            'process_zips',
-            'pull',
-            'push',
-            'reload_tasks',
-            'repull',
-            'run',
-            'init',
-            'setup',
-            'status',
-            'update_tasks',
-            'view_results'
-            ]
+        "auto",
+        "compress_results",
+        "explain_tbd_tasks",
+        "explain_tasks",
+        "local",
+        "parse_results",
+        "move_results",
+        "process_zips",
+        "pull",
+        "push",
+        "reload_tasks",
+        "repull",
+        "run",
+        "init",
+        "setup",
+        "status",
+        "update_tasks",
+        "view_results",
+    ]
 
     def __init__(self, skip_init=False, skip_cache=False):
         self.task_dict = None
@@ -62,8 +64,10 @@ class Abed(object):
 
     def update_tasks(self):
         cnt = update_tasks(self.task_dict)
-        info("Task update removed %i completed tasks. Tasks remaining: %i" % 
-                (cnt, len(self.task_dict)))
+        info(
+            "Task update removed %i completed tasks. Tasks remaining: %i"
+            % (cnt, len(self.task_dict))
+        )
         self.write_tasks()
         git_commit_tbd()
         if len(self.task_dict) == 0:
@@ -74,9 +78,9 @@ class Abed(object):
         self.update_tasks()
 
     def write_tasks(self):
-        with open(settings.TASK_FILE, 'w') as fid:
+        with open(settings.TASK_FILE, "w") as fid:
             for task in sorted(self.task_dict.keys()):
-                fid.write('%s\n' % task)
+                fid.write("%s\n" % task)
         info("Written task file to %s" % settings.TASK_FILE)
 
     def setup(self):
@@ -140,8 +144,10 @@ class Abed(object):
         git_init()
 
     def status(self):
-        info("There are %i tasks left to be done, out of %i tasks defined." % 
-                (len(self.task_dict), len(init_tasks())))
+        info(
+            "There are %i tasks left to be done, out of %i tasks defined."
+            % (len(self.task_dict), len(init_tasks()))
+        )
 
     def process_zips(self):
         unpack_zips()
@@ -160,7 +166,6 @@ class Abed(object):
     def move_results(self):
         move_results(init_tasks())
 
-
     def local(self):
         if self.task_dict is None:
             error("No tasks defined before attempted run. Exiting")
@@ -170,4 +175,3 @@ class Abed(object):
 
     def compress_results(self):
         compress_results(init_tasks())
-

@@ -14,13 +14,20 @@ from ..datasets import dataset_name
 from ..exceptions import AbedHashCollissionException
 from ..utils import mkdir
 
+
 class AbedCache(object):
     """
 
     """
 
-    def __init__(self, methods=None, datasets=None, metrics=None, scalars=None, 
-            cachefile=None):
+    def __init__(
+        self,
+        methods=None,
+        datasets=None,
+        metrics=None,
+        scalars=None,
+        cachefile=None,
+    ):
         self.methods = set()
         self.datasets = set()
         self.metrics = set()
@@ -28,20 +35,20 @@ class AbedCache(object):
         self.scalars = set()
         self.cache = {}
         if cachefile is None:
-            self.cachefile = settings.OUTPUT_DIR + os.sep + 'abed_cache.pkl'
+            self.cachefile = settings.OUTPUT_DIR + os.sep + "abed_cache.pkl"
         else:
             self.cachefile = cachefile
 
     def dump(self):
         mkdir(os.path.dirname(self.cachefile))
-        f = open(self.cachefile, 'wb')
+        f = open(self.cachefile, "wb")
         cPickle.dump(self.__dict__, f, 2)
         f.close()
 
     def load(self):
         if not os.path.exists(self.cachefile):
             raise IOError
-        f = open(self.cachefile, 'rb')
+        f = open(self.cachefile, "rb")
         tmp = cPickle.load(f)
         f.close()
         self.__dict__.update(tmp)
@@ -57,7 +64,7 @@ class AbedCache(object):
         self.cache[result.hsh] = result
 
     def has_result(self, hsh):
-        return (hsh in self.cache)
+        return hsh in self.cache
 
     def iter_results_dm(self, dataset, method):
         for result in self.cache.itervalues():
@@ -114,16 +121,24 @@ class AbedResult(object):
             return self.results[label]
         else:
             return self.results[label][metric]
+
     def __str__(self):
-        s = ("AbedResult(hsh=%r, dataset=%r, method=%r, results=%r)" % 
-                (self.hsh, self.dataset, self.method, self.results))
+        s = "AbedResult(hsh=%r, dataset=%r, method=%r, results=%r)" % (
+            self.hsh,
+            self.dataset,
+            self.method,
+            self.results,
+        )
         return s
+
     def __repr__(self):
         return str(self)
 
+
 class AbedTableTypes:
-    VALUES = 'values'
-    RANKS = 'ranks'
+    VALUES = "values"
+    RANKS = "ranks"
+
 
 class AbedTable(object):
     """
@@ -137,14 +152,14 @@ class AbedTable(object):
         self.rows = None
         self.higher_better = None
         self.type = None
-        self.desc = ''
-        self.name = ''
+        self.desc = ""
+        self.name = ""
         self.target = None
         self.is_metric = True
         self.is_summary = False
-        if settings.TYPE == 'ASSESS':
+        if settings.TYPE == "ASSESS":
             self.metricname = None
-        elif settings.TYPE == 'CV_TT':
+        elif settings.TYPE == "CV_TT":
             self.trainmetricname = None
             self.testmetricname = None
 
@@ -152,35 +167,35 @@ class AbedTable(object):
         if self.rows is None:
             self.rows = OrderedDict()
         if self.rows.has_key(_id):
-            raise KeyError('Existing id in table')
+            raise KeyError("Existing id in table")
         self.rows[_id] = row
         self.num_rows += 1
         if self.num_columns == 0 and len(row) > 0:
             self.num_columns = len(row)
 
     def table_averages(self):
-        averages = [0.0]*self.num_columns
+        averages = [0.0] * self.num_columns
         for _id in self.rows.keys():
             for i, x in enumerate(self.rows[_id]):
                 averages[i] += float(x)
-        averages = [x/float(self.num_rows) for x in averages]
+        averages = [x / float(self.num_rows) for x in averages]
         fmtavg = []
         for num in averages:
             rounded = round(num, settings.RESULT_PRECISION)
-            fmt = '%%.%df' % settings.RESULT_PRECISION
+            fmt = "%%.%df" % settings.RESULT_PRECISION
             fmtavg.append(fmt % rounded)
         return fmtavg
 
     def table_wins(self):
         hb = self.higher_better
-        wins = [0]*self.num_columns
+        wins = [0] * self.num_columns
         for _id in self.rows.keys():
-            best = float('inf')
+            best = float("inf")
             best *= -1 if hb else 1
             best_idx = None
             for i, x in enumerate(self.rows[_id]):
                 val = float(x)
-                if ((hb and (val > best)) or ((not hb) and (val < best))):
+                if (hb and (val > best)) or ((not hb) and (val < best)):
                     best = val
                     best_idx = i
             if len([x for x in self.rows[_id] if float(x) == best]) == 1:
@@ -189,14 +204,14 @@ class AbedTable(object):
 
     def table_losses(self):
         hb = self.higher_better
-        losses = [0]*self.num_columns
+        losses = [0] * self.num_columns
         for _id in self.rows.keys():
             worst = float("inf")
             worst *= 1 if hb else -1
             worst_idx = None
             for i, x in enumerate(self.rows[_id]):
                 val = float(x)
-                if ((hb and (val < worst)) or ((not hb) and (val > worst))):
+                if (hb and (val < worst)) or ((not hb) and (val > worst)):
                     worst = val
                     worst_idx = i
             if len([x for x in self.rows[_id] if float(x) == worst]) == 1:
@@ -210,7 +225,7 @@ class AbedTable(object):
             num_uniq = len(set(values))
             if num_uniq == 1:
                 num_ties += 1
-        ties = [num_ties]*self.num_columns
+        ties = [num_ties] * self.num_columns
         return ties
 
     def summary_table(self):
@@ -221,15 +236,15 @@ class AbedTable(object):
         at.name = self.name
         at.target = self.target
         at.is_metric = self.is_metric
-        if settings.TYPE == 'ASSESS':
+        if settings.TYPE == "ASSESS":
             at.metricname = self.metricname
-        elif settings.TYPE == 'CV_TT':
+        elif settings.TYPE == "CV_TT":
             at.trainmetricname = self.trainmetricname
             at.testmetricname = self.testmetricname
-        at.add_row('Average', self.table_averages())
-        at.add_row('Wins', self.table_wins())
-        at.add_row('Losses', self.table_losses())
-        at.add_row('Ties', self.table_ties())
+        at.add_row("Average", self.table_averages())
+        at.add_row("Wins", self.table_wins())
+        at.add_row("Losses", self.table_losses())
+        at.add_row("Ties", self.table_ties())
         at.is_summary = True
         return at
 
@@ -249,12 +264,12 @@ class AbedTable(object):
             yield (_id, self.rows[_id])
 
     def from_csv(self, csvfile):
-        with open(csvfile, 'r') as fid:
+        with open(csvfile, "r") as fid:
             lines = fid.readlines()
         lines = [x.strip() for x in lines]
-        self.headers = lines[0].split(',')
+        self.headers = lines[0].split(",")
         for line in lines[1:]:
-            parts = line.split(',')
+            parts = line.split(",")
             _id = parts[0]
             row = parts[1:]
             self.add_row(_id, row)

@@ -33,11 +33,13 @@ from ..conf import settings
 from ..utils import info
 from ..progress import enum_progress
 
+
 def filter_targets(targets):
     for target in targets:
         if target.startswith(settings.YTRAIN_LABEL):
             continue
         yield target
+
 
 def cvtt_tables(abed_cache):
     tables = []
@@ -48,15 +50,20 @@ def cvtt_tables(abed_cache):
         tables.extend(make_tables_scalar(abed_cache, scalar))
     return tables
 
+
 def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
-    table = cvtt_build_tables_metric(abed_cache, train_metric, test_metric,
-            target)
-    table.higher_better = (True if settings.METRICS[test_metric]['best'] == max
-            else False)
+    table = cvtt_build_tables_metric(
+        abed_cache, train_metric, test_metric, target
+    )
+    table.higher_better = (
+        True if settings.METRICS[test_metric]["best"] == max else False
+    )
     table.type = AbedTableTypes.VALUES
-    table.desc = 'Training metric: %s, testing metric: %s' % (train_metric,
-            test_metric)
-    table.name = '%s_%s' % (train_metric, test_metric)
+    table.desc = "Training metric: %s, testing metric: %s" % (
+        train_metric,
+        test_metric,
+    )
+    table.name = "%s_%s" % (train_metric, test_metric)
     table.target = target
     table.is_metric = True
     table.trainmetricname = train_metric
@@ -64,29 +71,38 @@ def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
     ranktable = make_rank_table(table)
     return [table, ranktable]
 
+
 def cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target):
     table = AbedTable()
-    table.headers = ['ID'] + sorted(abed_cache.methods)
-    info("Generating tables for train metric %s, test metric %s, target %s" % 
-            (train_metric, test_metric, target))
-    for i, dset in enum_progress(sorted(abed_cache.datasets), label='Tables'):
+    table.headers = ["ID"] + sorted(abed_cache.methods)
+    info(
+        "Generating tables for train metric %s, test metric %s, target %s"
+        % (train_metric, test_metric, target)
+    )
+    for i, dset in enum_progress(sorted(abed_cache.datasets), label="Tables"):
         row = []
         for j, method in enumerate(sorted(abed_cache.methods)):
             results = list(abed_cache.iter_results_dm(dset, method))
-            values = [r.get_result(settings.YTRAIN_LABEL, metric=train_metric)
-                    for r in results]
+            values = [
+                r.get_result(settings.YTRAIN_LABEL, metric=train_metric)
+                for r in results
+            ]
             if not values:
-                row.append('NaN')
+                row.append("NaN")
                 continue
-            best_value = settings.METRICS[train_metric]['best'](values)
-            best_results = [r for r in results if
-                    r.get_result(settings.YTRAIN_LABEL, metric=train_metric)
-                    == best_value]
-            target_values = [r.get_result(target, metric=test_metric) for r in
-                    best_results]
-            target_best = settings.METRICS[test_metric]['best'](target_values)
+            best_value = settings.METRICS[train_metric]["best"](values)
+            best_results = [
+                r
+                for r in results
+                if r.get_result(settings.YTRAIN_LABEL, metric=train_metric)
+                == best_value
+            ]
+            target_values = [
+                r.get_result(target, metric=test_metric) for r in best_results
+            ]
+            target_best = settings.METRICS[test_metric]["best"](target_values)
             rounded = round(target_best, settings.RESULT_PRECISION)
-            fmt = '%%.%df' % settings.RESULT_PRECISION
+            fmt = "%%.%df" % settings.RESULT_PRECISION
             row.append(fmt % rounded)
         table.add_row(dset, row)
     return table

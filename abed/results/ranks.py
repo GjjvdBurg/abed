@@ -6,6 +6,7 @@ Functions for generating fractional ranks
 from .models import AbedTable, AbedTableTypes
 from ..conf import settings
 
+
 def get_ranks(x):
     """
         Get ranks for a vector. This function assumes lower is better, so high 
@@ -18,15 +19,16 @@ def get_ranks(x):
     """
     l = len(x)
     r = 1
-    ranks = [0]*l
+    ranks = [0] * l
     while not all([k is None for k in x]):
         m = min([k for k in x if not k is None])
         idx = [1 if k == m else 0 for k in x]
         s = sum(idx)
-        ranks = [r + (s-1)/2.0 if idx[k] else ranks[k] for k in range(l)]
+        ranks = [r + (s - 1) / 2.0 if idx[k] else ranks[k] for k in range(l)]
         r += s
         x = [None if idx[k] else x[k] for k in range(l)]
     return ranks
+
 
 def make_rank_table(table):
     ranktable = AbedTable()
@@ -37,9 +39,9 @@ def make_rank_table(table):
     ranktable.name = table.name
     ranktable.target = table.target
     ranktable.is_metric = table.is_metric
-    if settings.TYPE == 'ASSESS':
+    if settings.TYPE == "ASSESS":
         ranktable.metricname = table.metricname
-    elif settings.TYPE == 'CV_TT':
+    elif settings.TYPE == "CV_TT":
         ranktable.trainmetricname = table.trainmetricname
         ranktable.testmetricname = table.testmetricname
 

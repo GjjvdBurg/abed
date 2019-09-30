@@ -14,13 +14,14 @@ from socket import error as socket_error
 from ..conf import settings
 from ..utils import warning
 
+
 def view_html():
     port = settings.HTML_PORT
-    os.chdir('%s%s%s' % (settings.OUTPUT_DIR, os.sep, 'html'))
+    os.chdir("%s%s%s" % (settings.OUTPUT_DIR, os.sep, "html"))
     handler = SimpleHTTPServer.SimpleHTTPRequestHandler
     while True:
         try:
-            httpd = socketserver.TCPServer(('', port), handler)
+            httpd = socketserver.TCPServer(("", port), handler)
             break
         except socket_error as err:
             if not err.errno == errno.EADDRINUSE:
@@ -28,6 +29,5 @@ def view_html():
             warning("Port already in use, trying %i" % (port + 1))
             port += 1
 
-    webbrowser.open('http://localhost:%i' % port, autoraise=True)
+    webbrowser.open("http://localhost:%i" % port, autoraise=True)
     httpd.serve_forever()
-

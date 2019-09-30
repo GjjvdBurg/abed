@@ -5,9 +5,15 @@ Functions for creating a skeleton config file
 
 import os
 
-from .constants import (CONFIG_FILENAME, DATASET_DIRNAME, EXECS_DIRNAME, 
-        TASKS_FILENAME, AUTO_FILENAME)
+from .constants import (
+    CONFIG_FILENAME,
+    DATASET_DIRNAME,
+    EXECS_DIRNAME,
+    TASKS_FILENAME,
+    AUTO_FILENAME,
+)
 from .utils import info, mkdir, touch
+
 
 def init_config():
     txt = """
@@ -135,10 +141,14 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
 PBS_LINES_BEFORE = []
 PBS_LINES_AFTER = []
 
-""".format(task_file=TASKS_FILENAME, auto_file=AUTO_FILENAME, 
-        data_dir=DATASET_DIRNAME, exec_dir=EXECS_DIRNAME)
+""".format(
+        task_file=TASKS_FILENAME,
+        auto_file=AUTO_FILENAME,
+        data_dir=DATASET_DIRNAME,
+        exec_dir=EXECS_DIRNAME,
+    )
     configfile = os.path.join(os.getcwd(), CONFIG_FILENAME)
-    with open(configfile, 'w') as fid:
+    with open(configfile, "w") as fid:
         fid.write(txt)
     mkdir(os.path.join(os.getcwd(), DATASET_DIRNAME))
     mkdir(os.path.join(os.getcwd(), EXECS_DIRNAME))
