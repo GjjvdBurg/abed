@@ -15,7 +15,7 @@ def get_data_files():
             datafiles.append((root, newfiles))
     return datafiles
 
-version = re.search("__version__ = '([^']+)'", 
+version = re.search('__version__ = "([^\']+)"', 
         open('abed/__init__.py').read()).group(1)
 
 setup(
@@ -29,8 +29,8 @@ setup(
         long_description = read('README.rst'),
         scripts = ['bin/abed'],
         install_requires = [
-            'Fabric3==1.13.1.post1',
-            'mpi4py==1.3.1',
+            'Fabric3==1.14.post1',
+            'mpi4py',
             'tabulate',
             'bz2file',
             'progressbar',

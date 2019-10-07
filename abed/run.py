@@ -62,10 +62,11 @@ def do_work(hsh, task, local=False):
     try:
         info("[%s] Executing: '%s'" % (dstr, cmd))
         output = check_output(cmd, shell=True)
+        output = output.decode("utf-8")
     except CalledProcessError as err:
         error(
             "There was an error executing: '%s'. Here is the error: %s"
-            % (cmd, err.output)
+            % (cmd, err.output.decode('utf-8'))
         )
         return
     fname = write_output(output, hsh, local=local)
@@ -88,7 +89,7 @@ def copy_worker(local):
     )
     while True:
         if comm.Iprobe(source=0, tag=MPI.ANY_TAG):
-            comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
+            comm.recv(buf=None, source=0, tag=MPI.ANY_TAG, status=status)
             if status.Get_tag() == KILLTAG:
                 break
         try:
@@ -102,7 +103,7 @@ def worker(task_dict, local=False):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
     while True:
-        hashes = comm.recv(obj=None, source=0, tag=MPI.ANY_TAG, status=status)
+        hashes = comm.recv(buf=None, source=0, tag=MPI.ANY_TAG, status=status)
         if status.Get_tag() == KILLTAG:
             break
         for hsh in hashes:
@@ -128,7 +129,7 @@ def master(all_work, worker_ranks, local=False):
     # keep sending out tasks when requested
     while True:
         comm.recv(
-            obj=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status
+            buf=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status
         )
 
         # if there is no more work we kill the source worker and break the loop
@@ -150,7 +151,7 @@ def master(all_work, worker_ranks, local=False):
     while remaining:
         for rank in remaining:
             if comm.Iprobe(source=rank, tag=MPI.ANY_TAG):
-                comm.recv(obj=None, source=rank, tag=MPI.ANY_TAG)
+                comm.recv(buf=None, source=rank, tag=MPI.ANY_TAG)
                 comm.send(obj=None, dest=rank, tag=KILLTAG)
                 killed_workers.append(rank)
         remaining = [r for r in worker_ranks if not r in killed_workers]
