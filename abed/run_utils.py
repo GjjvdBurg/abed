@@ -45,7 +45,7 @@ def write_output(output, hsh, local=False):
         scratch_results = "%s/results" % scratchdir
     mkdir(scratch_results)
     outdir = get_output_dir(scratch_results)
-    fname = "%s/%s.txt" % (outdir, hsh)
+    fname = "%s/%s%s" % (outdir, hsh, settings.RESULT_EXTENSION)
     with open(fname, "w") as fid:
         fid.write(output)
     return fname

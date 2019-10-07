@@ -9,7 +9,8 @@ from __future__ import print_function
 
 import errno
 import os
-import sys
+
+from .conf import settings
 
 basename = os.path.basename
 splitext = os.path.splitext
@@ -55,9 +56,7 @@ def mkdir(path):
 
 def hash_from_filename(filename):
     bname = basename(filename)
-    exts = splitext(bname)
-    start = exts[0]
-    hsh = int(start)
+    hsh = bname[: -len(settings.RESULT_EXTENSION)]
     return hsh
 
 

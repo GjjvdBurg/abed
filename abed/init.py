@@ -33,6 +33,7 @@ OUTPUT_DIR = './output'
 AUTO_SLEEP = 120
 HTML_PORT = 8000
 COMPRESSION = 'bzip2'
+RESULT_EXTENSION = '.txt'
 
 ##############################################################################
 #                          Server parameters and settings                    #

@@ -16,6 +16,7 @@ import bz2file
 import os
 import shutil
 import tarfile
+import sys
 
 from .conf import settings
 from .datasets import dataset_name
@@ -75,18 +76,14 @@ def move_results(task_dict):
         files = os.listdir(subpath)
         for fname in files:
             fpath = "%s%s%s" % (subpath, os.sep, fname)
-            try:
-                hsh = int(splitext(basename(fpath))[0])
-            except ValueError:
-                warning(
-                    "Couldn't obtain hash from file: %s. Skipping."
-                    % basename(fpath)
-                )
-                continue
+            hsh = basename(fpath)[: -len(settings.RESULT_EXTENSION)]
             if settings.TYPE == "RAW":
                 dset = "dataset"
                 method = "method"
             else:
+                if not hsh in task_dict:
+                    print("Unknown hash: %s" % hsh, file=sys.stderr)
+                    continue
                 if settings.TYPE == "ASSESS":
                     dset = dataset_name(task_dict[hsh]["dataset"])
                 elif settings.TYPE == "CV_TT":
