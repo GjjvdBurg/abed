@@ -12,7 +12,8 @@ from .constants import (
     TASKS_FILENAME,
     AUTO_FILENAME,
 )
-from .utils import info, mkdir, touch
+from .io import info
+from .utils import mkdir, touch
 
 
 def init_config():

@@ -5,7 +5,8 @@ from tabulate import tabulate
 
 from .models import AbedTable
 from ..conf import settings
-from ..utils import info, mkdir, clean_str
+from ..io import info
+from ..utils import mkdir, clean_str
 
 
 def export_tables(tables):

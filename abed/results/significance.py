@@ -9,7 +9,7 @@ from math import sqrt
 
 from .models import AbedTableTypes
 from ..conf import settings
-from ..utils import error
+from ..io import error
 
 
 def global_difference(table):

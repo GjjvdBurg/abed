@@ -43,21 +43,6 @@ def wrap_text(text, max_length=120):
     return "\n".join(sentences)
 
 
-def info(txt):
-    message = "%s" % txt
-    print(message)
-
-
-def error(txt):
-    message = "Error: %s" % (txt)
-    print(message, file=sys.stderr)
-
-
-def warning(txt):
-    message = "Warning: %s" % (txt)
-    print(message, file=sys.stderr)
-
-
 def mkdir(path):
     try:
         os.makedirs(path)

@@ -14,7 +14,7 @@ from .results.main import make_results
 from .run import mpi_start
 from .init import init_config
 from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
-from .utils import info, error
+from .io import info, error
 from .zips import unpack_zips, move_results
 
 

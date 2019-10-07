@@ -11,7 +11,7 @@ from git import Repo
 
 from .conf import settings
 from .constants import CONFIG_FILENAME, TASKS_FILENAME, AUTO_FILENAME
-from .utils import info
+from .io import info
 
 
 def git_init():

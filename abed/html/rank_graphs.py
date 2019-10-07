@@ -7,7 +7,8 @@ import json
 from .common import navbar
 from .utils import AbedHTMLTypes, copy_data_file
 from ..conf import settings
-from ..utils import info, clean_str
+from ..io import info
+from ..utils import clean_str
 from ..results.models import AbedTableTypes
 
 tags = dominate.tags

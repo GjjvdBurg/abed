@@ -17,7 +17,8 @@ from subprocess import check_output, CalledProcessError, STDOUT
 
 from .conf import settings
 from .datasets import dataset_name
-from .utils import error, info, hash_from_filename
+from .io import error, info
+from .utils import hash_from_filename
 from .progress import iter_progress
 from .results.walk import files_w_dataset
 

@@ -6,7 +6,7 @@ import sys
 from .conf import settings
 from .help import get_help, get_command_help
 from .models import Abed
-from .utils import error
+from .io import error
 
 
 def parse_command(command):

@@ -21,7 +21,8 @@ from .conf import settings
 from .datasets import dataset_name
 from .progress import iter_progress
 from .tasks import init_tasks
-from .utils import error, mkdir, warning
+from .io import error, warning
+from .utils import mkdir
 
 splitext = os.path.splitext
 basename = os.path.basename

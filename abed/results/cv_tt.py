@@ -30,7 +30,7 @@ from .models import AbedTable, AbedTableTypes
 from .ranks import make_rank_table
 from .tables import make_tables_scalar
 from ..conf import settings
-from ..utils import info
+from ..io import info
 from ..progress import enum_progress
 
 

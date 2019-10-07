@@ -12,7 +12,7 @@ from six.moves import SimpleHTTPServer, socketserver
 from socket import error as socket_error
 
 from ..conf import settings
-from ..utils import warning
+from ..io import warning
 
 
 def view_html():

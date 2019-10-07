@@ -15,7 +15,7 @@ importing it from this module::
 import os
 
 from .constants import CONFIG_FILENAME
-from .utils import error
+from .io import error
 
 
 class Settings(object):

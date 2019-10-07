@@ -4,7 +4,8 @@ import os
 from .common import navbar, bootstrap_radio_group, generate_buttons
 from .utils import AbedHTMLTypes, copy_data_file
 from ..conf import settings
-from ..utils import info, clean_str
+from ..io import info
+from ..utils import clean_str
 
 tags = dominate.tags
 

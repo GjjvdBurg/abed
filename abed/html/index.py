@@ -13,7 +13,7 @@ from .common import navbar
 from .utils import AbedHTMLTypes, copy_data_file
 from ..conf import settings
 from ..tasks import init_tasks
-from ..utils import info
+from ..io import info
 
 tags = dominate.tags
 

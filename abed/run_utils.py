@@ -3,7 +3,8 @@
 import os
 
 from .conf import settings
-from .utils import info, mkdir
+from .io import info
+from .utils import mkdir
 
 
 def get_scratchdir(local=False):

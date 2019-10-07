@@ -19,7 +19,7 @@ from .exceptions import (
     AbedExperimentTypeException,
 )
 from .results.walk import walk_hashes
-from .utils import error
+from .io import error
 
 
 def cartesian(params):

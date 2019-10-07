@@ -17,7 +17,8 @@ from .auto import get_jobid_from_logs
 from .conf import settings
 from .fab_util import myfab
 from .pbs import generate_pbs_text
-from .utils import info, mkdir
+from .io import info
+from .utils import mkdir
 
 
 def init_data():

@@ -17,7 +17,7 @@ from datetime import timedelta
 from .conf import settings
 from .exceptions import AbedPBSMultipleException
 from .fab_util import myfab
-from .utils import info
+from .io import info
 
 RUNNING = "R"
 QUEUED = "Q"
