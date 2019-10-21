@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Overview and Tutorial &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,13 +20,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="overview-and-tutorial">
@@ -53,14 +41,14 @@ guide on <a class="reference internal" href="installation.html"><span class="doc
 <h2>What is Abed?<a class="headerlink" href="#what-is-abed" title="Permalink to this headline">¶</a></h2>
 <p>Abed was designed to simplify the deployment and analysis of benchmark
 studies in statistics and machine learning, but can also be used as an easy
-way to run tasks on a compute cluster. See <a class="reference internal" href="features.html"><span class="doc">Abed&#8217;s Features</span></a> for a complete
-overview of Abed&#8217;s features.</p>
+way to run tasks on a compute cluster. See <a class="reference internal" href="features.html"><span class="doc">Abed’s Features</span></a> for a complete
+overview of Abed’s features.</p>
 </div>
 <div class="section" id="using-abed">
 <h2>Using Abed<a class="headerlink" href="#using-abed" title="Permalink to this headline">¶</a></h2>
 <p>Note first that Abed is a command line tool, with an interface that should
 familiar to users of <strong>git</strong>. For instance, simply typing:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed
 </pre></div>
 </div>
 <p>on the command line, gives an overview of the different commands available in
@@ -68,31 +56,31 @@ Abed. So how do we actually use Abed?</p>
 <div class="section" id="local-setup-of-an-abed-project">
 <h3>Local setup of an Abed project<a class="headerlink" href="#local-setup-of-an-abed-project" title="Permalink to this headline">¶</a></h3>
 <p>First of all, create a new directory for your experiment and switch to it:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ mkdir experiment
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkdir experiment
 $ cd experiment
 </pre></div>
 </div>
 <p>Next, initialize a new Abed project by typing:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed init
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed init
 </pre></div>
 </div>
 <p>This does the following:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Create a template configuration file <code class="docutils literal"><span class="pre">abed_conf.py</span></code>. This is where you
-will define the settings of your experiments, what methods to run, etc.</li>
-<li>Create an empty task file <code class="docutils literal"><span class="pre">abed_tasks.txt</span></code>. This is where Abed keeps
+<li><p>Create a template configuration file <code class="docutils literal notranslate"><span class="pre">abed_conf.py</span></code>. This is where you
+will define the settings of your experiments, what methods to run, etc.</p></li>
+<li><p>Create an empty task file <code class="docutils literal notranslate"><span class="pre">abed_tasks.txt</span></code>. This is where Abed keeps
 track of which tasks are finished, and which still need to be run. Note
-that Abed will only store numerical hashes in this file. You shouldn&#8217;t
-ever have to edit this file directly.</li>
-<li>Create an empty auto file <code class="docutils literal"><span class="pre">abed_auto.txt</span></code>. This is where Abed keeps
-track of jobs on the remote compute cluster.</li>
-<li>Create a directory for datasets <code class="docutils literal"><span class="pre">datasets</span></code>. This is where you can place
-your datasets, but you can also place them somewhere else (see below).</li>
-<li>Create a directory for executables <code class="docutils literal"><span class="pre">execs</span></code>. This is where you&#8217;ll place
-the executables that Abed will run.</li>
-<li>Initialize a git repository, and add the configuration file, task file, and
-auto file to it, and commit this as the initial commit.</li>
+that Abed will only store numerical hashes in this file. You shouldn’t
+ever have to edit this file directly.</p></li>
+<li><p>Create an empty auto file <code class="docutils literal notranslate"><span class="pre">abed_auto.txt</span></code>. This is where Abed keeps
+track of jobs on the remote compute cluster.</p></li>
+<li><p>Create a directory for datasets <code class="docutils literal notranslate"><span class="pre">datasets</span></code>. This is where you can place
+your datasets, but you can also place them somewhere else (see below).</p></li>
+<li><p>Create a directory for executables <code class="docutils literal notranslate"><span class="pre">execs</span></code>. This is where you’ll place
+the executables that Abed will run.</p></li>
+<li><p>Initialize a git repository, and add the configuration file, task file, and
+auto file to it, and commit this as the initial commit.</p></li>
 </ul>
 </div></blockquote>
 <p>The reason that Abed automatically adds a git repository, is that this makes
@@ -103,27 +91,27 @@ research. Moreover, the git repository is used to figure out which files to
 commit to the remote server. This means that only files that are in the git
 repository will be transferred to the remote (see below for more info on
 this).</p>
-<p>Now that you&#8217;ve initialized the Abed folder, it&#8217;s time to edit the
-appropriate settings, define tasks, and create executables. Don&#8217;t forget to
-commit everything to git once you&#8217;re done. See <a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a> for more
+<p>Now that you’ve initialized the Abed folder, it’s time to edit the
+appropriate settings, define tasks, and create executables. Don’t forget to
+commit everything to git once you’re done. See <a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a> for more
 information on defining the experiments through the settings file.</p>
 </div>
 <div class="section" id="remote-setup-of-an-abed-project">
 <h3>Remote setup of an Abed project<a class="headerlink" href="#remote-setup-of-an-abed-project" title="Permalink to this headline">¶</a></h3>
-<p>Assuming that you&#8217;ve defined everything in the settings file, we should first
+<p>Assuming that you’ve defined everything in the settings file, we should first
 reload the tasks that Abed will run, so the task file corresponds to the
 tasks defined in the settings. This can be done by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed reload_tasks
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed reload_tasks
 </pre></div>
 </div>
 <p>Once this is done, we can start working with the remote compute cluster. The
 first thing we do is to setup the remote environment, and push the datasets to
 the server. This is done with the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed setup
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed setup
 </pre></div>
 </div>
 <p>This creates the following structure on the remote server:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">REMOTE_DIR</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">REMOTE_DIR</span>
 <span class="o">|</span>
 <span class="o">|---</span> <span class="n">datasets</span>
 <span class="o">|</span>    <span class="o">|</span>
@@ -133,11 +121,11 @@ the server. This is done with the command:</p>
 <span class="o">|</span>    <span class="o">|</span>
 <span class="o">|</span>    <span class="n">packages</span>
 <span class="o">|</span>    <span class="o">|</span>
-<span class="o">|</span>    <span class="o">|---</span> <span class="mi">2016</span><span class="n">_05_28_21_30_04_123456ab</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="o">|</span>    <span class="o">|---</span> <span class="mi">2016_05_28_21_30_04_123456</span><span class="n">ab</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
 <span class="o">|</span>    <span class="o">|</span>
 <span class="o">|</span>    <span class="n">releases</span>
 <span class="o">|</span>    <span class="o">|</span>
-<span class="o">|</span>    <span class="o">|---</span> <span class="mi">2016</span><span class="n">_05_28_21_30_04_123456ab</span>
+<span class="o">|</span>    <span class="o">|---</span> <span class="mi">2016_05_28_21_30_04_123456</span><span class="n">ab</span>
 <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>
 <span class="o">|</span>    <span class="o">|</span>    <span class="o">|---</span> <span class="n">abed_conf</span><span class="o">.</span><span class="n">py</span>
 <span class="o">|</span>    <span class="o">|</span>    <span class="o">|---</span> <span class="n">abed_auto</span><span class="o">.</span><span class="n">txt</span>
@@ -150,9 +138,9 @@ the server. This is done with the command:</p>
 <span class="o">|</span>    <span class="o">|---</span> <span class="n">previous</span>
 </pre></div>
 </div>
-<p>In this directory structure, <code class="docutils literal"><span class="pre">current</span></code> and <code class="docutils literal"><span class="pre">previous</span></code> will always be
+<p>In this directory structure, <code class="docutils literal notranslate"><span class="pre">current</span></code> and <code class="docutils literal notranslate"><span class="pre">previous</span></code> will always be
 symbolic links to the previous two configurations that were uploaded.
-Everytime you use the <code class="docutils literal"><span class="pre">abed</span> <span class="pre">push</span></code> command, a new package is uploaded, which
+Everytime you use the <code class="docutils literal notranslate"><span class="pre">abed</span> <span class="pre">push</span></code> command, a new package is uploaded, which
 is unpacked in the release directory. To save space, datasets are copied from
 the previous configuration to the current configuration every time a new push
 is done.</p>
@@ -162,13 +150,13 @@ commited to the git repository will be transferred to the remote!</em></p>
 </div>
 <div class="section" id="running-an-abed-project">
 <h3>Running an Abed project<a class="headerlink" href="#running-an-abed-project" title="Permalink to this headline">¶</a></h3>
-<p>Now that we&#8217;ve finished the setup of Abed both locally and on the remote,
-it&#8217;s time to start the computations. This can be done by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed push
+<p>Now that we’ve finished the setup of Abed both locally and on the remote,
+it’s time to start the computations. This can be done by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed push
 </pre></div>
 </div>
 <p>This pushes the last state of the git repository to the remote server, runs
-the build command (e.g. <code class="docutils literal"><span class="pre">make</span></code>) when needed, creates the PBS file, and
+the build command (e.g. <code class="docutils literal notranslate"><span class="pre">make</span></code>) when needed, creates the PBS file, and
 submits this to the PBS queue.</p>
 <p>Eventually, the PBS queue will run your job. On the remote server, this is
 also done by Abed. Abed contains an efficient master-worker program
@@ -185,7 +173,7 @@ need to run on the node. Note finally that the master thread does no work
 itself, other than sending out work to the worker threads.</p>
 <p>When the computations are finished, the results can be collected using the
 command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed pull
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed pull
 </pre></div>
 </div>
 <p>This command download the results from the remote server, unpacks them into
@@ -198,7 +186,7 @@ done, it is immediately possible to push again to the remote, to continue the
 computations.</p>
 <p>Since it is inefficient manually push and pull every time, the following
 command can be used:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed auto
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed auto
 </pre></div>
 </div>
 <p>This command automatically pushes and pulls, until all tasks are completed.
@@ -209,42 +197,40 @@ described <a class="reference external" href="http://www.rebol.com/docs/ssh-auto
 <div class="section" id="when-all-tasks-are-finished">
 <h3>When all tasks are finished<a class="headerlink" href="#when-all-tasks-are-finished" title="Permalink to this headline">¶</a></h3>
 <p>When all tasks are finished, Abed automatically generates the summary files
-from the results. If it doesn&#8217;t do this for whatever reason, you can force
+from the results. If it doesn’t do this for whatever reason, you can force
 generation of result pages with the command:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed parse_results
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed parse_results
 </pre></div>
 </div>
 <p>Both static webpages and simple text files will be generated.  The webpages
 can be viewed simply by running:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ abed view_results
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ abed view_results
 </pre></div>
 </div>
 <p>This will open the static summary pages in your default browser. For more on
-interpreting and exploring these summary pages, see <a class="reference internal" href="analysis.html"><span class="doc">Analyzing Abed&#8217;s Output</span></a>.</p>
+interpreting and exploring these summary pages, see <a class="reference internal" href="analysis.html"><span class="doc">Analyzing Abed’s Output</span></a>.</p>
 </div>
 </div>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Overview and Tutorial</a><ul>
-<li><a class="reference internal" href="#what-is-abed">What is Abed?</a></li>
-<li><a class="reference internal" href="#using-abed">Using Abed</a><ul>
-<li><a class="reference internal" href="#local-setup-of-an-abed-project">Local setup of an Abed project</a></li>
-<li><a class="reference internal" href="#remote-setup-of-an-abed-project">Remote setup of an Abed project</a></li>
-<li><a class="reference internal" href="#running-an-abed-project">Running an Abed project</a></li>
-<li><a class="reference internal" href="#when-all-tasks-are-finished">When all tasks are finished</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<h1 class="logo"><a href="../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -252,23 +238,24 @@ interpreting and exploring these summary pages, see <a class="reference internal
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/usage/tutorial.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -277,8 +264,8 @@ interpreting and exploring these summary pages, see <a class="reference internal
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/usage/tutorial.rst.txt"

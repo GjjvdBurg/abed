@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>How Abed works &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,47 +20,47 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="how-abed-works">
 <h1>How Abed works<a class="headerlink" href="#how-abed-works" title="Permalink to this headline">¶</a></h1>
 <p>Running the tasks on the cluster is done as follows:</p>
 <ol class="arabic">
-<li><p class="first">In the PBS the following preprocessing steps are taken:</p>
+<li><p>In the PBS the following preprocessing steps are taken:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
-<li>A <code class="docutils literal"><span class="pre">results</span></code> directory is created on the scratch filesystem (see
-above)</li>
-<li>An email is sent to the current user with a brief summary of the
+<li><p>A <code class="docutils literal notranslate"><span class="pre">results</span></code> directory is created on the scratch filesystem (see
+above)</p></li>
+<li><p>An email is sent to the current user with a brief summary of the
 number of tasks to be performed. This is sent to the users email,
-an may require a forwarding file to be delivered correctly.</li>
-<li>Optional modules are loaded</li>
-<li>Optional environment variables are exported</li>
-<li><code class="docutils literal"><span class="pre">mpicopy</span></code> is used to copy files from the home directory to the
-scratch filesystem</li>
+an may require a forwarding file to be delivered correctly.</p></li>
+<li><p>Optional modules are loaded</p></li>
+<li><p>Optional environment variables are exported</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mpicopy</span></code> is used to copy files from the home directory to the
+scratch filesystem</p></li>
 </ol>
 </div></blockquote>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">abed</span> <span class="pre">run</span></code> is executed through <code class="docutils literal"><span class="pre">mpiexec</span></code>. This requires Abed to be in the
+<li><p><code class="docutils literal notranslate"><span class="pre">abed</span> <span class="pre">run</span></code> is executed through <code class="docutils literal notranslate"><span class="pre">mpiexec</span></code>. This requires Abed to be in the
 PATH variable. This command is run in a timeout command, with the execution
 time reduced by a configurable number of seconds. This should allow enough
-time for the post-processing steps</p>
-</li>
-<li><p class="first">The postprocessing steps are:</p>
+time for the post-processing steps</p></li>
+<li><p>The postprocessing steps are:</p>
 <blockquote>
 <div><ol class="loweralpha simple">
-<li>Create a <code class="docutils literal"><span class="pre">bzips</span></code> directory in the current release directory</li>
-<li>Create a compressed archive for each dataset in the result
-directory, this is done in parallel through <code class="docutils literal"><span class="pre">pbzip2</span></code></li>
-<li>Copy the compressed files to the current release directory</li>
-<li>Sent an email to the user that the task is completed.</li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">bzips</span></code> directory in the current release directory</p></li>
+<li><p>Create a compressed archive for each dataset in the result
+directory, this is done in parallel through <code class="docutils literal notranslate"><span class="pre">pbzip2</span></code></p></li>
+<li><p>Copy the compressed files to the current release directory</p></li>
+<li><p>Sent an email to the user that the task is completed.</p></li>
 </ol>
 </div></blockquote>
 </li>
@@ -82,33 +69,47 @@ directory, this is done in parallel through <code class="docutils literal"><span
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/usage/workings.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -117,8 +118,8 @@ directory, this is done in parallel through <code class="docutils literal"><span
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/usage/workings.rst.txt"

@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Utility functions for HTML generation &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,13 +20,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-abed.html.utils">
@@ -48,95 +36,110 @@
 assets.</p>
 <dl class="class">
 <dt id="abed.html.utils.AbedHTMLTypes">
-<em class="property">class </em><code class="descclassname">abed.html.utils.</code><code class="descname">AbedHTMLTypes</code><a class="reference internal" href="../../_modules/abed/html/utils.html#AbedHTMLTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
+<em class="property">class </em><code class="sig-prename descclassname">abed.html.utils.</code><code class="sig-name descname">AbedHTMLTypes</code><a class="reference internal" href="../../_modules/abed/html/utils.html#AbedHTMLTypes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.HISTOGRAMS">
-<code class="descname">HISTOGRAMS</code><em class="property"> = ('Histograms', 'histograms.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.HISTOGRAMS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">HISTOGRAMS</code><em class="property"> = ('Histograms', 'histograms.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.HISTOGRAMS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.INDEX">
-<code class="descname">INDEX</code><em class="property"> = ('Home', 'index.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.INDEX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">INDEX</code><em class="property"> = ('Home', 'index.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.INDEX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.METRIC_TABLES">
-<code class="descname">METRIC_TABLES</code><em class="property"> = ('Metric Tables', 'metric_tables.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.METRIC_TABLES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">METRIC_TABLES</code><em class="property"> = ('Metric Tables', 'metric_tables.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.METRIC_TABLES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.PROFILE_PLOTS">
-<code class="descname">PROFILE_PLOTS</code><em class="property"> = ('Profile Plots', 'profile_plots.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.PROFILE_PLOTS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">PROFILE_PLOTS</code><em class="property"> = ('Profile Plots', 'profile_plots.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.PROFILE_PLOTS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.RANK_GRAPHS">
-<code class="descname">RANK_GRAPHS</code><em class="property"> = ('Rank Graphs', 'rank_graphs.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.RANK_GRAPHS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RANK_GRAPHS</code><em class="property"> = ('Rank Graphs', 'rank_graphs.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.RANK_GRAPHS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.RANK_TESTS">
-<code class="descname">RANK_TESTS</code><em class="property"> = ('Rank Tests', 'rank_tests.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.RANK_TESTS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RANK_TESTS</code><em class="property"> = ('Rank Tests', 'rank_tests.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.RANK_TESTS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.SCALAR_TABLES">
-<code class="descname">SCALAR_TABLES</code><em class="property"> = ('Scalar Tables', 'scalar_tables.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.SCALAR_TABLES" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SCALAR_TABLES</code><em class="property"> = ('Scalar Tables', 'scalar_tables.html')</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.SCALAR_TABLES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="abed.html.utils.AbedHTMLTypes.types">
-<code class="descname">types</code><em class="property"> = [('Home', 'index.html'), ('Metric Tables', 'metric_tables.html'), ('Scalar Tables', 'scalar_tables.html'), ('Profile Plots', 'profile_plots.html'), ('Rank Graphs', 'rank_graphs.html'), ('Rank Tests', 'rank_tests.html'), ('Histograms', 'histograms.html')]</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.types" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">types</code><em class="property"> = [('Home', 'index.html'), ('Metric Tables', 'metric_tables.html'), ('Scalar Tables', 'scalar_tables.html'), ('Profile Plots', 'profile_plots.html'), ('Rank Graphs', 'rank_graphs.html'), ('Rank Tests', 'rank_tests.html'), ('Histograms', 'histograms.html')]</em><a class="headerlink" href="#abed.html.utils.AbedHTMLTypes.types" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.html.utils.copy_auxiliary_files">
-<code class="descclassname">abed.html.utils.</code><code class="descname">copy_auxiliary_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#copy_auxiliary_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.copy_auxiliary_files" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.html.utils.</code><code class="sig-name descname">copy_auxiliary_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#copy_auxiliary_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.copy_auxiliary_files" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.html.utils.copy_data_file">
-<code class="descclassname">abed.html.utils.</code><code class="descname">copy_data_file</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#copy_data_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.copy_data_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.html.utils.</code><code class="sig-name descname">copy_data_file</code><span class="sig-paren">(</span><em class="sig-param">filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#copy_data_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.copy_data_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.html.utils.get_data_path">
-<code class="descclassname">abed.html.utils.</code><code class="descname">get_data_path</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#get_data_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.get_data_path" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.html.utils.</code><code class="sig-name descname">get_data_path</code><span class="sig-paren">(</span><em class="sig-param">filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/html/utils.html#get_data_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.html.utils.get_data_path" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/api/html/abed.html.utils.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -145,8 +148,8 @@ assets.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/api/html/abed.html.utils.rst.txt"

@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Dealing with result archives &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,71 +20,86 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-abed.zips">
 <span id="dealing-with-result-archives"></span><h1>Dealing with result archives<a class="headerlink" href="#module-abed.zips" title="Permalink to this headline">¶</a></h1>
 <p>Functions for dealing with zips of results</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The bz2file dependency is needed because tar.bz2 files are created with
+<p class="admonition-title">Note</p>
+<p>The bz2file dependency is needed because tar.bz2 files are created with
 pbzip2, which results in multiple streams in the tarfile. The Python 2.x
 tarfile module does not handle multiple streams, but the bz2file package
 does. Unpacking the tarfiles is thus done in two separate steps.</p>
 </div>
 <dl class="function">
 <dt id="abed.zips.clean_empty_dir">
-<code class="descclassname">abed.zips.</code><code class="descname">clean_empty_dir</code><span class="sig-paren">(</span><em>folder</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#clean_empty_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.clean_empty_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.zips.</code><code class="sig-name descname">clean_empty_dir</code><span class="sig-paren">(</span><em class="sig-param">folder</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#clean_empty_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.clean_empty_dir" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.zips.move_results">
-<code class="descclassname">abed.zips.</code><code class="descname">move_results</code><span class="sig-paren">(</span><em>task_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#move_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.move_results" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.zips.</code><code class="sig-name descname">move_results</code><span class="sig-paren">(</span><em class="sig-param">task_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#move_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.move_results" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.zips.unpack_zips">
-<code class="descclassname">abed.zips.</code><code class="descname">unpack_zips</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#unpack_zips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.unpack_zips" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.zips.</code><code class="sig-name descname">unpack_zips</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/zips.html#unpack_zips"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.zips.unpack_zips" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/api/core/abed.zips.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -106,8 +108,8 @@ does. Unpacking the tarfiles is thus done in two separate steps.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/api/core/abed.zips.rst.txt"

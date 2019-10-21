@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Abed’s Features &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,27 +20,28 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="abed-s-features">
-<h1>Abed&#8217;s Features<a class="headerlink" href="#abed-s-features" title="Permalink to this headline">¶</a></h1>
+<h1>Abed’s Features<a class="headerlink" href="#abed-s-features" title="Permalink to this headline">¶</a></h1>
 <p>Abed is a program for managing, performing, and analyzing results of
 (benchmarking) computations on a compute cluster. Typically, such computations
 focus on five main things:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>A collection of methods</li>
-<li>A set of hyperparameters to optimize for each method</li>
-<li>A number of datasets to test the methods on</li>
-<li>Various performance metrics on which to evaluate the results</li>
-<li>Statistical tests to investigate significant differences between methods.</li>
+<li><p>A collection of methods</p></li>
+<li><p>A set of hyperparameters to optimize for each method</p></li>
+<li><p>A number of datasets to test the methods on</p></li>
+<li><p>Various performance metrics on which to evaluate the results</p></li>
+<li><p>Statistical tests to investigate significant differences between methods.</p></li>
 </ol>
 </div></blockquote>
 <p>Abed helps you manage these computations and the subsequent analyses easily,
@@ -61,69 +49,83 @@ and within a single framework.</p>
 <p>Features of Abed include:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Ability to define a benchmarking experiment through a single comprehensive
-configuration file.</li>
-<li>Ability to run external programs for the methods you wish to run, thereby
+<li><p>Ability to define a benchmarking experiment through a single comprehensive
+configuration file.</p></li>
+<li><p>Ability to run external programs for the methods you wish to run, thereby
 not enforcing methods to be written in a specific language (e.g. methods
-can be written in R, or as compiled programs, while still using Abed).</li>
-<li>Ability to execute the computations efficiently on a compute cluster, or
-locally when desired.</li>
-<li>When running on a compute cluster, it is possible to set the desired number
+can be written in R, or as compiled programs, while still using Abed).</p></li>
+<li><p>Ability to execute the computations efficiently on a compute cluster, or
+locally when desired.</p></li>
+<li><p>When running on a compute cluster, it is possible to set the desired number
 of compute nodes, computation time, etc. through Abed. This removes the
-need to learn such specifics.</li>
-<li>Starting computations on a compute cluster and retrieving the results can
-be done through two simple Abed commands.</li>
-<li>Abed has an auto mode, which automatically manages retrieving the results
+need to learn such specifics.</p></li>
+<li><p>Starting computations on a compute cluster and retrieving the results can
+be done through two simple Abed commands.</p></li>
+<li><p>Abed has an auto mode, which automatically manages retrieving the results
 from the compute cluster, evaluating which tasks are left to be done, and
 submitting a new job to the cluster. This removes the need for long
 queueing time of large jobs, and means you can have Abed manage your
-computations while you sleep.</li>
-<li>Abed generates easy-to-use summary results of the computations as HTML
+computations while you sleep.</p></li>
+<li><p>Abed generates easy-to-use summary results of the computations as HTML
 pages and text files.  Both tables and figures are generated which allow
 you to explore the results, see which methods outperform which other
 methods.  You can also see whether these statistical differences are
-significant (see also <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a>).</li>
-<li>Abed manages the entire directory structure on the remote cluster, removing
-the need to organize this manually.</li>
-<li>Abed works closely with Git version control software. This makes it easy to
+significant (see also <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a>).</p></li>
+<li><p>Abed manages the entire directory structure on the remote cluster, removing
+the need to organize this manually.</p></li>
+<li><p>Abed works closely with Git version control software. This makes it easy to
 keep track of the progress of an experiment, as well as of the software
-used in the experiment.</li>
-<li>Since Abed requires storing the full results of experiments, storage space
+used in the experiment.</p></li>
+<li><p>Since Abed requires storing the full results of experiments, storage space
 could become an issue. Abed provides a command to compress results, such
-that this will be less of a problem.</li>
+that this will be less of a problem.</p></li>
 </ul>
 </div></blockquote>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/usage/features.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -132,8 +134,8 @@ that this will be less of a problem.</li>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/usage/features.rst.txt"

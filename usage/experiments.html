@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Types of Experiments &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,29 +20,30 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="types-of-experiments">
 <h1>Types of Experiments<a class="headerlink" href="#types-of-experiments" title="Permalink to this headline">¶</a></h1>
 <p>Currently, Abed is capable of handling three types of experiments. The type of
-experiment you want to use can be set with the setting <a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a>. The
+experiment you want to use can be set with the setting <a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a>. The
 chosen experiment type has an effect on several settings in the
 <a class="reference internal" href="settings.html"><span class="doc">The Abed Settings file</span></a>.</p>
 <div class="section" id="model-assessment">
 <h2>Model assessment<a class="headerlink" href="#model-assessment" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> = <code class="docutils literal"><span class="pre">'ASSESS'</span></code>.</p>
+<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> = <code class="docutils literal notranslate"><span class="pre">'ASSESS'</span></code>.</p>
 <p>With this setting, Abed does a grid search on the specified parameters for
 each method, on every specified dataset. It is useful for simple experiments
 with a single dataset per command, or experiments where you want to perform
 cross validation on a dataset. Example settings are:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;ASSESS&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;ASSESS&#39;</span>
 
 <span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dataset_1&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_2&#39;</span><span class="p">]</span>
 <span class="n">METHODS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge&#39;</span><span class="p">]</span>
@@ -78,25 +66,25 @@ cross validation on a dataset. Example settings are:</p>
     <span class="p">}</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal"><span class="pre">lasso.py</span></code> and <code class="docutils literal"><span class="pre">ridge.py</span></code> are python scripts that parse the command
+<p>where <code class="docutils literal notranslate"><span class="pre">lasso.py</span></code> and <code class="docutils literal notranslate"><span class="pre">ridge.py</span></code> are python scripts that parse the command
 line arguments, load the dataset specified on the command line, and run <a class="reference external" href="http://en.wikipedia.org/wiki/Lasso_(statistics)">Lasso</a> or <a class="reference external" href="http://en.wikipedia.org/wiki/Tikhonov_regularization">Ridge</a>  regression with the
 specified cost parameter, respectively. See also <a class="reference internal" href="executables.html"><span class="doc">Designing Executable Scripts</span></a>.</p>
 <p>Note that the executables do not necessarily have to be Python scripts. The
 command will be executed by the system, so it can be an R program executed
-with for instance <code class="docutils literal"><span class="pre">Rscript</span></code>, a compiled executable, or anything else.</p>
-<p>Also of note is the addition of <code class="docutils literal"><span class="pre">&quot;.txt&quot;</span></code> to the <code class="docutils literal"><span class="pre">{dataset}</span></code> variable in
+with for instance <code class="docutils literal notranslate"><span class="pre">Rscript</span></code>, a compiled executable, or anything else.</p>
+<p>Also of note is the addition of <code class="docutils literal notranslate"><span class="pre">&quot;.txt&quot;</span></code> to the <code class="docutils literal notranslate"><span class="pre">{dataset}</span></code> variable in
 the command. This implies that we expect the datasets to be stored in files
-<code class="docutils literal"><span class="pre">dataset_1.txt</span></code> and <code class="docutils literal"><span class="pre">dataset_2.txt</span></code> in the dataset folder (see
-<a class="reference internal" href="settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal"><span class="pre">DATADIR</span></code></a>).</p>
+<code class="docutils literal notranslate"><span class="pre">dataset_1.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">dataset_2.txt</span></code> in the dataset folder (see
+<a class="reference internal" href="settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATADIR</span></code></a>).</p>
 </div>
 <div class="section" id="nested-cross-validation">
 <h2>Nested Cross-Validation<a class="headerlink" href="#nested-cross-validation" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> = <code class="docutils literal"><span class="pre">'CV_TT'</span></code></p>
+<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> = <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code></p>
 <p>With this setting, a train and test dataset are expected for each command.
 This is useful when you want to train a model on one dataset and test it on
 another, or when you want to run nested cross validation for instance. Example
 settings are as follows:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;CV_TT&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TYPE</span> <span class="o">=</span> <span class="s1">&#39;CV_TT&#39;</span>
 
 <span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dataset_1_train&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_1_test&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;dataset_2_train&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_2_test&#39;</span><span class="p">)]</span>
@@ -120,7 +108,7 @@ settings are as follows:</p>
     <span class="p">}</span>
 </pre></div>
 </div>
-<p>Now it is expected that the executables <code class="docutils literal"><span class="pre">lasso.py</span></code> and <code class="docutils literal"><span class="pre">ridge.py</span></code> accept
+<p>Now it is expected that the executables <code class="docutils literal notranslate"><span class="pre">lasso.py</span></code> and <code class="docutils literal notranslate"><span class="pre">ridge.py</span></code> accept
 two command line arguments for the datasets. Note that the datasets are
 provided as tuples of training and test datasets.</p>
 <p>This option was designed with nested cross validation in mind. One would
@@ -129,22 +117,22 @@ test dataset. Then, each executable performs for instance 10-fold cross
 validation on each of the <em>K</em> training sets, each time predicting the
 corresponding test dataset.  Results on both the training and test datasets
 would be printed to the output.  Later, the label used for the training data
-can be set using the <a class="reference internal" href="settings.html#std:setting-YTRAIN_LABEL"><code class="xref std std-setting docutils literal"><span class="pre">YTRAIN_LABEL</span></code></a> setting. When generating the
+can be set using the <a class="reference internal" href="settings.html#std:setting-YTRAIN_LABEL"><code class="xref std std-setting docutils literal notranslate"><span class="pre">YTRAIN_LABEL</span></code></a> setting. When generating the
 results, Abed will find out which parameter setting performs best on the
 training dataset, and show the performance on the test dataset. See
 <a class="reference internal" href="../api/results/abed.results.cv_tt.html"><span class="doc">Generate result tables for cv_tt mode</span></a> for more information.</p>
 </div>
 <div class="section" id="raw-command-file">
 <h2>Raw command file<a class="headerlink" href="#raw-command-file" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> = <code class="docutils literal"><span class="pre">'RAW'</span></code></p>
+<p><a class="reference internal" href="settings.html#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> = <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code></p>
 <p>This setting can be used for experiments that do not fully fit in either of
 the above frameworks. It allows you to provide a file with commands, through
-the setting <a class="reference internal" href="settings.html#std:setting-RAW_CMD_FILE"><code class="xref std std-setting docutils literal"><span class="pre">RAW_CMD_FILE</span></code></a>. The raw command file should contain the
+the setting <a class="reference internal" href="settings.html#std:setting-RAW_CMD_FILE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">RAW_CMD_FILE</span></code></a>. The raw command file should contain the
 commands you wish to execute on separate lines (empty lines are allowed). It
-is possible to use the variables <code class="docutils literal"><span class="pre">{execdir}</span></code> and <code class="docutils literal"><span class="pre">{datadir}</span></code> as with the
+is possible to use the variables <code class="docutils literal notranslate"><span class="pre">{execdir}</span></code> and <code class="docutils literal notranslate"><span class="pre">{datadir}</span></code> as with the
 other experiment types.  Other variables will not be used however. A command
 file could look like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">lasso</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">1.0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">lasso</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">1.0</span>
 <span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">lasso</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">5.0</span>
 <span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">lasso</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">10.0</span>
 <span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">lasso</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">50.0</span>
@@ -157,7 +145,7 @@ file could look like this:</p>
 <span class="n">python</span> <span class="p">{</span><span class="n">execdir</span><span class="p">}</span><span class="o">/</span><span class="n">ridge</span><span class="o">.</span><span class="n">py</span> <span class="p">{</span><span class="n">datadir</span><span class="p">}</span><span class="o">/</span><span class="n">dataset_1</span><span class="o">.</span><span class="n">txt</span> <span class="mf">100.0</span>
 </pre></div>
 </div>
-<p>Note that now the <a class="reference internal" href="settings.html#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> and <a class="reference internal" href="settings.html#std:setting-METHODS"><code class="xref std std-setting docutils literal"><span class="pre">METHODS</span></code></a> settings will not
+<p>Note that now the <a class="reference internal" href="settings.html#std:setting-DATASETS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASETS</span></code></a> and <a class="reference internal" href="settings.html#std:setting-METHODS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">METHODS</span></code></a> settings will not
 be used. The command file should also be added to the git repository, as
 otherwise it will not be uploaded to the cluster.</p>
 </div>
@@ -165,19 +153,22 @@ otherwise it will not be uploaded to the cluster.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Types of Experiments</a><ul>
-<li><a class="reference internal" href="#model-assessment">Model assessment</a></li>
-<li><a class="reference internal" href="#nested-cross-validation">Nested Cross-Validation</a></li>
-<li><a class="reference internal" href="#raw-command-file">Raw command file</a></li>
-</ul>
-</li>
-</ul>
+<h1 class="logo"><a href="../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -185,23 +176,24 @@ otherwise it will not be uploaded to the cluster.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/usage/experiments.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -210,8 +202,8 @@ otherwise it will not be uploaded to the cluster.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/usage/experiments.rst.txt"

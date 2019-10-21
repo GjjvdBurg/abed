@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Configuration Loading &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,13 +20,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-abed.conf">
@@ -48,16 +36,16 @@
 <p>The Abed configuration is loaded into a Settings object, after some
 preprocessing of the options. The preprocessing functions and the Settings
 class are defined here.</p>
-<p>This module also creates a <code class="docutils literal"><span class="pre">settings</span></code> variable, which is an instance of the
-<a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> class. It is supposed to be used as singleton object, by
+<p>This module also creates a <code class="docutils literal notranslate"><span class="pre">settings</span></code> variable, which is an instance of the
+<a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> class. It is supposed to be used as singleton object, by
 importing it from this module:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abed.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abed.conf</span> <span class="k">import</span> <span class="n">settings</span>
 </pre></div>
 </div>
 <dl class="class">
 <dt id="abed.conf.Settings">
-<em class="property">class </em><code class="descclassname">abed.conf.</code><code class="descname">Settings</code><span class="sig-paren">(</span><em>**entries</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#Settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.Settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="sig-prename descclassname">abed.conf.</code><code class="sig-name descname">Settings</code><span class="sig-paren">(</span><em class="sig-param">**entries</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#Settings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.Settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Simple Settings class</p>
 <p>This class functions as a simple key/value store, with one exception. If a
 key is not available in the class, an error is displayed and the program
@@ -66,56 +54,68 @@ exits cleanly.</p>
 
 <dl class="function">
 <dt id="abed.conf.init_config">
-<code class="descclassname">abed.conf.</code><code class="descname">init_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#init_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.init_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.conf.</code><code class="sig-name descname">init_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/conf.html#init_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.conf.init_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the Settings object from the configuration file</p>
 <p>This function reads the configuration file by parsing it as Python code.
 Next, it deletes all lowercase variables from the configuration and removes
 any trailing path seperators from directory names. Finally, it instantiates
-a <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> object containing the configuration.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>settings</strong> &#8211; The <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> object containing the configuration from the
-configuration file.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a></td>
-</tr>
-</tbody>
-</table>
+a <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> object containing the configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>settings</strong> – The <a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a> object containing the configuration from the
+configuration file.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#abed.conf.Settings" title="abed.conf.Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/api/core/abed.conf.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -124,8 +124,8 @@ configuration file.</td>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/api/core/abed.conf.rst.txt"

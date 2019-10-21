@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>The Abed Settings file &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -33,58 +20,59 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="the-abed-settings-file">
 <h1>The Abed Settings file<a class="headerlink" href="#the-abed-settings-file" title="Permalink to this headline">¶</a></h1>
-<p>As a user, the settings file is the place where you&#8217;ll define your experiment
+<p>As a user, the settings file is the place where you’ll define your experiment
 for Abed. Since there are quite some settings that can be influenced, the
 settings file contains different sections with related settings. These
 sections are reflected in the documentation below.</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#general-settings" id="id1">General settings</a></li>
-<li><a class="reference internal" href="#server-parameters-and-settings" id="id2">Server parameters and settings</a></li>
-<li><a class="reference internal" href="#settings-for-master-worker-program" id="id3">Settings for Master/Worker program</a></li>
-<li><a class="reference internal" href="#experiment-type" id="id4">Experiment type</a></li>
-<li><a class="reference internal" href="#build-settings" id="id5">Build settings</a></li>
-<li><a class="reference internal" href="#experiment-parameters-and-settings" id="id6">Experiment parameters and settings</a></li>
-<li><a class="reference internal" href="#pbs-settings" id="id7">PBS settings</a></li>
+<li><p><a class="reference internal" href="#general-settings" id="id1">General settings</a></p></li>
+<li><p><a class="reference internal" href="#server-parameters-and-settings" id="id2">Server parameters and settings</a></p></li>
+<li><p><a class="reference internal" href="#settings-for-master-worker-program" id="id3">Settings for Master/Worker program</a></p></li>
+<li><p><a class="reference internal" href="#experiment-type" id="id4">Experiment type</a></p></li>
+<li><p><a class="reference internal" href="#build-settings" id="id5">Build settings</a></p></li>
+<li><p><a class="reference internal" href="#experiment-parameters-and-settings" id="id6">Experiment parameters and settings</a></p></li>
+<li><p><a class="reference internal" href="#pbs-settings" id="id7">PBS settings</a></p></li>
 </ul>
 </div>
 <div class="section" id="general-settings">
 <h2><a class="toc-backref" href="#id1">General settings</a><a class="headerlink" href="#general-settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="project-name">
-<span id="std:setting-PROJECT_NAME"></span><h3><code class="docutils literal"><span class="pre">PROJECT_NAME</span></code><a class="headerlink" href="#project-name" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">''</span></code></p>
+<span id="std:setting-PROJECT_NAME"></span><h3><code class="docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code><a class="headerlink" href="#project-name" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
 <p>The name of the project to use. This setting is used in the default of the
-setting <a class="reference internal" href="#std:setting-REMOTE_DIR"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_DIR</span></code></a>, and can therefore not be empty when accepting
-the default for that setting. It can contain a forward slash (<code class="docutils literal"><span class="pre">/</span></code>), when
+setting <a class="reference internal" href="#std:setting-REMOTE_DIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REMOTE_DIR</span></code></a>, and can therefore not be empty when accepting
+the default for that setting. It can contain a forward slash (<code class="docutils literal notranslate"><span class="pre">/</span></code>), when
 necessary. The project name further only occurs in the HTML output generated
 by Abed.</p>
 </div>
 <div class="section" id="task-file">
-<span id="std:setting-TASK_FILE"></span><h3><code class="docutils literal"><span class="pre">TASK_FILE</span></code><a class="headerlink" href="#task-file" title="Permalink to this headline">¶</a></h3>
-<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.TASKS_FILENAME" title="abed.constants.TASKS_FILENAME"><code class="xref py py-const docutils literal"><span class="pre">abed.constants.TASKS_FILENAME</span></code></a></p>
-<p>This is the filename of the task file. It shouldn&#8217;t generally need to be
+<span id="std:setting-TASK_FILE"></span><h3><code class="docutils literal notranslate"><span class="pre">TASK_FILE</span></code><a class="headerlink" href="#task-file" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.TASKS_FILENAME" title="abed.constants.TASKS_FILENAME"><code class="xref py py-const docutils literal notranslate"><span class="pre">abed.constants.TASKS_FILENAME</span></code></a></p>
+<p>This is the filename of the task file. It shouldn’t generally need to be
 changed from the default value.</p>
 </div>
 <div class="section" id="auto-file">
-<span id="std:setting-AUTO_FILE"></span><h3><code class="docutils literal"><span class="pre">AUTO_FILE</span></code><a class="headerlink" href="#auto-file" title="Permalink to this headline">¶</a></h3>
-<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.AUTO_FILENAME" title="abed.constants.AUTO_FILENAME"><code class="xref py py-const docutils literal"><span class="pre">abed.constants.AUTO_FILENAME</span></code></a></p>
-<p>This is the filename of the auto file. It shouldn&#8217;t generally need to be
+<span id="std:setting-AUTO_FILE"></span><h3><code class="docutils literal notranslate"><span class="pre">AUTO_FILE</span></code><a class="headerlink" href="#auto-file" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.AUTO_FILENAME" title="abed.constants.AUTO_FILENAME"><code class="xref py py-const docutils literal notranslate"><span class="pre">abed.constants.AUTO_FILENAME</span></code></a></p>
+<p>This is the filename of the auto file. It shouldn’t generally need to be
 changed from the default value.</p>
 </div>
 <div class="section" id="result-dir">
-<span id="std:setting-RESULT_DIR"></span><h3><code class="docutils literal"><span class="pre">RESULT_DIR</span></code><a class="headerlink" href="#result-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'/path/to/local/results'</span></code></p>
+<span id="std:setting-RESULT_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">RESULT_DIR</span></code><a class="headerlink" href="#result-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'/path/to/local/results'</span></code></p>
 <p>Path to the local results directory. This is where the results of all
 computations will end up in the end. Because this can be potentially large, it
 is wise to consider the location of this path carefully. For instance, when
@@ -93,16 +81,16 @@ Dropbox. To ensure this is considered, the default path is not directly
 useable and should be changed by the user.</p>
 </div>
 <div class="section" id="stage-dir">
-<span id="std:setting-STAGE_DIR"></span><h3><code class="docutils literal"><span class="pre">STAGE_DIR</span></code><a class="headerlink" href="#stage-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'/path/to/local/stagedir'</span></code></p>
+<span id="std:setting-STAGE_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">STAGE_DIR</span></code><a class="headerlink" href="#stage-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'/path/to/local/stagedir'</span></code></p>
 <p>Path to local stage directory. This is the directory where the results are
 temporarily stored before being moved to the result directory. The same
-considerations apply as are specified in the setting <a class="reference internal" href="#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal"><span class="pre">RESULT_DIR</span></code></a>.
+considerations apply as are specified in the setting <a class="reference internal" href="#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">RESULT_DIR</span></code></a>.
 The default should be adjusted by the user.</p>
 </div>
 <div class="section" id="max-files">
-<span id="std:setting-MAX_FILES"></span><h3><code class="docutils literal"><span class="pre">MAX_FILES</span></code><a class="headerlink" href="#max-files" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">1000</span></code></p>
+<span id="std:setting-MAX_FILES"></span><h3><code class="docutils literal notranslate"><span class="pre">MAX_FILES</span></code><a class="headerlink" href="#max-files" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1000</span></code></p>
 <p>The maximum number of files stored in a result directory on the remote. When
 results are generated on the remote, they are placed in subdirectories of at
 most this many files. Each subdirectory will later be zipped before it can be
@@ -113,27 +101,27 @@ zip files that need to be downloaded. The default should be fine for most
 users.</p>
 </div>
 <div class="section" id="zip-dir">
-<span id="std:setting-ZIP_DIR"></span><h3><code class="docutils literal"><span class="pre">ZIP_DIR</span></code><a class="headerlink" href="#zip-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'./zips'</span></code></p>
+<span id="std:setting-ZIP_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">ZIP_DIR</span></code><a class="headerlink" href="#zip-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'./zips'</span></code></p>
 <p>Path to the local zip directory. This is where the compressed zip files with
 results are stored. These files will be unpacked into the stage dir and moved
-to the result directory (see <a class="reference internal" href="#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal"><span class="pre">RESULT_DIR</span></code></a>). The zip files are kept by
+to the result directory (see <a class="reference internal" href="#std:setting-RESULT_DIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">RESULT_DIR</span></code></a>). The zip files are kept by
 Abed for posterity, but can be removed when the user sees no need for them
 anymore (the raw results will be kept in the result directory).</p>
 </div>
 <div class="section" id="log-dir">
-<span id="std:setting-LOG_DIR"></span><h3><code class="docutils literal"><span class="pre">LOG_DIR</span></code><a class="headerlink" href="#log-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'./logs'</span></code></p>
+<span id="std:setting-LOG_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">LOG_DIR</span></code><a class="headerlink" href="#log-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'./logs'</span></code></p>
 <p>Local path where the PBS logs will be kept.</p>
 </div>
 <div class="section" id="output-dir">
-<span id="std:setting-OUTPUT_DIR"></span><h3><code class="docutils literal"><span class="pre">OUTPUT_DIR</span></code><a class="headerlink" href="#output-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'./output'</span></code></p>
+<span id="std:setting-OUTPUT_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code><a class="headerlink" href="#output-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'./output'</span></code></p>
 <p>Local path where the output files are placed that are generated by Abed.</p>
 </div>
 <div class="section" id="auto-sleep">
-<span id="std:setting-AUTO_SLEEP"></span><h3><code class="docutils literal"><span class="pre">AUTO_SLEEP</span></code><a class="headerlink" href="#auto-sleep" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">120</span></code></p>
+<span id="std:setting-AUTO_SLEEP"></span><h3><code class="docutils literal notranslate"><span class="pre">AUTO_SLEEP</span></code><a class="headerlink" href="#auto-sleep" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">120</span></code></p>
 <p>Sleep time in seconds between consecutive checks on the remote when running in
 auto mode. In auto mode Abed checks the remote repeatedly to see if a
 submitted task is finished, so it can pull the results and submit a new task.
@@ -141,96 +129,96 @@ The time between checks is defined here. See also
 <a class="reference internal" href="../api/core/abed.auto.html"><span class="doc">Automatic Job Management</span></a>.</p>
 </div>
 <div class="section" id="html-port">
-<span id="std:setting-HTML_PORT"></span><h3><code class="docutils literal"><span class="pre">HTML_PORT</span></code><a class="headerlink" href="#html-port" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">8000</span></code></p>
+<span id="std:setting-HTML_PORT"></span><h3><code class="docutils literal notranslate"><span class="pre">HTML_PORT</span></code><a class="headerlink" href="#html-port" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">8000</span></code></p>
 <p>Port on the localhost where the HTML pages will be served on. This is used by
-the function <a class="reference internal" href="../api/html/abed.html.view.html#abed.html.view.view_html" title="abed.html.view.view_html"><code class="xref py py-func docutils literal"><span class="pre">abed.html.view.view_html()</span></code></a>. It will be automatically
+the function <a class="reference internal" href="../api/html/abed.html.view.html#abed.html.view.view_html" title="abed.html.view.view_html"><code class="xref py py-func docutils literal notranslate"><span class="pre">abed.html.view.view_html()</span></code></a>. It will be automatically
 incremented when the port is in use. It should not generally have to be
 changed by the user.</p>
 </div>
 <div class="section" id="compression">
-<span id="std:setting-COMPRESSION"></span><h3><code class="docutils literal"><span class="pre">COMPRESSION</span></code><a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'bzip2'</span></code></p>
+<span id="std:setting-COMPRESSION"></span><h3><code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code><a class="headerlink" href="#compression" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'bzip2'</span></code></p>
 <p>Compression algorithm to use when compressing finished result directories.
 Abed can compress result files automatically when all computations for a
 dataset are finished. This is the algorithm that is used by Abed to compress
-the tar file that results. Allowed choices are: <code class="docutils literal"><span class="pre">bzip2</span></code>, <code class="docutils literal"><span class="pre">gzip</span></code>, and
-<code class="docutils literal"><span class="pre">lzma</span></code>. See also the documentation in <a class="reference internal" href="../api/core/abed.compress.html"><span class="doc">Result Compression</span></a>.</p>
+the tar file that results. Allowed choices are: <code class="docutils literal notranslate"><span class="pre">bzip2</span></code>, <code class="docutils literal notranslate"><span class="pre">gzip</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">lzma</span></code>. See also the documentation in <a class="reference internal" href="../api/core/abed.compress.html"><span class="doc">Result Compression</span></a>.</p>
 </div>
 </div>
 <div class="section" id="server-parameters-and-settings">
 <h2><a class="toc-backref" href="#id2">Server parameters and settings</a><a class="headerlink" href="#server-parameters-and-settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="remote-user">
-<span id="std:setting-REMOTE_USER"></span><h3><code class="docutils literal"><span class="pre">REMOTE_USER</span></code><a class="headerlink" href="#remote-user" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'username'</span></code></p>
+<span id="std:setting-REMOTE_USER"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_USER</span></code><a class="headerlink" href="#remote-user" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'username'</span></code></p>
 <p>Username on the remote server. This is assumed to be the username to use when
 logging in on the remote server, and under which the jobs will be submitted.
 It should be changed by the user.</p>
 </div>
 <div class="section" id="remote-host">
-<span id="std:setting-REMOTE_HOST"></span><h3><code class="docutils literal"><span class="pre">REMOTE_HOST</span></code><a class="headerlink" href="#remote-host" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'address.of.host'</span></code></p>
+<span id="std:setting-REMOTE_HOST"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_HOST</span></code><a class="headerlink" href="#remote-host" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'address.of.host'</span></code></p>
 <p>The address of the remote server. For instance, for the Dutch LISA compute
-cluster, it is <code class="docutils literal"><span class="pre">lisa.surfsara.nl</span></code>. It should be changed by the user.</p>
+cluster, it is <code class="docutils literal notranslate"><span class="pre">lisa.surfsara.nl</span></code>. It should be changed by the user.</p>
 </div>
 <div class="section" id="remote-dir">
-<span id="std:setting-REMOTE_DIR"></span><h3><code class="docutils literal"><span class="pre">REMOTE_DIR</span></code><a class="headerlink" href="#remote-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'/home/%s/projects/%s'</span> <span class="pre">%</span> <span class="pre">(REMOTE_USER,</span> <span class="pre">PROJECT_NAME)</span></code></p>
+<span id="std:setting-REMOTE_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_DIR</span></code><a class="headerlink" href="#remote-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'/home/%s/projects/%s'</span> <span class="pre">%</span> <span class="pre">(REMOTE_USER,</span> <span class="pre">PROJECT_NAME)</span></code></p>
 <p>Path on the remote server to place all project files in. The default assumes
 that the remote server is a Unix server with the standard directory layout. It
-uses the <a class="reference internal" href="#std:setting-REMOTE_USER"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_USER</span></code></a> setting and the <a class="reference internal" href="#std:setting-PROJECT_NAME"><code class="xref std std-setting docutils literal"><span class="pre">PROJECT_NAME</span></code></a>
-setting to construct the remote path. Therefore, it shouldn&#8217;t necessarily have
+uses the <a class="reference internal" href="#std:setting-REMOTE_USER"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REMOTE_USER</span></code></a> setting and the <a class="reference internal" href="#std:setting-PROJECT_NAME"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code></a>
+setting to construct the remote path. Therefore, it shouldn’t necessarily have
 to be changed by the user.</p>
 </div>
 <div class="section" id="remote-port">
-<span id="std:setting-REMOTE_PORT"></span><h3><code class="docutils literal"><span class="pre">REMOTE_PORT</span></code><a class="headerlink" href="#remote-port" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">22</span></code></p>
+<span id="std:setting-REMOTE_PORT"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_PORT</span></code><a class="headerlink" href="#remote-port" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">22</span></code></p>
 <p>Remote communication port to use. Usually communication is done over the SSH
 port, so that is the default. To learn more about how communication is done
 with the remote server, see <a class="reference internal" href="../api/core/abed.fab.html"><span class="doc">Communication through Fabric</span></a> and
 <a class="reference internal" href="../api/core/abed.fab_util.html"><span class="doc">Utilities for working with Fabric</span></a>.</p>
 </div>
 <div class="section" id="remote-scratch">
-<span id="std:setting-REMOTE_SCRATCH"></span><h3><code class="docutils literal"><span class="pre">REMOTE_SCRATCH</span></code><a class="headerlink" href="#remote-scratch" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-REMOTE_SCRATCH"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_SCRATCH</span></code><a class="headerlink" href="#remote-scratch" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>Typically, it is more efficient to place results generated by a job on the
 compute cluster on a disk which is close to the node which executes the job,
-as opposed to in the user&#8217;s home directory. Such a directory is called the
+as opposed to in the user’s home directory. Such a directory is called the
 <em>scratch</em> directory, and it is typically erased after a job is finished. Abed
 places the results it generates on this scratch directory, and periodically
 copies them to the home directory of the user, to lower the burden on the
 network of the cluster. On the Dutch LISA cluster, the path to the scratch
 directory is given by an environment variable, but on other systems it may be
 a fixed location.  This setting exists for the latter case. For the former
-case, see <a class="reference internal" href="#std:setting-REMOTE_SCRATCH_ENV"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_SCRATCH_ENV</span></code></a>.  This setting is used by
-<a class="reference internal" href="../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir" title="abed.run_utils.get_scratchdir"><code class="xref py py-func docutils literal"><span class="pre">abed.run_utils.get_scratchdir()</span></code></a>.</p>
+case, see <a class="reference internal" href="#std:setting-REMOTE_SCRATCH_ENV"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REMOTE_SCRATCH_ENV</span></code></a>.  This setting is used by
+<a class="reference internal" href="../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir" title="abed.run_utils.get_scratchdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">abed.run_utils.get_scratchdir()</span></code></a>.</p>
 </div>
 <div class="section" id="remote-scratch-env">
-<span id="std:setting-REMOTE_SCRATCH_ENV"></span><h3><code class="docutils literal"><span class="pre">REMOTE_SCRATCH_ENV</span></code><a class="headerlink" href="#remote-scratch-env" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'TMPDIR'</span></code></p>
-<p>See also the description under the setting <a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_SCRATCH</span></code></a>. This
+<span id="std:setting-REMOTE_SCRATCH_ENV"></span><h3><code class="docutils literal notranslate"><span class="pre">REMOTE_SCRATCH_ENV</span></code><a class="headerlink" href="#remote-scratch-env" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'TMPDIR'</span></code></p>
+<p>See also the description under the setting <a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REMOTE_SCRATCH</span></code></a>. This
 setting exists in case the location of the <em>scratch</em> directory is given by an
 environment variable. The name of the environment variable can be set here.
 The default corresponds to the name used on the Dutch LISA compute cluster.
-This setting is used by <a class="reference internal" href="../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir" title="abed.run_utils.get_scratchdir"><code class="xref py py-func docutils literal"><span class="pre">abed.run_utils.get_scratchdir()</span></code></a>.</p>
+This setting is used by <a class="reference internal" href="../api/core/abed.run_utils.html#abed.run_utils.get_scratchdir" title="abed.run_utils.get_scratchdir"><code class="xref py py-func docutils literal notranslate"><span class="pre">abed.run_utils.get_scratchdir()</span></code></a>.</p>
 </div>
 </div>
 <div class="section" id="settings-for-master-worker-program">
 <h2><a class="toc-backref" href="#id3">Settings for Master/Worker program</a><a class="headerlink" href="#settings-for-master-worker-program" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="mw-sendatonce">
-<span id="std:setting-MW_SENDATONCE"></span><h3><code class="docutils literal"><span class="pre">MW_SENDATONCE</span></code><a class="headerlink" href="#mw-sendatonce" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">100</span></code></p>
+<span id="std:setting-MW_SENDATONCE"></span><h3><code class="docutils literal notranslate"><span class="pre">MW_SENDATONCE</span></code><a class="headerlink" href="#mw-sendatonce" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">100</span></code></p>
 <p>When running tasks on the compute node, Abed works through a Master/Worker
 system, where the master thread continually sends out work to the worker
 threads. To reduce communication load, it sends out a number of tasks at once.
 This setting defines how many tasks are sent. Note that as soon as there are
-fewer tasks left than <code class="docutils literal"><span class="pre">n_workers</span> <span class="pre">*</span> <span class="pre">MW_SENDATONCE</span></code>, Abed reduces the number
-of tasks to send to 1.  This ensures that the situation can&#8217;t occur where one
+fewer tasks left than <code class="docutils literal notranslate"><span class="pre">n_workers</span> <span class="pre">*</span> <span class="pre">MW_SENDATONCE</span></code>, Abed reduces the number
+of tasks to send to 1.  This ensures that the situation can’t occur where one
 worker gets all the remaining tasks whereas other workers get none.</p>
 </div>
 <div class="section" id="mw-copy-worker">
-<span id="std:setting-MW_COPY_WORKER"></span><h3><code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code><a class="headerlink" href="#mw-copy-worker" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<span id="std:setting-MW_COPY_WORKER"></span><h3><code class="docutils literal notranslate"><span class="pre">MW_COPY_WORKER</span></code><a class="headerlink" href="#mw-copy-worker" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 <p>Abed can reserve a thread on the compute node to periodically copy results
 from the scratch directory on the node to the home directory of the user.
 However, this places additional load on the internal bandwith of the compute
@@ -239,23 +227,23 @@ case be copied as compressed archives from the scratch after the wall time has
 ended.</p>
 </div>
 <div class="section" id="mw-copy-sleep">
-<span id="std:setting-MW_COPY_SLEEP"></span><h3><code class="docutils literal"><span class="pre">MW_COPY_SLEEP</span></code><a class="headerlink" href="#mw-copy-sleep" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">120</span></code></p>
-<p>If :setting:<code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code> is <code class="docutils literal"><span class="pre">True</span></code>, Abed reserves one thread on the
+<span id="std:setting-MW_COPY_SLEEP"></span><h3><code class="docutils literal notranslate"><span class="pre">MW_COPY_SLEEP</span></code><a class="headerlink" href="#mw-copy-sleep" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">120</span></code></p>
+<p>If :setting:<code class="docutils literal notranslate"><span class="pre">MW_COPY_WORKER</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, Abed reserves one thread on the
 compute node for periodically copying the result files from the scratch
-directory to the home directory (see also <a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal"><span class="pre">REMOTE_SCRATCH</span></code></a>).  This
+directory to the home directory (see also <a class="reference internal" href="#std:setting-REMOTE_SCRATCH"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REMOTE_SCRATCH</span></code></a>).  This
 setting defines the time in seconds between consecutive copying of the
 results.</p>
 </div>
 <div class="section" id="mw-num-workers">
-<span id="std:setting-MW_NUM_WORKERS"></span><h3><code class="docutils literal"><span class="pre">MW_NUM_WORKERS</span></code><a class="headerlink" href="#mw-num-workers" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-MW_NUM_WORKERS"></span><h3><code class="docutils literal notranslate"><span class="pre">MW_NUM_WORKERS</span></code><a class="headerlink" href="#mw-num-workers" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>The number of worker processes to use. This can be useful in applications
-where you <em>don&#8217;t</em> want to use all available processes, for instance because
-you&#8217;re using parallelism in your application. Allowed values are a number or
-<code class="docutils literal"><span class="pre">None</span></code>. If <code class="docutils literal"><span class="pre">None</span></code> is given, the maximum number of worker processes is
+where you <em>don’t</em> want to use all available processes, for instance because
+you’re using parallelism in your application. Allowed values are a number or
+<code class="docutils literal notranslate"><span class="pre">None</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code> is given, the maximum number of worker processes is
 started. Note that the master process and the copy worker do not count as
-worker processes (see also <a class="reference internal" href="#std:setting-MW_COPY_WORKER"><code class="xref std std-setting docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a>).</p>
+worker processes (see also <a class="reference internal" href="#std:setting-MW_COPY_WORKER"><code class="xref std std-setting docutils literal notranslate"><span class="pre">MW_COPY_WORKER</span></code></a>).</p>
 </div>
 </div>
 <div class="section" id="experiment-type">
@@ -266,47 +254,47 @@ all types of experiments. Therefore, the initial settings file generated by
 Abed requires the user to uncomment the block of settings relating to the
 specific type of experiment they want to use.</p>
 <div class="section" id="type">
-<span id="std:setting-TYPE"></span><h3><code class="docutils literal"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
+<span id="std:setting-TYPE"></span><h3><code class="docutils literal notranslate"><span class="pre">TYPE</span></code><a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
 <p>Default: Undefined.</p>
 <p>This setting defines the type of experiment that will be run. Valid options
-are <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, and <code class="docutils literal"><span class="pre">'RAW'</span></code>. See <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> for a
+are <code class="docutils literal notranslate"><span class="pre">'ASSESS'</span></code>, <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code>. See <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a> for a
 more in-depth discussion of the different types.</p>
 </div>
 <div class="section" id="cv-baseseed">
-<span id="std:setting-CV_BASESEED"></span><h3><code class="docutils literal"><span class="pre">CV_BASESEED</span></code><a class="headerlink" href="#cv-baseseed" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">123456</span></code></p>
-<p>Only used when the experiment type is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>. This defines the base seed
+<span id="std:setting-CV_BASESEED"></span><h3><code class="docutils literal notranslate"><span class="pre">CV_BASESEED</span></code><a class="headerlink" href="#cv-baseseed" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">123456</span></code></p>
+<p>Only used when the experiment type is <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code>. This defines the base seed
 to use for the generation of the cross-validation seeds. This setting is used
-by the function <a class="reference internal" href="../api/core/abed.tasks.html#abed.tasks.init_tasks_cv_tt" title="abed.tasks.init_tasks_cv_tt"><code class="xref py py-func docutils literal"><span class="pre">abed.tasks.init_tasks_cv_tt()</span></code></a>.</p>
+by the function <a class="reference internal" href="../api/core/abed.tasks.html#abed.tasks.init_tasks_cv_tt" title="abed.tasks.init_tasks_cv_tt"><code class="xref py py-func docutils literal notranslate"><span class="pre">abed.tasks.init_tasks_cv_tt()</span></code></a>.</p>
 </div>
 <div class="section" id="ytrain-label">
-<span id="std:setting-YTRAIN_LABEL"></span><h3><code class="docutils literal"><span class="pre">YTRAIN_LABEL</span></code><a class="headerlink" href="#ytrain-label" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'y_train'</span></code></p>
-<p>Only used when the experiment type is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>. This defines the label for
+<span id="std:setting-YTRAIN_LABEL"></span><h3><code class="docutils literal notranslate"><span class="pre">YTRAIN_LABEL</span></code><a class="headerlink" href="#ytrain-label" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'y_train'</span></code></p>
+<p>Only used when the experiment type is <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code>. This defines the label for
 the part in the result file which corresponds to the training set.</p>
 </div>
 <div class="section" id="raw-cmd-file">
-<span id="std:setting-RAW_CMD_FILE"></span><h3><code class="docutils literal"><span class="pre">RAW_CMD_FILE</span></code><a class="headerlink" href="#raw-cmd-file" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'/path/to/file.txt'</span></code></p>
-<p>Only used when the experiment type is <code class="docutils literal"><span class="pre">'RAW'</span></code>. This is the path to the file
+<span id="std:setting-RAW_CMD_FILE"></span><h3><code class="docutils literal notranslate"><span class="pre">RAW_CMD_FILE</span></code><a class="headerlink" href="#raw-cmd-file" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'/path/to/file.txt'</span></code></p>
+<p>Only used when the experiment type is <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code>. This is the path to the file
 with raw tasks. See also <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a>.</p>
 </div>
 </div>
 <div class="section" id="build-settings">
 <h2><a class="toc-backref" href="#id5">Build settings</a><a class="headerlink" href="#build-settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="needs-build">
-<span id="std:setting-NEEDS_BUILD"></span><h3><code class="docutils literal"><span class="pre">NEEDS_BUILD</span></code><a class="headerlink" href="#needs-build" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<span id="std:setting-NEEDS_BUILD"></span><h3><code class="docutils literal notranslate"><span class="pre">NEEDS_BUILD</span></code><a class="headerlink" href="#needs-build" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 <p>Whether or not compilation is necessary on the remote.</p>
 </div>
 <div class="section" id="build-dir">
-<span id="std:setting-BUILD_DIR"></span><h3><code class="docutils literal"><span class="pre">BUILD_DIR</span></code><a class="headerlink" href="#build-dir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'build'</span></code></p>
+<span id="std:setting-BUILD_DIR"></span><h3><code class="docutils literal notranslate"><span class="pre">BUILD_DIR</span></code><a class="headerlink" href="#build-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'build'</span></code></p>
 <p>Directory where the build command needs to be executed. It is assumed that
 this is a subdirectory of the <em>current</em> directory on the remote. The path
 defined here should therefore be the path in the git archive. With the default
 setting, the local Abed directory would look like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">|---</span> <span class="n">abed_conf</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|---</span> <span class="n">abed_conf</span><span class="o">.</span><span class="n">py</span>
 <span class="o">|---</span> <span class="n">abed_tasks</span><span class="o">.</span><span class="n">txt</span>
 <span class="o">|---</span> <span class="n">abed_auto</span><span class="o">.</span><span class="n">txt</span>
 <span class="o">|---</span> <span class="n">build</span>
@@ -316,88 +304,86 @@ setting, the local Abed directory would look like:</p>
 </div>
 </div>
 <div class="section" id="build-cmd">
-<span id="std:setting-BUILD_CMD"></span><h3><code class="docutils literal"><span class="pre">BUILD_CMD</span></code><a class="headerlink" href="#build-cmd" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">'make</span> <span class="pre">all'</span></code></p>
+<span id="std:setting-BUILD_CMD"></span><h3><code class="docutils literal notranslate"><span class="pre">BUILD_CMD</span></code><a class="headerlink" href="#build-cmd" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'make</span> <span class="pre">all'</span></code></p>
 <p>The command to run on the remote. This is run in the directory given by the
-<a class="reference internal" href="#std:setting-BUILD_DIR"><code class="xref std std-setting docutils literal"><span class="pre">BUILD_DIR</span></code></a> setting.</p>
+<a class="reference internal" href="#std:setting-BUILD_DIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">BUILD_DIR</span></code></a> setting.</p>
 </div>
 </div>
 <div class="section" id="experiment-parameters-and-settings">
 <h2><a class="toc-backref" href="#id6">Experiment parameters and settings</a><a class="headerlink" href="#experiment-parameters-and-settings" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="datadir">
-<span id="std:setting-DATADIR"></span><h3><code class="docutils literal"><span class="pre">DATADIR</span></code><a class="headerlink" href="#datadir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.DATASET_DIRNAME" title="abed.constants.DATASET_DIRNAME"><code class="xref py py-const docutils literal"><span class="pre">abed.constants.DATASET_DIRNAME</span></code></a></p>
+<span id="std:setting-DATADIR"></span><h3><code class="docutils literal notranslate"><span class="pre">DATADIR</span></code><a class="headerlink" href="#datadir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.DATASET_DIRNAME" title="abed.constants.DATASET_DIRNAME"><code class="xref py py-const docutils literal notranslate"><span class="pre">abed.constants.DATASET_DIRNAME</span></code></a></p>
 <p>The path where the datasets are stored. Note that this does not necessarily
-have to be in the Abed working directory (where you typed <code class="docutils literal"><span class="pre">abed</span> <span class="pre">init</span></code>).
+have to be in the Abed working directory (where you typed <code class="docutils literal notranslate"><span class="pre">abed</span> <span class="pre">init</span></code>).
 However, on the remote the datasets will be placed in a directory called
-<code class="docutils literal"><span class="pre">datasets</span></code> in the remote working directory. By using this setting it is
+<code class="docutils literal notranslate"><span class="pre">datasets</span></code> in the remote working directory. By using this setting it is
 possible to place your datasets in a directory outside of the Abed working
-directory. This can be very useful when you&#8217;re running multiple experiments
+directory. This can be very useful when you’re running multiple experiments
 that use the same datasets.</p>
 </div>
 <div class="section" id="execdir">
-<span id="std:setting-EXECDIR"></span><h3><code class="docutils literal"><span class="pre">EXECDIR</span></code><a class="headerlink" href="#execdir" title="Permalink to this headline">¶</a></h3>
-<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.EXECS_DIRNAME" title="abed.constants.EXECS_DIRNAME"><code class="xref py py-const docutils literal"><span class="pre">abed.constants.EXECS_DIRNAME</span></code></a></p>
+<span id="std:setting-EXECDIR"></span><h3><code class="docutils literal notranslate"><span class="pre">EXECDIR</span></code><a class="headerlink" href="#execdir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="../api/core/abed.constants.html#abed.constants.EXECS_DIRNAME" title="abed.constants.EXECS_DIRNAME"><code class="xref py py-const docutils literal notranslate"><span class="pre">abed.constants.EXECS_DIRNAME</span></code></a></p>
 <p>The path where the executables are stored. These executables are used in the
-commands that Abed runs (see the setting <a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a>). It is advisable
+commands that Abed runs (see the setting <a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">COMMANDS</span></code></a>). It is advisable
 to keep the default setting as this makes it easier to place executables under
 version control.</p>
 </div>
 <div class="section" id="datasets">
-<span id="std:setting-DATASETS"></span><h3><code class="docutils literal"><span class="pre">DATASETS</span></code><a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">['dataset_1',</span> <span class="pre">'dataset_2']</span></code></p>
+<span id="std:setting-DATASETS"></span><h3><code class="docutils literal notranslate"><span class="pre">DATASETS</span></code><a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">['dataset_1',</span> <span class="pre">'dataset_2']</span></code></p>
 <p>This setting defines the names of the datasets that will be used in the
 experiments. Abed expects a different type in the list depending on the
-<a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> that is used:</p>
+<a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> that is used:</p>
 <ul>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, the expected format is the same as the
-default, simply a list of names of the datasets, as strings.</p>
-</li>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, the expected format is a list of
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'ASSESS'</span></code>, the expected format is the same as the
+default, simply a list of names of the datasets, as strings.</p></li>
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code>, the expected format is a list of
 tuples, where each tuple is a pair of strings. The first string gives the
 name of the training dataset, and the second string the name of the test
 dataset.  For instance:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dataset_1_train&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_1_test&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dataset_2_train&#39;</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATASETS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;dataset_1_train&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset_1_test&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dataset_2_train&#39;</span><span class="p">,</span>
 <span class="s1">&#39;dataset_2_test&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'RAW'</span></code>, this setting is not used.</p>
-</li>
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code>, this setting is not used.</p></li>
 </ul>
 <p>See for more info on the different experiment types and their requirements
 <a class="reference internal" href="experiments.html"><span class="doc">Types of Experiments</span></a>.</p>
 </div>
 <div class="section" id="dataset-names">
-<span id="std:setting-DATASET_NAMES"></span><h3><code class="docutils literal"><span class="pre">DATASET_NAMES</span></code><a class="headerlink" href="#dataset-names" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">{k:str(i)</span> <span class="pre">for</span> <span class="pre">i,</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">enumerate(DATASETS)}</span></code></p>
+<span id="std:setting-DATASET_NAMES"></span><h3><code class="docutils literal notranslate"><span class="pre">DATASET_NAMES</span></code><a class="headerlink" href="#dataset-names" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">{k:str(i)</span> <span class="pre">for</span> <span class="pre">i,</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">enumerate(DATASETS)}</span></code></p>
 <p>Optional. This setting gives a mapping of datasets to names. This can be
 useful when you wish to use different names for the datasets in the output
-than in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> setting. If this setting is not present in the
+than in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASETS</span></code></a> setting. If this setting is not present in the
 settings file, the ID of a dataset will be generated with the function
-<a class="reference internal" href="../api/core/abed.datasets.html#abed.datasets.dataset_name" title="abed.datasets.dataset_name"><code class="xref py py-func docutils literal"><span class="pre">abed.datasets.dataset_name()</span></code></a>.</p>
-<p>As an example, consider datasets names following the pattern <code class="docutils literal"><span class="pre">'dataset_1'</span></code>,
-<code class="docutils literal"><span class="pre">'dataset_2'</span></code>, etc.  It may then be nice to use names such as <code class="docutils literal"><span class="pre">'001'</span></code>,
-<code class="docutils literal"><span class="pre">'002'</span></code>, etc. in the result tables. This can be achieved by setting:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DATASET_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%03i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DATASETS</span><span class="p">}</span>
+<a class="reference internal" href="../api/core/abed.datasets.html#abed.datasets.dataset_name" title="abed.datasets.dataset_name"><code class="xref py py-func docutils literal notranslate"><span class="pre">abed.datasets.dataset_name()</span></code></a>.</p>
+<p>As an example, consider datasets names following the pattern <code class="docutils literal notranslate"><span class="pre">'dataset_1'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'dataset_2'</span></code>, etc.  It may then be nice to use names such as <code class="docutils literal notranslate"><span class="pre">'001'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'002'</span></code>, etc. in the result tables. This can be achieved by setting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DATASET_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="s1">&#39;</span><span class="si">%03i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">DATASETS</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Note that this setting relates closely to the setting
-<a class="reference internal" href="#std:setting-DATA_DESCRIPTION_CSV"><code class="xref std std-setting docutils literal"><span class="pre">DATA_DESCRIPTION_CSV</span></code></a>.</p>
+<a class="reference internal" href="#std:setting-DATA_DESCRIPTION_CSV"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATA_DESCRIPTION_CSV</span></code></a>.</p>
 </div>
 <div class="section" id="methods">
-<span id="std:setting-METHODS"></span><h3><code class="docutils literal"><span class="pre">METHODS</span></code><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">['method_1',</span> <span class="pre">'method_2']</span></code></p>
+<span id="std:setting-METHODS"></span><h3><code class="docutils literal notranslate"><span class="pre">METHODS</span></code><a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">['method_1',</span> <span class="pre">'method_2']</span></code></p>
 <p>Here you define the names of the methods that you will use. These names will
-must be the same as the ones used in the <a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a> and the
-<a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> settings. Since these names will also be used in directory
+must be the same as the ones used in the <a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PARAMS</span></code></a> and the
+<a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">COMMANDS</span></code></a> settings. Since these names will also be used in directory
 names, it is advisable to not use spaces or other illegal characters in these
 names.</p>
 </div>
 <div class="section" id="params">
-<span id="std:setting-PARAMS"></span><h3><code class="docutils literal"><span class="pre">PARAMS</span></code><a class="headerlink" href="#params" title="Permalink to this headline">¶</a></h3>
+<span id="std:setting-PARAMS"></span><h3><code class="docutils literal notranslate"><span class="pre">PARAMS</span></code><a class="headerlink" href="#params" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;param_1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_1</span><span class="p">,</span> <span class="n">val_2</span><span class="p">],</span>
         <span class="s1">&#39;param_2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">val_3</span><span class="p">,</span> <span class="n">val_4</span><span class="p">],</span>
@@ -410,18 +396,18 @@ names.</p>
 </pre></div>
 </div>
 <p>As described in <a class="reference internal" href="workings.html"><span class="doc">How Abed works</span></a>, Abed runs a grid search where the commands
-defined in <a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal"><span class="pre">COMMANDS</span></code></a> are run for the respective method for each
+defined in <a class="reference internal" href="#std:setting-COMMANDS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">COMMANDS</span></code></a> are run for the respective method for each
 dataset, and all possible combinations of the values in the parameters. The
 values that are used are defined in this setting. Expected is a list of values
 for each parameter, even if only one value is used. Note that the names used
 for the parameters match those used in the commands. The user must therefore
-ensure that these are the same. This setting is not used with the <code class="docutils literal"><span class="pre">'RAW'</span></code>
+ensure that these are the same. This setting is not used with the <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code>
 experiment type.</p>
 </div>
 <div class="section" id="commands">
-<span id="std:setting-COMMANDS"></span><h3><code class="docutils literal"><span class="pre">COMMANDS</span></code><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
+<span id="std:setting-COMMANDS"></span><h3><code class="docutils literal notranslate"><span class="pre">COMMANDS</span></code><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_1 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2"> &quot;</span>
         <span class="s2">&quot;</span><span class="si">{param_2}</span><span class="s2"> </span><span class="si">{param_3}</span><span class="s2">&quot;</span><span class="p">),</span>
     <span class="s1">&#39;method_2&#39;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_2 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2">&quot;</span>
@@ -431,39 +417,37 @@ experiment type.</p>
 <p>Abed works by calling external commands for each method. The advantage of
 running external commands, is that Abed can be used regardless of the language
 that the methods are implemented in. This setting defines the commands that
-Abed needs to run for each method. The variables <code class="docutils literal"><span class="pre">{execdir}</span></code> and
-<code class="docutils literal"><span class="pre">{datadir}</span></code> are special variables, which are formatted by Abed
-automatically. The <code class="docutils literal"><span class="pre">{param_*}</span></code> variables correspond to the names defined in
-<a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal"><span class="pre">PARAMS</span></code></a>. Finally, the <code class="docutils literal"><span class="pre">{dataset}</span></code> variable will be formatted by
-Abed based on the names of the datasets defined in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a>
+Abed needs to run for each method. The variables <code class="docutils literal notranslate"><span class="pre">{execdir}</span></code> and
+<code class="docutils literal notranslate"><span class="pre">{datadir}</span></code> are special variables, which are formatted by Abed
+automatically. The <code class="docutils literal notranslate"><span class="pre">{param_*}</span></code> variables correspond to the names defined in
+<a class="reference internal" href="#std:setting-PARAMS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PARAMS</span></code></a>. Finally, the <code class="docutils literal notranslate"><span class="pre">{dataset}</span></code> variable will be formatted by
+Abed based on the names of the datasets defined in the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASETS</span></code></a>
 setting. Note that it is up to the user to ensure the right file extension is
 supplied here. This means, that if the name of a dataset defined in
-<a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> is for instance <code class="docutils literal"><span class="pre">'iris'</span></code>, but the filename on the disk
-is <code class="docutils literal"><span class="pre">'iris.txt'</span></code>, the command should be adjusted with the part
-<code class="docutils literal"><span class="pre">{datadir}/{dataset}.txt</span></code>.</p>
+<a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASETS</span></code></a> is for instance <code class="docutils literal notranslate"><span class="pre">'iris'</span></code>, but the filename on the disk
+is <code class="docutils literal notranslate"><span class="pre">'iris.txt'</span></code>, the command should be adjusted with the part
+<code class="docutils literal notranslate"><span class="pre">{datadir}/{dataset}.txt</span></code>.</p>
 <p>There are slight differences between the way the commands are used depending
-on the type of experiment that is run (see <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a>). Thus,</p>
+on the type of experiment that is run (see <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a>). Thus,</p>
 <ul>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'ASSESS'</span></code>, the expected form for the dataset part
-of the command is <code class="docutils literal"><span class="pre">{dataset}</span></code> (as in the default).</p>
-</li>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'CV_TT'</span></code>, both a training and a test dataset
-should be included in the command, with the variables <code class="docutils literal"><span class="pre">{train_dataset}</span></code>
-and <code class="docutils literal"><span class="pre">{test_dataset}</span></code>, respectively. Thus, for this format a command could
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'ASSESS'</span></code>, the expected form for the dataset part
+of the command is <code class="docutils literal notranslate"><span class="pre">{dataset}</span></code> (as in the default).</p></li>
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'CV_TT'</span></code>, both a training and a test dataset
+should be included in the command, with the variables <code class="docutils literal notranslate"><span class="pre">{train_dataset}</span></code>
+and <code class="docutils literal notranslate"><span class="pre">{test_dataset}</span></code>, respectively. Thus, for this format a command could
 look like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_1 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2"> &quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">COMMANDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;method_1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{execdir}</span><span class="s2">/method_1 </span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{train_dataset}</span><span class="s2"> &quot;</span>
     <span class="s2">&quot;</span><span class="si">{datadir}</span><span class="s2">/</span><span class="si">{test_dataset}</span><span class="s2"> </span><span class="si">{param_1}</span><span class="s2"> </span><span class="si">{param_2}</span><span class="s2"> </span><span class="si">{param_3}</span><span class="s2">&quot;</span><span class="p">)}</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal"><span class="pre">TYPE</span></code></a> is <code class="docutils literal"><span class="pre">'RAW'</span></code>, this setting is not used.</p>
-</li>
+<li><p>When <a class="reference internal" href="#std:setting-TYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">TYPE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">'RAW'</span></code>, this setting is not used.</p></li>
 </ul>
 </div>
 <div class="section" id="metrics">
-<span id="std:setting-METRICS"></span><h3><code class="docutils literal"><span class="pre">METRICS</span></code><a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h3>
+<span id="std:setting-METRICS"></span><h3><code class="docutils literal notranslate"><span class="pre">METRICS</span></code><a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;NAME_1&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="n">metric_function_1</span><span class="p">,</span>
         <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">max</span>
@@ -483,14 +467,14 @@ or define functions with a similar signature. See <a class="reference internal" 
 instructions on how to include custom metrics.</p>
 <p>Note that in these settings, a name can be defined by the user, as well as
 which direction is considered <em>better</em> in the metric function. This is done by
-defining the <code class="docutils literal"><span class="pre">'best'</span></code> field, which can be either the <code class="docutils literal"><span class="pre">max</span></code> function, or
-the <code class="docutils literal"><span class="pre">min</span></code> function. These directions will be used when Abed ranks the
+defining the <code class="docutils literal notranslate"><span class="pre">'best'</span></code> field, which can be either the <code class="docutils literal notranslate"><span class="pre">max</span></code> function, or
+the <code class="docutils literal notranslate"><span class="pre">min</span></code> function. These directions will be used when Abed ranks the
 results of a method on a given dataset with a given set of parameters.</p>
 </div>
 <div class="section" id="scalars">
-<span id="std:setting-SCALARS"></span><h3><code class="docutils literal"><span class="pre">SCALARS</span></code><a class="headerlink" href="#scalars" title="Permalink to this headline">¶</a></h3>
+<span id="std:setting-SCALARS"></span><h3><code class="docutils literal notranslate"><span class="pre">SCALARS</span></code><a class="headerlink" href="#scalars" title="Permalink to this headline">¶</a></h3>
 <p>Default:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;best&#39;</span><span class="p">:</span> <span class="nb">min</span>
         <span class="p">},</span>
@@ -500,16 +484,16 @@ results of a method on a given dataset with a given set of parameters.</p>
 <p>To compare results from a command on a single variable, this setting can be
 used. This can be useful when one wants to compare the computation time of a
 command for instance. The external executable could print for instance:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">time</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">time</span>
 <span class="mf">0.8473294179</span>
 </pre></div>
 </div>
-<p>With the default setting for the <a class="reference internal" href="#std:setting-SCALARS"><code class="xref std std-setting docutils literal"><span class="pre">SCALARS</span></code></a> field, Abed would read
+<p>With the default setting for the <a class="reference internal" href="#std:setting-SCALARS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">SCALARS</span></code></a> field, Abed would read
 this value as a scalar result for the command.</p>
 </div>
 <div class="section" id="result-precision">
-<span id="std:setting-RESULT_PRECISION"></span><h3><code class="docutils literal"><span class="pre">RESULT_PRECISION</span></code><a class="headerlink" href="#result-precision" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">4</span></code></p>
+<span id="std:setting-RESULT_PRECISION"></span><h3><code class="docutils literal notranslate"><span class="pre">RESULT_PRECISION</span></code><a class="headerlink" href="#result-precision" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">4</span></code></p>
 <p>Results are considered equal if they are the same number within this
 precision. Thus, with the default setting, the numbers 1.12345 and 1.12354
 would be considered <em>equal</em>, and would therefore get the same rank. If no
@@ -517,39 +501,39 @@ results should ever be considered equal, increase this setting to a large
 enough number.</p>
 </div>
 <div class="section" id="data-description-csv">
-<span id="std:setting-DATA_DESCRIPTION_CSV"></span><h3><code class="docutils literal"><span class="pre">DATA_DESCRIPTION_CSV</span></code><a class="headerlink" href="#data-description-csv" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-DATA_DESCRIPTION_CSV"></span><h3><code class="docutils literal notranslate"><span class="pre">DATA_DESCRIPTION_CSV</span></code><a class="headerlink" href="#data-description-csv" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>When generating result tables, it is possible to add additional columns of the
 table with an external CSV file. It is required that the CSV file is of the
 format:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ID</span><span class="p">,</span><span class="n">col1</span><span class="p">,</span><span class="n">col2</span><span class="p">,</span><span class="n">col3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID</span><span class="p">,</span><span class="n">col1</span><span class="p">,</span><span class="n">col2</span><span class="p">,</span><span class="n">col3</span>
 <span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span>
 <span class="mi">2</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span>
 <span class="mi">3</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>where the first column is considered the column with IDs of the datasets. The
-easiest way to do this is to combine this with the <a class="reference internal" href="#std:setting-DATASET_NAMES"><code class="xref std std-setting docutils literal"><span class="pre">DATASET_NAMES</span></code></a>
-setting, which is a <code class="docutils literal"><span class="pre">dict</span></code> mapping elements of the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal"><span class="pre">DATASETS</span></code></a> list
+easiest way to do this is to combine this with the <a class="reference internal" href="#std:setting-DATASET_NAMES"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASET_NAMES</span></code></a>
+setting, which is a <code class="docutils literal notranslate"><span class="pre">dict</span></code> mapping elements of the <a class="reference internal" href="#std:setting-DATASETS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATASETS</span></code></a> list
 to IDs. IDs of datasets must be strings. The first row of the CSV file will be
 used as headers in the table.</p>
 </div>
 <div class="section" id="reference-method">
-<span id="std:setting-REFERENCE_METHOD"></span><h3><code class="docutils literal"><span class="pre">REFERENCE_METHOD</span></code><a class="headerlink" href="#reference-method" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-REFERENCE_METHOD"></span><h3><code class="docutils literal notranslate"><span class="pre">REFERENCE_METHOD</span></code><a class="headerlink" href="#reference-method" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>Abed automatically runs statistical tests to see if a chosen reference method
 is statistically different from other methods. This reference method can be
-set here, and must be a method from the <a class="reference internal" href="#std:setting-METHODS"><code class="xref std std-setting docutils literal"><span class="pre">METHODS</span></code></a> setting. If you do
-not wish to run these statistical tests, use the default value of <code class="docutils literal"><span class="pre">None</span></code>.
+set here, and must be a method from the <a class="reference internal" href="#std:setting-METHODS"><code class="xref std std-setting docutils literal notranslate"><span class="pre">METHODS</span></code></a> setting. If you do
+not wish to run these statistical tests, use the default value of <code class="docutils literal notranslate"><span class="pre">None</span></code>.
 See also the documentation in <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a> for more information on
 how to use and interpret the test results (tldr: carefully!).</p>
 </div>
 <div class="section" id="significance-level">
-<span id="std:setting-SIGNIFICANCE_LEVEL"></span><h3><code class="docutils literal"><span class="pre">SIGNIFICANCE_LEVEL</span></code><a class="headerlink" href="#significance-level" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">0.05</span></code></p>
+<span id="std:setting-SIGNIFICANCE_LEVEL"></span><h3><code class="docutils literal notranslate"><span class="pre">SIGNIFICANCE_LEVEL</span></code><a class="headerlink" href="#significance-level" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">0.05</span></code></p>
 <p>This sets the significance level used in the statistical tests. See also the
 documentation in <a class="reference internal" href="statistical_tests.html"><span class="doc">Understanding Statistical Test Results</span></a> and the setting
-<a class="reference internal" href="#std:setting-REFERENCE_METHOD"><code class="xref std std-setting docutils literal"><span class="pre">REFERENCE_METHOD</span></code></a>.</p>
+<a class="reference internal" href="#std:setting-REFERENCE_METHOD"><code class="xref std std-setting docutils literal notranslate"><span class="pre">REFERENCE_METHOD</span></code></a>.</p>
 </div>
 </div>
 <div class="section" id="pbs-settings">
@@ -559,38 +543,52 @@ Currently only PBS Torque type clusters are supported. In the future, these
 settings will likely be generalized to support other compute cluster setups as
 well.</p>
 <div class="section" id="pbs-nodes">
-<span id="std:setting-PBS_NODES"></span><h3><code class="docutils literal"><span class="pre">PBS_NODES</span></code><a class="headerlink" href="#pbs-nodes" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">1</span></code></p>
+<span id="std:setting-PBS_NODES"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_NODES</span></code><a class="headerlink" href="#pbs-nodes" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
 <p>The number of compute nodes to use on the cluster.</p>
 </div>
 <div class="section" id="pbs-walltime">
-<span id="std:setting-PBS_WALLTIME"></span><h3><code class="docutils literal"><span class="pre">PBS_WALLTIME</span></code><a class="headerlink" href="#pbs-walltime" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">360</span></code></p>
+<span id="std:setting-PBS_WALLTIME"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_WALLTIME</span></code><a class="headerlink" href="#pbs-walltime" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">360</span></code></p>
 <p>Wall-clock time in minutes for the computations. This is the time that will be
 reserved from the queueing system. Note that the actual computation time is
-dependent also on <a class="reference internal" href="#std:setting-PBS_TIME_REDUCE"><code class="xref std std-setting docutils literal"><span class="pre">PBS_TIME_REDUCE</span></code></a>.</p>
+dependent also on <a class="reference internal" href="#std:setting-PBS_TIME_REDUCE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PBS_TIME_REDUCE</span></code></a>.</p>
 </div>
 <div class="section" id="pbs-cputype">
-<span id="std:setting-PBS_CPUTYPE"></span><h3><code class="docutils literal"><span class="pre">PBS_CPUTYPE</span></code><a class="headerlink" href="#pbs-cputype" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-PBS_CPUTYPE"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_CPUTYPE</span></code><a class="headerlink" href="#pbs-cputype" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>Optional. The type of cpu to use on the cluster. Some clusters allow to
 specify which type of cpu will be used by the job. This can be very important
 for jobs where time comparisons are performed, as there it is vital to use the
 same type of cpu. If set, this setting must be a string. For example, one can
-specify <code class="docutils literal"><span class="pre">'cpu4'</span></code> for a specific type of CPU on <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/usage/batch-usage#heading5">Lisa</a>. This
+specify <code class="docutils literal notranslate"><span class="pre">'cpu4'</span></code> for a specific type of CPU on <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/usage/batch-usage#heading5">Lisa</a>. This
 setting may not be available on all PBS systems.</p>
 </div>
 <div class="section" id="pbs-coretype">
-<span id="std:setting-PBS_CORETYPE"></span><h3><code class="docutils literal"><span class="pre">PBS_CORETYPE</span></code><a class="headerlink" href="#pbs-coretype" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-PBS_CORETYPE"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_CORETYPE</span></code><a class="headerlink" href="#pbs-coretype" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>Optional. The type of node to use on the cluster, as specified by the number
-of cores of the node.  This setting is similar to the <a class="reference internal" href="#std:setting-PBS_CPUTYPE"><code class="xref std std-setting docutils literal"><span class="pre">PBS_CPUTYPE</span></code></a>
-setting. For example, one can specify <code class="docutils literal"><span class="pre">'cores16'</span></code> for a 16-core node for
+of cores of the node.  This setting is similar to the <a class="reference internal" href="#std:setting-PBS_CPUTYPE"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PBS_CPUTYPE</span></code></a>
+setting. For example, one can specify <code class="docutils literal notranslate"><span class="pre">'cores16'</span></code> for a 16-core node for
 instance.  This setting may not be available on all PBS systems.</p>
 </div>
+<div class="section" id="pbs-lines-before">
+<span id="std:setting-PBS_LINES_BEFORE"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_LINES_BEFORE</span></code><a class="headerlink" href="#pbs-lines-before" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+<p>Optional. Additional lines to add to the PBS file. These lines will be added
+before the email line, and directly after the lines creating the result
+directories.</p>
+</div>
+<div class="section" id="pbs-lines-after">
+<span id="std:setting-PBS_LINES_AFTER"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_LINES_AFTER</span></code><a class="headerlink" href="#pbs-lines-after" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+<p>Optional. Additonal lines to add to the PBS file. These lines will be added
+just after the compression of the result files, and just before the final
+email line.</p>
+</div>
 <div class="section" id="pbs-ppn">
-<span id="std:setting-PBS_PPN"></span><h3><code class="docutils literal"><span class="pre">PBS_PPN</span></code><a class="headerlink" href="#pbs-ppn" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<span id="std:setting-PBS_PPN"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_PPN</span></code><a class="headerlink" href="#pbs-ppn" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 <p>Optional. The number of processors per node to use. If you know beforehand how
 many cores there are on a node, this setting allows you to limit the number of
 processors that are actually used for computations. Especially when running
@@ -598,47 +596,47 @@ computation time comparisons, it is recommended to reserve one core for system
 processes.</p>
 </div>
 <div class="section" id="pbs-modules">
-<span id="std:setting-PBS_MODULES"></span><h3><code class="docutils literal"><span class="pre">PBS_MODULES</span></code><a class="headerlink" href="#pbs-modules" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">['mpicopy',</span> <span class="pre">'python/2.7.9']</span></code></p>
+<span id="std:setting-PBS_MODULES"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_MODULES</span></code><a class="headerlink" href="#pbs-modules" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">['mpicopy',</span> <span class="pre">'python/2.7.9']</span></code></p>
 <p>Optional. On some PBS systems, additional modules may be loaded with the
-command <code class="docutils literal"><span class="pre">module</span> <span class="pre">load</span></code>. This configuration defines the modules that are
+command <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code>. This configuration defines the modules that are
 loaded.</p>
 <p>Note that some modules may be necessary for Abed to function correctly. For
-instance, the <code class="docutils literal"><span class="pre">mpicopy</span></code> command is used for copying files to compute nodes
-during a job, and on some systems this may require loading the <code class="docutils literal"><span class="pre">mpicopy</span></code>
-module. See also the setting <a class="reference internal" href="#std:setting-PBS_MPICOPY"><code class="xref std std-setting docutils literal"><span class="pre">PBS_MPICOPY</span></code></a>.</p>
+instance, the <code class="docutils literal notranslate"><span class="pre">mpicopy</span></code> command is used for copying files to compute nodes
+during a job, and on some systems this may require loading the <code class="docutils literal notranslate"><span class="pre">mpicopy</span></code>
+module. See also the setting <a class="reference internal" href="#std:setting-PBS_MPICOPY"><code class="xref std std-setting docutils literal notranslate"><span class="pre">PBS_MPICOPY</span></code></a>.</p>
 </div>
 <div class="section" id="pbs-exports">
-<span id="std:setting-PBS_EXPORTS"></span><h3><code class="docutils literal"><span class="pre">PBS_EXPORTS</span></code><a class="headerlink" href="#pbs-exports" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">['PATH=$PATH:/home/%s/.local/bin/abed'</span> <span class="pre">%</span> <span class="pre">REMOTE_USER]</span></code></p>
+<span id="std:setting-PBS_EXPORTS"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_EXPORTS</span></code><a class="headerlink" href="#pbs-exports" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">['PATH=$PATH:/home/%s/.local/bin/abed'</span> <span class="pre">%</span> <span class="pre">REMOTE_USER]</span></code></p>
 <p>Optional. The lines in this list are interpreted as arguments for the
-<code class="docutils literal"><span class="pre">export</span></code> command. This can be useful for setting PATH variables, or defining
+<code class="docutils literal notranslate"><span class="pre">export</span></code> command. This can be useful for setting PATH variables, or defining
 other environment settings.</p>
 </div>
 <div class="section" id="pbs-mpicopy">
-<span id="std:setting-PBS_MPICOPY"></span><h3><code class="docutils literal"><span class="pre">PBS_MPICOPY</span></code><a class="headerlink" href="#pbs-mpicopy" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">['{data_dir}',</span> <span class="pre">EXECDIR,</span> <span class="pre">TASK_FILE]</span></code></p>
+<span id="std:setting-PBS_MPICOPY"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_MPICOPY</span></code><a class="headerlink" href="#pbs-mpicopy" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">['{data_dir}',</span> <span class="pre">EXECDIR,</span> <span class="pre">TASK_FILE]</span></code></p>
 <p>Optional. Abed was initially designed for the Dutch National LISA Compute
 Cluster. On this cluster, it is more efficient to store results from
 computations on a so-called <em>scratch</em> directory, which is a disk attached
 locally on the compute node. To copy files to this scratch directory, the LISA
-staff designed the <code class="docutils literal"><span class="pre">mpicopy</span></code> command. This setting can be used to define the
+staff designed the <code class="docutils literal notranslate"><span class="pre">mpicopy</span></code> command. This setting can be used to define the
 files and directories that will be copied to the scratch directory on the
-node. For more information on the <code class="docutils literal"><span class="pre">mpicopy</span></code> command, see <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/software/mpicopy">here</a>.</p>
+node. For more information on the <code class="docutils literal notranslate"><span class="pre">mpicopy</span></code> command, see <a class="reference external" href="https://userinfo.surfsara.nl/systems/lisa/software/mpicopy">here</a>.</p>
 <p>Dependency on this command is not a very portable solution, ideas for
 improvement are very welcome.</p>
 </div>
 <div class="section" id="pbs-time-reduce">
-<span id="std:setting-PBS_TIME_REDUCE"></span><h3><code class="docutils literal"><span class="pre">PBS_TIME_REDUCE</span></code><a class="headerlink" href="#pbs-time-reduce" title="Permalink to this headline">¶</a></h3>
-<p>Default: <code class="docutils literal"><span class="pre">600</span></code></p>
+<span id="std:setting-PBS_TIME_REDUCE"></span><h3><code class="docutils literal notranslate"><span class="pre">PBS_TIME_REDUCE</span></code><a class="headerlink" href="#pbs-time-reduce" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">600</span></code></p>
 <p>Abed generates a result file for every task. Since this can be quite a lot of
 files to download from the server after the job is done, Abed creates
 compressed archives of results. These archives are generated using the
-<code class="docutils literal"><span class="pre">pbzip2</span></code> command, which compresses files in parallel. Hence, part of the
+<code class="docutils literal notranslate"><span class="pre">pbzip2</span></code> command, which compresses files in parallel. Hence, part of the
 time of the job is used for this result compression. The time allotted for
 this is defined with this setting, in seconds. If you expect only a few result
 files, you can choose to reduce the value of this setting.</p>
-<p>Note: it is currently unknown if the <code class="docutils literal"><span class="pre">pbzip2</span></code> command is widely available.
+<p>Note: it is currently unknown if the <code class="docutils literal notranslate"><span class="pre">pbzip2</span></code> command is widely available.
 If dependency on this command is a problem, please let us know.</p>
 </div>
 </div>
@@ -646,88 +644,22 @@ If dependency on this command is a problem, please let us know.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">The Abed Settings file</a><ul>
-<li><a class="reference internal" href="#general-settings">General settings</a><ul>
-<li><a class="reference internal" href="#project-name"><code class="docutils literal"><span class="pre">PROJECT_NAME</span></code></a></li>
-<li><a class="reference internal" href="#task-file"><code class="docutils literal"><span class="pre">TASK_FILE</span></code></a></li>
-<li><a class="reference internal" href="#auto-file"><code class="docutils literal"><span class="pre">AUTO_FILE</span></code></a></li>
-<li><a class="reference internal" href="#result-dir"><code class="docutils literal"><span class="pre">RESULT_DIR</span></code></a></li>
-<li><a class="reference internal" href="#stage-dir"><code class="docutils literal"><span class="pre">STAGE_DIR</span></code></a></li>
-<li><a class="reference internal" href="#max-files"><code class="docutils literal"><span class="pre">MAX_FILES</span></code></a></li>
-<li><a class="reference internal" href="#zip-dir"><code class="docutils literal"><span class="pre">ZIP_DIR</span></code></a></li>
-<li><a class="reference internal" href="#log-dir"><code class="docutils literal"><span class="pre">LOG_DIR</span></code></a></li>
-<li><a class="reference internal" href="#output-dir"><code class="docutils literal"><span class="pre">OUTPUT_DIR</span></code></a></li>
-<li><a class="reference internal" href="#auto-sleep"><code class="docutils literal"><span class="pre">AUTO_SLEEP</span></code></a></li>
-<li><a class="reference internal" href="#html-port"><code class="docutils literal"><span class="pre">HTML_PORT</span></code></a></li>
-<li><a class="reference internal" href="#compression"><code class="docutils literal"><span class="pre">COMPRESSION</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#server-parameters-and-settings">Server parameters and settings</a><ul>
-<li><a class="reference internal" href="#remote-user"><code class="docutils literal"><span class="pre">REMOTE_USER</span></code></a></li>
-<li><a class="reference internal" href="#remote-host"><code class="docutils literal"><span class="pre">REMOTE_HOST</span></code></a></li>
-<li><a class="reference internal" href="#remote-dir"><code class="docutils literal"><span class="pre">REMOTE_DIR</span></code></a></li>
-<li><a class="reference internal" href="#remote-port"><code class="docutils literal"><span class="pre">REMOTE_PORT</span></code></a></li>
-<li><a class="reference internal" href="#remote-scratch"><code class="docutils literal"><span class="pre">REMOTE_SCRATCH</span></code></a></li>
-<li><a class="reference internal" href="#remote-scratch-env"><code class="docutils literal"><span class="pre">REMOTE_SCRATCH_ENV</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#settings-for-master-worker-program">Settings for Master/Worker program</a><ul>
-<li><a class="reference internal" href="#mw-sendatonce"><code class="docutils literal"><span class="pre">MW_SENDATONCE</span></code></a></li>
-<li><a class="reference internal" href="#mw-copy-worker"><code class="docutils literal"><span class="pre">MW_COPY_WORKER</span></code></a></li>
-<li><a class="reference internal" href="#mw-copy-sleep"><code class="docutils literal"><span class="pre">MW_COPY_SLEEP</span></code></a></li>
-<li><a class="reference internal" href="#mw-num-workers"><code class="docutils literal"><span class="pre">MW_NUM_WORKERS</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#experiment-type">Experiment type</a><ul>
-<li><a class="reference internal" href="#type"><code class="docutils literal"><span class="pre">TYPE</span></code></a></li>
-<li><a class="reference internal" href="#cv-baseseed"><code class="docutils literal"><span class="pre">CV_BASESEED</span></code></a></li>
-<li><a class="reference internal" href="#ytrain-label"><code class="docutils literal"><span class="pre">YTRAIN_LABEL</span></code></a></li>
-<li><a class="reference internal" href="#raw-cmd-file"><code class="docutils literal"><span class="pre">RAW_CMD_FILE</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#build-settings">Build settings</a><ul>
-<li><a class="reference internal" href="#needs-build"><code class="docutils literal"><span class="pre">NEEDS_BUILD</span></code></a></li>
-<li><a class="reference internal" href="#build-dir"><code class="docutils literal"><span class="pre">BUILD_DIR</span></code></a></li>
-<li><a class="reference internal" href="#build-cmd"><code class="docutils literal"><span class="pre">BUILD_CMD</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#experiment-parameters-and-settings">Experiment parameters and settings</a><ul>
-<li><a class="reference internal" href="#datadir"><code class="docutils literal"><span class="pre">DATADIR</span></code></a></li>
-<li><a class="reference internal" href="#execdir"><code class="docutils literal"><span class="pre">EXECDIR</span></code></a></li>
-<li><a class="reference internal" href="#datasets"><code class="docutils literal"><span class="pre">DATASETS</span></code></a></li>
-<li><a class="reference internal" href="#dataset-names"><code class="docutils literal"><span class="pre">DATASET_NAMES</span></code></a></li>
-<li><a class="reference internal" href="#methods"><code class="docutils literal"><span class="pre">METHODS</span></code></a></li>
-<li><a class="reference internal" href="#params"><code class="docutils literal"><span class="pre">PARAMS</span></code></a></li>
-<li><a class="reference internal" href="#commands"><code class="docutils literal"><span class="pre">COMMANDS</span></code></a></li>
-<li><a class="reference internal" href="#metrics"><code class="docutils literal"><span class="pre">METRICS</span></code></a></li>
-<li><a class="reference internal" href="#scalars"><code class="docutils literal"><span class="pre">SCALARS</span></code></a></li>
-<li><a class="reference internal" href="#result-precision"><code class="docutils literal"><span class="pre">RESULT_PRECISION</span></code></a></li>
-<li><a class="reference internal" href="#data-description-csv"><code class="docutils literal"><span class="pre">DATA_DESCRIPTION_CSV</span></code></a></li>
-<li><a class="reference internal" href="#reference-method"><code class="docutils literal"><span class="pre">REFERENCE_METHOD</span></code></a></li>
-<li><a class="reference internal" href="#significance-level"><code class="docutils literal"><span class="pre">SIGNIFICANCE_LEVEL</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pbs-settings">PBS settings</a><ul>
-<li><a class="reference internal" href="#pbs-nodes"><code class="docutils literal"><span class="pre">PBS_NODES</span></code></a></li>
-<li><a class="reference internal" href="#pbs-walltime"><code class="docutils literal"><span class="pre">PBS_WALLTIME</span></code></a></li>
-<li><a class="reference internal" href="#pbs-cputype"><code class="docutils literal"><span class="pre">PBS_CPUTYPE</span></code></a></li>
-<li><a class="reference internal" href="#pbs-coretype"><code class="docutils literal"><span class="pre">PBS_CORETYPE</span></code></a></li>
-<li><a class="reference internal" href="#pbs-ppn"><code class="docutils literal"><span class="pre">PBS_PPN</span></code></a></li>
-<li><a class="reference internal" href="#pbs-modules"><code class="docutils literal"><span class="pre">PBS_MODULES</span></code></a></li>
-<li><a class="reference internal" href="#pbs-exports"><code class="docutils literal"><span class="pre">PBS_EXPORTS</span></code></a></li>
-<li><a class="reference internal" href="#pbs-mpicopy"><code class="docutils literal"><span class="pre">PBS_MPICOPY</span></code></a></li>
-<li><a class="reference internal" href="#pbs-time-reduce"><code class="docutils literal"><span class="pre">PBS_TIME_REDUCE</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<h1 class="logo"><a href="../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -735,23 +667,24 @@ If dependency on this command is a problem, please let us know.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/usage/settings.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -760,8 +693,8 @@ If dependency on this command is a problem, please let us know.</p>
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../_sources/usage/settings.rst.txt"

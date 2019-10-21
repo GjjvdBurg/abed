@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>abed.results.export &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -33,25 +20,27 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for abed.results.export</h1><div class="highlight"><pre>
-<span></span>
-<span class="kn">import</span> <span class="nn">datetime</span>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="k">import</span> <span class="n">tabulate</span>
 
 <span class="kn">from</span> <span class="nn">.models</span> <span class="k">import</span> <span class="n">AbedTable</span>
 <span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">clean_str</span>
+<span class="kn">from</span> <span class="nn">..io</span> <span class="k">import</span> <span class="n">info</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">mkdir</span><span class="p">,</span> <span class="n">clean_str</span>
+
 
 <div class="viewcode-block" id="export_tables"><a class="viewcode-back" href="../../../api/results/abed.results.export.html#abed.results.export.export_tables">[docs]</a><span class="k">def</span> <span class="nf">export_tables</span><span class="p">(</span><span class="n">tables</span><span class="p">):</span>
     <span class="n">summary_tables</span> <span class="o">=</span> <span class="p">[]</span>
@@ -63,9 +52,11 @@
         <span class="n">summary_tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary_table</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">summary_tables</span></div>
 
+
 <div class="viewcode-block" id="merge_description_table"><a class="viewcode-back" href="../../../api/results/abed.results.export.html#abed.results.export.merge_description_table">[docs]</a><span class="k">def</span> <span class="nf">merge_description_table</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">((</span><span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATA_DESCRIPTION_CSV</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATA_DESCRIPTION_CSV</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATA_DESCRIPTION_CSV</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">DATA_DESCRIPTION_CSV</span>
+    <span class="p">):</span>
         <span class="n">at</span> <span class="o">=</span> <span class="n">AbedTable</span><span class="p">()</span>
         <span class="n">at</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DATA_DESCRIPTION_CSV</span><span class="p">)</span>
         <span class="n">summary_table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">left_insert</span><span class="p">(</span><span class="n">at</span><span class="p">)</span>
@@ -73,64 +64,79 @@
         <span class="n">summary_table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">summary_table</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">summary_table</span></div>
 
+
 <div class="viewcode-block" id="get_table_fname"><a class="viewcode-back" href="../../../api/results/abed.results.export.html#abed.results.export.get_table_fname">[docs]</a><span class="k">def</span> <span class="nf">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">_type</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">_type</span> <span class="o">==</span> <span class="s1">&#39;html&#39;</span><span class="p">:</span>
-        <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="s1">&#39;txt&#39;</span><span class="p">:</span>
-        <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s1">&#39;txt&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_type</span> <span class="o">==</span> <span class="s2">&quot;html&quot;</span><span class="p">:</span>
+        <span class="n">outdir</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="s2">&quot;txt&quot;</span><span class="p">:</span>
+        <span class="n">outdir</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;txt&quot;</span><span class="p">)</span>
     <span class="n">mkdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_metric</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">ABED_</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> 
-                <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">),</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> 
-                <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">),</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">ABED_</span><span class="si">%s</span><span class="s2">_</span><span class="si">%s</span><span class="s2">_</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">outdir</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
+            <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">),</span>
+            <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">),</span>
+            <span class="n">ext</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s%s</span><span class="s1">ABED_</span><span class="si">%s</span><span class="s1">_</span><span class="si">%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">),</span>
-                <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">),</span> <span class="n">ext</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">ABED_</span><span class="si">%s</span><span class="s2">_</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">outdir</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
+            <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">),</span>
+            <span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">),</span>
+            <span class="n">ext</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">fname</span></div>
 
+
 <div class="viewcode-block" id="write_table_txt"><a class="viewcode-back" href="../../../api/results/abed.results.export.html#abed.results.export.write_table_txt">[docs]</a><span class="k">def</span> <span class="nf">write_table_txt</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">summary_table</span><span class="p">):</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s1">&#39;.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;txt&#39;</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;txt&quot;</span><span class="p">)</span>
     <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
-        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%%</span><span class="s2"> Result file generated by ABED at </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> 
-                <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%c</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">%%</span><span class="s2"> Result file generated by ABED at </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%c</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%%</span><span class="s2"> Table for label: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%%</span><span class="s2"> Showing: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_metric</span><span class="p">:</span>
-            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%%</span><span class="s1"> Metric: </span><span class="si">%s</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%%</span><span class="s2"> Metric: </span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">txttable</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">table</span><span class="p">]</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="s1">&#39;.</span><span class="si">%d</span><span class="s1">f&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">RESULT_PRECISION</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot;.</span><span class="si">%d</span><span class="s2">f&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">RESULT_PRECISION</span>
         <span class="n">tabtxt</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">txttable</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">table</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">floatfmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabtxt</span><span class="p">)</span>
-        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">sumtable</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">summary_table</span><span class="p">]</span>
-        <span class="n">tabtxt</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">sumtable</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">summary_table</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
-                <span class="n">floatfmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">)</span>
+        <span class="n">tabtxt</span> <span class="o">=</span> <span class="n">tabulate</span><span class="p">(</span>
+            <span class="n">sumtable</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">summary_table</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">floatfmt</span><span class="o">=</span><span class="n">fmt</span>
+        <span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabtxt</span><span class="p">)</span>
     <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created output file: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="write_table_ajax"><a class="viewcode-back" href="../../../api/results/abed.results.export.html#abed.results.export.write_table_ajax">[docs]</a><span class="k">def</span> <span class="nf">write_table_ajax</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">is_summary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">is_summary</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s1">&#39;_summary_ajax.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">&quot;_summary_ajax.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s1">&#39;_ajax.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_table_fname</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="s2">&quot;_ajax.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;  </span><span class="se">\&quot;</span><span class="s2">data</span><span class="se">\&quot;</span><span class="s2">: [</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;  &quot;data&quot;: [</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">_id</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">_id</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="n">table</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    [</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">_id</span><span class="p">))</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">_id</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
-            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
             <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    ],</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="o">=</span> <span class="n">pairs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    [</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">_id</span><span class="p">))</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">_id</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
-        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;      </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
+        <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;      &quot;</span><span class="si">%s</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;    ]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;  ]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -138,10 +144,23 @@
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
@@ -151,15 +170,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -168,8 +195,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

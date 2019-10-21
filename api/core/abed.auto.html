@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Automatic Job Management &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,13 +20,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-abed.auto">
@@ -53,223 +41,226 @@ and remaining times, and mark finished jobs as done. This last functionality is
 needed to avoid repulling finished results.</p>
 <dl class="function">
 <dt id="abed.auto.get_jobid_from_logs">
-<code class="descclassname">abed.auto.</code><code class="descname">get_jobid_from_logs</code><span class="sig-paren">(</span><em>logpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_jobid_from_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_jobid_from_logs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">get_jobid_from_logs</code><span class="sig-paren">(</span><em class="sig-param">logpath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_jobid_from_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_jobid_from_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to get the jobid from existing log files</p>
 <p>This function attempt to get the jobid of a finished job by checking the
 filenames of the log files. If used as expected, the PBS server will place
 output and error logs in the logs directory with the names
-<code class="docutils literal"><span class="pre">abed.pbs.o{jobid}</span></code> and <code class="docutils literal"><span class="pre">abed.pbs.e{jobid}</span></code>. This function expects
+<code class="docutils literal notranslate"><span class="pre">abed.pbs.o{jobid}</span></code> and <code class="docutils literal notranslate"><span class="pre">abed.pbs.e{jobid}</span></code>. This function expects
 this exact format, and tries to retrieve the jobid from the first file in
 the logs directory.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>logpath</strong> (<em>str</em><em>, </em><em>optional</em>) &#8211; An optional path to search for the log files. If not provided, the
-path <code class="docutils literal"><span class="pre">{remote_dir}/releases/current/logs/</span></code> will be used.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>jobid</strong> &#8211; The ID of the job that created the log files. None is returned when no
-jobid can be found.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>logpath</strong> (<em>str</em><em>, </em><em>optional</em>) – An optional path to search for the log files. If not provided, the
+path <code class="docutils literal notranslate"><span class="pre">{remote_dir}/releases/current/logs/</span></code> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>jobid</strong> – The ID of the job that created the log files. None is returned when no
+jobid can be found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.get_jobid_from_pbs">
-<code class="descclassname">abed.auto.</code><code class="descname">get_jobid_from_pbs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_jobid_from_pbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_jobid_from_pbs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">get_jobid_from_pbs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_jobid_from_pbs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_jobid_from_pbs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to get the jobid of a running job from the PBS server</p>
 <p>This function attempts to get the jobid of a currently running job by
-running the <code class="docutils literal"><span class="pre">qstat</span></code> command, and trying to find a line that looks similar
+running the <code class="docutils literal notranslate"><span class="pre">qstat</span></code> command, and trying to find a line that looks similar
 to this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">9941363.</span><span class="n">batch1</span><span class="o">.</span><span class="n">lisa</span><span class="o">.</span><span class="n">su</span> <span class="n">username</span> <span class="n">queuename</span> <span class="n">jobname</span> <span class="n">SessID</span> <span class="n">NDS</span> <span class="n">TSK</span> <span class="o">--</span>        <span class="mi">00</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span> <span class="n">R</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">26</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">9941363.</span><span class="n">batch1</span><span class="o">.</span><span class="n">lisa</span><span class="o">.</span><span class="n">su</span> <span class="n">username</span> <span class="n">queuename</span> <span class="n">jobname</span> <span class="n">SessID</span> <span class="n">NDS</span> <span class="n">TSK</span> <span class="o">--</span>        <span class="mi">00</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">00</span> <span class="n">R</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">26</span>
 </pre></div>
 </div>
 <p>From this line, it is assumed that the text before the first period is the
-jobid, <code class="docutils literal"><span class="pre">9941363</span></code> in this case.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The id of the job as text. None is returned if no job is found.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">AbedPBSMultipleException</span></code> &#8211; When more than one job is running simultaneously, an exception is
-thrown. In this case the program doesn&#8217;t know which task to manage.</td>
-</tr>
-</tbody>
-</table>
+jobid, <code class="docutils literal notranslate"><span class="pre">9941363</span></code> in this case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The id of the job as text. None is returned if no job is found.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="abed.exceptions.html#abed.exceptions.AbedPBSMultipleException" title="abed.exceptions.AbedPBSMultipleException"><strong>AbedPBSMultipleException</strong></a> – When more than one job is running simultaneously, an exception is
+    thrown. In this case the program doesn’t know which task to manage.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.get_remaining">
-<code class="descclassname">abed.auto.</code><code class="descname">get_remaining</code><span class="sig-paren">(</span><em>jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_remaining"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_remaining" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">get_remaining</code><span class="sig-paren">(</span><em class="sig-param">jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_remaining"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_remaining" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the remaining runtime of a job</p>
-<p>This function uses the <code class="docutils literal"><span class="pre">qstat</span> <span class="pre">-f</span></code> command to retrieve the remaining
+<p>This function uses the <code class="docutils literal notranslate"><span class="pre">qstat</span> <span class="pre">-f</span></code> command to retrieve the remaining
 walltime of the specified job. It does this by looking for the line:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Walltime</span><span class="o">.</span><span class="n">Ramining</span> <span class="o">=</span> <span class="mi">32754</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Walltime</span><span class="o">.</span><span class="n">Ramining</span> <span class="o">=</span> <span class="mi">32754</span>
 </pre></div>
 </div>
-<p>and converting this to a string of the form <code class="docutils literal"><span class="pre">HH:MM:SS</span></code> through
+<p>and converting this to a string of the form <code class="docutils literal notranslate"><span class="pre">HH:MM:SS</span></code> through
 <cite>datetime.timedelta</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jobid</strong> (<em>str</em>) &#8211; The PBS id of a job.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The remaining time for the specified job in the form HH:MM:SS.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobid</strong> (<em>str</em>) – The PBS id of a job.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The remaining time for the specified job in the form HH:MM:SS.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.get_starttime">
-<code class="descclassname">abed.auto.</code><code class="descname">get_starttime</code><span class="sig-paren">(</span><em>jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_starttime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_starttime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">get_starttime</code><span class="sig-paren">(</span><em class="sig-param">jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_starttime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_starttime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the expected start time of a queued job</p>
 <p>This function tries to find the start time of a queued job by using the
-<code class="docutils literal"><span class="pre">showstart</span></code> command (assuming it is available). It is expected that the
+<code class="docutils literal notranslate"><span class="pre">showstart</span></code> command (assuming it is available). It is expected that the
 output of showstart contains a line of the form:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Earliest</span> <span class="n">start</span> <span class="ow">in</span>          <span class="mi">1</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">14</span> <span class="n">on</span> <span class="n">Thu</span> <span class="n">May</span> <span class="mi">26</span> <span class="mi">22</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">43</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Earliest</span> <span class="n">start</span> <span class="ow">in</span>          <span class="mi">1</span><span class="p">:</span><span class="mi">26</span><span class="p">:</span><span class="mi">14</span> <span class="n">on</span> <span class="n">Thu</span> <span class="n">May</span> <span class="mi">26</span> <span class="mi">22</span><span class="p">:</span><span class="mi">56</span><span class="p">:</span><span class="mi">43</span>
 </pre></div>
 </div>
 <p>From this string the date at the end is extracted, which is converted to a
 datetime.datetime object and returned.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jobid</strong> (<em>str</em>) &#8211; The PBS id of a job.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>starttime</strong> &#8211; The expected start time of the job as given by <code class="docutils literal"><span class="pre">showstart</span></code>. None is
-returned if no date can be found.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">datetime.datetime</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobid</strong> (<em>str</em>) – The PBS id of a job.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>starttime</strong> – The expected start time of the job as given by <code class="docutils literal notranslate"><span class="pre">showstart</span></code>. None is
+returned if no date can be found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>datetime.datetime</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.get_state">
-<code class="descclassname">abed.auto.</code><code class="descname">get_state</code><span class="sig-paren">(</span><em>jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param">jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the state of the job with the provided jobid</p>
-<p>This function uses the PBS command <code class="docutils literal"><span class="pre">qstat</span> <span class="pre">-f</span> <span class="pre">username</span></code> to find out the
+<p>This function uses the PBS command <code class="docutils literal notranslate"><span class="pre">qstat</span> <span class="pre">-f</span> <span class="pre">username</span></code> to find out the
 state of the job. It is assumed that a job with the given jobid exists.
-See the documentation of the <code class="docutils literal"><span class="pre">qstat</span></code> command for possible job states.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jobid</strong> (<em>str</em>) &#8211; The PBS id of a job.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>state</strong> &#8211; The state of the job as given by the <code class="docutils literal"><span class="pre">qstat</span></code> command.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+See the documentation of the <code class="docutils literal notranslate"><span class="pre">qstat</span></code> command for possible job states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobid</strong> (<em>str</em>) – The PBS id of a job.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>state</strong> – The state of the job as given by the <code class="docutils literal notranslate"><span class="pre">qstat</span></code> command.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.is_job_marked">
-<code class="descclassname">abed.auto.</code><code class="descname">is_job_marked</code><span class="sig-paren">(</span><em>jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#is_job_marked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.is_job_marked" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">is_job_marked</code><span class="sig-paren">(</span><em class="sig-param">jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#is_job_marked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.is_job_marked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a job is marked in the auto file</p>
 <p>This function checks if a given jobid occurs in the auto file. The auto
 file is used to record for which jobs the results have been pulled from
 the server. The auto file records the jobids one for each line (see
-<a class="reference internal" href="#abed.auto.mark_job" title="abed.auto.mark_job"><code class="xref py py-func docutils literal"><span class="pre">mark_job()</span></code></a>), so this function checks if the provided jobid is on any
+<a class="reference internal" href="#abed.auto.mark_job" title="abed.auto.mark_job"><code class="xref py py-func docutils literal notranslate"><span class="pre">mark_job()</span></code></a>), so this function checks if the provided jobid is on any
 of the lines.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jobid</strong> (<em>str</em>) &#8211; The PBS id of a job.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Whether or not the job is marked in the auto file.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobid</strong> (<em>str</em>) – The PBS id of a job.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether or not the job is marked in the auto file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.mark_job">
-<code class="descclassname">abed.auto.</code><code class="descname">mark_job</code><span class="sig-paren">(</span><em>jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#mark_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.mark_job" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">mark_job</code><span class="sig-paren">(</span><em class="sig-param">jobid</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#mark_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.mark_job" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mark the job in the auto file</p>
-<p>See also <a class="reference internal" href="#abed.auto.is_job_marked" title="abed.auto.is_job_marked"><code class="xref py py-func docutils literal"><span class="pre">is_job_marked()</span></code></a>. This function marks a job by appending the
+<p>See also <a class="reference internal" href="#abed.auto.is_job_marked" title="abed.auto.is_job_marked"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_job_marked()</span></code></a>. This function marks a job by appending the
 given jobid to the auto file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jobid</strong> (<em>str</em>) &#8211; The PBS id of a job.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobid</strong> (<em>str</em>) – The PBS id of a job.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.auto.submitted">
-<code class="descclassname">abed.auto.</code><code class="descname">submitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#submitted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.submitted" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.auto.</code><code class="sig-name descname">submitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/auto.html#submitted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.auto.submitted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a currently submitted job exists</p>
 <p>This function checks if a job exists on the remote, by trying to find a
-jobid from the pbs service. If no jobid can be found <code class="docutils literal"><span class="pre">False</span></code> is
-returned, otherwise <code class="docutils literal"><span class="pre">True</span></code> is returned. If a job exists, an attempt is
-made to check the state of the job, by through <a class="reference internal" href="#abed.auto.get_state" title="abed.auto.get_state"><code class="xref py py-func docutils literal"><span class="pre">get_state()</span></code></a>. If the
-job is queued, the starttime is retrieved through <a class="reference internal" href="#abed.auto.get_starttime" title="abed.auto.get_starttime"><code class="xref py py-func docutils literal"><span class="pre">get_starttime()</span></code></a>,
+jobid from the pbs service. If no jobid can be found <code class="docutils literal notranslate"><span class="pre">False</span></code> is
+returned, otherwise <code class="docutils literal notranslate"><span class="pre">True</span></code> is returned. If a job exists, an attempt is
+made to check the state of the job, by through <a class="reference internal" href="#abed.auto.get_state" title="abed.auto.get_state"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_state()</span></code></a>. If the
+job is queued, the starttime is retrieved through <a class="reference internal" href="#abed.auto.get_starttime" title="abed.auto.get_starttime"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_starttime()</span></code></a>,
 and if it is running, the remaining time is retrieved through
-<a class="reference internal" href="#abed.auto.get_remaining" title="abed.auto.get_remaining"><code class="xref py py-func docutils literal"><span class="pre">get_remaining()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Whether or not a currently submitted job exists.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<a class="reference internal" href="#abed.auto.get_remaining" title="abed.auto.get_remaining"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_remaining()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether or not a currently submitted job exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/api/core/abed.auto.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -278,8 +269,8 @@ and if it is running, the remaining time is retrieved through
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/api/core/abed.auto.rst.txt"

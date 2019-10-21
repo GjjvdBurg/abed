@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>abed.pbs &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,17 +20,20 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for abed.pbs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Functions for working with PBS files.</span>
 
 <span class="sd">Note: this pbs file depends on the `timeout` command to be available. In some </span>
@@ -52,97 +42,125 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">time</span>
-
 <span class="kn">from</span> <span class="nn">.conf</span> <span class="k">import</span> <span class="n">settings</span>
+
 
 <div class="viewcode-block" id="sec2str"><a class="viewcode-back" href="../../api/core/abed.pbs.html#abed.pbs.sec2str">[docs]</a><span class="k">def</span> <span class="nf">sec2str</span><span class="p">(</span><span class="n">seconds</span><span class="p">):</span>
     <span class="n">hours</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">//</span> <span class="mi">3600</span>
-    <span class="n">minutes</span> <span class="o">=</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">-</span> <span class="mi">3600</span><span class="o">*</span><span class="n">hours</span><span class="p">)</span> <span class="o">//</span> <span class="mi">60</span>
+    <span class="n">minutes</span> <span class="o">=</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">-</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">hours</span><span class="p">)</span> <span class="o">//</span> <span class="mi">60</span>
     <span class="n">secs</span> <span class="o">=</span> <span class="p">(</span><span class="n">seconds</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span> <span class="o">//</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%02i</span><span class="s1">:</span><span class="si">%02i</span><span class="s1">:</span><span class="si">%02i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="n">minutes</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%02i</span><span class="s2">:</span><span class="si">%02i</span><span class="s2">:</span><span class="si">%02i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">hours</span><span class="p">,</span> <span class="n">minutes</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="generate_pbs_text"><a class="viewcode-back" href="../../api/core/abed.pbs.html#abed.pbs.generate_pbs_text">[docs]</a><span class="k">def</span> <span class="nf">generate_pbs_text</span><span class="p">():</span>
     <span class="n">txt</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># create pbs line</span>
-    <span class="n">pbs_line</span> <span class="o">=</span> <span class="s1">&#39;#PBS -lnodes=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_NODES</span>
+    <span class="n">pbs_line</span> <span class="o">=</span> <span class="s2">&quot;#PBS -lnodes=</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_NODES</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span>
+        <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s2">&quot;:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CPUTYPE</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span>
+        <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s2">&quot;:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_CORETYPE</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:ppn=</span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span>
+            <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s2">&quot;:ppn=</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_PPN</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39;:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PPN</span>
-    <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s1">&#39; -lwalltime=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">sec2str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PBS_WALLTIME</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s2">&quot;:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">PPN</span>
+    <span class="n">pbs_line</span> <span class="o">+=</span> <span class="s2">&quot; -lwalltime=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sec2str</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">PBS_WALLTIME</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pbs_line</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># export variables (before loading modules!)</span>
     <span class="k">for</span> <span class="n">export</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_EXPORTS</span><span class="p">:</span>
-        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;export </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">export</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;export </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">export</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># load modules</span>
     <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_MODULES</span><span class="p">:</span>
-        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;module load </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">module</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;module load </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">module</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># current directory variable</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;CURRENT=</span><span class="si">%s</span><span class="s1">/releases/current&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_DIR</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;CURRENT=</span><span class="si">%s</span><span class="s2">/releases/current&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">REMOTE_DIR</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># result dir</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s1">/results&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{TMPDIR}</span><span class="s1">/results&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s2">/results&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;mkdir -p $</span><span class="si">{TMPDIR}</span><span class="s2">/results&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extra user supplied commands</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_LINES_BEFORE</span><span class="p">:</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="c1"># copy files to nodes</span>
+    <span class="n">cp_line</span> <span class="o">=</span> <span class="s2">&quot;mpicopy &quot;</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;$</span><span class="si">{CURRENT}</span><span class="s2">/&quot;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_MPICOPY</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cp_line</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># start email</span>
     <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;summary=$(abed status | sed -e &quot;s/</span><span class="se">\\</span><span class="s1">x1b</span><span class="se">\\</span><span class="s1">[.</span><span class="se">\\</span><span class="s1">{1,5</span><span class="se">\\</span><span class="s1">}m//g&quot;)&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;echo -e &quot;Job $PBS_JOBID started at `date`</span><span class="se">\\</span><span class="s1">n</span><span class="se">\\</span><span class="s1">n$</span><span class="si">{summary}</span><span class="s1">&quot;&#39;</span>
-            <span class="s1">&#39; | mail $USER -s &quot;Job $PBS_JOBID started&quot;&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-    <span class="c1"># copy files to nodes</span>
-    <span class="n">cp_line</span> <span class="o">=</span> <span class="s1">&#39;mpicopy &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;$</span><span class="si">{CURRENT}</span><span class="s1">/&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
-        <span class="n">settings</span><span class="o">.</span><span class="n">PBS_MPICOPY</span><span class="p">])</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cp_line</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s1">&#39;echo -e &quot;Job $PBS_JOBID started at `date`</span><span class="se">\\</span><span class="s1">n</span><span class="se">\\</span><span class="s1">n$</span><span class="si">{summary}</span><span class="s1">&quot;&#39;</span>
+        <span class="s1">&#39; | mail $USER -s &quot;Job $PBS_JOBID started&quot;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># calculate reduced runtime</span>
     <span class="n">ttr</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_WALLTIME</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">-</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_TIME_REDUCE</span>
 
     <span class="c1"># run line</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;timeout </span><span class="si">%i</span><span class="s1"> mpiexec abed run&#39;</span> <span class="o">%</span> <span class="n">ttr</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;timeout </span><span class="si">%i</span><span class="s2"> mpiexec abed run&quot;</span> <span class="o">%</span> <span class="n">ttr</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
     <span class="c1"># zip tasks</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s1">/bzips&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;cd $</span><span class="si">{TMPDIR}</span><span class="s1">/results&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;for dset in `ls`&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;do&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">packtime=$(date +%Y_%m_</span><span class="si">%d</span><span class="s1">_%H_%M_%S)&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">tar -c $</span><span class="si">{dset}</span><span class="s1"> | &#39;</span>
-            <span class="s1">&#39;pbzip2 -vc -p14 -m1000 &gt; $</span><span class="si">{packtime}</span><span class="s1">_results_$</span><span class="si">{dset}</span><span class="s1">.tar.bz2&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">cp $</span><span class="si">{packtime}</span><span class="s1">_results_$</span><span class="si">{dset}</span><span class="s1">.tar.bz2 $</span><span class="si">{CURRENT}</span><span class="s1">/bzips/&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;done&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;mkdir -p $</span><span class="si">{CURRENT}</span><span class="s2">/bzips&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;cd $</span><span class="si">{TMPDIR}</span><span class="s2">/results&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;for dset in `ls`&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;do&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">packtime=$(date +%Y_%m_</span><span class="si">%d</span><span class="s2">_%H_%M_%S)&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">tar -c $</span><span class="si">{dset}</span><span class="s2"> | &quot;</span>
+        <span class="s2">&quot;pbzip2 -vc -p14 -m1000 &gt; $</span><span class="si">{packtime}</span><span class="s2">_results_$</span><span class="si">{dset}</span><span class="s2">.tar.bz2&quot;</span>
+    <span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">cp $</span><span class="si">{packtime}</span><span class="s2">_results_$</span><span class="si">{dset}</span><span class="s2">.tar.bz2 $</span><span class="si">{CURRENT}</span><span class="s2">/bzips/&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extra user supplied lines</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PBS_LINES_AFTER</span><span class="p">:</span>
+        <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 
     <span class="c1"># end email</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;echo &quot;Job $PBS_JOBID finished at `date`&quot; | mail $USER -s &#39;</span>
-            <span class="s1">&#39;&quot;Job $PBS_JOBID finished&quot;&#39;</span><span class="p">)</span>
-    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span></div>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="s1">&#39;echo &quot;Job $PBS_JOBID finished at `date`&quot; | mail $USER -s &#39;</span>
+        <span class="s1">&#39;&quot;Job $PBS_JOBID finished&quot;&#39;</span>
+    <span class="p">)</span>
+    <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
@@ -152,15 +170,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -169,8 +195,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

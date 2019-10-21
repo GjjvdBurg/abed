@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>abed.html.rank_graphs &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
    
@@ -33,148 +20,189 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for abed.html.rank_graphs</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">dominate</span>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">dominate</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">from</span> <span class="nn">.common</span> <span class="k">import</span> <span class="n">navbar</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">AbedHTMLTypes</span><span class="p">,</span> <span class="n">copy_data_file</span>
 <span class="kn">from</span> <span class="nn">..conf</span> <span class="k">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">info</span><span class="p">,</span> <span class="n">clean_str</span>
+<span class="kn">from</span> <span class="nn">..io</span> <span class="k">import</span> <span class="n">info</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">clean_str</span>
 <span class="kn">from</span> <span class="nn">..results.models</span> <span class="k">import</span> <span class="n">AbedTableTypes</span>
 
 <span class="n">tags</span> <span class="o">=</span> <span class="n">dominate</span><span class="o">.</span><span class="n">tags</span>
 
+
 <div class="viewcode-block" id="create_rank_graphs_html"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.create_rank_graphs_html">[docs]</a><span class="k">def</span> <span class="nf">create_rank_graphs_html</span><span class="p">(</span><span class="n">tables</span><span class="p">):</span>
     <span class="n">html</span> <span class="o">=</span> <span class="n">generate_graphs_html</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span>
     <span class="n">write_tables_html</span><span class="p">(</span><span class="n">html</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="get_table_id"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.get_table_id">[docs]</a><span class="k">def</span> <span class="nf">get_table_id</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
     <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">target</span><span class="p">))</span>
     <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">type</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_metric</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s2">&quot;ASSESS&quot;</span><span class="p">:</span>
             <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">metricname</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s2">&quot;CV_TT&quot;</span><span class="p">:</span>
             <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">trainmetricname</span><span class="p">))</span>
             <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clean_str</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">testmetricname</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_summary</span><span class="p">:</span>
-        <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;summary&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
+        <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="generate_graphs_html"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.generate_graphs_html">[docs]</a><span class="k">def</span> <span class="nf">generate_graphs_html</span><span class="p">(</span><span class="n">tables</span><span class="p">):</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">dominate</span><span class="o">.</span><span class="n">document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;ABED Rank Graphs&#39;</span><span class="p">)</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">dominate</span><span class="o">.</span><span class="n">document</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;ABED Rank Graphs&quot;</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="n">doc</span><span class="o">.</span><span class="n">head</span><span class="p">:</span>
         <span class="c1"># meta tags</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">http_equiv</span><span class="o">=</span><span class="s1">&#39;X-UA-Compatible&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s1">&#39;IE=edge&#39;</span><span class="p">)</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;viewport&#39;</span><span class="p">,</span>
-                <span class="n">content</span><span class="o">=</span><span class="s1">&#39;width=device-width, initial-scale=1&#39;</span><span class="p">)</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s1">&#39;Rank graphs for ABED results&#39;</span><span class="p">)</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s1">&#39;Gertjan van den Burg&#39;</span><span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">http_equiv</span><span class="o">=</span><span class="s2">&quot;X-UA-Compatible&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;IE=edge&quot;</span><span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;viewport&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;width=device-width, initial-scale=1&quot;</span>
+        <span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Rank graphs for ABED results&quot;</span><span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">meta</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Gertjan van den Burg&quot;</span><span class="p">)</span>
 
         <span class="c1"># JQuery &amp; Bootstrap JS</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;jquery/1.11.3/jquery.min.js&#39;</span><span class="p">))</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;bootstrap-3.3.5-dist/js/bootstrap.min.js&#39;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;jquery/1.11.3/jquery.min.js&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;bootstrap-3.3.5-dist/js/bootstrap.min.js&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
         <span class="c1"># Bootstrap core CSS</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span>
-            <span class="s1">&#39;bootstrap-3.3.5-dist/css/bootstrap.min.css&#39;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">link</span><span class="p">(</span>
+            <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span><span class="p">,</span>
+            <span class="n">href</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;bootstrap-3.3.5-dist/css/bootstrap.min.css&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
 
         <span class="c1"># D3 and Labella</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;d3/d3.min.js&#39;</span><span class="p">))</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;d3kit/d3kit.min.js&#39;</span><span class="p">))</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;labella/labella.min.js&#39;</span><span class="p">))</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;d3kit-timeline/d3kit-timeline.min.js&#39;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;d3/d3.min.js&quot;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;d3kit/d3kit.min.js&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;labella/labella.min.js&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;d3kit-timeline/d3kit-timeline.min.js&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
 
         <span class="c1"># ABED CSS &amp; JS</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;abed/css/abed.css&#39;</span><span class="p">))</span>
-        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;text/javascript&#39;</span><span class="p">,</span>
-                <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s1">&#39;abed/js/abed_rankgraphs.js&#39;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span><span class="p">,</span> <span class="n">href</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;abed/css/abed.css&quot;</span><span class="p">))</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">script</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="p">,</span>
+            <span class="n">src</span><span class="o">=</span><span class="n">copy_data_file</span><span class="p">(</span><span class="s2">&quot;abed/js/abed_rankgraphs.js&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
 
-    <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_summary</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span>
-            <span class="n">AbedTableTypes</span><span class="o">.</span><span class="n">RANKS</span><span class="p">]</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">is_summary</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">AbedTableTypes</span><span class="o">.</span><span class="n">RANKS</span>
+    <span class="p">]</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">target</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]))</span>
     <span class="n">lbl_table</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
         <span class="n">lbl_table</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tables</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">lbl</span><span class="p">]</span>
 
     <span class="k">with</span> <span class="n">doc</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;header&#39;</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;header&quot;</span><span class="p">):</span>
             <span class="n">navbar</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="n">AbedHTMLTypes</span><span class="o">.</span><span class="n">RANK_GRAPHS</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;content&#39;</span><span class="p">):</span>
-            <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s1">&#39;container&#39;</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;content&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;container&quot;</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lbl_table</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                     <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel panel-default&quot;</span><span class="p">):</span>
                         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-heading&quot;</span><span class="p">):</span>
-                            <span class="n">tags</span><span class="o">.</span><span class="n">h3</span><span class="p">(</span><span class="s1">&#39;Target: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-title&quot;</span><span class="p">)</span>
+                            <span class="n">tags</span><span class="o">.</span><span class="n">h3</span><span class="p">(</span><span class="s2">&quot;Target: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-title&quot;</span><span class="p">)</span>
                         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;panel-body&quot;</span><span class="p">):</span>
                             <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">lbl_table</span><span class="p">[</span><span class="n">lbl</span><span class="p">]:</span>
                                 <span class="n">tabid</span> <span class="o">=</span> <span class="n">get_table_id</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
                                 <span class="k">if</span> <span class="n">table</span><span class="o">.</span><span class="n">is_metric</span><span class="p">:</span>
-                                    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;ASSESS&#39;</span><span class="p">:</span>
-                                        <span class="n">tags</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="s2">&quot;Metric: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
-                                                <span class="n">table</span><span class="o">.</span><span class="n">metricname</span><span class="p">)</span>
-                                    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s1">&#39;CV_TT&#39;</span><span class="p">:</span>
+                                    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s2">&quot;ASSESS&quot;</span><span class="p">:</span>
+                                        <span class="n">tags</span><span class="o">.</span><span class="n">p</span><span class="p">(</span><span class="s2">&quot;Metric: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">table</span><span class="o">.</span><span class="n">metricname</span><span class="p">)</span>
+                                    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="s2">&quot;CV_TT&quot;</span><span class="p">:</span>
                                         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;col-xs-6&quot;</span><span class="p">):</span>
-                                            <span class="n">tags</span><span class="o">.</span><span class="n">b</span><span class="p">(</span><span class="s2">&quot;Train Metric on </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
-                                                    <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">YTRAIN_LABEL</span><span class="p">,</span>
-                                                        <span class="n">table</span><span class="o">.</span><span class="n">trainmetricname</span><span class="p">))</span>
+                                            <span class="n">tags</span><span class="o">.</span><span class="n">b</span><span class="p">(</span>
+                                                <span class="s2">&quot;Train Metric on </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                                                <span class="o">%</span> <span class="p">(</span>
+                                                    <span class="n">settings</span><span class="o">.</span><span class="n">YTRAIN_LABEL</span><span class="p">,</span>
+                                                    <span class="n">table</span><span class="o">.</span><span class="n">trainmetricname</span><span class="p">,</span>
+                                                <span class="p">)</span>
+                                            <span class="p">)</span>
                                         <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">_class</span><span class="o">=</span><span class="s2">&quot;col-xs-6&quot;</span><span class="p">):</span>
-                                            <span class="n">tags</span><span class="o">.</span><span class="n">b</span><span class="p">(</span><span class="s2">&quot;Test Metric on </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
-                                                    <span class="p">(</span><span class="n">lbl</span><span class="p">,</span>
-                                                        <span class="n">table</span><span class="o">.</span><span class="n">testmetricname</span><span class="p">))</span>
-                                <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">tabid</span><span class="p">,</span> <span class="n">_class</span><span class="o">=</span><span class="s1">&#39;AbedRanks&#39;</span><span class="p">):</span>
+                                            <span class="n">tags</span><span class="o">.</span><span class="n">b</span><span class="p">(</span>
+                                                <span class="s2">&quot;Test Metric on </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span>
+                                                <span class="o">%</span> <span class="p">(</span><span class="n">lbl</span><span class="p">,</span> <span class="n">table</span><span class="o">.</span><span class="n">testmetricname</span><span class="p">)</span>
+                                            <span class="p">)</span>
+                                <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">tabid</span><span class="p">,</span> <span class="n">_class</span><span class="o">=</span><span class="s2">&quot;AbedRanks&quot;</span><span class="p">):</span>
                                     <span class="k">pass</span>
                                 <span class="n">tags</span><span class="o">.</span><span class="n">hr</span><span class="p">()</span>
                                 <span class="n">write_table_json</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">tabid</span><span class="p">)</span>
-            <span class="n">tags</span><span class="o">.</span><span class="n">comment</span><span class="p">(</span><span class="s1">&#39;./container&#39;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;footer&#39;</span><span class="p">):</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">comment</span><span class="p">(</span><span class="s2">&quot;./container&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tags</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;footer&quot;</span><span class="p">):</span>
             <span class="k">pass</span>
 
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="write_table_json"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.write_table_json">[docs]</a><span class="k">def</span> <span class="nf">write_table_json</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">tabid</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">averages</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s1">&#39;Average&#39;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">averages</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">row</span> <span class="k">for</span> <span class="n">_id</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span> <span class="k">if</span> <span class="n">_id</span> <span class="o">==</span> <span class="s2">&quot;Average&quot;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">for</span> <span class="n">hdr</span><span class="p">,</span> <span class="n">avg</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">averages</span><span class="p">):</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">hdr</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">avg</span><span class="p">)})</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="n">tabid</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">hdr</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">avg</span><span class="p">)})</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">,</span> <span class="n">tabid</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created output file: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="write_tables_html"><a class="viewcode-back" href="../../../api/html/abed.html.rank_graphs.html#abed.html.rank_graphs.write_tables_html">[docs]</a><span class="k">def</span> <span class="nf">write_tables_html</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span>
-            <span class="n">AbedHTMLTypes</span><span class="o">.</span><span class="n">RANK_GRAPHS</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">OUTPUT_DIR</span><span class="p">,</span> <span class="s2">&quot;html&quot;</span><span class="p">,</span> <span class="n">AbedHTMLTypes</span><span class="o">.</span><span class="n">RANK_GRAPHS</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
         <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="n">info</span><span class="p">(</span><span class="s1">&#39;Created output file: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span></div>
+    <span class="n">info</span><span class="p">(</span><span class="s2">&quot;Created output file: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
@@ -184,15 +212,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -201,8 +237,8 @@
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

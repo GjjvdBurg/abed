@@ -1,30 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
+    <meta charset="utf-8" />
     <title>Communication through Fabric &#8212; abed 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -33,13 +20,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-abed.fab">
@@ -47,107 +35,121 @@
 <p>Functions for using fabric</p>
 <p>Abed uses Fabric to synchronize data to and from the compute cluster. The
 various functions that Abed needs are defined here. A helper class is defined
-in <code class="xref py py-mod docutils literal"><span class="pre">fab_util</span></code>, which is used to define the Fabric context environment that
+in <code class="xref py py-mod docutils literal notranslate"><span class="pre">fab_util</span></code>, which is used to define the Fabric context environment that
 is used for the commands.</p>
 <dl class="function">
 <dt id="abed.fab.build_remote">
-<code class="descclassname">abed.fab.</code><code class="descname">build_remote</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#build_remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.build_remote" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">build_remote</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#build_remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.build_remote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the build command remotely if the program requires compilation</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.deploy">
-<code class="descclassname">abed.fab.</code><code class="descname">deploy</code><span class="sig-paren">(</span><em>push_data=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#deploy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.deploy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">deploy</code><span class="sig-paren">(</span><em class="sig-param">push_data=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#deploy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.deploy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.fab_pull">
-<code class="descclassname">abed.fab.</code><code class="descname">fab_pull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_pull" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">fab_pull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_pull" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.fab_push">
-<code class="descclassname">abed.fab.</code><code class="descname">fab_push</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_push" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">fab_push</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_push" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.fab_repull">
-<code class="descclassname">abed.fab.</code><code class="descname">fab_repull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_repull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_repull" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">fab_repull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_repull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_repull" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.fab_setup">
-<code class="descclassname">abed.fab.</code><code class="descname">fab_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_setup" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">fab_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#fab_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.fab_setup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.get_files_from_glob">
-<code class="descclassname">abed.fab.</code><code class="descname">get_files_from_glob</code><span class="sig-paren">(</span><em>glob_path</em>, <em>glob</em>, <em>dest_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#get_files_from_glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.get_files_from_glob" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">get_files_from_glob</code><span class="sig-paren">(</span><em class="sig-param">glob_path</em>, <em class="sig-param">glob</em>, <em class="sig-param">dest_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#get_files_from_glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.get_files_from_glob" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.get_results">
-<code class="descclassname">abed.fab.</code><code class="descname">get_results</code><span class="sig-paren">(</span><em>basepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#get_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.get_results" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">get_results</code><span class="sig-paren">(</span><em class="sig-param">basepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#get_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.get_results" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.init_data">
-<code class="descclassname">abed.fab.</code><code class="descname">init_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#init_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.init_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">init_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#init_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.init_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Push the data to the remote server</p>
-<p>This function is used to synchronize the <a class="reference internal" href="../../usage/settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal"><span class="pre">DATADIR</span></code></a> directory to
+<p>This function is used to synchronize the <a class="reference internal" href="../../usage/settings.html#std:setting-DATADIR"><code class="xref std std-setting docutils literal notranslate"><span class="pre">DATADIR</span></code></a> directory to
 the compute cluster. This is done by first locally compressing the entire
-directory as a tar file, then syncing it to a <code class="docutils literal"><span class="pre">datasets</span></code> directory in the
+directory as a tar file, then syncing it to a <code class="docutils literal notranslate"><span class="pre">datasets</span></code> directory in the
 remote project path, and unpacking it there. The path where the unpacked
-dataset is located is stored in the <code class="xref py py-class docutils literal"><span class="pre">MyFabric</span></code> class.</p>
+dataset is located is stored in the <code class="xref py py-class docutils literal notranslate"><span class="pre">MyFabric</span></code> class.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.move_data">
-<code class="descclassname">abed.fab.</code><code class="descname">move_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#move_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.move_data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">move_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#move_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.move_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the data from previous release</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.setup">
-<code class="descclassname">abed.fab.</code><code class="descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.setup" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.setup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="abed.fab.write_and_queue">
-<code class="descclassname">abed.fab.</code><code class="descname">write_and_queue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#write_and_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.write_and_queue" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">abed.fab.</code><code class="sig-name descname">write_and_queue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/abed/fab.html#write_and_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#abed.fab.write_and_queue" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">abed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/api/core/abed.fab.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -156,8 +158,8 @@ dataset is located is stored in the <code class="xref py py-class docutils liter
       &copy;2016, Gertjan van den Burg.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/api/core/abed.fab.rst.txt"
