@@ -9,10 +9,17 @@ This module contains all the documentation and functionality needed for the
 # Date: Sat Oct  8, 2016
 # License: GPL v. 2
 
+import datetime as dt
 import textwrap
 
+from . import __version__
+
 # General description for the Abed help
-DESCRIPTION = "Abed is a utility for Automated BEnchmark Distribution"
+DESCRIPTION = (
+    "abed is a command line tool for managing benchmark experiments."
+    "\n"
+    "This is abed version %s" % __version__
+)
 
 
 # Categories for the commands in the Abed help
@@ -115,8 +122,8 @@ ABED_OPTIONS = {
                     Don't actually prune the result files, but only print what 
                     would be done.
                     """,
-                    )
-        ],
+        )
+    ],
 }
 
 
@@ -440,11 +447,13 @@ def get_help():
 
     # Generate the basis text
     text = [
-        "usage: abed <command> [<options>]",
+        "This is abed, version %s" % __version__,
+        "Copyright (c) 2015-%i G.J.J. van den Burg." % dt.datetime.now().year,
+        "This program is free software, see the LICENSE file for details.",
         "",
-        DESCRIPTION,
+        "Usage: abed <command> [<options>]",
         "",
-        "Available Abed commands are:",
+        "Available commands are:",
         "",
     ]
 
