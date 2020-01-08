@@ -26,6 +26,7 @@ TASK_FILE = '{task_file}'
 AUTO_FILE = '{auto_file}'
 RESULT_DIR = '/path/to/local/results'
 STAGE_DIR = '/path/to/local/stagedir'
+PRUNE_DIR = '/path/to/local/prunedir'
 MAX_FILES = 1000
 ZIP_DIR = './zips'
 LOG_DIR = './logs'

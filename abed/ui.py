@@ -25,7 +25,12 @@ def parse_arguments():
         print(get_help())
         raise SystemExit
 
-    args = {"skip_cache": False, "cmd": None, "topic": None}
+    args = {
+        "skip_cache": False,
+        "prune_dry_run": False,
+        "cmd": None,
+        "topic": None,
+    }
     idx = 0
     args["cmd"] = parse_command(cmdargs[idx])
     idx += 1
@@ -37,6 +42,13 @@ def parse_arguments():
         else:
             error("Unknown command line argument: %s." % cmdargs[idx])
             error("See 'abed help parse_results' for help.")
+            raise SystemExit
+    elif args["cmd"] == "prune_results" and len(cmdargs) > idx:
+        if cmdargs[idx] in ["-n", "--dry-run"]:
+            args["prune_dry_run"] = True
+        else:
+            error("Unknown command line argument: %s." % cmdargs[idx])
+            error("See 'abed help prune_results' for help.")
             raise SystemExit
     elif len(cmdargs) > idx:
         error("Unknown command line argument: %s." % cmdargs[idx])
@@ -68,7 +80,8 @@ def main():
             )
             raise SystemExit
         skip_init = True
-    abed = Abed(skip_init=skip_init, skip_cache=args["skip_cache"])
+    abed = Abed(skip_init=skip_init, skip_cache=args["skip_cache"], 
+            prune_dry_run=args['prune_dry_run'])
 
     try:
         getattr(abed, args["cmd"])()

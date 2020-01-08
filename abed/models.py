@@ -16,6 +16,7 @@ from .init import init_config
 from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
 from .io import info, error
 from .zips import unpack_zips, move_results
+from .prune import prune_results
 
 
 class Abed(object):
@@ -31,6 +32,7 @@ class Abed(object):
         "process_zips",
         "pull",
         "push",
+        "prune_results",
         "reload_tasks",
         "repull",
         "run",
@@ -41,9 +43,10 @@ class Abed(object):
         "view_results",
     ]
 
-    def __init__(self, skip_init=False, skip_cache=False):
+    def __init__(self, skip_init=False, skip_cache=False, prune_dry_run=False):
         self.task_dict = None
         self.skip_cache = skip_cache
+        self.prune_dry_run = prune_dry_run
         if not skip_init:
             self.init_tasks()
 
@@ -175,3 +178,6 @@ class Abed(object):
 
     def compress_results(self):
         compress_results(init_tasks())
+
+    def prune_results(self):
+        prune_results(init_tasks(), dry_run=self.prune_dry_run)

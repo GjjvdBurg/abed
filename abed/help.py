@@ -24,7 +24,7 @@ COMMAND_CATEGORIES = [
     ("Abed status:", ["status", "explain_tasks", "explain_tbd_tasks"]),
     (
         "Result management:",
-        ["view_results", "compress_results", "move_results"],
+        ["view_results", "compress_results", "move_results", "prune_results"],
     ),
     ("Manual intervention:", ["parse_results", "process_zips"]),
 ]
@@ -55,6 +55,7 @@ ABED_SHORT_HELP = {
     "update_tasks": "Update the task list (part of pull)",
     "view_results": "Open the HTML results in the default browser",
     "move_results": "Move any results from stagedir to result dir",
+    "prune_results": "Remove result files that don't occur in the config",
 }
 
 
@@ -62,6 +63,7 @@ ABED_SHORT_HELP = {
 ABED_SYNOPSES = {
     "help": "abed help [<topic>]",
     "parse_results": "abed parse_results [<options>]",
+    "prune_results": "abed prune_results [<options>]",
 }
 
 
@@ -76,7 +78,7 @@ ABED_SEE_ALSO = {
     "local": ["run"],
     "parse_results": ["view_results"],
     "process_zips": ["pull", "move_results"],
-    "move_results": ["process_zips"],
+    "move_results": ["process_zips", "prune_results"],
     "pull": ["auto", "push", "process_zips", "update_tasks", "repull"],
     "push": ["auto", "pull", "setup", "run"],
     "reload_tasks": ["update_tasks", "status"],
@@ -86,10 +88,11 @@ ABED_SEE_ALSO = {
     "status": [],
     "update_tasks": ["reload_tasks", "status"],
     "view_results": ["compress_results"],
+    "prune_results": ["move_results"],
 }
 
 
-# Documentation of options for commands which have options
+# Documentation of options for commands that have options
 ABED_OPTIONS = {
     "parse_results": [
         (
@@ -104,7 +107,16 @@ ABED_OPTIONS = {
                     potentially outdated or incomplete if this flag is used.
                     """,
         )
-    ]
+    ],
+    "prune_results": [
+        (
+            "--dry-run, -n",
+            """\
+                    Don't actually prune the result files, but only print what 
+                    would be done.
+                    """,
+                    )
+        ],
 }
 
 
@@ -198,6 +210,14 @@ ABED_LONG_HELP = {
                 some reason, this command can be used to unpack the archives 
                 manually. Note that typically the archived files will not be 
                 actual .zip files, but .bz2 (bzip) files.
+                """,
+    "prune_results": """\
+                Move the result files of tasks that no longer occur in the 
+                experiment to the PRUNE_DIR defined in the configuration file.  
+                This can be useful in scenarios where the experiment 
+                configuration evolves over time. At some point, result files 
+                may remain that are no longer defined or needed in the 
+                experiment.
                 """,
     "pull": """\
                 Download the results from the compute cluster and process them.  
