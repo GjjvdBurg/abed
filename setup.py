@@ -11,7 +11,9 @@ AUTHOR = "Gertjan van den Burg"
 DESCRIPTION = "A command line tool for easily managing benchmark experiments"
 EMAIL = "gertjanvandenburg@gmail.com"
 LICENSE = "GPLv2"
-LICENSE_TROVE = "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
+LICENSE_TROVE = (
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
+)
 NAME = "abed"
 REQUIRES_PYTHON = ">=3.4.0"
 URL = "https://github.com/GjjvdBurg/abed"
@@ -51,14 +53,16 @@ EXTRAS = {
 
 here = os.path.abspath(os.path.dirname(__file__))
 
+
 def get_data_files():
-    datadir = os.path.join('share', 'data')
+    datadir = os.path.join("share", "data")
     datafiles = []
     for root, dirs, files in os.walk(datadir):
         if not dirs:
             newfiles = [os.path.join(root, f) for f in files]
             datafiles.append((root, newfiles))
     return datafiles
+
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
@@ -94,10 +98,10 @@ setup(
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     data_files=get_data_files(),
-    #include_package_data=True,
+    # include_package_data=True,
     license=LICENSE,
     ext_modules=[],
-    scripts=['bin/abed'],
+    scripts=["bin/abed"],
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
