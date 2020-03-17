@@ -1,13 +1,17 @@
 # Change Log
 
-# Version 0.1.1
+## Version 0.1.2
 
-- Add a ``prune_results`` command.
+* Add missing dependencies to setup.py
 
-# Version 0.0.3
+## Version 0.1.1
 
-- Bugfix for variable number of worker processes
+* Add a ``prune_results`` command.
 
-# Version 0.0.2
+## Version 0.0.3
 
-- Add setting for number of worker processes
+* Bugfix for variable number of worker processes
+
+## Version 0.0.2
+
+* Add setting for number of worker processes

@@ -24,7 +24,7 @@ REQUIRED = [
     "Fabric3==1.14.post1",
     "backports.lzma",
     "bz2file",
-    "dateutil",
+    "python-dateutil",
     "dominate",
     "gitpython",
     "mpi4py",
