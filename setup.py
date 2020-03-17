@@ -19,16 +19,19 @@ VERSION = None
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-        'Fabric3==1.14.post1',
-        'mpi4py',
-        'tabulate',
-        'bz2file',
-        'progressbar',
-        'dominate',
-        'tqdm',
-        'backports.lzma',
-        'gitpython'
-        ]
+    "Fabric3==1.14.post1",
+    "backports.lzma",
+    "bz2file",
+    "dateutil",
+    "dominate",
+    "gitpython",
+    "mpi4py",
+    "progressbar",
+    "scipy",
+    "six",
+    "tabulate",
+    "tqdm",
+]
 
 docs_require = []
 test_require = []
