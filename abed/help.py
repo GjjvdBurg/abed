@@ -340,7 +340,7 @@ ABED_LONG_HELP = {
 def bold(text):
     """Add bold escape sequences to text
 
-    This adds the ``'\\033[1m'`` before the string, and ``'\\033[0m'`` after 
+    This adds the ``'\\033[1m'`` before the string, and ``'\\033[0m'`` after
     the string.
 
     Parameters
@@ -360,8 +360,8 @@ def bold(text):
 def paragraph_wrapper(all_text, width=70, indent="\t"):
     """Format text to have a maximum length while maintaining paragraphs
 
-    This function is very similar to `textwrap.wrap() 
-    <https://docs.python.org/3/library/textwrap.html#textwrap.wrap>`_, with the 
+    This function is very similar to `textwrap.wrap()
+    <https://docs.python.org/3/library/textwrap.html#textwrap.wrap>`_, with the
     exception that paragraphs in the triple-quoted string will be maintained.
 
     Parameters
@@ -413,14 +413,14 @@ def cmd_strings(cmds):
 
         command     short description
 
-    The formatting is done such that the short descriptions of all the commands 
-    line up in the same way, and long descriptions are continued on the next 
+    The formatting is done such that the short descriptions of all the commands
+    line up in the same way, and long descriptions are continued on the next
     line at the correct indentation.
 
     Parameters
     ----------
     cmds : list
-        The command names (as strings) for which the help text should be 
+        The command names (as strings) for which the help text should be
         generated
 
     Returns
@@ -451,8 +451,8 @@ def cmd_strings(cmds):
 def get_help():
     """Generate the main help text
 
-    Generate the main help text for Abed. This is the help text that is shown 
-    with the commands ``abed help`` and ``abed``. The help text is modelled on 
+    Generate the main help text for Abed. This is the help text that is shown
+    with the commands ``abed help`` and ``abed``. The help text is modelled on
     the help text that is shown when you run ``git`` without arguments.
 
     Returns
@@ -493,12 +493,12 @@ def get_help():
 def get_command_help(command):
     """Generate help text for a command
 
-    This function generates the help text for a command that is printed when 
-    you call ``abed help <command>``. This command formats the help text 
-    similar to the structure of manual pages on Linux. The help text consists 
-    of several paragraphs: name, synopsis, description, and optionally a see 
-    also and options paragraph. The content of these paragraphs comes from the 
-    variables ABED_SHORT_HELP, ABED_SYNOPSES, ABED_LONG_HELP, ABED_SEE_ALSO, 
+    This function generates the help text for a command that is printed when
+    you call ``abed help <command>``. This command formats the help text
+    similar to the structure of manual pages on Linux. The help text consists
+    of several paragraphs: name, synopsis, description, and optionally a see
+    also and options paragraph. The content of these paragraphs comes from the
+    variables ABED_SHORT_HELP, ABED_SYNOPSES, ABED_LONG_HELP, ABED_SEE_ALSO,
     and ABED_OPTIONS.
 
     Parameters
