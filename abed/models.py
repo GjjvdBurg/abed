@@ -13,7 +13,13 @@ from .local import local_move_results
 from .results.main import make_results
 from .run import mpi_start
 from .init import init_config
-from .tasks import init_tasks, read_tasks, update_tasks, explain_tasks
+from .tasks import (
+    init_tasks,
+    read_tasks,
+    update_tasks,
+    explain_tasks,
+    filter_tasks,
+)
 from .io import info, error
 from .zips import unpack_zips, move_results
 from .prune import prune_results
@@ -43,10 +49,17 @@ class Abed(object):
         "view_results",
     ]
 
-    def __init__(self, skip_init=False, skip_cache=False, prune_dry_run=False):
+    def __init__(
+        self,
+        skip_init=False,
+        skip_cache=False,
+        prune_dry_run=False,
+        query_words=None,
+    ):
         self.task_dict = None
         self.skip_cache = skip_cache
         self.prune_dry_run = prune_dry_run
+        self.query_words = query_words
         if not skip_init:
             self.init_tasks()
 
@@ -60,10 +73,13 @@ class Abed(object):
             git_commit_tbd()
 
     def explain_tbd_tasks(self):
-        explain_tasks(self.task_dict)
+        task_dict = filter_tasks(self.task_dict, query_words=self.query_words)
+        explain_tasks(task_dict)
 
     def explain_tasks(self):
-        explain_tasks(init_tasks())
+        all_tasks = init_tasks()
+        task_dict = filter_tasks(all_tasks, query_words=self.query_words)
+        explain_tasks(task_dict)
 
     def update_tasks(self):
         cnt = update_tasks(self.task_dict)
@@ -139,7 +155,8 @@ class Abed(object):
         if self.task_dict is None:
             error("No tasks defined before attempted run. Exiting")
             raise SystemExit
-        mpi_start(self.task_dict)
+        task_dict = filter_tasks(self.task_dict, query_words=self.query_words)
+        mpi_start(task_dict)
         info("Finished with run command.")
 
     def init(self):
@@ -173,8 +190,9 @@ class Abed(object):
         if self.task_dict is None:
             error("No tasks defined before attempted run. Exiting")
             raise SystemExit
-        mpi_start(self.task_dict, local=True)
-        local_move_results(self.task_dict)
+        task_dict = filter_tasks(self.task_dict, query_words=self.query_words)
+        mpi_start(task_dict, local=True)
+        local_move_results(task_dict)
 
     def compress_results(self):
         compress_results(init_tasks())

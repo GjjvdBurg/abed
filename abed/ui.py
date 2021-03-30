@@ -30,6 +30,7 @@ def parse_arguments():
         "prune_dry_run": False,
         "cmd": None,
         "topic": None,
+        "query_words": None,
     }
     idx = 0
     args["cmd"] = parse_command(cmdargs[idx])
@@ -49,6 +50,16 @@ def parse_arguments():
         else:
             error("Unknown command line argument: %s." % cmdargs[idx])
             error("See 'abed help prune_results' for help.")
+            raise SystemExit
+    elif (
+        args["cmd"] in ["local", "run", "explain_tbd_tasks", "explain_tasks"]
+        and len(cmdargs) > idx
+    ):
+        if cmdargs[idx] in ["-q", "--query"]:
+            args["query_words"] = cmdargs[idx + 1].strip().split(" ")
+        else:
+            error("Unknown command line argument: %s." % cmdargs[idx])
+            error("See 'abed help %s' for help." % args["cmd"])
             raise SystemExit
     elif len(cmdargs) > idx:
         error("Unknown command line argument: %s." % cmdargs[idx])
@@ -80,8 +91,12 @@ def main():
             )
             raise SystemExit
         skip_init = True
-    abed = Abed(skip_init=skip_init, skip_cache=args["skip_cache"], 
-            prune_dry_run=args['prune_dry_run'])
+    abed = Abed(
+        skip_init=skip_init,
+        skip_cache=args["skip_cache"],
+        prune_dry_run=args["prune_dry_run"],
+        query_words=args["query_words"],
+    )
 
     try:
         getattr(abed, args["cmd"])()

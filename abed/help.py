@@ -71,6 +71,10 @@ ABED_SYNOPSES = {
     "help": "abed help [<topic>]",
     "parse_results": "abed parse_results [<options>]",
     "prune_results": "abed prune_results [<options>]",
+    "local": "abed local [<options>]",
+    "run": "abed run [<options>]",
+    "explain_tasks": "abed explain_tasks [<options>]",
+    "explain_tbd_tasks": "abed explain_tbd_tasks [<options>]",
 }
 
 
@@ -98,6 +102,13 @@ ABED_SEE_ALSO = {
     "prune_results": ["move_results"],
 }
 
+_query_opt_doc = """\
+        Optional query words to select only a subset of tasks. Tasks that 
+        (partially) match all query words will be selected. Multiple query 
+        words must be provided as a single command line argument with terms 
+        separated by spaces, so need to be included in quotes (for example: 
+        abed %s -q 'one two three')."""
+
 
 # Documentation of options for commands that have options
 ABED_OPTIONS = {
@@ -123,6 +134,12 @@ ABED_OPTIONS = {
                     would be done.
                     """,
         )
+    ],
+    "local": [("--query, -q", _query_opt_doc % "local")],
+    "run": [("--query, -q", _query_opt_doc % "run")],
+    "explain_tasks": [("--query, -q", _query_opt_doc % "explain_tasks")],
+    "explain_tbd_tasks": [
+        ("--query, -q", _query_opt_doc % "explain_tbd_tasks")
     ],
 }
 

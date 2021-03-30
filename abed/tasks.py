@@ -150,3 +150,29 @@ def explain_tasks(all_tasks):
             d["execdir"] = "{execdir}"
             cmd = command.format(**d)
         print("%s : %s" % (task, cmd))
+
+
+def filter_tasks(all_tasks, query_words=None):
+    """Keep only those tasks that match all words in the query list"""
+    if query_words is None:
+        return all_tasks
+
+    keep = {}
+    for task_id in all_tasks:
+        task = all_tasks[task_id]
+        if all(q in task_id for q in query_words):
+            keep[task_id] = task.copy()
+            continue
+
+        # Match if all query words match some task value
+        all_match = True
+        for q in query_words:
+            match = any(q in str(v) for v in task.values())
+            if not match:
+                all_match = False
+                break
+
+        if all_match:
+            keep[task_id] = task.copy()
+
+    return keep
