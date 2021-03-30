@@ -192,7 +192,7 @@ class Abed(object):
             raise SystemExit
         task_dict = filter_tasks(self.task_dict, query_words=self.query_words)
         mpi_start(task_dict, local=True)
-        local_move_results(task_dict)
+        local_move_results(self.task_dict)
 
     def compress_results(self):
         compress_results(init_tasks())
