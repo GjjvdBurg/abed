@@ -21,7 +21,7 @@ def parse_command(command):
 
 def parse_arguments():
     cmdargs = sys.argv[1:]
-    if len(cmdargs) == 0:
+    if len(cmdargs) == 0 or "-h" in cmdargs:
         print(get_help())
         raise SystemExit(1)
 
