@@ -50,12 +50,16 @@ def task_hash(task):
 
 
 def init_tasks():
-    if settings.TYPE == "ASSESS":
-        task_func = init_tasks_assess
+    if settings.TYPE in ["ASSESS_GRID", "ASSESS"]:
+        task_func = init_tasks_assess_grid
+    elif settings.TYPE == "ASSESS_LIST":
+        task_func = init_tasks_assess_list
     elif settings.TYPE == "CV_TT":
         task_func = init_tasks_cv_tt
     elif settings.TYPE == "RAW":
         task_func = init_tasks_raw
+    else:
+        raise ValueError(f"Unknown TYPE value in settings: {settings.TYPE}")
 
     try:
         return task_func()
@@ -69,11 +73,26 @@ def init_tasks():
     raise AbedExperimentTypeException
 
 
-def init_tasks_assess():
+def init_tasks_assess_grid():
     out = {}
     for dset in settings.DATASETS:
         for method in settings.METHODS:
             for prmset in cartesian(settings.PARAMS[method]):
+                task = {key: value for key, value in prmset.items()}
+                task["dataset"] = dset
+                task["method"] = method
+                hsh = task_hash(task)
+                if hsh in out:
+                    raise AbedHashCollissionException
+                out[hsh] = task
+    return out
+
+
+def init_tasks_assess_list():
+    out = {}
+    for dset in settings.DATASETS:
+        for method in settings.METHODS:
+            for prmset in settings.PARAMS[method]:
                 task = {key: value for key, value in prmset.items()}
                 task["dataset"] = dset
                 task["method"] = method
