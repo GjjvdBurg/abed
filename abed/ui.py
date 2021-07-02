@@ -31,6 +31,7 @@ def parse_arguments():
         "cmd": None,
         "topic": None,
         "query_words": None,
+        "no_commit": False,
     }
     idx = 0
     args["cmd"] = parse_command(cmdargs[idx])
@@ -61,6 +62,9 @@ def parse_arguments():
             error("Unknown command line argument: %s." % cmdargs[idx])
             error("See 'abed help %s' for help." % args["cmd"])
             raise SystemExit
+    elif args["cmd"] in ["init", "update_tasks", "reload_tasks"]:
+        if cmdargs[idx] in ["-n", "--no-commit"]:
+            args["no_commit"] = True
     elif len(cmdargs) > idx:
         error("Unknown command line argument: %s." % cmdargs[idx])
         error("See 'abed help' for help.")
@@ -96,6 +100,7 @@ def main():
         skip_cache=args["skip_cache"],
         prune_dry_run=args["prune_dry_run"],
         query_words=args["query_words"],
+        no_commit=args['no_commit']
     )
 
     try:

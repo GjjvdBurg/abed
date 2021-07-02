@@ -141,6 +141,13 @@ ABED_OPTIONS = {
     "explain_tbd_tasks": [
         ("--query, -q", _query_opt_doc % "explain_tbd_tasks")
     ],
+    "init": [("--no-commit, -n", "Don't automatically git commit changes.")],
+    "update_tasks": [
+        ("--no-commit, -n", "Don't automatically git commit changes")
+    ],
+    "reload_tasks": [
+        ("--no-commit, -n", "Don't automatically git commit changes")
+        ],
 }
 
 

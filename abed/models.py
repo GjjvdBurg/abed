@@ -55,11 +55,13 @@ class Abed(object):
         skip_cache=False,
         prune_dry_run=False,
         query_words=None,
+        no_commit=False
     ):
         self.task_dict = None
         self.skip_cache = skip_cache
         self.prune_dry_run = prune_dry_run
         self.query_words = query_words
+        self.no_commit = no_commit
         if not skip_init:
             self.init_tasks()
 
@@ -70,7 +72,8 @@ class Abed(object):
         else:
             self.task_dict = init_tasks()
             self.write_tasks()
-            git_commit_tbd()
+            if not self.no_commit:
+                git_commit_tbd()
 
     def explain_tbd_tasks(self):
         task_dict = filter_tasks(self.task_dict, query_words=self.query_words)
@@ -88,7 +91,8 @@ class Abed(object):
             % (cnt, len(self.task_dict))
         )
         self.write_tasks()
-        git_commit_tbd()
+        if not self.no_commit:
+            git_commit_tbd()
         if len(self.task_dict) == 0:
             info("All tasks completed. Cool cool cool.")
 
