@@ -10,14 +10,14 @@ import unittest
 
 from abed import init
 
-class AbedInitTestCase(unittest.TestCase):
 
+class AbedInitTestCase(unittest.TestCase):
     def setUp(self):
-        self.conf_path = 'abed_conf.py'
-        self.data_path = 'datasets'
-        self.exec_path = 'execs'
-        self.task_path = 'abed_tasks.txt'
-        self.auto_path = 'abed_auto.txt'
+        self.conf_path = "abed_conf.py"
+        self.data_path = "datasets"
+        self.exec_path = "execs"
+        self.task_path = "abed_tasks.txt"
+        self.auto_path = "abed_auto.txt"
         self.expected_config = """
 ##############################################################################
 #                                General Settings                            #
@@ -152,10 +152,10 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
         self.assertTrue(os.path.isfile(self.auto_path))
         self.assertTrue(os.path.isfile(self.conf_path))
 
-        with open(self.conf_path, 'r') as fid:
+        with open(self.conf_path, "r") as fid:
             lines = [l.strip() for l in fid.readlines()]
 
-        exp_lines = [l.strip() for l in self.expected_config.split('\n')]
+        exp_lines = [l.strip() for l in self.expected_config.split("\n")]
         counter = 0
         for tl, el in zip(lines, exp_lines):
             print(counter, tl, el)
@@ -170,5 +170,5 @@ PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
         os.remove(self.conf_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
