@@ -64,7 +64,7 @@ def parse_arguments():
             error("Unknown command line argument: %s." % cmdargs[idx])
             error("See 'abed help %s' for help." % args["cmd"])
             raise SystemExit(1)
-    elif args["cmd"] in ["init", "update_tasks", "reload_tasks"]:
+    elif args["cmd"] in ["init", "update_tasks", "reload_tasks"] and len(cmdargs) > idx:
         if cmdargs[idx] in ["-n", "--no-commit"]:
             args["no_commit"] = True
     elif len(cmdargs) > idx:
