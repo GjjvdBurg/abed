@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 0.1.3
+
+* Add support for querying tasks to be done
+* Add --no-commit option to some commands
+* Add ``ASSESS_LIST`` experiment mode
+* Make error messages colorful
+
 ## Version 0.1.2
 
 * Add missing dependencies to setup.py
