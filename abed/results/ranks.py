@@ -9,13 +9,13 @@ from ..conf import settings
 
 def get_ranks(x):
     """
-        Get ranks for a vector. This function assumes lower is better, so high 
-        numbers get a high rank. You can invert it with: [len(x) - t + 1 for t 
-        in ranks]
+    Get ranks for a vector. This function assumes lower is better, so high
+    numbers get a high rank. You can invert it with: [len(x) - t + 1 for t
+    in ranks]
 
-        >>> x = [7, 0.1, 0.5, 0.1, 10, 100, 200]
-        >>> get_ranks(x)
-        [4.0, 1.5, 3.0, 1.5, 5.0, 6.0, 7.0]
+    >>> x = [7, 0.1, 0.5, 0.1, 10, 100, 200]
+    >>> get_ranks(x)
+    [4.0, 1.5, 3.0, 1.5, 5.0, 6.0, 7.0]
     """
     l = len(x)
     r = 1

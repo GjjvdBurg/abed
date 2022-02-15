@@ -28,10 +28,7 @@ def cartesian(params):
 
 def check_size():
     if not sys.maxsize == 9223372036854775807:
-        error(
-            "Running on a non 64-bit system. This may cause problems with "
-            "hashes."
-        )
+        error("Running on a non 64-bit system. This may cause problems with " "hashes.")
         raise SystemExit
 
 

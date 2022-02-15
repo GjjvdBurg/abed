@@ -16,8 +16,8 @@ from .utils import hash_from_filename, mkdir
 def prune_results(task_dict, dry_run=False):
     """Remove result files that are not in the task_dict
 
-    This can occur when the experiment configuration changes over time and old 
-    result files are still lying around. This command moves them to the 
+    This can occur when the experiment configuration changes over time and old
+    result files are still lying around. This command moves them to the
     PRUNE_DIR defined in the settings file.
     """
     if not os.path.exists(settings.RESULT_DIR):

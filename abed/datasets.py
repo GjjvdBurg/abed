@@ -16,12 +16,12 @@ splitext = os.path.splitext
 def dataset_name(dset):
     """Get the dataset name for a given dataset
 
-    The user has the option to specify alternative names for datasets in the 
-    :setting:`DATASETS` configuration setting, through the 
-    :setting:`DATASET_NAMES` variable. This function can be used to get the 
-    name of the dataset when the :setting:`DATASET_NAMES` variable is specified 
-    or not. If the setting is not specified, a name is created by stripping any 
-    extensions from the dataset specified. In case the dataset is a tuple, the 
+    The user has the option to specify alternative names for datasets in the
+    :setting:`DATASETS` configuration setting, through the
+    :setting:`DATASET_NAMES` variable. This function can be used to get the
+    name of the dataset when the :setting:`DATASET_NAMES` variable is specified
+    or not. If the setting is not specified, a name is created by stripping any
+    extensions from the dataset specified. In case the dataset is a tuple, the
     names of the datasets are combined.
 
     Parameters

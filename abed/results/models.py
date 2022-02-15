@@ -16,9 +16,7 @@ from ..utils import mkdir
 
 
 class AbedCache(object):
-    """
-
-    """
+    """"""
 
     def __init__(
         self,
@@ -93,8 +91,7 @@ class AbedCache(object):
 
 
 class AbedResult(object):
-    """
-    """
+    """"""
 
     def __init__(self, hsh=None, dataset=None, method=None):
         self.scalars = set()
@@ -141,9 +138,7 @@ class AbedTableTypes:
 
 
 class AbedTable(object):
-    """
-
-    """
+    """"""
 
     def __init__(self):
         self.num_columns = 0

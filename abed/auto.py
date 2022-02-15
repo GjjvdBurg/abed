@@ -26,12 +26,12 @@ QUEUED = "Q"
 def submitted():
     """Check if a currently submitted job exists
 
-    This function checks if a job exists on the remote, by trying to find a 
-    jobid from the pbs service. If no jobid can be found ``False`` is 
-    returned, otherwise ``True`` is returned. If a job exists, an attempt is 
-    made to check the state of the job, by through :func:`get_state`. If the 
-    job is queued, the starttime is retrieved through :func:`get_starttime`, 
-    and if it is running, the remaining time is retrieved through 
+    This function checks if a job exists on the remote, by trying to find a
+    jobid from the pbs service. If no jobid can be found ``False`` is
+    returned, otherwise ``True`` is returned. If a job exists, an attempt is
+    made to check the state of the job, by through :func:`get_state`. If the
+    job is queued, the starttime is retrieved through :func:`get_starttime`,
+    and if it is running, the remaining time is retrieved through
     :func:`get_remaining`.
 
     Returns
@@ -47,10 +47,7 @@ def submitted():
     if state == QUEUED:
         sttime = get_starttime(jobid)
         if sttime:
-            info(
-                "Job %s queued. Start time: %s"
-                % (jobid, sttime.strftime("%c"))
-            )
+            info("Job %s queued. Start time: %s" % (jobid, sttime.strftime("%c")))
         else:
             info("Job %s queued." % jobid)
     elif state == RUNNING:
@@ -99,23 +96,23 @@ def get_jobid_from_pbs():
 def get_jobid_from_logs(logpath=None):
     """Try to get the jobid from existing log files
 
-    This function attempt to get the jobid of a finished job by checking the 
-    filenames of the log files. If used as expected, the PBS server will place 
-    output and error logs in the logs directory with the names 
-    ``abed.pbs.o{jobid}`` and ``abed.pbs.e{jobid}``. This function expects 
-    this exact format, and tries to retrieve the jobid from the first file in 
+    This function attempt to get the jobid of a finished job by checking the
+    filenames of the log files. If used as expected, the PBS server will place
+    output and error logs in the logs directory with the names
+    ``abed.pbs.o{jobid}`` and ``abed.pbs.e{jobid}``. This function expects
+    this exact format, and tries to retrieve the jobid from the first file in
     the logs directory.
 
     Parameters
     ----------
     logpath : str, optional
-        An optional path to search for the log files. If not provided, the 
+        An optional path to search for the log files. If not provided, the
         path ``{remote_dir}/releases/current/logs/`` will be used.
 
     Returns
     -------
     jobid : str
-        The ID of the job that created the log files. None is returned when no 
+        The ID of the job that created the log files. None is returned when no
         jobid can be found.
 
     """
@@ -137,8 +134,8 @@ def get_jobid_from_logs(logpath=None):
 def get_state(jobid):
     """Get the state of the job with the provided jobid
 
-    This function uses the PBS command ``qstat -f username`` to find out the 
-    state of the job. It is assumed that a job with the given jobid exists.  
+    This function uses the PBS command ``qstat -f username`` to find out the
+    state of the job. It is assumed that a job with the given jobid exists.
     See the documentation of the ``qstat`` command for possible job states.
 
     Parameters
@@ -159,13 +156,13 @@ def get_state(jobid):
 def get_starttime(jobid):
     """Get the expected start time of a queued job
 
-    This function tries to find the start time of a queued job by using the 
-    ``showstart`` command (assuming it is available). It is expected that the 
+    This function tries to find the start time of a queued job by using the
+    ``showstart`` command (assuming it is available). It is expected that the
     output of showstart contains a line of the form::
 
        Earliest start in          1:26:14 on Thu May 26 22:56:43
 
-    From this string the date at the end is extracted, which is converted to a 
+    From this string the date at the end is extracted, which is converted to a
     datetime.datetime object and returned.
 
     Parameters
@@ -176,13 +173,11 @@ def get_starttime(jobid):
     Returns
     -------
     starttime : datetime.datetime
-        The expected start time of the job as given by ``showstart``. None is 
+        The expected start time of the job as given by ``showstart``. None is
         returned if no date can be found.
 
     """
-    text = myfab.run(
-        "showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % jobid
-    )
+    text = myfab.run("showstart %s | grep start | cut -d'o' -f2- | cut -c 3-" % jobid)
     if not text.strip():
         return None
     try:
@@ -195,12 +190,12 @@ def get_starttime(jobid):
 def get_remaining(jobid):
     """Get the remaining runtime of a job
 
-    This function uses the ``qstat -f`` command to retrieve the remaining 
+    This function uses the ``qstat -f`` command to retrieve the remaining
     walltime of the specified job. It does this by looking for the line::
 
         Walltime.Ramining = 32754
 
-    and converting this to a string of the form ``HH:MM:SS`` through 
+    and converting this to a string of the form ``HH:MM:SS`` through
     `datetime.timedelta`.
 
     Parameters
@@ -222,10 +217,10 @@ def get_remaining(jobid):
 def is_job_marked(jobid):
     """Check if a job is marked in the auto file
 
-    This function checks if a given jobid occurs in the auto file. The auto 
-    file is used to record for which jobs the results have been pulled from 
-    the server. The auto file records the jobids one for each line (see 
-    :func:`mark_job`), so this function checks if the provided jobid is on any 
+    This function checks if a given jobid occurs in the auto file. The auto
+    file is used to record for which jobs the results have been pulled from
+    the server. The auto file records the jobids one for each line (see
+    :func:`mark_job`), so this function checks if the provided jobid is on any
     of the lines.
 
     Parameters
@@ -252,7 +247,7 @@ def is_job_marked(jobid):
 def mark_job(jobid):
     """Mark the job in the auto file
 
-    See also :func:`is_job_marked`. This function marks a job by appending the 
+    See also :func:`is_job_marked`. This function marks a job by appending the
     given jobid to the auto file.
 
     Parameters

@@ -41,9 +41,7 @@ def generate_graphs_html(tables):
         # meta tags
         tags.meta(charset="utf-8")
         tags.meta(http_equiv="X-UA-Compatible", content="IE=edge")
-        tags.meta(
-            name="viewport", content="width=device-width, initial-scale=1"
-        )
+        tags.meta(name="viewport", content="width=device-width, initial-scale=1")
         tags.meta(name="description", content="Rank graphs for ABED results")
         tags.meta(name="author", content="Gertjan van den Burg")
 
@@ -64,9 +62,7 @@ def generate_graphs_html(tables):
 
         # D3 and Labella
         tags.script(type="text/javascript", src=copy_data_file("d3/d3.min.js"))
-        tags.script(
-            type="text/javascript", src=copy_data_file("d3kit/d3kit.min.js")
-        )
+        tags.script(type="text/javascript", src=copy_data_file("d3kit/d3kit.min.js"))
         tags.script(
             type="text/javascript",
             src=copy_data_file("labella/labella.min.js"),
@@ -83,9 +79,7 @@ def generate_graphs_html(tables):
             src=copy_data_file("abed/js/abed_rankgraphs.js"),
         )
 
-    tables = [
-        t for t in tables if t.is_summary and t.type == AbedTableTypes.RANKS
-    ]
+    tables = [t for t in tables if t.is_summary and t.type == AbedTableTypes.RANKS]
     labels = sorted(set([t.target for t in tables]))
     lbl_table = {}
     for lbl in labels:
@@ -144,9 +138,7 @@ def write_table_json(table, tabid):
 
 
 def write_tables_html(doc):
-    fname = os.path.join(
-        settings.OUTPUT_DIR, "html", AbedHTMLTypes.RANK_GRAPHS[-1]
-    )
+    fname = os.path.join(settings.OUTPUT_DIR, "html", AbedHTMLTypes.RANK_GRAPHS[-1])
     with open(fname, "w") as fid:
         fid.write(doc)
     info("Created output file: %s" % fname)

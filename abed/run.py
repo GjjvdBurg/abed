@@ -66,7 +66,7 @@ def do_work(hsh, task, local=False):
     except CalledProcessError as err:
         error(
             "There was an error executing: '%s'. Here is the error: %s"
-            % (cmd, err.output.decode('utf-8'))
+            % (cmd, err.output.decode("utf-8"))
         )
         return
     fname = write_output(output, hsh, local=local)
@@ -128,9 +128,7 @@ def master(all_work, worker_ranks, local=False):
 
     # keep sending out tasks when requested
     while True:
-        comm.recv(
-            buf=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status
-        )
+        comm.recv(buf=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status)
 
         # if there is no more work we kill the source worker and break the loop
         if all_work.isempty():

@@ -55,7 +55,7 @@ class Abed(object):
         skip_cache=False,
         prune_dry_run=False,
         query_words=None,
-        no_commit=False
+        no_commit=False,
     ):
         self.task_dict = None
         self.skip_cache = skip_cache

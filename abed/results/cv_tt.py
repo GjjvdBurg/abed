@@ -52,9 +52,7 @@ def cvtt_tables(abed_cache):
 
 
 def cvtt_make_tables_metric(abed_cache, train_metric, test_metric, target):
-    table = cvtt_build_tables_metric(
-        abed_cache, train_metric, test_metric, target
-    )
+    table = cvtt_build_tables_metric(abed_cache, train_metric, test_metric, target)
     table.higher_better = (
         True if settings.METRICS[test_metric]["best"] == max else False
     )

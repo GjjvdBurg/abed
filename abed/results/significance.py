@@ -39,10 +39,7 @@ def reference_difference(table):
     if (not table.is_summary) or (table.type != AbedTableTypes.RANKS):
         return None
     if not settings.REFERENCE_METHOD in settings.METHODS:
-        error(
-            "Reference method %s not in list of methods."
-            % settings.REFERENCE_METHOD
-        )
+        error("Reference method %s not in list of methods." % settings.REFERENCE_METHOD)
         raise SystemExit
 
     # define constants
@@ -51,9 +48,7 @@ def reference_difference(table):
     av_ranks = next((row for _id, row in table if _id == "Average"), None)
     av_ranks = [float(x) for x in av_ranks]
     ref_idx = settings.METHODS.index(settings.REFERENCE_METHOD)
-    others = [
-        m for m in settings.METHODS if not m == settings.REFERENCE_METHOD
-    ]
+    others = [m for m in settings.METHODS if not m == settings.REFERENCE_METHOD]
 
     # Calculate the Z-scores compared to the reference method
     Z_scores = [0] * len(others)

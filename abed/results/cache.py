@@ -43,8 +43,7 @@ def parse_result_fileobj(fid, hsh, dataset, method):
             except ValueError:
                 warning(
                     "Could not parse scalar metric '%s' for "
-                    "file with hash %s. Skipping.\nOffending line: %s"
-                    % (label, hsh, l)
+                    "file with hash %s. Skipping.\nOffending line: %s" % (label, hsh, l)
                 )
                 continue
         else:

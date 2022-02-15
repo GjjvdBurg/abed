@@ -100,7 +100,7 @@ def main():
         skip_cache=args["skip_cache"],
         prune_dry_run=args["prune_dry_run"],
         query_words=args["query_words"],
-        no_commit=args['no_commit']
+        no_commit=args["no_commit"],
     )
 
     try:

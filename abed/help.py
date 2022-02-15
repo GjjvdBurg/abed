@@ -39,12 +39,10 @@ COMMAND_CATEGORIES = [
 
 # Short help line for each command
 ABED_SHORT_HELP = {
-    "auto": ("Automate push and pull to facilitate " "continuous operation"),
+    "auto": ("Automate push and pull to facilitate continuous operation"),
     "compress_results": "Compress completed dataset directories.",
-    "explain_tbd_tasks": (
-        "Print the task ID and command " "of remaining tasks"
-    ),
-    "explain_tasks": ("Print the task ID and command " "of all defined tasks"),
+    "explain_tbd_tasks": ("Print the task ID and command of remaining tasks"),
+    "explain_tasks": ("Print the task ID and command of all defined tasks"),
     "init": "Initialize a skeleton for abed",
     "help": "Show help for Abed",
     "local": "Run the computations locally.",
@@ -55,9 +53,7 @@ ABED_SHORT_HELP = {
     "reload_tasks": "Reload the task file based on config and results",
     "repull": ("Repull results for all jobids in the auto log file"),
     "run": "Run the master/worker MPI program of abed on the cluster",
-    "setup": (
-        "Setup the remote directory structure and transfer the " "datasets"
-    ),
+    "setup": ("Setup the remote directory structure and transfer the datasets"),
     "status": "Status of abed task list",
     "update_tasks": "Update the task list (part of pull)",
     "view_results": "Open the HTML results in the default browser",
@@ -138,16 +134,10 @@ ABED_OPTIONS = {
     "local": [("--query, -q", _query_opt_doc % "local")],
     "run": [("--query, -q", _query_opt_doc % "run")],
     "explain_tasks": [("--query, -q", _query_opt_doc % "explain_tasks")],
-    "explain_tbd_tasks": [
-        ("--query, -q", _query_opt_doc % "explain_tbd_tasks")
-    ],
+    "explain_tbd_tasks": [("--query, -q", _query_opt_doc % "explain_tbd_tasks")],
     "init": [("--no-commit, -n", "Don't automatically git commit changes.")],
-    "update_tasks": [
-        ("--no-commit, -n", "Don't automatically git commit changes")
-    ],
-    "reload_tasks": [
-        ("--no-commit, -n", "Don't automatically git commit changes")
-        ],
+    "update_tasks": [("--no-commit, -n", "Don't automatically git commit changes")],
+    "reload_tasks": [("--no-commit, -n", "Don't automatically git commit changes")],
 }
 
 
@@ -393,9 +383,7 @@ def paragraph_wrapper(all_text, width=70, indent="\t"):
     # remove indentation of paragraphs
     dedents = [textwrap.dedent(text) for text in texts]
     # clean out double spaces
-    cleans = [
-        " ".join([x for x in dedented.split(" ") if x]) for dedented in dedents
-    ]
+    cleans = [" ".join([x for x in dedented.split(" ") if x]) for dedented in dedents]
     # remove newlines
     cleaner = [clean.replace("\n", "") for clean in cleans]
     # use textwrap.fill() to wrap the text

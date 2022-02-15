@@ -43,15 +43,11 @@ def generate_label_panel(lbl, lbl_table):
                             )
                         with tags.div(_class="col-xs-6"):
                             tags.b(
-                                "Test Metric on %s: %s"
-                                % (lbl, table.testmetricname)
+                                "Test Metric on %s: %s" % (lbl, table.testmetricname)
                             )
                 with tags.div(id=tabid, _class="AbedRankTests"):
                     fval, fprob = global_difference(table)
-                    tags.p(
-                        "Friedman Test: F = %.4f with p-value %.6f"
-                        % (fval, fprob)
-                    )
+                    tags.p("Friedman Test: F = %.4f with p-value %.6f" % (fval, fprob))
                     if settings.REFERENCE_METHOD is None:
                         continue
                     holms, CD = reference_difference(table)
@@ -88,9 +84,7 @@ def generate_rt_html(tables):
         # meta tags
         tags.meta(charset="utf-8")
         tags.meta(http_equiv="X-UA-Compatible", content="IE=edge")
-        tags.meta(
-            name="viewport", content="width=device-width, initial-scale=1"
-        )
+        tags.meta(name="viewport", content="width=device-width, initial-scale=1")
         tags.meta(name="description", content="Rank graphs for ABED results")
         tags.meta(name="author", content="Gertjan van den Burg")
 
@@ -112,9 +106,7 @@ def generate_rt_html(tables):
         # ABED CSS & JS
         tags.link(rel="stylesheet", href=copy_data_file("abed/css/abed.css"))
 
-    tables = [
-        t for t in tables if t.is_summary and t.type == AbedTableTypes.RANKS
-    ]
+    tables = [t for t in tables if t.is_summary and t.type == AbedTableTypes.RANKS]
     labels = sorted(set([t.target for t in tables]))
     lbl_table = {}
     for lbl in labels:
@@ -135,9 +127,7 @@ def generate_rt_html(tables):
 
 
 def write_tables_html(doc):
-    fname = os.path.join(
-        settings.OUTPUT_DIR, "html", AbedHTMLTypes.RANK_TESTS[-1]
-    )
+    fname = os.path.join(settings.OUTPUT_DIR, "html", AbedHTMLTypes.RANK_TESTS[-1])
     with open(fname, "w") as fid:
         fid.write(doc)
     info("Created output file: %s" % fname)

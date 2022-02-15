@@ -38,18 +38,14 @@ def generate_tables_html(tables):
         # meta tags
         tags.meta(charset="utf-8")
         tags.meta(http_equiv="X-UA-Compatible", content="IE=edge")
-        tags.meta(
-            name="viewport", content="width=device-width, initial-scale=1"
-        )
+        tags.meta(name="viewport", content="width=device-width, initial-scale=1")
         tags.meta(name="description", content="")
         tags.meta(name="author", content="")
         # tags.link(rel='icon', href=copy_data_file('ABED/images/favicon.ico'))
 
         # JQuery & Bootstrap JS
         tags.script(src=copy_data_file("jquery/1.11.3/jquery.min.js"))
-        tags.script(
-            src=copy_data_file("bootstrap-3.3.5-dist/js/bootstrap.min.js")
-        )
+        tags.script(src=copy_data_file("bootstrap-3.3.5-dist/js/bootstrap.min.js"))
         # Bootstrap core CSS
         tags.link(
             rel="stylesheet",
@@ -59,15 +55,11 @@ def generate_tables_html(tables):
         # Datatables CSS & JS
         tags.link(
             rel="stylesheet",
-            href=copy_data_file(
-                "DataTables-1.10.7/media/css/jquery.dataTables.css"
-            ),
+            href=copy_data_file("DataTables-1.10.7/media/css/jquery.dataTables.css"),
         )
         tags.script(
             type="text/javascript",
-            src=copy_data_file(
-                "DataTables-1.10.7/media/js/jquery.dataTables.js"
-            ),
+            src=copy_data_file("DataTables-1.10.7/media/js/jquery.dataTables.js"),
         )
 
         # ABED CSS & JS
@@ -96,17 +88,13 @@ def generate_tables_html(tables):
                     if settings.TYPE == "ASSESS":
                         tr += tags.th("Metric")
                     elif settings.TYPE == "CV_TT":
-                        tr += tags.th(
-                            "Train Metric (on %s)" % settings.YTRAIN_LABEL
-                        )
+                        tr += tags.th("Train Metric (on %s)" % settings.YTRAIN_LABEL)
                         tr += tags.th("Test Metric (on target)")
                     tr += tags.th("Output Type")
                 with tags.tbody():
                     tr = tags.tr()
                     tr += tags.td(
-                        bootstrap_radio_group(
-                            generate_buttons(tables, "target")
-                        )
+                        bootstrap_radio_group(generate_buttons(tables, "target"))
                     )
                     if settings.TYPE == "ASSESS":
                         tr += tags.td(

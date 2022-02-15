@@ -2,4 +2,5 @@
 
 import sys
 from abed.ui import main
+
 sys.exit(main())

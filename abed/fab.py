@@ -24,10 +24,10 @@ from .utils import mkdir
 def init_data():
     """Push the data to the remote server
 
-    This function is used to synchronize the :setting:`DATADIR` directory to 
-    the compute cluster. This is done by first locally compressing the entire 
-    directory as a tar file, then syncing it to a ``datasets`` directory in the 
-    remote project path, and unpacking it there. The path where the unpacked 
+    This function is used to synchronize the :setting:`DATADIR` directory to
+    the compute cluster. This is done by first locally compressing the entire
+    directory as a tar file, then syncing it to a ``datasets`` directory in the
+    remote project path, and unpacking it there. The path where the unpacked
     dataset is located is stored in the :class:`MyFabric` class.
 
     """
@@ -39,9 +39,7 @@ def init_data():
     myfab.run("mkdir -p {releasepath}".format(releasepath=release_path))
     myfab.put("./datasets.tar.gz", release_path)
     myfab.run("cd {} && tar xvf datasets.tar.gz".format(release_path))
-    myfab.run(
-        "cd {} && ".format(release_path, "datasets") + "rm datasets.tar.gz"
-    )
+    myfab.run("cd {} && ".format(release_path, "datasets") + "rm datasets.tar.gz")
     local("rm datasets.tar.gz")
     info("Remote datasets placed in: {}".format(release_path))
     myfab.data_path = release_path
@@ -74,14 +72,9 @@ def deploy(push_data=False):
     release_name = "{}_{}".format(release_time, sha1)
     release_path = "{}/releases/{}".format(myfab.project_path, release_name)
     release_file_name = "{}_{}.tar.gz".format(release_time, sha1)
-    package_file_path = "{}/packages/{}".format(
-        myfab.project_path, release_file_name
-    )
+    package_file_path = "{}/packages/{}".format(myfab.project_path, release_file_name)
     # archive locally
-    local(
-        "git archive --format=tar master | gzip > "
-        "{}.tar.gz".format(release_name)
-    )
+    local("git archive --format=tar master | gzip > " "{}.tar.gz".format(release_name))
     myfab.run("mkdir " + release_path)
     # transfer to remote
     myfab.put(release_file_name, package_file_path)
@@ -91,21 +84,16 @@ def deploy(push_data=False):
     # copy data if pushed
     if push_data:
         myfab.run("mkdir -p {}/{}/".format(release_path, "datasets"))
-        myfab.run(
-            "cp {}/* {}/{}/".format(myfab.data_path, release_path, "datasets")
-        )
+        myfab.run("cp {}/* {}/{}/".format(myfab.data_path, release_path, "datasets"))
 
     # symlinks
     if not push_data:
         myfab.run(
-            "rm -f releases/previous; mv releases/current "
-            "releases/previous",
+            "rm -f releases/previous; mv releases/current " "releases/previous",
             warn_only=True,
             cd=myfab.project_path,
         )
-    myfab.run(
-        "ln -s {} releases/current".format(release_path), cd=myfab.project_path
-    )
+    myfab.run("ln -s {} releases/current".format(release_path), cd=myfab.project_path)
 
 
 def get_files_from_glob(glob_path, glob, dest_dir):
@@ -149,13 +137,11 @@ def write_and_queue():
 
 def build_remote():
     """
-        Runs the build command remotely if the program requires compilation
+    Runs the build command remotely if the program requires compilation
     """
     if not settings.NEEDS_BUILD:
         return
-    build_path = "{}/releases/current/{}".format(
-        myfab.project_path, settings.BUILD_DIR
-    )
+    build_path = "{}/releases/current/{}".format(myfab.project_path, settings.BUILD_DIR)
     myfab.run(settings.BUILD_CMD, cd=build_path)
 
 

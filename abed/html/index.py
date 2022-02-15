@@ -37,9 +37,7 @@ def generate_index_html(task_dict):
         # meta tags
         tags.meta(charset="utf-8")
         tags.meta(http_equiv="X-UA-Compatible", content="IE=edge")
-        tags.meta(
-            name="viewport", content="width=device-width, initial-scale=1"
-        )
+        tags.meta(name="viewport", content="width=device-width, initial-scale=1")
         tags.meta(name="description", content="")
         tags.meta(name="author", content="")
         # tags.link(rel='icon', href=copy_data_file('ABED/images/favicon.ico'))
@@ -47,9 +45,7 @@ def generate_index_html(task_dict):
         # JQuery & Bootstrap JS
         tags.comment("Bootstrap core JavaScript")
         tags.script(src=copy_data_file("jquery/1.11.3/jquery.min.js"))
-        tags.script(
-            src=copy_data_file("bootstrap-3.3.5-dist/js/bootstrap.min.js")
-        )
+        tags.script(src=copy_data_file("bootstrap-3.3.5-dist/js/bootstrap.min.js"))
 
         # Bootstrap core CSS
         tags.link(
@@ -64,10 +60,7 @@ def generate_index_html(task_dict):
         navbar(active=AbedHTMLTypes.INDEX)
         with tags.div(_class="container"):
             with tags.div(_class="abed-title"):
-                tags.h1(
-                    "ABED Results Overview for project %s"
-                    % settings.PROJECT_NAME
-                )
+                tags.h1("ABED Results Overview for project %s" % settings.PROJECT_NAME)
             tags.p("Percentage of tasks completed:")
             with tags.div(_class="progress"):
                 perc = str(get_status_perc(task_dict))

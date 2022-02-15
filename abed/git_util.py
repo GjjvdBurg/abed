@@ -17,8 +17,8 @@ from .io import info
 def git_init():
     """Initializes the Git repository for Abed
 
-    This function initializes a Git repository in the current directory, adds 
-    the task file, the auto file, and the settings file, and commits them to 
+    This function initializes a Git repository in the current directory, adds
+    the task file, the auto file, and the settings file, and commits them to
     the Git repository.
 
     """
@@ -32,9 +32,9 @@ def git_init():
 def git_commit_file(filename, message):
     """Commit changes to a given file if necessary
 
-    This function commits changes to a given file to the git repository, using 
-    the provided message as the commit message. It also prints the message to 
-    the user with the :func:`info()` function, with the addition of the word 
+    This function commits changes to a given file to the git repository, using
+    the provided message as the commit message. It also prints the message to
+    the user with the :func:`info()` function, with the addition of the word
     "Git". Note that changes will only be committed if necessary.
 
     Parameters

@@ -21,8 +21,8 @@ from .io import error
 class Settings(object):
     """Simple Settings class
 
-    This class functions as a simple key/value store, with one exception. If a 
-    key is not available in the class, an error is displayed and the program 
+    This class functions as a simple key/value store, with one exception. If a
+    key is not available in the class, an error is displayed and the program
     exits cleanly.
 
     """
@@ -44,15 +44,15 @@ class Settings(object):
 def init_config():
     """Initialize the Settings object from the configuration file
 
-    This function reads the configuration file by parsing it as Python code.  
-    Next, it deletes all lowercase variables from the configuration and removes 
-    any trailing path seperators from directory names. Finally, it instantiates 
+    This function reads the configuration file by parsing it as Python code.
+    Next, it deletes all lowercase variables from the configuration and removes
+    any trailing path seperators from directory names. Finally, it instantiates
     a :class:`.Settings` object containing the configuration.
 
     Returns
     -------
     settings : :class:`.Settings`
-        The :class:`.Settings` object containing the configuration from the 
+        The :class:`.Settings` object containing the configuration from the
         configuration file.
 
     """
@@ -63,10 +63,7 @@ def init_config():
     try:
         exec(open(configfile).read(), config)
     except NameError as err:
-        error(
-            "You probably Britta'd the settings file, "
-            "NameError: %s" % str(err)
-        )
+        error("You probably Britta'd the settings file, " "NameError: %s" % str(err))
     except Exception as err:
         error(
             "You probably Britta'd the settings file, "

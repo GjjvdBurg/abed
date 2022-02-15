@@ -67,9 +67,7 @@ def bootstrap_radio_btn(_id, name, value, label, active=False):
     cls = "btn btn-primary active" if active else "btn btn-primary"
     btn = tags.label(_class=cls)
     if active:
-        btn += tags.input(
-            type="radio", id=_id, name=name, value=value, checked=True
-        )
+        btn += tags.input(type="radio", id=_id, name=name, value=value, checked=True)
     else:
         btn += tags.input(type="radio", id=_id, name=name, value=value)
     btn += dominate.util.text(label)

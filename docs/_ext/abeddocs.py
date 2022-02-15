@@ -8,8 +8,8 @@ configuration file. It is copied from the similar structure used in Django.
 
 def setup(app):
     app.add_crossref_type(
-            directivename="setting",
-            rolename="setting",
-            indextemplate="pair: %s; setting",
+        directivename="setting",
+        rolename="setting",
+        indextemplate="pair: %s; setting",
     )
-    return {'parallel_read_safe': True}
+    return {"parallel_read_safe": True}

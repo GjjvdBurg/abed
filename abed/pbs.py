@@ -61,9 +61,7 @@ def generate_pbs_text():
         txt.append(line)
 
     # copy files to nodes
-    cp_line = "mpicopy " + " ".join(
-        ["${CURRENT}/" + x for x in settings.PBS_MPICOPY]
-    )
+    cp_line = "mpicopy " + " ".join(["${CURRENT}/" + x for x in settings.PBS_MPICOPY])
     txt.append(cp_line)
     txt.append("")
 
