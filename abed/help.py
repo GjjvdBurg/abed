@@ -515,25 +515,25 @@ def get_command_help(command):
     txt = [
         "Abed Help",
         "",
-        bold("NAME"),
+        "NAME",
         "\tabed-%s - %s" % (command, ABED_SHORT_HELP[command]),
         "",
-        bold("SYNOPSIS"),
+        "SYNOPSIS",
         "\t%s" % (synop),
         "",
-        bold("DESCRIPTION"),
+        "DESCRIPTION",
         paragraph_wrapper(ABED_LONG_HELP[command]),
     ]
 
     # If the command has options, build the options paragraph
     if command in ABED_OPTIONS:
-        txt += ["", bold("OPTIONS")]
+        txt += ["", "OPTIONS"]
         for option in ABED_OPTIONS[command]:
             txt.append("\t" + option[0])
             txt.append(paragraph_wrapper(option[1], width=62, indent="\t\t"))
 
     # If the command has see also's, build that paragraph
     if command in ABED_SEE_ALSO and ABED_SEE_ALSO[command]:
-        txt += ["", bold("SEE ALSO"), "\t" + ", ".join(ABED_SEE_ALSO[command])]
+        txt += ["", "SEE ALSO", "\t" + ", ".join(ABED_SEE_ALSO[command])]
 
     return "\n".join(txt)

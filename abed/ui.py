@@ -3,6 +3,8 @@
 
 import sys
 
+from pydoc import pager
+
 from .conf import settings
 from .help import get_help, get_command_help
 from .models import Abed
@@ -80,7 +82,7 @@ def main():
             print(get_help())
             raise SystemExit(1)
         else:
-            print(get_command_help(args["topic"]))
+            pager(get_command_help(args["topic"]))
             raise SystemExit(1)
 
     skip_init = False
