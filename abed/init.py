@@ -59,7 +59,7 @@ MW_NUM_WORKERS = None
 ##############################################################################
 # Uncomment the desired type
 # Model assessment #
-#TYPE = 'ASSESS'
+#TYPE = 'ASSESS_GRID' # or 'ASSESS_LIST'
 
 # Cross validation with train and test dataset #
 #TYPE = 'CV_TT'

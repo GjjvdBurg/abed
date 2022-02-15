@@ -55,7 +55,7 @@ def dataset_completed(dsetfiles, dset, task_dict):
 
 
     """
-    if settings.TYPE == "ASSESS":
+    if settings.TYPE in ("ASSESS", 'ASSESS_GRID', 'ASSESS_LIST'):
         dset_tasks = {
             k: v for k, v in task_dict.items() if v["dataset"] == dset
         }

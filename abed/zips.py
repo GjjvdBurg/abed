@@ -84,7 +84,7 @@ def move_results(task_dict):
                 if not hsh in task_dict:
                     print("Unknown hash: %s" % hsh, file=sys.stderr)
                     continue
-                if settings.TYPE == "ASSESS":
+                if settings.TYPE in ("ASSESS_GRID", "ASSESS_LIST", "ASSESS"):
                     dset = dataset_name(task_dict[hsh]["dataset"])
                 elif settings.TYPE == "CV_TT":
                     dset = dataset_name(
