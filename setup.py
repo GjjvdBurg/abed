@@ -11,7 +11,9 @@ AUTHOR = "Gertjan van den Burg"
 DESCRIPTION = "A command line tool for easily managing benchmark experiments"
 EMAIL = "gertjanvandenburg@gmail.com"
 LICENSE = "GPLv2"
-LICENSE_TROVE = "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
+LICENSE_TROVE = (
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)"
+)
 NAME = "abed"
 REQUIRES_PYTHON = ">=3.4.0"
 URL = "https://github.com/GjjvdBurg/abed"
@@ -20,7 +22,6 @@ VERSION = None
 # What packages are required for this module to be executed?
 REQUIRED = [
     "Fabric3==1.14.post1",
-    "backports.lzma",
     "bz2file",
     "colorama",
     "dominate",
@@ -91,7 +92,9 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    packages=find_packages(
+        exclude=["tests", "*.tests", "*.tests.*", "tests.*"]
+    ),
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     data_files=get_data_files(),
