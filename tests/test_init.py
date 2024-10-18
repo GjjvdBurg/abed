@@ -27,6 +27,7 @@ TASK_FILE = 'abed_tasks.txt'
 AUTO_FILE = 'abed_auto.txt'
 RESULT_DIR = '/path/to/local/results'
 STAGE_DIR = '/path/to/local/stagedir'
+PRUNE_DIR = '/path/to/local/prunedir'
 MAX_FILES = 1000
 ZIP_DIR = './zips'
 LOG_DIR = './logs'
@@ -34,6 +35,7 @@ OUTPUT_DIR = './output'
 AUTO_SLEEP = 120
 HTML_PORT = 8000
 COMPRESSION = 'bzip2'
+RESULT_EXTENSION = '.txt'
 
 ##############################################################################
 #                          Server parameters and settings                    #
@@ -48,16 +50,17 @@ REMOTE_SCRATCH_ENV = 'TMPDIR'
 ##############################################################################
 #                      Settings for Master/Worker program                    #
 ##############################################################################
-MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
+MW_SENDATONCE = 1      # number of tasks (hashes!) to send at once to a worker
 MW_COPY_WORKER = False
 MW_COPY_SLEEP = 120
+MW_NUM_WORKERS = None
 
 ##############################################################################
 #                               Experiment type                              #
 ##############################################################################
 # Uncomment the desired type
 # Model assessment #
-#TYPE = 'ASSESS'
+#TYPE = 'ASSESS_GRID' # 'ASSESS_GRID' or 'ASSESS_LIST'
 
 # Cross validation with train and test dataset #
 #TYPE = 'CV_TT'
@@ -139,11 +142,13 @@ PBS_MODULES = ['mpicopy', 'python/2.7.9']
 PBS_EXPORTS = ['PATH=$PATH:/home/%s/.local/bin/abed' % REMOTE_USER]
 PBS_MPICOPY = ['datasets', 'execs', TASK_FILE]
 PBS_TIME_REDUCE = 600 # Reduction of runtime in seconds
+PBS_LINES_BEFORE = []
+PBS_LINES_AFTER = []
 
 """
 
     def test_init_config(self):
-        """ INIT: Test config is created correctly """
+        """INIT: Test config is created correctly"""
         init.init_config()
 
         self.assertTrue(os.path.isdir(self.data_path))

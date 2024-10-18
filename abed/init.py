@@ -49,7 +49,7 @@ REMOTE_SCRATCH_ENV = 'TMPDIR'
 ##############################################################################
 #                      Settings for Master/Worker program                    #
 ##############################################################################
-MW_SENDATONCE = 100 # number of tasks (hashes!) to send at once
+MW_SENDATONCE = 1      # number of tasks (hashes!) to send at once to a worker
 MW_COPY_WORKER = False
 MW_COPY_SLEEP = 120
 MW_NUM_WORKERS = None
@@ -59,7 +59,7 @@ MW_NUM_WORKERS = None
 ##############################################################################
 # Uncomment the desired type
 # Model assessment #
-#TYPE = 'ASSESS_GRID' # or 'ASSESS_LIST'
+#TYPE = 'ASSESS_GRID' # 'ASSESS_GRID' or 'ASSESS_LIST'
 
 # Cross validation with train and test dataset #
 #TYPE = 'CV_TT'

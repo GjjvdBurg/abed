@@ -18,7 +18,7 @@ install: ## Install for the current user using the default python command
 	python setup.py install --user
 
 test: ## Run nosetests using the default nosetests command
-	nosetests -v
+	green -v
 
 cover: ## Test unit test coverage using default nosetests
 	nosetests --with-coverage --cover-package=$(PACKAGE) \

@@ -5,8 +5,7 @@ Generators for iterating over all result files
 
 import os
 import tarfile
-
-from backports import lzma
+import lzma
 
 from ..conf import settings
 from ..datasets import dataset_name

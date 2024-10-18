@@ -79,6 +79,7 @@ def init_tasks_assess_grid():
                 task["dataset"] = dset
                 task["method"] = method
                 hsh = task_hash(task)
+                task["hash"] = hsh
                 if hsh in out:
                     raise AbedHashCollissionException
                 out[hsh] = task
@@ -94,6 +95,7 @@ def init_tasks_assess_list():
                 task["dataset"] = dset
                 task["method"] = method
                 hsh = task_hash(task)
+                task["hash"] = hsh
                 if hsh in out:
                     raise AbedHashCollissionException
                 out[hsh] = task
@@ -113,6 +115,7 @@ def init_tasks_cv_tt():
                 task["method"] = method
                 task["cv_seed"] = seed
                 hsh = task_hash(task)
+                task["hash"] = hsh
                 if hsh in out:
                     raise AbedHashCollissionException
                 out[hsh] = task

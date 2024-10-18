@@ -42,15 +42,15 @@ class Work(object):
         next_work = []
         for n in range(self.send_at_once):
             next_work.append(self.get_next_item())
-        next_work = [x for x in next_work if not x is None]
+        next_work = [x for x in next_work if x is not None]
         if not next_work:
             next_work = None
         return next_work
 
 
 def do_work(hsh, task, local=False):
-    datadir = os.path.join(get_scratchdir(local), "datasets")
-    execdir = os.path.join(get_scratchdir(local), "execs")
+    datadir = os.path.join(get_scratchdir(local), settings.DATADIR)
+    execdir = os.path.join(get_scratchdir(local), settings.EXECDIR)
     if settings.TYPE == "RAW":
         cmd = task.format(datadir=datadir, execdir=execdir)
     else:
@@ -128,7 +128,9 @@ def master(all_work, worker_ranks, local=False):
 
     # keep sending out tasks when requested
     while True:
-        comm.recv(buf=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status)
+        comm.recv(
+            buf=None, source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status
+        )
 
         # if there is no more work we kill the source worker and break the loop
         if all_work.isempty():
@@ -145,14 +147,14 @@ def master(all_work, worker_ranks, local=False):
     # collect all remaining results from workers that are still busy
     # we're using a non-blocking receive here (through Iprobe), so that we kill
     # worker processes as soon as possible.
-    remaining = [r for r in worker_ranks if not r in killed_workers]
+    remaining = [r for r in worker_ranks if r not in killed_workers]
     while remaining:
         for rank in remaining:
             if comm.Iprobe(source=rank, tag=MPI.ANY_TAG):
                 comm.recv(buf=None, source=rank, tag=MPI.ANY_TAG)
                 comm.send(obj=None, dest=rank, tag=KILLTAG)
                 killed_workers.append(rank)
-        remaining = [r for r in worker_ranks if not r in killed_workers]
+        remaining = [r for r in worker_ranks if r not in killed_workers]
 
     # if we're here, there are no more tasks and all workers are killed, except
     # the copy worker. We'll give him a chance to complete and then quit.
